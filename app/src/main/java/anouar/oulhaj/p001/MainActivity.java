@@ -18,7 +18,7 @@ import anouar.oulhaj.p001.navfragments.QuizNavFragment;
 import anouar.oulhaj.p001.navfragments.TablesNavFragment;
 
 public class MainActivity extends AppCompatActivity implements DialogFragment.onDialogPositiveClickListener
-, DialogFragment.onDialogNegativeClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener {
+, DialogFragment.onDialogNegativeClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener,ChoicesQuizNavFragment.setOnChoicesFragClickListener {
 
     // -------Declaration of variables------------
     BottomNavigationView bottom_nav;
@@ -100,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     @Override
     public void sheetItemClicked(String str) {
         Toast.makeText(this, "sheet "+str, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setScoreClick(int score) {
+        HomeNavFragment homeNavFragment = HomeNavFragment.newInstance(score);
+        setNavFragment(homeNavFragment);
+        bottom_nav.getMenu().getItem(1).setChecked(true);
     }
     //--------------------------------*****------------------------------------------
 }

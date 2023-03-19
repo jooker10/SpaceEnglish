@@ -51,5 +51,15 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"/>
     </com.google.android.material.chip.ChipGroup>
 
+    <TextView
+        android:id="@+id/hightScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Hight score"
+        android:textSize="30sp"
+        android:padding="12dp"
+        android:layout_margin="16dp"
+        android:textColor="@color/black"/>
+
 
 </LinearLayout>
