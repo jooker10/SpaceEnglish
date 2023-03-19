@@ -3,20 +3,20 @@ package anouar.oulhaj.p001;
 public class Question {
 
     private String thQqst;
+    private String option0;
     private String option1;
     private String option2;
-    private String option3;
-    private int index_rightAnswer;
-
-    public Question(String thQqst, String option1, String option2, String option3, int index_rightAnswer) {
-        this.thQqst = thQqst;
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.index_rightAnswer = index_rightAnswer;
-    }
+    private String rightAnswer;
 
     public Question() {
+    }
+
+    public Question(String thQqst, String option1, String option2, String option3, String rightAnswer) {
+        this.thQqst = thQqst;
+        this.option0 = option1;
+        this.option1 = option2;
+        this.option2 = option3;
+        this.rightAnswer = rightAnswer;
     }
 
     public String getThQqst() {
@@ -25,6 +25,14 @@ public class Question {
 
     public void setThQqst(String thQqst) {
         this.thQqst = thQqst;
+    }
+
+    public String getOption0() {
+        return option0;
+    }
+
+    public void setOption0(String option0) {
+        this.option0 = option0;
     }
 
     public String getOption1() {
@@ -43,19 +51,11 @@ public class Question {
         this.option2 = option2;
     }
 
-    public String getOption3() {
-        return option3;
+    public String getRightAnswer() {
+        return rightAnswer;
     }
 
-    public void setOption3(String option3) {
-        this.option3 = option3;
-    }
-
-    public int getIndex_rightAnswer() {
-        return index_rightAnswer;
-    }
-
-    public void setIndex_rightAnswer(int index_rightAnswer) {
-        this.index_rightAnswer = index_rightAnswer;
+    public void setRightAnswer(String rightAnswer) {
+        this.rightAnswer = rightAnswer;
     }
 }

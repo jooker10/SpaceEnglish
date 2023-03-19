@@ -54,7 +54,7 @@ public class QuizNavFragment extends Fragment {
         tv_verb_name = view.findViewById(R.id.choicesFrag_theVerbQst);
         tv_maybe = view.findViewById(R.id.txt_maybe);
         et_answer = view.findViewById(R.id.fragQuizEtAnswer);
-        btn_submit = view.findViewById(R.id.choicesFrag_Btn_submit);
+        btn_submit = view.findViewById(R.id.choicesFrag_Btn_confirmNext);
         btn_skip = view.findViewById(R.id.fragQuizBtn_skip);
         btn_maybe = view.findViewById(R.id.fragQuizBtn_maybe);
         //------ nchofo ki ndiro lhadchi?? -------
