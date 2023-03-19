@@ -51,25 +51,26 @@ public class QuizNavFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //_________inflate views-----------------
-        tv_verb_name = view.findViewById(R.id.fragQuizVerbQst);
+        tv_verb_name = view.findViewById(R.id.choicesFrag_theVerbQst);
         tv_maybe = view.findViewById(R.id.txt_maybe);
         et_answer = view.findViewById(R.id.fragQuizEtAnswer);
-        btn_submit = view.findViewById(R.id.fragQuizBtn_submit);
+        btn_submit = view.findViewById(R.id.choicesFrag_Btn_submit);
         btn_skip = view.findViewById(R.id.fragQuizBtn_skip);
         btn_maybe = view.findViewById(R.id.fragQuizBtn_maybe);
         //------ nchofo ki ndiro lhadchi?? -------
         initializeListOfVerbs();
         fillRandomlyDataVerb();
 
-        btn_skip.setOnClickListener(v -> {fillRandomlyDataVerb();});
+        btn_skip.setOnClickListener(v -> {
+            fillRandomlyDataVerb();
+        });
 
         btn_submit.setOnClickListener(v -> {
             String your_answer = et_answer.getText().toString().trim().toLowerCase();
             String rightAnswer = verbs.get(current_index).getVerb_eng().trim().toLowerCase();
-            if(your_answer.equals(rightAnswer)){
+            if (your_answer.equals(rightAnswer)) {
                 Toast.makeText(getActivity(), "Good", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(getActivity(), "Wrong Answer", Toast.LENGTH_SHORT).show();
             }
         });
@@ -81,30 +82,31 @@ public class QuizNavFragment extends Fragment {
             String rightAnswer = verbs.get(current_index).getVerb_eng();
             maybeAnswers.add(rightAnswer);
 
-            while(maybeAnswers.size()<verbs.size()){
+            while (maybeAnswers.size() < verbs.size()) {
                 int index = randomInt.nextInt(verbs.size());
-                if(index!=current_index) {
+                if (index != current_index) {
                     String Answer = verbs.get(index).getVerb_eng();
                     maybeAnswers.add(Answer);
                 }
             }
 
-            String maybe = "The Answer maybe \n "+maybeAnswers.get(randomInt.nextInt(maybeAnswers.size()))+"\n"+maybeAnswers.get(randomInt.nextInt(maybeAnswers.size()))+"\n"+maybeAnswers.get(randomInt.nextInt(maybeAnswers.size()))+"\n"+maybeAnswers.get(randomInt.nextInt(maybeAnswers.size()));
+            String maybe = "The Answer maybe \n " + maybeAnswers.get(randomInt.nextInt(maybeAnswers.size())) + "\n" + maybeAnswers.get(randomInt.nextInt(maybeAnswers.size())) + "\n" + maybeAnswers.get(randomInt.nextInt(maybeAnswers.size())) + "\n" + maybeAnswers.get(randomInt.nextInt(maybeAnswers.size()));
 
-           tv_maybe.setText(maybe);
+            tv_maybe.setText(maybe);
 
         });
 
 
     }
 
-    private void initializeListOfVerbs(){
+    private void initializeListOfVerbs() {
         DbAccess db = DbAccess.getInstance(getActivity());
         db.open_to_read();
         verbs = db.getAllVerbs();
         db.close();
     }
-    private void fillRandomlyDataVerb(){
+
+    private void fillRandomlyDataVerb() {
         et_answer.setText("");
         Random random = new Random();
         int i = random.nextInt(verbs.size());

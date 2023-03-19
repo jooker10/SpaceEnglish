@@ -19,7 +19,7 @@
             android:paddingVertical="4dp">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/Table_chipGroup"
+                android:id="@+id/choicesFrag_chipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:singleLine="true"

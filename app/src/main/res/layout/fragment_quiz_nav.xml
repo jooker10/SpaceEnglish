@@ -14,7 +14,7 @@
         android:paddingVertical="4dp">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/Table_chipGroup"
+            android:id="@+id/choicesFrag_chipGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:singleLine="true"
@@ -62,7 +62,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/fragQuizQst"
+                android:id="@+id/choicesFrag_TVQst"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -70,7 +70,7 @@
                 android:textStyle="bold|italic"
                 android:text="Quelle est la traduction du verbe : " />
             <TextView
-                android:id="@+id/fragQuizVerbQst"
+                android:id="@+id/choicesFrag_theVerbQst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -93,7 +93,7 @@
                 android:inputType="textMultiLine" />
 
             <Button
-                android:id="@+id/fragQuizBtn_submit"
+                android:id="@+id/choicesFrag_Btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
