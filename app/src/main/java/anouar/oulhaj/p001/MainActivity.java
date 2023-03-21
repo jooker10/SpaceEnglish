@@ -14,8 +14,7 @@ import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DB.Verb;
 import anouar.oulhaj.p001.navfragments.ChoicesQuizNavFragment;
 import anouar.oulhaj.p001.navfragments.HomeNavFragment;
-import anouar.oulhaj.p001.navfragments.QuizNavFragment;
-import anouar.oulhaj.p001.navfragments.TablesNavFragment;
+import anouar.oulhaj.p001.navfragments.TablesNavFragments;
 
 public class MainActivity extends AppCompatActivity implements DialogFragment.onDialogPositiveClickListener
 , DialogFragment.onDialogNegativeClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener,ChoicesQuizNavFragment.setOnChoicesFragClickListener {
@@ -48,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
                     setNavFragment(new HomeNavFragment());
                     return true;
                 case R.id.item_nav_tables:
-                    setNavFragment(new TablesNavFragment());
+                    setNavFragment(new TablesNavFragments());
+                 //   setNavFragment(new TablesNavFragment());
                     return true;
                 case R.id.item_nav_quiz:
                     setNavFragment(new ChoicesQuizNavFragment());

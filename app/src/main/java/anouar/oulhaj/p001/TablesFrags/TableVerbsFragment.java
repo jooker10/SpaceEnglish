@@ -1,4 +1,4 @@
-package anouar.oulhaj.p001.navfragments;
+package anouar.oulhaj.p001.TablesFrags;
 
 import android.os.Bundle;
 
@@ -11,13 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DB.Verb;
@@ -26,14 +23,14 @@ import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.VerbRecyclerAdapter;
 
 
-public class TablesNavFragment extends Fragment {
+public class TableVerbsFragment extends Fragment {
 
     private RecyclerView recycler;
     private DbAccess db;
     private FloatingActionButton fabAdd;
 
 
-    public TablesNavFragment() {
+    public TableVerbsFragment() {
         // Required empty public constructor
     }
 
@@ -43,15 +40,15 @@ public class TablesNavFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tables_nav, container, false);
+        return inflater.inflate(R.layout.fragment_tables_verbs, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recycler = view.findViewById(R.id.table_recycler);
-        fabAdd = view.findViewById(R.id.tableFragFabAdd);
+        recycler = view.findViewById(R.id.recycler_table_verbs);
+        fabAdd = view.findViewById(R.id.table_verbs_fab);
 
         fabAdd.setOnClickListener(v -> {
                 DialogFragment dialog = DialogFragment.newInstance("Add a Verb","You can write the verb in fr and eng",R.drawable.ic_question_answer_24);

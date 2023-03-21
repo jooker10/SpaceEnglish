@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".navfragments.TablesNavFragment">
+    tools:context=".TablesFrags.TableVerbsFragment">
 
 
     <LinearLayout
@@ -18,51 +18,23 @@
             android:layout_height="wrap_content"
             android:paddingVertical="4dp">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/choicesFrag_chipGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:singleLine="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="show Verbs" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="show sentences" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="show phrasal verbs" />
-
-            </com.google.android.material.chip.ChipGroup>
-
         </HorizontalScrollView>
 
         <TextView
-            android:id="@+id/holder_tv_id"
+            android:id="@+id/holder_sentences_tv_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/table_name_txt_bg"
+            android:background="@drawable/titre_table_sentenses_bg"
             android:layout_margin="5dp"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Table of Verbs"
+            android:text="Table of Sentenses"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/table_recycler"
+            android:id="@+id/recycler_table_sentences"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="0dp">
@@ -71,7 +43,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/tableFragFabAdd"
+        android:id="@+id/table_sentences_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
