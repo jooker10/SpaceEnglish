@@ -20,14 +20,10 @@ import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DB.Verb;
 import anouar.oulhaj.p001.DialogFragment;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.VerbRecyclerAdapter;
+import anouar.oulhaj.p001.Adapters.VerbRecyclerAdapter;
 
 
 public class TableVerbsFragment extends Fragment {
-
-    private RecyclerView recycler;
-    private DbAccess db;
-    private FloatingActionButton fabAdd;
 
 
     public TableVerbsFragment() {
@@ -47,22 +43,15 @@ public class TableVerbsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recycler = view.findViewById(R.id.recycler_table_verbs);
-        fabAdd = view.findViewById(R.id.table_verbs_fab);
+        RecyclerView recycler = view.findViewById(R.id.recycler_table_verbs);
 
-        fabAdd.setOnClickListener(v -> {
-                DialogFragment dialog = DialogFragment.newInstance("Add a Verb","You can write the verb in fr and eng",R.drawable.ic_question_answer_24);
-                dialog.show(requireActivity().getSupportFragmentManager(),null);
-        });
-
-
-        db = DbAccess.getInstance(getActivity());
+        DbAccess db = DbAccess.getInstance(getActivity());
         db.open_to_read();
-        List<Verb> Allverbs = db.getAllVerbs();
+        List<Verb> allVerbs = db.getAllVerbs();
         db.close();
 
 
-        VerbRecyclerAdapter adapter = new VerbRecyclerAdapter(Allverbs, new VerbRecyclerAdapter.onRecyclerListener() {
+        VerbRecyclerAdapter adapter = new VerbRecyclerAdapter(allVerbs,getActivity(), new VerbRecyclerAdapter.onRecyclerListener() {
 
             @Override
             public void onDataChanged() {

@@ -20,10 +20,15 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
     private static final String ARG_TITLE = "title";
     private static final String ARG_MSG = "msg";
     private static final String ARG_ICON = "icon";
+    private static final String ARG_ET_HINT_FR = "et_hint_fr";
+    private static final String ARG_ET_HINT_ENG = "icon";
+
 
      private String title;
      private String msg;
      private int icon;
+     private String hint_fr;
+     private String hint_eng;
 
      private onDialogPositiveClickListener positiveListener;
      private onDialogNegativeClickListener negativeListener;
@@ -62,15 +67,19 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
            title = bundle.getString(ARG_TITLE);
            msg = bundle.getString(ARG_MSG);
            icon = bundle.getInt(ARG_ICON);
+           hint_fr = bundle.getString(ARG_ET_HINT_FR);
+           hint_eng = bundle.getString(ARG_ET_HINT_ENG);
         }
 
     }
 
-    public static DialogFragment newInstance(String title, String msg, int icon){
+    public static DialogFragment newInstance(String title, String msg, int icon,String hint_fr,String hint_eng){
         Bundle bundle = new Bundle();
         bundle.putString(ARG_TITLE,title);
         bundle.putString(ARG_MSG,msg);
         bundle.putInt(ARG_ICON,icon);
+        bundle.putString(ARG_ET_HINT_FR,hint_fr);
+        bundle.putString(ARG_ET_HINT_ENG,hint_eng);
         DialogFragment dialog_fragment = new DialogFragment();
         dialog_fragment.setArguments(bundle);
         return dialog_fragment;
@@ -91,19 +100,21 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         //------inflate views---------
         TextView holder_title = view.findViewById(R.id.holder_title);
         TextView holder_msg = view.findViewById(R.id.holder_msg);
-        EditText holder_verbFr = view.findViewById(R.id.holder_verb_fr);
-        EditText holder_verbEng = view.findViewById(R.id.holder_verb_eng);
+        EditText holderHint_Fr = view.findViewById(R.id.holder_verb_fr);
+        EditText holderHint_Eng = view.findViewById(R.id.holder_verb_eng);
         ImageView holder_img = view.findViewById(R.id.holder_img);
         Button holder_btn_send = view.findViewById(R.id.btn_ok);
         //______set Txt and Events----------------
         holder_title.setText(title);
         holder_msg.setText(msg);
         holder_img.setImageResource(icon);
+        holderHint_Fr.setText(hint_fr);
+        holderHint_Eng.setText(hint_eng);
         holder_btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                positiveListener.onDialogPositiveClick(holder_verbFr.getText().toString()
-                                                    ,holder_verbEng.getText().toString());
+                positiveListener.onDialogPositiveClick(holderHint_Fr.getText().toString()
+                                                    ,holderHint_Eng.getText().toString());
                 dismiss();
             }
         });

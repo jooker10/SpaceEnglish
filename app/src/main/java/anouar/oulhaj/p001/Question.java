@@ -2,7 +2,7 @@ package anouar.oulhaj.p001;
 
 public class Question {
 
-    private String thQqst;
+    private String theQst;
     private String option0;
     private String option1;
     private String option2;
@@ -11,20 +11,20 @@ public class Question {
     public Question() {
     }
 
-    public Question(String thQqst, String option1, String option2, String option3, String rightAnswer) {
-        this.thQqst = thQqst;
+    public Question(String theQst, String option1, String option2, String option3, String rightAnswer) {
+        this.theQst = theQst;
         this.option0 = option1;
         this.option1 = option2;
         this.option2 = option3;
         this.rightAnswer = rightAnswer;
     }
 
-    public String getThQqst() {
-        return thQqst;
+    public String getTheQst() {
+        return theQst;
     }
 
-    public void setThQqst(String thQqst) {
-        this.thQqst = thQqst;
+    public void setTheQst(String theQst) {
+        this.theQst = theQst;
     }
 
     public String getOption0() {

@@ -1,4 +1,4 @@
-package anouar.oulhaj.p001.TablesFrags;
+package anouar.oulhaj.p001.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +14,10 @@ public class PagerAdapter extends FragmentStateAdapter {
     public PagerAdapter(@NonNull FragmentActivity fragmentActivity,ArrayList<Fragment> fragments) {
         super(fragmentActivity);
         this.fragments = fragments;
+    }
+    public void ChangeFragment(Fragment fragment){
+        fragments.set(1,fragment);
+        notifyDataSetChanged();
     }
 
     @NonNull

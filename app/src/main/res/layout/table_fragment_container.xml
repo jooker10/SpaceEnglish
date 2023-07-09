@@ -15,7 +15,7 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager_tables"
+        android:id="@+id/pager_tables"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tablayout_tables" />

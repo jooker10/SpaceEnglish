@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
-    tools:context=".navfragments.QuizNavFragment">
+    tools:context=".navfragments.__QuizNavFragment">
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/choicesFrag_TVQst"
+                android:id="@+id/quizFrag_TVQst"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -70,7 +70,7 @@
                 android:textStyle="bold|italic"
                 android:text="Quelle est la traduction du verbe : " />
             <TextView
-                android:id="@+id/choicesFrag_theVerbQst"
+                android:id="@+id/quizFrag_theVerbQst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -93,7 +93,7 @@
                 android:inputType="textMultiLine" />
 
             <Button
-                android:id="@+id/choicesFrag_Btn_confirmNext"
+                android:id="@+id/quizFrag_Btn_confirmNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"

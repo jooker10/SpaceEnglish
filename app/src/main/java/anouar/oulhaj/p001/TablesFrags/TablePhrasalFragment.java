@@ -16,17 +16,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import anouar.oulhaj.p001.DB.DbAccess;
-import anouar.oulhaj.p001.DB.Verb;
+import anouar.oulhaj.p001.DB.Phrasal;
 import anouar.oulhaj.p001.DialogFragment;
+import anouar.oulhaj.p001.Adapters.PhrasalRecyclerAdapter;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.VerbRecyclerAdapter;
 
 
 public class TablePhrasalFragment extends Fragment {
 
     private RecyclerView recycler;
     private DbAccess db;
-    private FloatingActionButton fabAdd;
+
 
 
     public TablePhrasalFragment() {
@@ -39,7 +39,7 @@ public class TablePhrasalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_phrasal_verbs, container, false);
+        return inflater.inflate(R.layout.fragment_table_phrasal, container, false);
     }
 
     @Override
@@ -47,30 +47,25 @@ public class TablePhrasalFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recycler = view.findViewById(R.id.recycler_table_phrasal);
-        fabAdd = view.findViewById(R.id.table_phrasal_fab);
 
-        fabAdd.setOnClickListener(v -> {
-                DialogFragment dialog = DialogFragment.newInstance("Add a Verb","You can write the verb in fr and eng",R.drawable.ic_question_answer_24);
-                dialog.show(requireActivity().getSupportFragmentManager(),null);
-        });
+
+
 
 
         db = DbAccess.getInstance(getActivity());
         db.open_to_read();
-        List<Verb> Allverbs = db.getAllVerbs();
+        List<Phrasal> AllPhrasal = db.getAllPhrasal();
         db.close();
 
 
-        VerbRecyclerAdapter adapter = new VerbRecyclerAdapter(Allverbs, new VerbRecyclerAdapter.onRecyclerListener() {
-
+        PhrasalRecyclerAdapter adapter = new PhrasalRecyclerAdapter(AllPhrasal,getActivity(), new PhrasalRecyclerAdapter.onRecyclerListener() {
             @Override
             public void onDataChanged() {
-                
+
             }
         });
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.setAdapter(adapter);
-
 
     }
 

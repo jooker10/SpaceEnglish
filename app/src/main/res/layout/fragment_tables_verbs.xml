@@ -13,15 +13,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="4dp">
-
-        </HorizontalScrollView>
-
         <TextView
-            android:id="@+id/holder_verbs_tv_id"
+            android:id="@+id/holder_tv_title_verbs_"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/titre_table_verbs_bg"
@@ -41,13 +34,5 @@
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/table_verbs_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

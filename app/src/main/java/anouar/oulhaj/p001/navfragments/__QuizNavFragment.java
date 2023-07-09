@@ -25,7 +25,7 @@ import anouar.oulhaj.p001.DB.Verb;
 import anouar.oulhaj.p001.R;
 
 
-public class QuizNavFragment extends Fragment {
+public class __QuizNavFragment extends Fragment {
 
     private List<Verb> verbs = new ArrayList<>();
     private TextView tv_verb_name;
@@ -36,7 +36,7 @@ public class QuizNavFragment extends Fragment {
     private FloatingActionButton btn_maybe;
     private int current_index;
 
-    public QuizNavFragment() {
+    public __QuizNavFragment() {
         // Required empty public constructor
     }
 
@@ -51,10 +51,10 @@ public class QuizNavFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //_________inflate views-----------------
-        tv_verb_name = view.findViewById(R.id.choicesFrag_theVerbQst);
+        tv_verb_name = view.findViewById(R.id.quizFrag_theVerbQst);
         tv_maybe = view.findViewById(R.id.txt_maybe);
         et_answer = view.findViewById(R.id.fragQuizEtAnswer);
-        btn_submit = view.findViewById(R.id.choicesFrag_Btn_confirmNext);
+        btn_submit = view.findViewById(R.id.quizFrag_Btn_confirmNext);
         btn_skip = view.findViewById(R.id.fragQuizBtn_skip);
         btn_maybe = view.findViewById(R.id.fragQuizBtn_maybe);
         //------ nchofo ki ndiro lhadchi?? -------

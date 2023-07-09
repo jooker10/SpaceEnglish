@@ -13,13 +13,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="4dp">
-
-        </HorizontalScrollView>
-
         <TextView
             android:id="@+id/holder_sentences_tv_id"
             android:layout_width="match_parent"
@@ -32,6 +25,28 @@
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/table_spinner_category"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="Choose a category"
+            android:textColorHint="@color/black">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoTxt_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:maxLines="1"
+                android:text="Voyage"
+                android:textColor="#9C27B0"
+                android:textSize="16sp"
+                android:textStyle="italic|bold" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_table_sentences"
@@ -41,13 +56,5 @@
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/table_sentences_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

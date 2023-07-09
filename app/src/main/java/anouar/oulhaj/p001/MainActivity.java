@@ -1,6 +1,7 @@
 package anouar.oulhaj.p001;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,19 +10,21 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DB.Verb;
-import anouar.oulhaj.p001.navfragments.ChoicesQuizNavFragment;
+import anouar.oulhaj.p001.QuizFrags.ChoicesSentencesQcmFrag;
+import anouar.oulhaj.p001.navfragments.QuizNavFragContainer;
 import anouar.oulhaj.p001.navfragments.HomeNavFragment;
 import anouar.oulhaj.p001.navfragments.TablesNavFragments;
 
 public class MainActivity extends AppCompatActivity implements DialogFragment.onDialogPositiveClickListener
-, DialogFragment.onDialogNegativeClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener,ChoicesQuizNavFragment.setOnChoicesFragClickListener {
+, DialogFragment.onDialogNegativeClickListener, HomeNavFragment.HomeFragClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener, ChoicesSentencesQcmFrag.setOnChoicesFragClickListener {
 
     // -------Declaration of variables------------
     BottomNavigationView bottom_nav;
-
+    FloatingActionButton main_fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +32,17 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
         setContentView(R.layout.activity_main);
 
         //-----view inflate-------
-        bottom_nav = findViewById(R.id.main_navbar);
+        bottom_nav = findViewById(R.id.bottom_nav);
+        main_fab = findViewById(R.id.main_nav_fab);
 
         setBottomNavWithMenu();
+
+        main_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowBottomSheet();
+            }
+        });
 
     }
 
@@ -39,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     private void setBottomNavWithMenu(){
         //----SetMenuItem and His Frag-------------
         setNavFragment(new HomeNavFragment());
-        bottom_nav.getMenu().getItem(1).setChecked(true);
+        bottom_nav.getMenu().getItem(0).setChecked(true);
         bottom_nav.setOnItemSelectedListener(item -> {
 
             switch(item.getItemId()){
@@ -48,14 +59,13 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
                     return true;
                 case R.id.item_nav_tables:
                     setNavFragment(new TablesNavFragments());
-                 //   setNavFragment(new TablesNavFragment());
                     return true;
                 case R.id.item_nav_quiz:
-                    setNavFragment(new ChoicesQuizNavFragment());
+                    setNavFragment(new QuizNavFragContainer());
                     return true;
-                case R.id.item_nav_moreOptions:
-                    ShowBottomSheet();
-                    return false;
+                case R.id.item_nav_settings:
+                    setNavFragment(new SettingsFragment());
+                    return true;
             }
             return false;
         });
@@ -103,9 +113,20 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     }
 
     @Override
-    public void setScoreClick(int score) {
-        HomeNavFragment homeNavFragment = HomeNavFragment.newInstance(score);
+    public void setScoreClick(int s0,int s1,int s2) {
+        HomeNavFragment homeNavFragment = HomeNavFragment.newInstance(s0,s1,s2);
         setNavFragment(homeNavFragment);
+        bottom_nav.getMenu().getItem(0).setChecked(true);
+    }
+
+    @Override
+    public void reLoadFragment(String category) {
+
+    }
+
+    @Override
+    public void onHomeGetStarted() {
+        setNavFragment(new TablesNavFragments());
         bottom_nav.getMenu().getItem(1).setChecked(true);
     }
     //--------------------------------*****------------------------------------------

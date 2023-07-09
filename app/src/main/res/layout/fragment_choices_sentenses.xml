@@ -8,82 +8,68 @@
     android:gravity="center|top"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".navfragments.QuizNavFragment">
+    tools:context=".navfragments.__QuizNavFragment">
 
-    <HorizontalScrollView
-        android:id="@+id/fragchoices_scrollH"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/choices_spinner_category"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:paddingVertical="4dp">
+        android:layout_margin="4dp"
+        android:hint="Choose a category"
+        android:textColorHint="#8F8F8F">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/choicesFrag_chipGroup"
+        <AutoCompleteTextView
+            android:id="@+id/autoTxt_quiz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:singleLine="true"
-            app:singleSelection="true">
+            android:inputType="none"
+            android:maxLines="1"
+            android:text="Voyage"
+            android:textColor="#9C27B0"
+            android:textSize="16sp"
+            android:textStyle="italic|bold" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/choicesFrag_chipverbs"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Verbs" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/choicesFrag_chipsentenses"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="sentences" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/choicesFrag_chipPV"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="phrasal verbs" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/choicesFrag_chipAll"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="All" />
-
-        </com.google.android.material.chip.ChipGroup>
-
-    </HorizontalScrollView>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
+        android:id="@+id/quiz_sentence_layoutScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
+        android:background="@color/purple_700"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
 
         <TextView
-            android:id="@+id/choicesFrag_tv_score"
+            android:id="@+id/choicesSentencesFrag_tv_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Score : 0"
-            android:textSize="20sp" />
+            android:text="Score : --"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/choicesFrag_tv_qstNumber"
+            android:id="@+id/choicesSentencesFrag_tv_qstNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Qst x/y"
-            android:textSize="20sp" />
+            android:gravity="right"
+            android:text="Qst --/--"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/quiz_sentence_cardQuiz"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:layout_marginBottom="50dp"
         android:elevation="32dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="8dp">
@@ -95,88 +81,90 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/choicesFrag_TVQst"
+                android:id="@+id/choicesSentencesFrag_TVQst"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
-                android:text="Qst 1 : Quelle est la traduction du verbe : "
-                android:textColor="@color/teal_700"
+                android:text="Quelle est la traduction du phrase : "
+                android:textColor="@color/purple_700"
                 android:textSize="20sp"
                 android:textStyle="bold|italic" />
 
             <TextView
-                android:id="@+id/choicesFrag_theVerbQst"
+                android:id="@+id/choicesSentencesFrag_theVerbQst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="12dp"
                 android:layout_marginBottom="0dp"
-                android:background="@drawable/shape_root_contaner"
                 android:gravity="center_horizontal"
                 android:paddingHorizontal="24dp"
                 android:paddingVertical="5dp"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold|italic"
                 tools:text="verb" />
 
             <RadioGroup
-                android:id="@+id/choicesFrag_radioGroup_choices"
+                android:id="@+id/choicesSentencesFrag_radioGroup"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_root_contaner">
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_root_container">
 
                 <RadioButton
-                    android:id="@+id/choicesFrag_option0"
+                    android:id="@+id/choicesSentencesFrag_option0"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="option 0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
+                <RadioButton
+                    android:id="@+id/choicesSentencesFrag_option1"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="option 1"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="italic" />
 
                 <RadioButton
-                    android:id="@+id/choicesFrag_option1"
+                    android:id="@+id/choicesSentencesFrag_option2"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="option 2"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="italic" />
-
-                <RadioButton
-                    android:id="@+id/choicesFrag_option2"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="option 3"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="italic" />
 
 
             </RadioGroup>
 
             <Button
-                android:id="@+id/choicesFrag_Btn_confirmNext"
-                android:layout_width="match_parent"
+                android:id="@+id/choicesSentencesFrag_Btn_confirmNext"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginVertical="8dp"
                 android:text="Confirm" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/choicesFrag_card_notes"
+                android:id="@+id/choicesSentencesFrag_card_notes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="8dp">
+                android:layout_marginTop="2dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp">
 
                 <TextView
-                    android:id="@+id/choicesFrag_tv_notes"
+                    android:id="@+id/choicesSentencesFrag_tv_notes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="8dp"
                     android:fontFamily="@font/cagliostro"
                     android:text="Good your Answers is Correct"
                     android:textColor="@color/teal_700"
