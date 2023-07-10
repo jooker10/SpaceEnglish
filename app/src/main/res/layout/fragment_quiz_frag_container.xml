@@ -13,12 +13,33 @@
         app:tabIndicatorColor="@color/teal_200"
         app:tabSelectedTextColor="#FB0202"
         app:tabMode="auto">
-
     </com.google.android.material.tabs.TabLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/choices_spinner_category"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_below="@id/tablayout_quiz"
+        android:hint="Choose a category"
+        android:textColorHint="#8F8F8F">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoTxt_nav_Sentence_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:maxLines="1"
+            android:text="category 0"
+            android:textColor="#9C27B0"
+            android:textSize="16sp"
+            android:textStyle="italic|bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager_quiz"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tablayout_quiz" />
+        android:layout_below="@id/choices_spinner_category" />
 </RelativeLayout>

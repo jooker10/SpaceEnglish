@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import anouar.oulhaj.p001.R;
 
@@ -38,6 +41,9 @@ public class HomeNavFragment extends Fragment {
 
     ImageView img_started;
     AutoCompleteTextView autoTxt;
+    FloatingActionButton fab_share;
+    ImageView img_fc,img_whats,img_inst,img_twitter;
+    private boolean isBtnshareActive = false;
 
 
     @Override
@@ -99,6 +105,11 @@ public class HomeNavFragment extends Fragment {
         tv_PhrasalScore = view.findViewById(R.id.home_tv_phrasalScore);
         img_started = view.findViewById(R.id.img_getStarted);
         autoTxt = view.findViewById(R.id.autoTxt_quiz);
+        fab_share = view.findViewById(R.id.home_fab_share);
+        img_fc = view.findViewById(R.id.img_facebook);
+        img_whats = view.findViewById(R.id.img_whatsapp);
+        img_inst = view.findViewById(R.id.img_instagram);
+        img_twitter = view.findViewById(R.id.img_twitter);
 
         tv_VerbScore.setText("Verbs Score : "+currentVerbScore);
         tv_SentenceScore.setText("Sentences Score : "+currentSentenceScore);
@@ -117,6 +128,31 @@ public class HomeNavFragment extends Fragment {
         ArrayAdapter<String> autolanguagesAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,languages);
 
         autoTxt.setAdapter(autolanguagesAdapter);
+
+       //------------btns share social media---------------
+        fab_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isBtnshareActive){
+                    img_fc.setAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.enter_shared_animation_img));
+                    img_whats.setAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.enter_shared_animation_img));
+                    img_inst.setAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.enter_shared_animation_img));
+                    img_twitter.setAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.enter_shared_animation_img));
+                    img_fc.setVisibility(View.VISIBLE);
+                    img_whats.setVisibility(View.VISIBLE);
+                    img_inst.setVisibility(View.VISIBLE);
+                    img_twitter.setVisibility(View.VISIBLE);
+                }
+                else {
+                    img_fc.setVisibility(View.GONE);
+                    img_whats.setVisibility(View.GONE);
+                    img_inst.setVisibility(View.GONE);
+                    img_twitter.setVisibility(View.GONE);
+                }
+                isBtnshareActive = !isBtnshareActive;
+
+            }
+        });
 
     }
 

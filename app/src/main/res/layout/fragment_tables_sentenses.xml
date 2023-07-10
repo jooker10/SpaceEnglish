@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="none"
                 android:maxLines="1"
-                android:text="Voyage"
+                android:text="category 0"
                 android:textColor="#9C27B0"
                 android:textSize="16sp"
                 android:textStyle="italic|bold" />

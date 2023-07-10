@@ -15,10 +15,6 @@ public class PagerAdapter extends FragmentStateAdapter {
         super(fragmentActivity);
         this.fragments = fragments;
     }
-    public void ChangeFragment(Fragment fragment){
-        fragments.set(1,fragment);
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override

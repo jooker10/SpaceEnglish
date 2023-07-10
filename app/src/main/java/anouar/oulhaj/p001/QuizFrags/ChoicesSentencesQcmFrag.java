@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,12 +16,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import anouar.oulhaj.p001.DB.DbAccess;
@@ -38,7 +35,8 @@ public class ChoicesSentencesQcmFrag extends Fragment {
 
     public static final String CATEGORY_SENTENCE = "category";
     String category_sentence;
-    private setOnChoicesFragClickListener listener;
+    private setOnChoicesFragClickListener listener_choices;
+    private setLoadedFragSentencesListener listener_loaded;
 
 
     private TextView tv_qst, tv_score, tv_qstCount, tv_ofTheSentences, tv_notes;
@@ -56,7 +54,7 @@ public class ChoicesSentencesQcmFrag extends Fragment {
     private boolean isAnswered;
 
     Question currentQuestion;
-    private AutoCompleteTextView autoTxt_quiz;
+
 
     public ChoicesSentencesQcmFrag() {
         // Required empty public constructor
@@ -100,34 +98,31 @@ public class ChoicesSentencesQcmFrag extends Fragment {
         rb0 = view.findViewById(R.id.choicesSentencesFrag_option0);
         rb1 = view.findViewById(R.id.choicesSentencesFrag_option1);
         rb2 = view.findViewById(R.id.choicesSentencesFrag_option2);
-        autoTxt_quiz = view.findViewById(R.id.autoTxt_quiz);
+
 
         rb_defaultColor_txt = rb1.getTextColors();
-        autoTxt_quiz.setText(category_sentence);
-        ArrayAdapter auto_Adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.categoryOfSentence));
-        autoTxt_quiz.setAdapter(auto_Adapter);
+
 
         //------- fill Lists--------------
         DbAccess db = DbAccess.getInstance(getActivity());
         db.open_to_read();
 
         ArrayList<Sentence> sentences0 = db.getAllSentences();;
+        AllSentences.addAll(sentences0);
         db.close();
         Utils.FillData();
 
-        switch (autoTxt_quiz.getText().toString()){
-            case "Category 0" :
-                AllSentences.clear();
-                AllSentences = sentences0;
-                break;
-            case "Category 1" :
-                AllSentences.clear();
-                AllSentences = Utils.sentences1;
-                break;
-            case "Category 2" :
-                AllSentences.clear();
-                AllSentences = Utils.sentences2;
-                break;
+        if(Objects.equals(category_sentence, "category 0")) {
+            AllSentences.clear();
+            AllSentences.addAll(sentences0);
+        }
+        if(Objects.equals(category_sentence, "category 1")) {
+            AllSentences.clear();
+            AllSentences.addAll(Utils.sentences1);
+        }
+        if(Objects.equals(category_sentence, "category 2")) {
+            AllSentences.clear();
+            AllSentences.addAll(Utils.sentences2);
         }
 
 
@@ -220,7 +215,7 @@ public class ChoicesSentencesQcmFrag extends Fragment {
         }
         else{
             isAnswered = false;
-            listener.setScoreClick(0,score,0);
+            listener_choices.setScoreClick(0,score,0);
 
         }
     }
@@ -251,19 +246,26 @@ public class ChoicesSentencesQcmFrag extends Fragment {
     //------------------Listener-----------------------------------
     public interface setOnChoicesFragClickListener {
         void setScoreClick(int s1,int score,int s3);
-        void reLoadFragment(String category);
+
+    }
+    public interface setLoadedFragSentencesListener{
+        void reLoadFragSpinner(String category);
     }
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if(context instanceof setOnChoicesFragClickListener){
-            listener = (setOnChoicesFragClickListener) context;
+            listener_choices = (setOnChoicesFragClickListener) context;
+        }
+        if(context instanceof setLoadedFragSentencesListener){
+            listener_loaded = (setLoadedFragSentencesListener) context;
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        listener_choices = null;
+        listener_loaded = null;
     }
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,11 +21,16 @@ import anouar.oulhaj.p001.navfragments.HomeNavFragment;
 import anouar.oulhaj.p001.navfragments.TablesNavFragments;
 
 public class MainActivity extends AppCompatActivity implements DialogFragment.onDialogPositiveClickListener
-, DialogFragment.onDialogNegativeClickListener, HomeNavFragment.HomeFragClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener, ChoicesSentencesQcmFrag.setOnChoicesFragClickListener {
+, DialogFragment.onDialogNegativeClickListener,SettingsFragment.onSettingsListener, HomeNavFragment.HomeFragClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener, ChoicesSentencesQcmFrag.setOnChoicesFragClickListener {
 
     // -------Declaration of variables------------
-    BottomNavigationView bottom_nav;
-    FloatingActionButton main_fab;
+    private static final int HOME_NAV_INDEX = 0;
+    private static final int TABLE_NAV_INDEX = 1;
+    private static final int QUIZ_NAV_INDEX = 3;
+    private static final int SETTINGS_NAV_INDEX = 4;
+    public static String MAIN_CATEGORY_SENTENCES = "category 0";
+
+    private BottomNavigationView bottom_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
 
         //-----view inflate-------
         bottom_nav = findViewById(R.id.bottom_nav);
-        main_fab = findViewById(R.id.main_nav_fab);
+        FloatingActionButton main_fab = findViewById(R.id.main_nav_fab);
 
         setBottomNavWithMenu();
 
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     private void setBottomNavWithMenu(){
         //----SetMenuItem and His Frag-------------
         setNavFragment(new HomeNavFragment());
-        bottom_nav.getMenu().getItem(0).setChecked(true);
+        bottom_nav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
         bottom_nav.setOnItemSelectedListener(item -> {
 
             switch(item.getItemId()){
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
                     setNavFragment(new QuizNavFragContainer());
                     return true;
                 case R.id.item_nav_settings:
-                    setNavFragment(new SettingsFragment());
+                  setNavFragment(SettingsFragment.newInstance(Utils.isDarkMode));
                     return true;
             }
             return false;
@@ -116,18 +122,29 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     public void setScoreClick(int s0,int s1,int s2) {
         HomeNavFragment homeNavFragment = HomeNavFragment.newInstance(s0,s1,s2);
         setNavFragment(homeNavFragment);
-        bottom_nav.getMenu().getItem(0).setChecked(true);
+        bottom_nav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
     }
 
-    @Override
-    public void reLoadFragment(String category) {
 
-    }
 
     @Override
     public void onHomeGetStarted() {
         setNavFragment(new TablesNavFragments());
-        bottom_nav.getMenu().getItem(1).setChecked(true);
+        bottom_nav.getMenu().getItem(TABLE_NAV_INDEX).setChecked(true);
+    }
+    @Override
+    public void onDarkSettingsReturn(boolean isDarkMode) {
+
+        if(Utils.isDarkMode){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        }
+       // setNavFragment(SettingsFragment.newInstance(Utils.isDarkMode));
+        bottom_nav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
     }
     //--------------------------------*****------------------------------------------
 }
