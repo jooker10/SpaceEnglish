@@ -1,0 +1,43 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:title="General">
+
+        <EditTextPreference
+            app:key="user_name"
+            app:title="User Name"
+            app:icon="@drawable/ic_person_24"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="Francais"
+            app:entries="@array/languages"
+            app:entryValues="@array/languages"
+            app:key="languages"
+            app:title="Native language"
+            app:icon="@drawable/ic_language_24"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_dark_mode_24"
+            app:key="dark_theme"
+            app:title="Theme"
+            android:summaryOff="turn on for dark theme mode"
+            android:summaryOn="turn off for light theme mode"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Contact us">
+
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/categoryOfSentence"
+            android:entries="@array/categoryOfSentence"
+            android:entryValues="@array/languages"
+            android:key="multi_select_list_preference_1"
+            android:title="Multi select list preference" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

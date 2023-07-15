@@ -20,7 +20,7 @@
 
 
         <TextView
-            android:id="@+id/choicesSentencesFrag_tv_score"
+            android:id="@+id/quizFrag_tv_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/choicesSentencesFrag_tv_qstNumber"
+            android:id="@+id/quizFrag_tv_qstNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -58,7 +58,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/choicesSentencesFrag_TVQst"
+                android:id="@+id/quizFrag_tv_Qst"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -69,7 +69,7 @@
                 android:textStyle="bold|italic" />
 
             <TextView
-                android:id="@+id/choicesSentencesFrag_theVerbQst"
+                android:id="@+id/quizFrag_theVerb_Qst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="12dp"
@@ -83,13 +83,13 @@
                 tools:text="verb" />
 
             <RadioGroup
-                android:id="@+id/choicesSentencesFrag_radioGroup"
+                android:id="@+id/choicesFrag_radioGroup_choices"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_root_container">
 
                 <RadioButton
-                    android:id="@+id/choicesSentencesFrag_option0"
+                    android:id="@+id/choicesFrag_option0"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                     android:textStyle="italic" />
 
                 <RadioButton
-                    android:id="@+id/choicesSentencesFrag_option1"
+                    android:id="@+id/choicesFrag_option1"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                     android:textStyle="italic" />
 
                 <RadioButton
-                    android:id="@+id/choicesSentencesFrag_option2"
+                    android:id="@+id/choicesFrag_option2"
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
             </RadioGroup>
 
             <Button
-                android:id="@+id/choicesSentencesFrag_Btn_confirmNext"
+                android:id="@+id/quizFrag_Btn_confirm_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
@@ -130,7 +130,7 @@
                 android:text="Confirm" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/choicesSentencesFrag_card_notes"
+                android:id="@+id/choicesFrag_card_notes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
@@ -138,7 +138,7 @@
                 app:cardElevation="4dp">
 
                 <TextView
-                    android:id="@+id/choicesSentencesFrag_tv_notes"
+                    android:id="@+id/choicesFrag_tv_notes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"

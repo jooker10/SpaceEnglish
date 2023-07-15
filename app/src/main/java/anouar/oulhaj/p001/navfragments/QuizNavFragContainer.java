@@ -30,7 +30,7 @@ import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Adapters.PagerAdapter;
 
 
-public class QuizNavFragContainer extends Fragment implements ChoicesSentencesQcmFrag.setLoadedFragSentencesListener {
+public class QuizNavFragContainer extends Fragment  {
 
     private static final int VERBS_INDEX = 0;
     private static final int SENTENCES_INDEX = 1;
@@ -130,9 +130,4 @@ public class QuizNavFragContainer extends Fragment implements ChoicesSentencesQc
 
     }
 
-
-    @Override
-    public void reLoadFragSpinner(String category) {
-        Toast.makeText(getActivity(), "Test", Toast.LENGTH_SHORT).show();
-    }
 }

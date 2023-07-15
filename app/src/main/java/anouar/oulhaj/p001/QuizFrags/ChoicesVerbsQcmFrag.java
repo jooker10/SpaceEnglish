@@ -64,18 +64,18 @@ public class ChoicesVerbsQcmFrag extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tv_qst = view.findViewById(R.id.quizFrag_TVQst);
-        tv_score = view.findViewById(R.id.quizFrag_tv_score);
-        tv_qstCount = view.findViewById(R.id.quizFrag_tv_qstNumber);
-        tv_ofTheVerb = view.findViewById(R.id.quizFrag_theVerbQst);
-        tv_notes = view.findViewById(R.id.choicesFrag_tv_notes);
+        tv_qst = view.findViewById(R.id.the_question_of_verb);
+        tv_score = view.findViewById(R.id.quiz_tv_score_verbs);
+        tv_qstCount = view.findViewById(R.id.quiz_tv_verbs_qstNumber);
+        tv_ofTheVerb = view.findViewById(R.id.quiz_TheVerb_qst);
+        tv_notes = view.findViewById(R.id.choicesFrag_tv_notes_verbs);
 
-        btn_confirmNext = view.findViewById(R.id.quizFrag_Btn_confirmNext);
+        btn_confirmNext = view.findViewById(R.id.quizFrag_Btn_confirm_next_verbs);
 
-        radioGroup_choices = view.findViewById(R.id.choicesFrag_radioGroup_choices);
-        rb0 = view.findViewById(R.id.choicesFrag_option0);
-        rb1 = view.findViewById(R.id.choicesFrag_option1);
-        rb2 = view.findViewById(R.id.choicesFrag_option2);
+        radioGroup_choices = view.findViewById(R.id.choices_radioGroup_verbs);
+        rb0 = view.findViewById(R.id.choicesFrag_verbs_option0);
+        rb1 = view.findViewById(R.id.choicesFrag_verbs_option1);
+        rb2 = view.findViewById(R.id.choicesFrag_verbs_option2);
 
 
         rb_defaultColor_txt = rb1.getTextColors();
@@ -85,7 +85,7 @@ public class ChoicesVerbsQcmFrag extends Fragment {
         AllVerbs = db.getAllVerbs();
         db.close();
 
-        RandomBoucleInts();
+        SetRandomInts();
         qstCounterTotal = qstsList.size();
         showNextQst();
 
@@ -114,6 +114,18 @@ public class ChoicesVerbsQcmFrag extends Fragment {
         }
         else {
             rbSelected.setTextColor(Color.RED);
+        }
+
+        showSolution(currentQuestion.getRightAnswer());
+        if (yourAnswer.equals(currentQuestion.getRightAnswer())) {
+            rbSelected.setTextColor(Color.GREEN);
+        } else {
+            rbSelected.setTextColor(Color.RED);
+        }
+        if(qst_counter == qstCounterTotal) {
+            btn_confirmNext.setText("Finish");
+            btn_confirmNext.setTextColor(Color.GREEN);
+            btn_confirmNext.setBackgroundTintList(rb_defaultColor_txt);
         }
 
     }
@@ -145,6 +157,7 @@ public class ChoicesVerbsQcmFrag extends Fragment {
         radioGroup_choices.clearCheck();
         tv_notes.setText("");
 
+
         if (qst_counter < qstCounterTotal) {
             currentQuestion = qstsList.get(qst_counter);
 
@@ -162,16 +175,17 @@ public class ChoicesVerbsQcmFrag extends Fragment {
 
             isAnswered = false;
             btn_confirmNext.setText("Confirm");
-        }
-        else if(qst_counter > qstCounterTotal){
-            btn_confirmNext.setText("finish");
-            listener.setScoreClick(score,0,0);
-        }
 
+        }
+        else{
+            isAnswered = false;
+           listener.setScoreClick(score,0,0);
+
+        }
     }
 
     //------Random fitch Verbs-------
-    private void RandomBoucleInts(){
+    private void SetRandomInts(){
         for (int i = 0; i < AllVerbs.size(); i++) {
             List<Integer> randomInts = new ArrayList<>();
             Random random = new Random();

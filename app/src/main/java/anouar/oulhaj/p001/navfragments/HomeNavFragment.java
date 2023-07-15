@@ -1,23 +1,26 @@
 package anouar.oulhaj.p001.navfragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
+import anouar.oulhaj.p001.MainActivity;
 import anouar.oulhaj.p001.R;
 
 
@@ -25,22 +28,21 @@ public class HomeNavFragment extends Fragment {
 
     // Listener Home
     private HomeFragClickListener homeListener;
+    SharedPreferences sp;
+    SharedPreferences.Editor edit;
+
 
     private static final String ARG_CURRENT_VERB_SCORE = "arg_current_verb_score";
-    private static int currentVerbScore;
     private TextView tv_VerbScore;
     private static final String ARG_CURRENT_SENTENCE_SCORE = "arg_current_sentence_score";
-    private static int currentSentenceScore;
     private TextView tv_SentenceScore;
     private static final String ARG_CURRENT_PHRASAL_SCORE = "arg_current_phrasal_score";
-    private static int currentPhrasalScore;
     private TextView tv_PhrasalScore;
 
-    private static int totalScore;
     private TextView tv_totalScore;
+    private TextView tv_user_name;
 
     ImageView img_started;
-    AutoCompleteTextView autoTxt;
     FloatingActionButton fab_share;
     ImageView img_fc,img_whats,img_inst,img_twitter;
     private boolean isBtnshareActive = false;
@@ -50,6 +52,7 @@ public class HomeNavFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if(context instanceof HomeFragClickListener) homeListener = (HomeFragClickListener) context;
+
     }
 
     @Override
@@ -61,23 +64,23 @@ public class HomeNavFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle bundle = getArguments();
         if(bundle!=null){
-            currentVerbScore = bundle.getInt(ARG_CURRENT_VERB_SCORE);
-            currentSentenceScore = bundle.getInt(ARG_CURRENT_SENTENCE_SCORE);
-            currentPhrasalScore = bundle.getInt(ARG_CURRENT_PHRASAL_SCORE);
+            MainActivity.pref_verb_score = Math.max(MainActivity.pref_verb_score,bundle.getInt(ARG_CURRENT_VERB_SCORE));
+            MainActivity.pref_sentence_score = Math.max(MainActivity.pref_sentence_score,bundle.getInt(ARG_CURRENT_SENTENCE_SCORE));
+            MainActivity.pref_phrasal_score = Math.max(MainActivity.pref_phrasal_score,bundle.getInt(ARG_CURRENT_PHRASAL_SCORE));
+
         }
+
     }
 
     public static HomeNavFragment newInstance(int verbScore,int sentenceScore,int phrasalScore){
         HomeNavFragment homeNavFragment = new HomeNavFragment();
         Bundle bundle = new Bundle();
-        if(verbScore > currentVerbScore) bundle.putInt(ARG_CURRENT_VERB_SCORE, verbScore);
-        else bundle.putInt(ARG_CURRENT_VERB_SCORE, currentVerbScore);
-        if(sentenceScore > currentSentenceScore) bundle.putInt(ARG_CURRENT_SENTENCE_SCORE, sentenceScore);
-        else bundle.putInt(ARG_CURRENT_SENTENCE_SCORE, currentSentenceScore);
-        if(phrasalScore > currentPhrasalScore) bundle.putInt(ARG_CURRENT_PHRASAL_SCORE, phrasalScore);
-        else bundle.putInt(ARG_CURRENT_PHRASAL_SCORE, currentPhrasalScore);
+         bundle.putInt(ARG_CURRENT_VERB_SCORE, verbScore);
+         bundle.putInt(ARG_CURRENT_SENTENCE_SCORE, sentenceScore);
+         bundle.putInt(ARG_CURRENT_PHRASAL_SCORE, phrasalScore);
 
         homeNavFragment.setArguments(bundle);
         return homeNavFragment;
@@ -103,19 +106,29 @@ public class HomeNavFragment extends Fragment {
         tv_VerbScore = view.findViewById(R.id.home_tv_verbScore);
         tv_SentenceScore = view.findViewById(R.id.home_tv_snetenceScore);
         tv_PhrasalScore = view.findViewById(R.id.home_tv_phrasalScore);
+        tv_user_name = view.findViewById(R.id.home_tv_username);
         img_started = view.findViewById(R.id.img_getStarted);
-        autoTxt = view.findViewById(R.id.autoTxt_quiz);
         fab_share = view.findViewById(R.id.home_fab_share);
         img_fc = view.findViewById(R.id.img_facebook);
         img_whats = view.findViewById(R.id.img_whatsapp);
         img_inst = view.findViewById(R.id.img_instagram);
         img_twitter = view.findViewById(R.id.img_twitter);
+       //________________ads----------------------------------------
 
-        tv_VerbScore.setText("Verbs Score : "+currentVerbScore);
-        tv_SentenceScore.setText("Sentences Score : "+currentSentenceScore);
-        tv_PhrasalScore.setText("Phrasal Score : "+currentPhrasalScore);
 
-        tv_totalScore.setText("Total : "+ (currentVerbScore+currentSentenceScore+currentPhrasalScore));
+
+        //_____shared preferences---------------------------------------
+        sp = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        edit = sp.edit();
+        String your_user_name = sp.getString("user_name","User 01");
+        tv_user_name.setText(your_user_name);
+
+
+        tv_VerbScore.setText(MainActivity.pref_verb_score+"");
+        tv_SentenceScore.setText(""+MainActivity.pref_sentence_score);
+        tv_PhrasalScore.setText(""+MainActivity.pref_phrasal_score);
+
+        tv_totalScore.setText(""+ (MainActivity.pref_verb_score+MainActivity.pref_sentence_score+MainActivity.pref_phrasal_score));
 
         img_started.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,12 +137,7 @@ public class HomeNavFragment extends Fragment {
             }
         });
 
-        String[]languages = getResources().getStringArray(R.array.languages);
-        ArrayAdapter<String> autolanguagesAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,languages);
-
-        autoTxt.setAdapter(autolanguagesAdapter);
-
-       //------------btns share social media---------------
+        //------------btns share social media---------------
         fab_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,4 +168,6 @@ public class HomeNavFragment extends Fragment {
     public interface HomeFragClickListener {
         void onHomeGetStarted();
     }
+
+
 }

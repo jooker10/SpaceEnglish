@@ -4,114 +4,218 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp"
+    android:background="@color/white"
     tools:context=".navfragments.HomeNavFragment">
 
-
-    <TextView
-        android:id="@+id/home_tv_titleapp"
+    <RelativeLayout
+        android:id="@+id/relative_waves"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginVertical="16dp"
-        android:background="@drawable/title_app_txt_bg"
-        android:gravity="center"
-        android:paddingVertical="12dp"
-        android:text="Learn English"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold|italic" />
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/home_spinner_languages"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/home_tv_titleapp"
-        android:layout_margin="16dp"
-        android:hint="Choose your native Language"
-        android:textColorHint="@color/black">
+        android:layout_height="200dp"
 
-        <AutoCompleteTextView
-            android:id="@+id/autoTxt_quiz"
-            android:layout_width="match_parent"
+        android:background="@drawable/wave_p1">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_profile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="16dp"
+            android:padding="2dp"
+            app:shapeAppearanceOverlay="@style/circular"
+            app:srcCompat="@drawable/ic_person_24"
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp" />
+
+        <TextView
+            android:id="@+id/home_tv_username"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            android:maxLines="1"
-            android:text="English"
-            android:textColor="#9C27B0"
-            android:textSize="20sp"
-            android:textStyle="italic|bold" />
+            android:layout_below="@id/img_profile"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="userName"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+    </RelativeLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_getStarted"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@id/home_spinner_languages"
+        android:layout_below="@id/relative_waves"
         android:layout_centerInParent="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/started2" />
+        android:padding="2dp"
+        app:shapeAppearanceOverlay="@style/circular"
+        app:srcCompat="@drawable/started3"
+        app:strokeColor="@color/teal_200"
+        app:strokeWidth="2dp" />
 
-    <LinearLayout
-        android:id="@+id/layout_scores"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_scores"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/img_getStarted"
-        android:orientation="vertical">
+        android:layout_margin="16dp"
+        android:padding="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:layout_below="@id/img_getStarted">
 
-        <TextView
-            android:id="@+id/home_tv_totalScore"
+        <LinearLayout
+            android:id="@+id/layout_scores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Total Score : "
-            android:textColor="#05F80F"
-            android:textSize="30sp"
-            android:textStyle="bold|italic" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/home_tv_verbScore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_marginLeft="40dp"
-            android:gravity="left"
-            android:paddingLeft="30dp"
-            android:text="Verbs Score : "
-            android:textColor="#3F51B5"
-            android:textSize="20sp"
-            android:textStyle="bold|italic" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp">
 
-        <TextView
-            android:id="@+id/home_tv_snetenceScore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_marginLeft="16dp"
-            android:gravity="left"
-            android:paddingLeft="30dp"
-            android:text="Sentences Score : "
-            android:textColor="#3F51B5"
-            android:textSize="20sp"
-            android:textStyle="bold|italic" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Score :"
+                    android:textColor="#05F70F"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/home_tv_phrasalScore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_marginLeft="16dp"
-            android:gravity="left"
-            android:paddingLeft="30dp"
-            android:text="Phrasal Score : "
-            android:textColor="#3F51B5"
-            android:textSize="20sp"
-            android:textStyle="bold|italic" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/home_tv_totalScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:gravity="right"
+                    android:paddingRight="16dp"
+                    android:text="0"
+                    android:textColor="#05F80F"
+                    android:textSize="30sp"
+                    android:textStyle="bold|italic" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Verbs Score :"
+                    android:textColor="#3F51B5"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/home_tv_verbScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="8dp"
+                    android:gravity="right"
+                    android:paddingRight="16dp"
+                    android:text="0"
+                    android:textColor="#3F51B5"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sentences Score :"
+                    android:textColor="#3F51B5"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/home_tv_snetenceScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="right"
+                    android:paddingRight="16dp"
+                    android:text="0"
+                    android:textColor="#3F51B5"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phrasal Score :"
+                    android:textColor="#3F51B5"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/home_tv_phrasalScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="right"
+                    android:paddingRight="16dp"
+                    android:text="0"
+                    android:textColor="#3F51B5"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:id="@+id/layout_share"
@@ -171,7 +275,7 @@
             android:layout_marginBottom="4dp"
             android:clickable="true"
             android:src="@drawable/ic_share_24"
-            app:backgroundTint="@color/white" />
+            app:backgroundTint="#CBD6D6" />
     </RelativeLayout>
 
 

@@ -8,6 +8,7 @@ public class Utils {
 
     public static boolean isDarkMode = false;
 
+
     public static ArrayList<Sentence> sentences1 = new ArrayList<>();
     public static ArrayList<Sentence> sentences2 = new ArrayList<>();
 

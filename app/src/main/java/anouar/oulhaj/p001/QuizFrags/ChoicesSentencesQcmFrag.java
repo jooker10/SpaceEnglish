@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -36,7 +35,6 @@ public class ChoicesSentencesQcmFrag extends Fragment {
     public static final String CATEGORY_SENTENCE = "category";
     String category_sentence;
     private setOnChoicesFragClickListener listener_choices;
-    private setLoadedFragSentencesListener listener_loaded;
 
 
     private TextView tv_qst, tv_score, tv_qstCount, tv_ofTheSentences, tv_notes;
@@ -88,16 +86,16 @@ public class ChoicesSentencesQcmFrag extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tv_qst = view.findViewById(R.id.choicesSentencesFrag_TVQst);
-        tv_score = view.findViewById(R.id.choicesSentencesFrag_tv_score);
-        tv_qstCount = view.findViewById(R.id.choicesSentencesFrag_tv_qstNumber);
-        tv_ofTheSentences = view.findViewById(R.id.choicesSentencesFrag_theVerbQst);
-        tv_notes = view.findViewById(R.id.choicesSentencesFrag_tv_notes);
-        btn_confirmNext = view.findViewById(R.id.choicesSentencesFrag_Btn_confirmNext);
-        radioGroup_choices = view.findViewById(R.id.choicesSentencesFrag_radioGroup);
-        rb0 = view.findViewById(R.id.choicesSentencesFrag_option0);
-        rb1 = view.findViewById(R.id.choicesSentencesFrag_option1);
-        rb2 = view.findViewById(R.id.choicesSentencesFrag_option2);
+        tv_qst = view.findViewById(R.id.quizFrag_tv_Qst);
+        tv_score = view.findViewById(R.id.quizFrag_tv_score);
+        tv_qstCount = view.findViewById(R.id.quizFrag_tv_qstNumber);
+        tv_ofTheSentences = view.findViewById(R.id.quizFrag_theVerb_Qst);
+        tv_notes = view.findViewById(R.id.choicesFrag_tv_notes);
+        btn_confirmNext = view.findViewById(R.id.quizFrag_Btn_confirm_next);
+        radioGroup_choices = view.findViewById(R.id.choicesFrag_radioGroup_choices);
+        rb0 = view.findViewById(R.id.choicesFrag_option0);
+        rb1 = view.findViewById(R.id.choicesFrag_option1);
+        rb2 = view.findViewById(R.id.choicesFrag_option2);
 
 
         rb_defaultColor_txt = rb1.getTextColors();
@@ -150,6 +148,10 @@ public class ChoicesSentencesQcmFrag extends Fragment {
         if (yourAnswer.equals(currentQuestion.getRightAnswer())) {
             score++;
             tv_score.setText("Score: " + score);
+            rbSelected.setTextColor(Color.GREEN);
+        }
+        else {
+            rbSelected.setTextColor(Color.RED);
         }
 
         showSolution(currentQuestion.getRightAnswer());
@@ -248,24 +250,19 @@ public class ChoicesSentencesQcmFrag extends Fragment {
         void setScoreClick(int s1,int score,int s3);
 
     }
-    public interface setLoadedFragSentencesListener{
-        void reLoadFragSpinner(String category);
-    }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if(context instanceof setOnChoicesFragClickListener){
             listener_choices = (setOnChoicesFragClickListener) context;
         }
-        if(context instanceof setLoadedFragSentencesListener){
-            listener_loaded = (setLoadedFragSentencesListener) context;
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         listener_choices = null;
-        listener_loaded = null;
     }
 }
