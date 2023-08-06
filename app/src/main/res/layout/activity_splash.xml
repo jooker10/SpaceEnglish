@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_700"
+    android:background="?colorPrimaryVariant"
     tools:context=".SplashActivity">
 
     <ImageView
@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/icon_app1" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/titleSplash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

@@ -33,11 +33,11 @@
         android:textSize="16sp"
         android:textStyle="bold|italic" />
 
-    <Switch
-        android:id="@+id/settings_theme"
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/settingsSwitchTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Theme dark mode"
+        android:text="Change Theme"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold|italic" />

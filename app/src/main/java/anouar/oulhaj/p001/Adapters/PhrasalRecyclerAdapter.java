@@ -35,7 +35,7 @@ public class PhrasalRecyclerAdapter extends RecyclerView.Adapter<PhrasalRecycler
     @NonNull
     @Override
     public PhrasalRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.holder_table_verbs,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_holder_table,parent,false);
         return new PhrasalRecyclerHolder(view);
     }
 

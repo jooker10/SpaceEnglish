@@ -14,18 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import anouar.oulhaj.p001.DB.DbAccess;
-import anouar.oulhaj.p001.DB.Phrasal;
-import anouar.oulhaj.p001.DB.Sentence;
-import anouar.oulhaj.p001.DB.Verb;
-import anouar.oulhaj.p001.DialogFragment;
-import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Adapters.SentencesRecyclerAdapter;
+import anouar.oulhaj.p001.DB.DbAccess;
+import anouar.oulhaj.p001.DB.Sentence;
+import anouar.oulhaj.p001.R;
 
 
 public class TableSentencesFragment extends Fragment {

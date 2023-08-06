@@ -7,6 +7,13 @@ import anouar.oulhaj.p001.DB.Sentence;
 public class Utils {
 
     public static boolean isDarkMode = false;
+    //---for Changing theme test--------
+    public static boolean isDarkThemeTest = false;
+    //---for saving img url test--------
+    public static String imgUrl = "";
+    //-----max of the List (verbs,Sentences,phrasal verbs)-------
+    public static int maxVerbsCount , maxSentencesCount , maxPhrasalCount;
+    public static int authorizedVerbsCount, authorizedSentencesCount , authorizedPhrasalCount;
 
 
     public static ArrayList<Sentence> sentences1 = new ArrayList<>();

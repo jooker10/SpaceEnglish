@@ -1,6 +1,9 @@
 package anouar.oulhaj.p001.TablesFrags;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,19 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.List;
 
+import anouar.oulhaj.p001.Adapters.VerbRecyclerAdapter;
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DB.Verb;
-import anouar.oulhaj.p001.DialogFragment;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.Adapters.VerbRecyclerAdapter;
 
 
 public class TableVerbsFragment extends Fragment {

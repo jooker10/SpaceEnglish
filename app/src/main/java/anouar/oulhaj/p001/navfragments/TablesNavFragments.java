@@ -1,23 +1,22 @@
 package anouar.oulhaj.p001.navfragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Adapters.PagerAdapter;
+import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.TablesFrags.TablePhrasalFragment;
 import anouar.oulhaj.p001.TablesFrags.TableSentencesFragment;
 import anouar.oulhaj.p001.TablesFrags.TableVerbsFragment;
@@ -42,6 +41,7 @@ public class TablesNavFragments extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+    //---------Setup tabs with pagers---------------------------------
         TabLayout tabs = view.findViewById(R.id.tablayout_tables);
         ViewPager2 viewPager2 = view.findViewById(R.id.pager_tables);
 
@@ -68,7 +68,6 @@ public class TablesNavFragments extends Fragment {
             }
 
         }).attach();
-
-
+    //------fin setup tabs with pagers----------------------------------------------
     }
 }

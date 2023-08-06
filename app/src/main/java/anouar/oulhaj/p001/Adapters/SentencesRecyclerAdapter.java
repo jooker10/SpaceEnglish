@@ -41,7 +41,7 @@ public class SentencesRecyclerAdapter extends RecyclerView.Adapter<SentencesRecy
     @NonNull
     @Override
     public SentencesRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.holder_table_verbs,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_holder_table,parent,false);
         return new SentencesRecyclerHolder(view);
     }
 

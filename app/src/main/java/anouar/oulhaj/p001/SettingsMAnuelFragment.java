@@ -2,23 +2,23 @@ package anouar.oulhaj.p001;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
+
 public class SettingsMAnuelFragment extends Fragment {
 
         private onSettingsListener listener_settings;
         private static final String ARG_DARKMODE = "dark mode";
         private boolean isDarkMode;
-        private Switch switch_theme;
+        private SwitchCompat switch_theme;
 
 
     @Override
@@ -49,7 +49,7 @@ public class SettingsMAnuelFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        switch_theme = view.findViewById(R.id.settings_theme);
+        switch_theme = view.findViewById(R.id.settingsSwitchTheme);
         switch_theme.setChecked(isDarkMode);
         Toast.makeText(getActivity(), "" +isDarkMode, Toast.LENGTH_SHORT).show();
         switch_theme.setOnClickListener(new View.OnClickListener() {

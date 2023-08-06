@@ -1,22 +1,15 @@
 package anouar.oulhaj.p001;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
@@ -24,14 +17,27 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 import anouar.oulhaj.p001.DB.DbAccess;
+import anouar.oulhaj.p001.DB.Phrasal;
+import anouar.oulhaj.p001.DB.Sentence;
 import anouar.oulhaj.p001.DB.Verb;
 import anouar.oulhaj.p001.QuizFrags.ChoicesPhrasalQcmFrag;
 import anouar.oulhaj.p001.QuizFrags.ChoicesSentencesQcmFrag;
 import anouar.oulhaj.p001.QuizFrags.ChoicesVerbsQcmFrag;
+import anouar.oulhaj.p001.databinding.ActivityMainBinding;
 import anouar.oulhaj.p001.navfragments.HomeNavFragment;
 import anouar.oulhaj.p001.navfragments.QuizNavFragContainer;
 import anouar.oulhaj.p001.navfragments.SettingsFragment;
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
         ChoicesSentencesQcmFrag.setOnChoicesFragClickListener, ChoicesVerbsQcmFrag.OnChoicesFragClickListener, ChoicesPhrasalQcmFrag.setOnChoicesFragClickListener {
 
     // -------Declaration of variables------------
+    private ActivityMainBinding binding;
 
     private static final int HOME_NAV_INDEX = 0;
     private static final int TABLE_NAV_INDEX = 1;
@@ -60,10 +67,10 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     public static String TAG_PREF_SENTENCE_SCORE = "sentence_score";
     public static String TAG_PREF_PHRASAL_SCORE = "phrasal_score";
 
+    public static Uri uri_pref;
+
     private SharedPreferences sp;
     private SharedPreferences.Editor edit;
-
-    private BottomNavigationView bottom_nav;
 
     @Override
     protected void onStart() {
@@ -77,18 +84,30 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
         edit.putInt(TAG_PREF_SENTENCE_SCORE,pref_sentence_score);
         edit.putInt(TAG_PREF_PHRASAL_SCORE,pref_phrasal_score);
         edit.apply();
+
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        //-----view inflate-------
-        bottom_nav = findViewById(R.id.bottom_nav);
-        FloatingActionButton main_fab = findViewById(R.id.main_nav_fab);
 
-        //------------------admob-----------------
+
+    //_______Max and Authorized Count of verbs,sentences,phrasal-----------------
+        DbAccess db = DbAccess.getInstance(this);
+        db.open_to_read();
+        List<Verb> allVerbs = db.getAllVerbs();
+        List<Sentence> allSentences = db.getAllSentences();
+        List<Phrasal> allPhrasals= db.getAllPhrasal();
+        db.close();
+        Utils.maxVerbsCount = allVerbs.size();
+        Utils.maxSentencesCount = allSentences.size();
+        Utils.maxPhrasalCount = allPhrasals.size();
+
+    // ------------------admob-----------------
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -115,12 +134,24 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
                     }
                 });
 
-        main_fab.setOnClickListener(new View.OnClickListener() {
+       /* main_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //-----ads___________
                 if (mInterstitialAd != null) {
                     mInterstitialAd.show(MainActivity.this);
                 }
+                //------Test paypal------
+                Intent intentPaypal = new Intent(MainActivity.this,PaypalActivity.class);
+                intentPaypal.putExtra("amount",0.99);
+                startActivity(intentPaypal);
+
+            }
+        });*/
+        binding.mainNavFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowBottomSheet();
             }
         });
 
@@ -136,9 +167,13 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
 
 
         //------------Theme-----------------
+
+
+        //-----Shared preferences for img profile-------
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isDarkMode_main_theme = sp.getBoolean("dark_theme",false);
-        changeTheme(isDarkMode_main_theme);
+        SharedPreferences.Editor edit = sp.edit();
+        String uriImg = sp.getString("uri_profile","");
+        uri_pref = Uri.parse(uriImg);
 
     }
 
@@ -146,9 +181,8 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     private void setBottomNavWithMenu(){
         //----SetMenuItem and His Frag-------------
         setNavFragment(new HomeNavFragment());
-        bottom_nav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
-        bottom_nav.setOnItemSelectedListener(item -> {
-
+        binding.bottomNav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
+        binding.bottomNav.setOnItemSelectedListener(item -> {
 
             switch(item.getItemId()){
                 case R.id.item_nav_home:
@@ -162,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
                     setNavFragment(new QuizNavFragContainer());
                     return true;
                 case R.id.item_nav_settings:
-                  setNavFragment(new SettingsFragment());
+                    setNavFragment(new SettingsFragment());
                     return true;
             }
             return false;
@@ -170,8 +204,11 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     }
 
     private void ShowBottomSheet() {
-          MyBottomSheet myBottomSheet = MyBottomSheet.newInstance();
-          myBottomSheet.show(getSupportFragmentManager(),MyBottomSheet.SHEET_TAG);
+        /*  MyBottomSheet myBottomSheet = MyBottomSheet.newInstance();
+
+          myBottomSheet.show(getSupportFragmentManager(),MyBottomSheet.SHEET_TAG);*/
+        MyBottomSheet myBottomSheet = new MyBottomSheet();
+        myBottomSheet.show(getSupportFragmentManager(),MyBottomSheet.SHEET_TAG);
     }
 
     private void setNavFragment(Fragment fragment){
@@ -216,19 +253,39 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
 
         HomeNavFragment homeNavFragment = HomeNavFragment.newInstance(s0,s1,s2);
         setNavFragment(homeNavFragment);
-        bottom_nav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
+        binding.bottomNav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
     }
 
 
 
     @Override
-    public void onHomeGetStarted() {
-        setNavFragment(new TablesNavFragments());
-        bottom_nav.getMenu().getItem(TABLE_NAV_INDEX).setChecked(true);
+    public void onHomeGetStarted(int index) {
+        if(index == 1){
+            setNavFragment(new TablesNavFragments());
+            binding.bottomNav.getMenu().getItem(TABLE_NAV_INDEX).setChecked(true);
+        }
+        else {
+            setNavFragment(new QuizNavFragContainer());
+            binding.bottomNav.getMenu().getItem(QUIZ_NAV_INDEX).setChecked(true);
+        }
+
     }
+
+    @Override
+    public void onPickImage() {
+
+        ImagePicker.with(this)
+                .crop()	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start();
+
+
+    }
+
     @Override
     public void changeTheme(boolean isDarkMode) {
-        bottom_nav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
+        binding.bottomNav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
 
         if(isDarkMode){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -239,13 +296,26 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
 
         }
        // setNavFragment(new SettingsFragment());
-        bottom_nav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
+        binding.bottomNav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
     }
 
 
     //--------------------------------*****------------------------------------------
 
-    void admob(){
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //-------for pick image----------------------
+        if(resultCode == Activity.RESULT_OK){
+            Uri uri = data.getData();
+            //-----editor shared for img profile test------
+            edit.putString("uri_profile", String.valueOf(uri));
+            edit.commit();
+
+            uri_pref = uri;
+            setNavFragment(new HomeNavFragment());
+        }
     }
 }

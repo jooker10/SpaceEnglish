@@ -10,8 +10,8 @@
         android:id="@+id/tablayout_quiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/teal_200"
-        app:tabSelectedTextColor="#FB0202"
+        app:tabIndicatorColor="@color/blue_500"
+        app:tabSelectedTextColor="@color/blue_500"
         app:tabMode="auto">
     </com.google.android.material.tabs.TabLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -22,7 +22,7 @@
         android:layout_margin="4dp"
         android:layout_below="@id/tablayout_quiz"
         android:hint="Choose a category"
-        android:textColorHint="#8F8F8F">
+        android:textColorHint="@color/gray_500">
 
         <AutoCompleteTextView
             android:id="@+id/autoTxt_nav_Sentence_container"
@@ -31,7 +31,7 @@
             android:inputType="none"
             android:maxLines="1"
             android:text="category 0"
-            android:textColor="#9C27B0"
+            android:textColor="@color/btn_txt_color"
             android:textSize="16sp"
             android:textStyle="italic|bold" />
 

@@ -11,14 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.List;
 
+import anouar.oulhaj.p001.Adapters.PhrasalRecyclerAdapter;
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DB.Phrasal;
-import anouar.oulhaj.p001.DialogFragment;
-import anouar.oulhaj.p001.Adapters.PhrasalRecyclerAdapter;
 import anouar.oulhaj.p001.R;
 
 

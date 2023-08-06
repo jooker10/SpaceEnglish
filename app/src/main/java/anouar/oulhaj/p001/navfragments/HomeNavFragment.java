@@ -2,26 +2,27 @@ package anouar.oulhaj.p001.navfragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 
 import anouar.oulhaj.p001.MainActivity;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001.Utils;
 
 
 public class HomeNavFragment extends Fragment {
@@ -42,10 +43,14 @@ public class HomeNavFragment extends Fragment {
     private TextView tv_totalScore;
     private TextView tv_user_name;
 
-    ImageView img_started;
-    FloatingActionButton fab_share;
+
+    ExtendedFloatingActionButton fab_share;
+   // FloatingActionButton fab_pickImage;
+    TextView fab_pickImage;
+    ImageView img_profile;
     ImageView img_fc,img_whats,img_inst,img_twitter;
     private boolean isBtnshareActive = false;
+    private Button btn_toLearn, btn_toQuiz;
 
 
     @Override
@@ -75,12 +80,13 @@ public class HomeNavFragment extends Fragment {
 
     }
 
-    public static HomeNavFragment newInstance(int verbScore,int sentenceScore,int phrasalScore){
+    public static HomeNavFragment newInstance(int verbScore, int sentenceScore, int phrasalScore){
         HomeNavFragment homeNavFragment = new HomeNavFragment();
         Bundle bundle = new Bundle();
          bundle.putInt(ARG_CURRENT_VERB_SCORE, verbScore);
          bundle.putInt(ARG_CURRENT_SENTENCE_SCORE, sentenceScore);
          bundle.putInt(ARG_CURRENT_PHRASAL_SCORE, phrasalScore);
+
 
         homeNavFragment.setArguments(bundle);
         return homeNavFragment;
@@ -107,13 +113,32 @@ public class HomeNavFragment extends Fragment {
         tv_SentenceScore = view.findViewById(R.id.home_tv_snetenceScore);
         tv_PhrasalScore = view.findViewById(R.id.home_tv_phrasalScore);
         tv_user_name = view.findViewById(R.id.home_tv_username);
-        img_started = view.findViewById(R.id.img_getStarted);
         fab_share = view.findViewById(R.id.home_fab_share);
         img_fc = view.findViewById(R.id.img_facebook);
         img_whats = view.findViewById(R.id.img_whatsapp);
         img_inst = view.findViewById(R.id.img_instagram);
         img_twitter = view.findViewById(R.id.img_twitter);
+        img_profile = view.findViewById(R.id.img_profile);
+        fab_pickImage = view.findViewById(R.id.fabPickImage);
+        btn_toLearn = view.findViewById(R.id.home_btn_toLearn);
+        btn_toQuiz = view.findViewById(R.id.home_btn_toQuiz);
        //________________ads----------------------------------------
+
+        //------------pick Image for profile-------------------
+        fab_pickImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                homeListener.onPickImage();
+            }
+        });
+
+        if(MainActivity.uri_pref != null){
+            img_profile.setImageURI(MainActivity.uri_pref);
+        }
+        else {
+            img_profile.setImageResource(R.drawable.ic_person_24);
+        }
 
 
 
@@ -124,16 +149,24 @@ public class HomeNavFragment extends Fragment {
         tv_user_name.setText(your_user_name);
 
 
-        tv_VerbScore.setText(MainActivity.pref_verb_score+"");
-        tv_SentenceScore.setText(""+MainActivity.pref_sentence_score);
-        tv_PhrasalScore.setText(""+MainActivity.pref_phrasal_score);
+        tv_VerbScore.setText(MainActivity.pref_verb_score + "/" + Utils.maxVerbsCount);
+        tv_SentenceScore.setText(MainActivity.pref_sentence_score+ "/" + Utils.maxSentencesCount);
+        tv_PhrasalScore.setText(MainActivity.pref_phrasal_score + "/" + Utils.maxPhrasalCount);
 
-        tv_totalScore.setText(""+ (MainActivity.pref_verb_score+MainActivity.pref_sentence_score+MainActivity.pref_phrasal_score));
+        int totalScore = MainActivity.pref_verb_score + MainActivity.pref_sentence_score + MainActivity.pref_phrasal_score;
+        tv_totalScore.setText(totalScore + "/" + (Utils.maxVerbsCount+Utils.maxSentencesCount+Utils.maxPhrasalCount));
 
-        img_started.setOnClickListener(new View.OnClickListener() {
+        //---------btn_home_getstarted--------------------------------------
+        btn_toLearn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeListener.onHomeGetStarted();
+                homeListener.onHomeGetStarted(1);
+            }
+        });
+        btn_toQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                homeListener.onHomeGetStarted(3);
             }
         });
 
@@ -161,13 +194,12 @@ public class HomeNavFragment extends Fragment {
 
             }
         });
-
     }
 
     //------------------HomeListener--------------------------------------------
     public interface HomeFragClickListener {
-        void onHomeGetStarted();
+        void onHomeGetStarted(int index);
+        void onPickImage();
     }
-
 
 }

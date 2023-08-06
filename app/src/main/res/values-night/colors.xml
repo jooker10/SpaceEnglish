@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!--communs color light and dark mode-->
+    <color name="bottom_nav_bg_color">@color/gray_800</color>
+    <color name="bottom_nav_white_black_checked">@color/white</color>
+    <color name="bottom_nav_white_black_unchecked">@color/gray_500</color>
+    <color name="txt_color">@color/gray_200</color>
+    <color name="btn_txt_color">@color/gray_200</color>
+    <color name="background_white_900">@color/gray_900</color>
+    <color name="background_blue_gray">@color/gray_800</color>
+    <color name="txt_gray_800_100">@color/gray_100</color>
+    <color name="bg_gray_100_800">@color/gray_800</color>
+
+
+</resources>

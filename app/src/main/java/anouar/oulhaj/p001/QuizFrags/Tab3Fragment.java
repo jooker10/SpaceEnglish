@@ -1,12 +1,11 @@
 package anouar.oulhaj.p001.QuizFrags;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import anouar.oulhaj.p001.R;
 

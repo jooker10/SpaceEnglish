@@ -8,8 +8,8 @@
         android:id="@+id/tablayout_tables"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/teal_200"
-        app:tabSelectedTextColor="#FB0202"
+        app:tabIndicatorColor="@color/blue_500"
+        app:tabSelectedTextColor="@color/blue_500"
         app:tabMode="auto">
 
     </com.google.android.material.tabs.TabLayout>

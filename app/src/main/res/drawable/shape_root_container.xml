@@ -4,10 +4,10 @@
 
     <stroke
         android:width="3dp"
-        android:color="@color/purple_700"
+        android:color="@color/background_blue_gray"
         android:dashWidth="40dp"
         android:dashGap="12dp" />
-    <solid android:color="#0DFB0257"
+    <solid android:color="@color/bottom_nav_bg_color"
         />
 
 </shape>
