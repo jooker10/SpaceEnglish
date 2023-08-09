@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import java.util.List;
 import java.util.Locale;
 
+import anouar.oulhaj.p001.AbrLanguage;
 import anouar.oulhaj.p001.DB.Sentence;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001.Utils;
 
 public class SentencesRecyclerAdapter extends RecyclerView.Adapter<SentencesRecyclerAdapter.SentencesRecyclerHolder> {
 
@@ -62,22 +65,27 @@ public class SentencesRecyclerAdapter extends RecyclerView.Adapter<SentencesRecy
     class SentencesRecyclerHolder extends ViewHolder {
 
         private Sentence sentence;
-        private TextView tv_id, tv_sentenceFr, tv_sentenceEng;
+        private TextView tv_id, tv_sentenceNativeLang, tv_sentenceEng;
         private ImageView img_songs;
+        private Button btn_example;
+        private TextView tvKhtissarNativeLang;
 
         public SentencesRecyclerHolder(View itemView) {
             super(itemView);
             tv_id = itemView.findViewById(R.id.holder_verbID);
-            tv_sentenceFr = itemView.findViewById(R.id.holder_verb_fr);
-            tv_sentenceEng = itemView.findViewById(R.id.holder_verb_eng);
+            tv_sentenceEng = itemView.findViewById(R.id.holderVerbEnglish);
+            tv_sentenceNativeLang = itemView.findViewById(R.id.holderVerbNativeLang);
+            tvKhtissarNativeLang = itemView.findViewById(R.id.tvKhtissarNativeLang);
             img_songs = itemView.findViewById(R.id.img_songs);
+            btn_example = itemView.findViewById(R.id.btn_example_expanded);
+            btn_example.setVisibility(View.GONE);
         }
 
         void bind(Sentence sentence){
             this.sentence = sentence;
 
-            tv_id.setText(String.valueOf(sentence.getSentence_id()));
-            tv_sentenceFr.setText(sentence.getSentence_fr());
+            tv_id.setText(String.valueOf(sentence.getSentence_id() + 1));
+            tv_sentenceNativeLang.setText(ChoosingNativeLang(sentence , tvKhtissarNativeLang));
             tv_sentenceEng.setText(sentence.getSentence_eng());
             img_songs.setOnClickListener(v -> {
                 String txt = sentence.getSentence_eng();
@@ -93,6 +101,21 @@ public class SentencesRecyclerAdapter extends RecyclerView.Adapter<SentencesRecy
                 }
             }
         });
+    }
+
+    //----- Functions------------
+    private String ChoosingNativeLang(Sentence sentence, TextView tvKhtissarNativeLang){
+        switch (Utils.language) {
+            case SPANISH:
+                tvKhtissarNativeLang.setText(AbrLanguage.Sp.toString());
+            return sentence.getSentence_sp();
+            case ARABIC:
+                tvKhtissarNativeLang.setText(AbrLanguage.Ar.toString());
+                return sentence.getSentence_ar();
+            default:
+                tvKhtissarNativeLang.setText(AbrLanguage.Fr.toString());
+                return sentence.getSentence_fr();
+        }
     }
 
     public interface onRecyclerListener{

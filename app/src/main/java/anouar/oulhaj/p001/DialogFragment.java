@@ -99,8 +99,8 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         //------inflate views---------
         TextView holder_title = view.findViewById(R.id.holder_title);
         TextView holder_msg = view.findViewById(R.id.holder_msg);
-        EditText holderHint_Fr = view.findViewById(R.id.holder_verb_fr);
-        EditText holderHint_Eng = view.findViewById(R.id.holder_verb_eng);
+        EditText holderHint_Fr = view.findViewById(R.id.holderVerbEnglish);
+        EditText holderHint_Eng = view.findViewById(R.id.holderVerbNativeLang);
         ImageView holder_img = view.findViewById(R.id.holder_img);
         Button holder_btn_send = view.findViewById(R.id.btn_ok);
         //______set Txt and Events----------------

@@ -14,6 +14,8 @@ public class Utils {
     //-----max of the List (verbs,Sentences,phrasal verbs)-------
     public static int maxVerbsCount , maxSentencesCount , maxPhrasalCount;
     public static int authorizedVerbsCount, authorizedSentencesCount , authorizedPhrasalCount;
+    //-----Enum for choosing native language -------
+    public static Language language = Language.FRENCH;
 
 
     public static ArrayList<Sentence> sentences1 = new ArrayList<>();

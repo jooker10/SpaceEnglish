@@ -12,6 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
         android:background="@color/bottom_nav_bg_color"
         android:padding="0dp">
 
@@ -23,100 +24,120 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="9dp"
-            android:src="@drawable/ic_song_24" />
+            android:background="@color/background_white_900"
+            android:src="@drawable/ic_play_arrow_24" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_below="@+id/holder_verbID"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="3dp"
-            android:layout_toStartOf="@+id/holder_verb_fr"
+        <TextView
+            android:id="@+id/tvKhtissarEn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/holderVerbEnglish"
+            android:layout_marginStart="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/holderVerbEnglish"
+            android:background="@color/blue_500"
+            android:padding="4dp"
+            android:text="En"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:srcCompat="@drawable/ic_fr_flag" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_below="@+id/imageView"
-            android:layout_alignBottom="@+id/holder_verb_eng"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="5dp"
-            android:layout_toStartOf="@+id/holder_verb_fr"
+        <TextView
+            android:id="@+id/tvKhtissarNativeLang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/holderVerbNativeLang"
+            android:layout_marginStart="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/holderVerbNativeLang"
+            android:background="@color/blue_500"
+            android:padding="4dp"
+            android:text="Fr"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+
+            android:textStyle="bold"
             app:srcCompat="@drawable/ic_eng_flag" />
 
         <TextView
             android:id="@+id/holder_verbID"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/index_recycler_bg"
+            android:background="@color/background_white_900"
             android:gravity="center"
             android:textColor="@color/btn_txt_color"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
-            tools:text="5" />
+            tools:text="100" />
 
         <TextView
-            android:id="@+id/holder_verb_fr"
+            android:id="@+id/holderVerbNativeLang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/holder_verbID"
+            android:layout_below="@id/holderVerbEnglish"
             android:layout_marginEnd="16dp"
             android:layout_toRightOf="@id/holder_verbID"
             android:background="@drawable/fr_eng_tv_bg"
             android:fontFamily="@font/akaya_telivigala"
             android:gravity="center_vertical"
             android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="2dp"
             android:textColor="@color/txt_color"
             android:textSize="20sp"
             tools:text="verbe" />
 
         <TextView
-            android:id="@+id/holder_verb_eng"
+            android:id="@+id/holderVerbEnglish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/holder_verb_fr"
+            android:layout_below="@id/holder_verbID"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_toRightOf="@id/holder_verbID"
             android:background="@drawable/fr_eng_tv_bg"
             android:fontFamily="@font/akaya_telivigala"
             android:gravity="center_vertical"
             android:paddingStart="8dp"
+            android:paddingTop="2dp"
             android:textColor="@color/txt_color"
             android:textSize="20sp"
             tools:text="verb" />
 
-        <Button
-            android:id="@+id/holder_btn_delete"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayout_expanded"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/holder_verb_eng"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
-            android:text="Delete"
-            android:textColor="@color/btn_txt_color" />
+            android:layout_below="@id/holderVerbNativeLang"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
 
-        <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/holder_verb_eng"
-            android:layout_marginEnd="16dp"
-            android:layout_toStartOf="@+id/holder_btn_delete"
-            android:text="Update"
-            android:textColor="@color/btn_txt_color" />
+            <Button
+                android:id="@+id/btn_example_expanded"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:backgroundTint="@color/background_white_900"
+                android:text="Examples"
+                android:textColor="@color/btn_txt_color" />
+
+            <TextView
+                android:id="@+id/tv_expanded_examples"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/txt_examples"
+                android:textColor="@color/txt_gray_800_100"
+                android:textStyle="bold|italic"
+                android:visibility="gone" />
+        </LinearLayout>
 
     </RelativeLayout>
 

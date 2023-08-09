@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     public static String TAG_PREF_VERB_SCORE = "verb_score";
     public static String TAG_PREF_SENTENCE_SCORE = "sentence_score";
     public static String TAG_PREF_PHRASAL_SCORE = "phrasal_score";
+    public static String TAG_PREF_CHOOSING_LANG = "choosing_lang";
 
     public static Uri uri_pref;
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
         edit.putInt(TAG_PREF_VERB_SCORE,pref_verb_score);
         edit.putInt(TAG_PREF_SENTENCE_SCORE,pref_sentence_score);
         edit.putInt(TAG_PREF_PHRASAL_SCORE,pref_phrasal_score);
+        edit.putString(TAG_PREF_CHOOSING_LANG,Utils.language.toString());
         edit.apply();
 
     }
@@ -162,6 +164,13 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
         pref_verb_score = sp.getInt(TAG_PREF_VERB_SCORE,0);
         pref_sentence_score = sp.getInt(TAG_PREF_SENTENCE_SCORE,0);
         pref_phrasal_score = sp.getInt(TAG_PREF_PHRASAL_SCORE,0);
+        String choosedLang = sp.getString(TAG_PREF_CHOOSING_LANG,"French");
+        if(choosedLang.equals(Language.SPANISH.toString())) {
+            Utils.language = Language.SPANISH;
+        } else if (choosedLang.equals(Language.ARABIC.toString())) {
+            Utils.language = Language.ARABIC;
+        }
+        else  Utils.language = Language.FRENCH;
 
         setBottomNavWithMenu();
 

@@ -39,8 +39,8 @@ public class QuizNavFragContainer extends Fragment  {
     PagerAdapter pagerAdapter;
     TabLayout tab_layout;
     ViewPager2 pager2;
-    private AutoCompleteTextView autoTxt_category;
-    private TextInputLayout txtInputLayout_spinner;
+  //  private AutoCompleteTextView autoTxt_category;
+   // private TextInputLayout txtInputLayout_spinner;
 
 
     public QuizNavFragContainer() {
@@ -60,12 +60,13 @@ public class QuizNavFragContainer extends Fragment  {
 
          tab_layout = view.findViewById(R.id.tablayout_quiz);
          pager2 = view.findViewById(R.id.viewPager_quiz);
-         autoTxt_category = view.findViewById(R.id.autoTxt_nav_Sentence_container);
+
+       /*  autoTxt_category = view.findViewById(R.id.autoTxt_nav_Sentence_container);
          txtInputLayout_spinner = view.findViewById(R.id.choices_spinner_category);
          //-----some initialisation-----------
          txtInputLayout_spinner.setVisibility(View.GONE);
          autoTxt_category.setText(MainActivity.MAIN_CATEGORY_SENTENCES);
-
+*/
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new ChoicesVerbsQcmFrag());
         fragments.add(ChoicesSentencesQcmFrag.newInstance(MainActivity.MAIN_CATEGORY_SENTENCES));
@@ -90,7 +91,7 @@ public class QuizNavFragContainer extends Fragment  {
 
         }).attach();
 
-        tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        /*tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch(tab.getText().toString()){
@@ -113,17 +114,17 @@ public class QuizNavFragContainer extends Fragment  {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-        });
+        });*/
 
-        ArrayAdapter adapter_spinner = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.categoryOfSentence));
-       autoTxt_category.setAdapter(adapter_spinner);
-        autoTxt_category.setOnItemClickListener((parent, view1, position, id) -> {
+       // ArrayAdapter adapter_spinner = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.categoryOfSentence));
+        //autoTxt_category.setAdapter(adapter_spinner);
+      /*  autoTxt_category.setOnItemClickListener((parent, view1, position, id) -> {
             fragments.set(SENTENCES_INDEX,ChoicesSentencesQcmFrag.newInstance(autoTxt_category.getText().toString()));
             pager2.setAdapter(pagerAdapter);
             pager2.setCurrentItem(SENTENCES_INDEX);
             MainActivity.MAIN_CATEGORY_SENTENCES = autoTxt_category.getText().toString();
             Toast.makeText(getActivity(), MainActivity.MAIN_CATEGORY_SENTENCES, Toast.LENGTH_SHORT).show();
-        });
+        });*/
 
     }
 

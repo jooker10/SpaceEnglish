@@ -96,7 +96,6 @@
         android:layout_below="@id/home_btn_toLearn"/>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_scores"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -106,7 +105,6 @@
         android:layout_below="@id/home_btn_toQuiz">
 
         <LinearLayout
-            android:id="@+id/layout_scores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -118,7 +116,6 @@
                 android:paddingLeft="8dp">
 
                 <TextView
-                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/akaya_telivigala"
@@ -142,7 +139,6 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="32dp"
@@ -156,7 +152,6 @@
                 android:paddingLeft="8dp">
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/akaya_telivigala"
@@ -180,7 +175,6 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="32dp"
@@ -194,7 +188,6 @@
                 android:paddingLeft="8dp">
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/akaya_telivigala"
@@ -219,7 +212,6 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="32dp"
@@ -233,7 +225,6 @@
                 android:paddingLeft="8dp">
 
                 <TextView
-                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/akaya_telivigala"
@@ -261,7 +252,6 @@
     </androidx.cardview.widget.CardView>
 
     <RelativeLayout
-        android:id="@+id/layout_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

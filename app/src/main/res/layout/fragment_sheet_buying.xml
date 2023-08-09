@@ -24,7 +24,6 @@
 
 
             <TextView
-                android:id="@+id/tvSheetBuyingVerb"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -35,7 +34,6 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/sheetBtnBuyingVerb"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,7 +54,6 @@
 
 
             <TextView
-                android:id="@+id/tvSheetBuyingSentence"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -67,7 +64,6 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/sheetBtnBuyingSentence"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,7 +84,6 @@
 
 
             <TextView
-                android:id="@+id/tvSheetBuyingPhrasal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -99,7 +94,6 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/sheetBtnBuyingPhrasal"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

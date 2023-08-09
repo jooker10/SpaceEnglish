@@ -38,7 +38,7 @@ public class DbAccess {
         if (sqLiteDB != null) sqLiteDB.close();
     }
 
-//-------------------------------------Verbs Functions-------------------------------
+    //-------------------------------------Verbs Functions-------------------------------
     // insert Verbs method
     public boolean InsertVerbs(Verb verb) {
 
@@ -76,7 +76,7 @@ public class DbAccess {
         return result > 0;
     }
 
-    // Retrieve Verbs method
+    // Retrieve Verbs method    ----important-----
     public ArrayList<Verb> getAllVerbs() {
         ArrayList<Verb> verbsList = new ArrayList<>();
 
@@ -85,18 +85,17 @@ public class DbAccess {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(0);
-                String verb_fr = cursor.getString(1);
-                String verb_eng = cursor.getString(2);
-
-                Verb verb = new Verb(id, verb_fr, verb_eng);
+                String verb_eng = cursor.getString(1);
+                String verb_fr = cursor.getString(2);
+                String verb_sp = cursor.getString(3);
+                String verb_ar = cursor.getString(4);
+                String verb_example = cursor.getString(5);
+                Verb verb = new Verb(id, verb_eng, verb_fr, verb_sp, verb_ar,verb_example);
                 verbsList.add(verb);
-
             }
             while (cursor.moveToNext());
             cursor.close();
         }
-
-
         return verbsList;
     }
 
@@ -148,10 +147,13 @@ public class DbAccess {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(0);
-                String sentence_fr = cursor.getString(1);
-                String sentence_eng = cursor.getString(2);
+                String sentence_eng = cursor.getString(1);
+                String sentence_fr = cursor.getString(2);
+                String sentence_sp = cursor.getString(3);
+                String sentence_ar= cursor.getString(4);
 
-                Sentence sentence = new Sentence(id, sentence_fr, sentence_eng);
+
+                Sentence sentence = new Sentence(id, sentence_eng, sentence_fr,sentence_sp,sentence_ar);
                 sentencesList.add(sentence);
 
             }
@@ -211,10 +213,13 @@ public class DbAccess {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(0);
-                String phrasal_fr = cursor.getString(1);
-                String phrasal_eng = cursor.getString(2);
+                String phrasal_eng = cursor.getString(1);
+                String phrasal_fr = cursor.getString(2);
+                String phrasal_sp = cursor.getString(3);
+                String phrasal_ar = cursor.getString(4);
+                String phrasal_example = cursor.getString(5);
 
-                Phrasal phrasal = new Phrasal(id, phrasal_fr, phrasal_eng);
+                Phrasal phrasal = new Phrasal(id, phrasal_eng, phrasal_fr,phrasal_sp,phrasal_ar,phrasal_example);
                 phrasalList.add(phrasal);
 
             }

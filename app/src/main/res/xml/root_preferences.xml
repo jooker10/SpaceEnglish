@@ -10,7 +10,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="Francais"
+            app:defaultValue="French"
             app:entries="@array/languages"
             app:entryValues="@array/languages"
             app:icon="@drawable/ic_language_24"

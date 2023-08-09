@@ -3,8 +3,44 @@ package anouar.oulhaj.p001.DB;
 public class Phrasal {
 
     private int phrasal_id;
-    private String phrasal_fr;
     private String getPhrasal_eng;
+    private String phrasal_fr;
+    private String phrasal_sp;
+    private String phrasal_ar;
+    private String phrasal_example;
+
+    public Phrasal(int phrasal_id, String getPhrasal_eng, String phrasal_fr, String phrasal_sp, String phrasal_ar, String phrasal_example) {
+        this.phrasal_id = phrasal_id;
+        this.getPhrasal_eng = getPhrasal_eng;
+        this.phrasal_fr = phrasal_fr;
+        this.phrasal_sp = phrasal_sp;
+        this.phrasal_ar = phrasal_ar;
+        this.phrasal_example = phrasal_example;
+    }
+
+    public String getPhrasal_sp() {
+        return phrasal_sp;
+    }
+
+    public void setPhrasal_sp(String phrasal_sp) {
+        this.phrasal_sp = phrasal_sp;
+    }
+
+    public String getPhrasal_ar() {
+        return phrasal_ar;
+    }
+
+    public void setPhrasal_ar(String phrasal_ar) {
+        this.phrasal_ar = phrasal_ar;
+    }
+
+    public String getPhrasal_example() {
+        return phrasal_example;
+    }
+
+    public void setPhrasal_example(String phrasal_example) {
+        this.phrasal_example = phrasal_example;
+    }
 
     public Phrasal() {
     }

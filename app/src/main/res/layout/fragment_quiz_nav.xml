@@ -14,7 +14,6 @@
         android:paddingVertical="4dp">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/choicesFrag_chipGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:singleLine="true"
@@ -62,7 +61,6 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/quizFrag_TVQst"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"

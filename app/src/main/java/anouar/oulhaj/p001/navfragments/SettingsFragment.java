@@ -5,16 +5,22 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import java.util.Objects;
+
+import anouar.oulhaj.p001.Language;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001.Utils;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     private setOnChangeThemeListener listener;
     private SwitchPreferenceCompat switch_darkMode;
+    private ListPreference listPreference;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -23,6 +29,20 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         switch_darkMode = (SwitchPreferenceCompat) findPreference("dark_theme");
         Preference btnPrivacy = findPreference("prefSettingsBtnPrivacy");
         Preference btnContactEmail = findPreference("prefContactUs");
+        listPreference = (ListPreference) findPreference("languages");
+
+        listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                if(((String)newValue).equals("Arabic")) {
+                    Utils.language = Language.ARABIC;
+                } else if (((String)newValue).equals("Spanish")) {
+                    Utils.language = Language.SPANISH;
+                }
+                else Utils.language = Language.FRENCH;
+                return true;
+            }
+        });
 
         switch_darkMode.setOnPreferenceClickListener(preference -> {
             listener.changeTheme(switch_darkMode.isChecked());

@@ -83,16 +83,16 @@ public class MyBottomSheet extends BottomSheetDialogFragment {
         radioVideo.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
                 setVideoBuyFragment(new SheetVideoFragment());
-                radioVideo.setTextColor(getResources().getColor(R.color.blue_500));
+              //  radioVideo.setTextColor(getResources().getColor(R.color.blue_500));
             }
-            else { radioVideo.setTextColor(getResources().getColor(R.color.gray_600));}
+           // else { radioVideo.setTextColor(getResources().getColor(R.color.gray_600));}
         });
         radioBuy.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
                 setVideoBuyFragment(new SheetBuyingFragment());
-                radioBuy.setTextColor(getResources().getColor(R.color.blue_500));
+               // radioBuy.setTextColor(getResources().getColor(R.color.blue_500));
             }
-            else {radioBuy.setTextColor(getResources().getColor(R.color.gray_600));}
+            //else {radioBuy.setTextColor(getResources().getColor(R.color.gray_600));}
         });
 
     }

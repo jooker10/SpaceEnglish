@@ -13,7 +13,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/holder_phrasal_tv_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/titre_table_phrasal_bg"

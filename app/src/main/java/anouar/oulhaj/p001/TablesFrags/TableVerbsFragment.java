@@ -47,18 +47,12 @@ public class TableVerbsFragment extends Fragment {
         db.close();
 
 
-        VerbRecyclerAdapter adapter = new VerbRecyclerAdapter(allVerbs,getActivity(), new VerbRecyclerAdapter.onRecyclerListener() {
+        VerbRecyclerAdapter adapter = new VerbRecyclerAdapter(allVerbs,getActivity(), () -> {
 
-            @Override
-            public void onDataChanged() {
-                
-            }
         });
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.setHasFixedSize(true);
         recycler.setAdapter(adapter);
-
-
     }
-
 
 }

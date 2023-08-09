@@ -8,7 +8,6 @@
 
 
     <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/sheetDiv"
         android:layout_width="60dp"
         android:layout_height="3dp"
         android:layout_marginTop="20dp"
@@ -16,7 +15,6 @@
         android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/sheet_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -29,25 +27,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_gray_100_800"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radioVideo"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:gravity="center"
             android:checked="true"
+            android:layout_weight="1"
+
+            android:button="@android:color/transparent"
+            android:background="@drawable/selector_radio_checkable"
             android:text="Watching videos"
-            android:textColor="@color/blue_500"
+            android:textColor="@color/gray_600"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radioBuy"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="buying"
+            android:gravity="center"
+            android:button="@android:color/transparent"
+            android:background="@drawable/selector_radio_checkable"
             android:textColor="@color/gray_600"
             android:textSize="16sp"
             android:textStyle="bold" />

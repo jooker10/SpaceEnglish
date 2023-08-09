@@ -27,7 +27,7 @@ public class TableSentencesFragment extends Fragment {
 
     private RecyclerView recycler;
     private DbAccess db;
-    private AutoCompleteTextView autoTxt_table;
+  //  private AutoCompleteTextView autoTxt_table;
 
 
 
@@ -49,7 +49,7 @@ public class TableSentencesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recycler = view.findViewById(R.id.recycler_table_sentences);
-        autoTxt_table = view.findViewById(R.id.autoTxt_table);
+//        autoTxt_table = view.findViewById(R.id.autoTxt_table);
 
 
         db = DbAccess.getInstance(getActivity());
@@ -82,9 +82,9 @@ public class TableSentencesFragment extends Fragment {
 
         ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.categoryOfSentence));
-        autoTxt_table.setAdapter(adapter_category);
 
-        autoTxt_table.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  autoTxt_table.setAdapter(adapter_category);
+          autoTxt_table.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                String txt = autoTxt_table.getText().toString();
@@ -101,7 +101,7 @@ public class TableSentencesFragment extends Fragment {
 
                 }
             }
-        });
+        });*/
 
     }
 

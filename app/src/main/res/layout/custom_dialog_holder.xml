@@ -9,7 +9,6 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:id="@+id/dialog_relatifL"
         android:gravity="center"
         android:layout_margin="8dp"
         android:background="@android:color/transparent"
@@ -48,7 +47,7 @@
             android:layout_height="wrap_content"/>
 
         <EditText
-            android:id="@+id/holder_verb_fr"
+            android:id="@+id/holderVerbEnglish"
             android:layout_below="@id/holder_msg"
             android:paddingHorizontal="12dp"
             android:layout_marginHorizontal="10dp"
@@ -56,8 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
-            android:id="@+id/holder_verb_eng"
-            android:layout_below="@id/holder_verb_fr"
+            android:id="@+id/holderVerbNativeLang"
+            android:layout_below="@id/holderVerbEnglish"
             android:paddingHorizontal="12dp"
             android:layout_marginHorizontal="10dp"
             android:hint="Enter the Verb in Eng"
@@ -66,7 +65,7 @@
         <Button
             android:id="@+id/btn_ok"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_below="@id/holder_verb_eng"
+            android:layout_below="@id/holderVerbNativeLang"
             android:layout_marginHorizontal="16dp"
             android:text="Send"
             android:layout_alignParentEnd="true"
