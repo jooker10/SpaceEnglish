@@ -25,8 +25,6 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -36,17 +34,17 @@ import anouar.oulhaj.p001.DB.Sentence;
 import anouar.oulhaj.p001.DB.Verb;
 import anouar.oulhaj.p001.QuizFrags.ChoicesPhrasalQcmFrag;
 import anouar.oulhaj.p001.QuizFrags.ChoicesSentencesQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.ChoicesVerbsQcmFrag;
+import anouar.oulhaj.p001.QuizFrags.VerbsQuizFragment;
 import anouar.oulhaj.p001.databinding.ActivityMainBinding;
 import anouar.oulhaj.p001.navfragments.HomeNavFragment;
-import anouar.oulhaj.p001.navfragments.QuizNavFragContainer;
+import anouar.oulhaj.p001.navfragments.QuizNavFragment;
 import anouar.oulhaj.p001.navfragments.SettingsFragment;
 import anouar.oulhaj.p001.navfragments.TablesNavFragments;
 
 public class MainActivity extends AppCompatActivity implements DialogFragment.onDialogPositiveClickListener
 , DialogFragment.onDialogNegativeClickListener, SettingsFragment.setOnChangeThemeListener,
         HomeNavFragment.HomeFragClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener,
-        ChoicesSentencesQcmFrag.setOnChoicesFragClickListener, ChoicesVerbsQcmFrag.OnChoicesFragClickListener, ChoicesPhrasalQcmFrag.setOnChoicesFragClickListener {
+        ChoicesSentencesQcmFrag.setOnChoicesFragClickListener, VerbsQuizFragment.OnChoicesFragClickListener, ChoicesPhrasalQcmFrag.setOnChoicesFragClickListener {
 
     // -------Declaration of variables------------
     private ActivityMainBinding binding;
@@ -101,6 +99,16 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     //_______Max and Authorized Count of verbs,sentences,phrasal-----------------
         DbAccess db = DbAccess.getInstance(this);
         db.open_to_read();
+                //----- set List of all----------
+          Utils.verbsList = db.getAllVerbs();
+          Utils.sentencesList = db.getAllSentences();
+          Utils.phrasalsList = db.getAllPhrasal();
+          Utils.nounsList = db.getAllNouns();
+          Utils.adjsList = db.getAllAdjs();
+          Utils.advsList = db.getAllAdverbs();
+          Utils.idiomsList = db.getAllIdioms();
+
+                //---------fin set---------------
         List<Verb> allVerbs = db.getAllVerbs();
         List<Sentence> allSentences = db.getAllSentences();
         List<Phrasal> allPhrasals= db.getAllPhrasal();
@@ -202,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
                     setNavFragment(new TablesNavFragments());
                     return true;
                 case R.id.item_nav_quiz:
-                    setNavFragment(new QuizNavFragContainer());
+                    setNavFragment(new QuizNavFragment());
                     return true;
                 case R.id.item_nav_settings:
                     setNavFragment(new SettingsFragment());
@@ -231,10 +239,10 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     @Override
     public void onDialogPositiveClick(String fr, String eng) {
        //------Btn to Insert Data to DB----------------
-        DbAccess db = DbAccess.getInstance(this);
+     /*   DbAccess db = DbAccess.getInstance(this);
         db.open_to_write();
         db.InsertVerbs(new Verb(fr,eng));
-        db.close();
+        db.close();*/
     }
 
     @Override
@@ -274,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
             binding.bottomNav.getMenu().getItem(TABLE_NAV_INDEX).setChecked(true);
         }
         else {
-            setNavFragment(new QuizNavFragContainer());
+            setNavFragment(new QuizNavFragment());
             binding.bottomNav.getMenu().getItem(QUIZ_NAV_INDEX).setChecked(true);
         }
 

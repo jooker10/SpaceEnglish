@@ -8,9 +8,6 @@ public class Question {
     private String option2;
     private String rightAnswer;
 
-    public Question() {
-    }
-
     public Question(String theQst, String option1, String option2, String option3, String rightAnswer) {
         this.theQst = theQst;
         this.option0 = option1;

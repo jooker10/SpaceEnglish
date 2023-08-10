@@ -14,16 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import anouar.oulhaj.p001.Adapters.VerbRecyclerAdapter;
+import anouar.oulhaj.p001.Adapters.IdiomsRecyclerAdapter;
+import anouar.oulhaj.p001.Adapters.PhrasalRecyclerAdapter;
 import anouar.oulhaj.p001.DB.DbAccess;
-import anouar.oulhaj.p001.DB.Verb;
+import anouar.oulhaj.p001.DB.Idiom;
+import anouar.oulhaj.p001.DB.Phrasal;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
 
-public class TableVerbsFragment extends Fragment {
+public class TableIdiomsFragment extends Fragment {
 
-    public TableVerbsFragment() {
+    private RecyclerView recycler;
+    private DbAccess db;
+
+
+
+    public TableIdiomsFragment() {
         // Required empty public constructor
     }
 
@@ -33,29 +40,33 @@ public class TableVerbsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tables_verbs, container, false);
+        return inflater.inflate(R.layout.fragment_table_idioms, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recycler = view.findViewById(R.id.recycler_table_verbs);
-        TextView tvHeadTitleVerbs = view.findViewById(R.id.headTitleForTableVerbs);
-        tvHeadTitleVerbs.setText("Table of Verbs (" + Utils.verbsList.size() + ")");
+        recycler = view.findViewById(R.id.recycler_table_idioms);
+        TextView tvHeadTitleVerbs = view.findViewById(R.id.headTitleTableIdiom);
+        tvHeadTitleVerbs.setText("Table of Idioms (" + Utils.idiomsList.size() + ")");
 
-    /*    DbAccess db = DbAccess.getInstance(getActivity());
+     /*   db = DbAccess.getInstance(getActivity());
         db.open_to_read();
-        List<Verb> allVerbs = db.getAllVerbs();
-        db.close();*/
+        List<Idiom> AllIdioms = db.getAllIdioms();
+        db.close();
+*/
 
+        IdiomsRecyclerAdapter adapter = new IdiomsRecyclerAdapter(Utils.idiomsList, getActivity(), new IdiomsRecyclerAdapter.onRecyclerListener() {
+            @Override
+            public void onDataChanged() {
 
-        VerbRecyclerAdapter adapter = new VerbRecyclerAdapter(Utils.verbsList,getActivity(), () -> {
-
+            }
         });
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recycler.setHasFixedSize(true);
         recycler.setAdapter(adapter);
+
     }
+
 
 }

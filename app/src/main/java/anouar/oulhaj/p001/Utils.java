@@ -2,7 +2,13 @@ package anouar.oulhaj.p001;
 
 import java.util.ArrayList;
 
+import anouar.oulhaj.p001.DB.Adjective;
+import anouar.oulhaj.p001.DB.Adverb;
+import anouar.oulhaj.p001.DB.Idiom;
+import anouar.oulhaj.p001.DB.Noun;
+import anouar.oulhaj.p001.DB.Phrasal;
 import anouar.oulhaj.p001.DB.Sentence;
+import anouar.oulhaj.p001.DB.Verb;
 
 public class Utils {
 
@@ -16,21 +22,19 @@ public class Utils {
     public static int authorizedVerbsCount, authorizedSentencesCount , authorizedPhrasalCount;
     //-----Enum for choosing native language -------
     public static Language language = Language.FRENCH;
+    //------ the main qst in native language----------
+    public static String txtOftheMainQuestioninNative;
 
 
-    public static ArrayList<Sentence> sentences1 = new ArrayList<>();
-    public static ArrayList<Sentence> sentences2 = new ArrayList<>();
+    public static ArrayList<Verb> verbsList = new ArrayList<>();
+    public static ArrayList<Sentence> sentencesList = new ArrayList<>();
+    public static ArrayList<Phrasal> phrasalsList = new ArrayList<>();
+    public static ArrayList<Noun> nounsList = new ArrayList<>();
+    public static ArrayList<Adjective> adjsList = new ArrayList<>();
+    public static ArrayList<Adverb> advsList = new ArrayList<>();
+    public static ArrayList<Idiom> idiomsList = new ArrayList<>();
 
-    public static void FillData() {
-        sentences1.add(new Sentence(0, "fr0", "eng0"));
-        sentences1.add(new Sentence(1, "fr1", "eng1"));
-        sentences1.add(new Sentence(2, "fr2", "eng2"));
-        sentences1.add(new Sentence(3, "fr3", "eng3"));
 
-        sentences2.add(new Sentence(0, "Fr0", "Eng0"));
-        sentences2.add(new Sentence(1, "Fr1", "Eng1"));
-        sentences2.add(new Sentence(2, "Fr2", "Eng2"));
-        sentences2.add(new Sentence(3, "Fr3", "Eng3"));
 
-    }
+
 }

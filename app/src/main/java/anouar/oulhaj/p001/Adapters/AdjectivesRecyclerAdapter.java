@@ -19,85 +19,83 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 import java.util.Locale;
 
 import anouar.oulhaj.p001.AbrLanguage;
-import anouar.oulhaj.p001.DB.Verb;
+import anouar.oulhaj.p001.DB.Adjective;
+import anouar.oulhaj.p001.DB.Phrasal;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
-public class VerbRecyclerAdapter extends RecyclerView.Adapter<VerbRecyclerAdapter.VerbRecyclerHolder> {
+public class AdjectivesRecyclerAdapter extends RecyclerView.Adapter<AdjectivesRecyclerAdapter.PhrasalRecyclerHolder> {
 
 
-    private List<Verb> verbs;
+    private List<Adjective> adjs;
     private onRecyclerListener listener;
     private Context context;
-    public VerbRecyclerAdapter(List<Verb> verbs,Context context,onRecyclerListener listener) {
 
-        this.verbs = verbs;
+    public AdjectivesRecyclerAdapter(List<Adjective> adjs, Context context, onRecyclerListener listener) {
+
+        this.adjs = adjs;
         this.context = context;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public VerbRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_holder_table,parent,false);
-        return new VerbRecyclerHolder(view);
+    public PhrasalRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_holder_table, parent, false);
+        return new PhrasalRecyclerHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VerbRecyclerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PhrasalRecyclerHolder holder, int position) {
 
-        holder.bind(verbs.get(position));
-
-        holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.recycler_animation));
+        holder.bind(adjs.get(position));
+        holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.recycler_animation));
 
 
     }
 
     @Override
     public int getItemCount() {
-        return verbs.size();
+        return adjs.size();
     }
 
-    class VerbRecyclerHolder extends ViewHolder {
+    class PhrasalRecyclerHolder extends ViewHolder {
 
-        private Verb verb;
-        private TextView tv_id, tv_verbNativeLang,tv_verbEng;
+        private Adjective adj;
+        private TextView tv_id, tv_adjNativeLang, tv_adjEng;
         private ImageView img_songs;
-        private Button btn_example;
         private LinearLayout layout_expanded;
+        private Button btn_example;
         private TextView tv_example_expanded;
         private TextView tvKhtissarNativeLang;
 
-        public VerbRecyclerHolder( View itemView) {
+        public PhrasalRecyclerHolder(View itemView) {
             super(itemView);
             tv_id = itemView.findViewById(R.id.holder_verbID);
-            tv_verbEng = itemView.findViewById(R.id.holderVerbEnglish);
-            tv_verbNativeLang = itemView.findViewById(R.id.holderVerbNativeLang);
-            img_songs = itemView.findViewById(R.id.img_songs);
+            tv_adjEng = itemView.findViewById(R.id.holderVerbEnglish);
+            tv_adjNativeLang = itemView.findViewById(R.id.holderVerbNativeLang);
             tvKhtissarNativeLang = itemView.findViewById(R.id.tvKhtissarNativeLang);
+            img_songs = itemView.findViewById(R.id.img_songs);
             btn_example = itemView.findViewById(R.id.btn_example_expanded);
             layout_expanded = itemView.findViewById(R.id.linearLayout_expanded);
             tv_example_expanded = itemView.findViewById(R.id.tv_expanded_examples);
             layout_expanded.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
         }
 
-        void bind(Verb verb){
-            this.verb = verb;
+        void bind(Adjective adj) {
+            this.adj = adj;
 
-            tv_id.setText(String.valueOf(verb.getVerb_id() + 1));
-            tv_verbEng.setText(verb.getVerb_eng());
-            tv_verbNativeLang.setText(ChoosingNativeLang(verb,tvKhtissarNativeLang));
-
-            tv_example_expanded.setText(verb.getVerb_example());
+            tv_id.setText(String.valueOf(adj.getAdj_id() + 1));
+            tv_adjEng.setText(adj.getGetAdj_eng());
+            tv_adjNativeLang.setText(ChoosingNativeLang(adj,tvKhtissarNativeLang));
+            tv_example_expanded.setText(adj.getAdj_example());
             img_songs.setOnClickListener(v -> {
-                String txt = verb.getVerb_eng();
-                speech.speak(txt,TextToSpeech.QUEUE_FLUSH,null);
+                String txt = adj.getGetAdj_eng();
+                speech.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
             });
             tv_example_expanded.setVisibility(View.GONE);
             btn_example.setTextColor(Color.CYAN);
@@ -112,36 +110,35 @@ public class VerbRecyclerAdapter extends RecyclerView.Adapter<VerbRecyclerAdapte
                 TransitionManager.beginDelayedTransition(layout_expanded,new AutoTransition());
 
             });
-
         }
+
         TextToSpeech speech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                if(status == TextToSpeech.SUCCESS){
+                if (status == TextToSpeech.SUCCESS) {
                     speech.setLanguage(Locale.ENGLISH);
                 }
             }
         });
-
     }
 
     //----- Functions------------
-    private String ChoosingNativeLang(Verb verb , TextView tvKhtissarNativeLang){
+    private String ChoosingNativeLang(Adjective adj, TextView tvKhtissarNativeLang) {
         switch (Utils.language) {
+            // case FRENCH: return verb.getVerb_fr();
             case SPANISH:
                 tvKhtissarNativeLang.setText(AbrLanguage.Sp.toString());
-                return verb.getVerb_sp();
+                return adj.getAdj_sp();
             case ARABIC:
                 tvKhtissarNativeLang.setText(AbrLanguage.Ar.toString());
-                return verb.getVerb_ar();
-            default: tvKhtissarNativeLang.setText(AbrLanguage.Fr.toString());
-                return verb.getVerb_fr();
+                return adj.getAdj_ar();
+            default:
+                tvKhtissarNativeLang.setText(AbrLanguage.Fr.toString());
+                return adj.getAdj_fr();
         }
     }
-    //-------interfaces----------
-    public interface onRecyclerListener{
+
+    public interface onRecyclerListener {
         void onDataChanged();
     }
-
-
 }

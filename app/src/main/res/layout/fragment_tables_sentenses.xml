@@ -13,10 +13,11 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/headTitleTableSentences"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/titre_table_sentenses_bg"
             android:layout_margin="5dp"
+            android:background="@drawable/titre_table_sentenses_bg"
             android:gravity="center"
             android:padding="4dp"
             android:text="Table of Sentenses"

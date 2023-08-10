@@ -22,13 +22,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import anouar.oulhaj.p001.DB.DbAccess;
-import anouar.oulhaj.p001.DB.Verb;
+import anouar.oulhaj.p001.DB.Noun;
 import anouar.oulhaj.p001.Question;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001.Utils;
 
 
-public class ChoicesVerbsQcmFrag extends Fragment {
+public class ChoicesNounsQcmFrag extends Fragment {
 
     private OnChoicesFragClickListener listener;
 
@@ -40,7 +40,7 @@ public class ChoicesVerbsQcmFrag extends Fragment {
     private ColorStateList rb_defaultColor_txt;
 
     private List<Question> qstsList = new ArrayList<>();
-    private List<Verb> AllVerbs = new ArrayList<>();
+    private List<Noun> allNouns = new ArrayList<>();
     private int qst_counter, qstCounterTotal;
     private int score;
 
@@ -49,7 +49,7 @@ public class ChoicesVerbsQcmFrag extends Fragment {
     Question currentQuestion;
 
 
-    public ChoicesVerbsQcmFrag() {
+    public ChoicesNounsQcmFrag() {
         // Required empty public constructor
     }
 
@@ -57,33 +57,35 @@ public class ChoicesVerbsQcmFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choices_verbs, container, false);
+        return inflater.inflate(R.layout.fragment_choices_nouns, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tv_qst = view.findViewById(R.id.the_question_of_verb);
-        tv_score = view.findViewById(R.id.quiz_tv_score_verbs);
-        tv_qstCount = view.findViewById(R.id.quiz_tv_verbs_qstNumber);
-        tv_ofTheVerb = view.findViewById(R.id.quiz_TheVerb_qst);
-        tv_notes = view.findViewById(R.id.choicesFrag_tv_notes_verbs);
+        tv_qst = view.findViewById(R.id.the_question_of_noun);
+        tv_score = view.findViewById(R.id.quiz_tv_score_nouns);
+        tv_qstCount = view.findViewById(R.id.quiz_tv_nouns_qstNumber);
+        tv_ofTheVerb = view.findViewById(R.id.quiz_TheNoun_qst);
+        tv_notes = view.findViewById(R.id.choicesFrag_tv_notes_nouns);
 
-        btn_confirmNext = view.findViewById(R.id.quizFrag_Btn_confirm_next_verbs);
+        btn_confirmNext = view.findViewById(R.id.quizFrag_Btn_confirm_next_nouns);
 
-        radioGroup_choices = view.findViewById(R.id.choices_radioGroup_verbs);
-        rb0 = view.findViewById(R.id.choicesFrag_verbs_option0);
-        rb1 = view.findViewById(R.id.choicesFrag_verbs_option1);
-        rb2 = view.findViewById(R.id.choicesFrag_verbs_option2);
+        radioGroup_choices = view.findViewById(R.id.choices_radioGroup_nouns);
+        rb0 = view.findViewById(R.id.choicesFrag_nouns_option0);
+        rb1 = view.findViewById(R.id.choicesFrag_nouns_option1);
+        rb2 = view.findViewById(R.id.choicesFrag_nouns_option2);
 
 
         rb_defaultColor_txt = rb1.getTextColors();
         //------- fill Lists--------------
-        DbAccess db = DbAccess.getInstance(getActivity());
+        allNouns = Utils.nounsList;
+
+ /*       DbAccess db = DbAccess.getInstance(getActivity());
         db.open_to_read();
         AllVerbs = db.getAllVerbs();
-        db.close();
+        db.close();*/
 
         SetRandomInts();
         qstCounterTotal = qstsList.size();
@@ -167,7 +169,7 @@ public class ChoicesVerbsQcmFrag extends Fragment {
             rb2.setText(currentQuestion.getOption2());
 
             //----set tv_theVerbFR--------
-            tv_ofTheVerb.setText(AllVerbs.get(qst_counter).getVerb_fr());
+            tv_ofTheVerb.setText(allNouns.get(qst_counter).getNoun_fr());
 
             qst_counter++;
 
@@ -186,12 +188,12 @@ public class ChoicesVerbsQcmFrag extends Fragment {
 
     //------Random fitch Verbs-------
     private void SetRandomInts(){
-        for (int i = 0; i < AllVerbs.size(); i++) {
+        for (int i = 0; i < allNouns.size(); i++) {
             List<Integer> randomInts = new ArrayList<>();
             Random random = new Random();
 
             while(randomInts.size() != 2) {
-                int j = random.nextInt(AllVerbs.size());
+                int j = random.nextInt(allNouns.size());
                 if(!randomInts.contains(j) && j != i){
                     randomInts.add(j);
                 }
@@ -200,10 +202,10 @@ public class ChoicesVerbsQcmFrag extends Fragment {
             Collections.shuffle(randomInts);
 
             String qst = getString(R.string.qstVerbIntro);
-            String rb0_str = AllVerbs.get(randomInts.get(0)).getVerb_eng();
-            String rb1_str = AllVerbs.get(randomInts.get(1)).getVerb_eng();
-            String rb2_str = AllVerbs.get(randomInts.get(2)).getVerb_eng();
-            String right_Answer = AllVerbs.get(i).getVerb_eng();
+            String rb0_str = allNouns.get(randomInts.get(0)).getGetNoun_eng();
+            String rb1_str = allNouns.get(randomInts.get(1)).getGetNoun_eng();
+            String rb2_str = allNouns.get(randomInts.get(2)).getGetNoun_eng();
+            String right_Answer = allNouns.get(i).getGetNoun_eng();
 
             qstsList.add(new Question(qst, rb0_str, rb1_str, rb2_str, right_Answer));
         }

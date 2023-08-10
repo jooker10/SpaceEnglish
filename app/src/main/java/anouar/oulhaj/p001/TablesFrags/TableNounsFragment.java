@@ -14,21 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import anouar.oulhaj.p001.Adapters.NounsRecyclerAdapter;
 import anouar.oulhaj.p001.Adapters.PhrasalRecyclerAdapter;
 import anouar.oulhaj.p001.DB.DbAccess;
+import anouar.oulhaj.p001.DB.Noun;
 import anouar.oulhaj.p001.DB.Phrasal;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
 
-public class TablePhrasalFragment extends Fragment {
+public class TableNounsFragment extends Fragment {
 
     private RecyclerView recycler;
     private DbAccess db;
 
 
 
-    public TablePhrasalFragment() {
+    public TableNounsFragment() {
         // Required empty public constructor
     }
 
@@ -38,31 +40,30 @@ public class TablePhrasalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_table_phrasal, container, false);
+        return inflater.inflate(R.layout.fragment_table_nouns, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recycler = view.findViewById(R.id.recycler_table_phrasal);
-        TextView tvHeadTitleVerbs = view.findViewById(R.id.headTitleForTablePhrasal);
-        tvHeadTitleVerbs.setText("Table of Phrasal verbs (" + Utils.phrasalsList.size() + ")");
-
+        recycler = view.findViewById(R.id.recycler_table_nouns);
+        TextView tvHeadTitleVerbs = view.findViewById(R.id.headTitleTableNoun);
+        tvHeadTitleVerbs.setText("Table of Nouns(" + Utils.nounsList.size() + ")");
 
      /*   db = DbAccess.getInstance(getActivity());
         db.open_to_read();
-        List<Phrasal> AllPhrasal = db.getAllPhrasal();
+        List<Noun> AllNouns = db.getAllNouns();
         db.close();
 */
 
-        PhrasalRecyclerAdapter adapter = new PhrasalRecyclerAdapter(Utils.phrasalsList,getActivity(), new PhrasalRecyclerAdapter.onRecyclerListener() {
+        NounsRecyclerAdapter adapter = new NounsRecyclerAdapter(Utils.nounsList, getActivity(), new NounsRecyclerAdapter.onRecyclerListener() {
             @Override
             public void onDataChanged() {
 
             }
         });
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.setAdapter(adapter);
 
     }

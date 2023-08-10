@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import anouar.oulhaj.p001.DB.DbAccess;
@@ -45,7 +44,7 @@ public class ChoicesSentencesQcmFrag extends Fragment {
     private ColorStateList rb_defaultColor_txt;
 
     private List<Question> qstsList = new ArrayList<>();
-    private List<Sentence> AllSentences = new ArrayList<>();
+    private List<Sentence> allSentences = new ArrayList<>();
     private int qst_counter, qstCounterTotal;
     private int score;
 
@@ -102,27 +101,11 @@ public class ChoicesSentencesQcmFrag extends Fragment {
 
 
         //------- fill Lists--------------
-        DbAccess db = DbAccess.getInstance(getActivity());
+        allSentences = Utils.sentencesList;
+        /*DbAccess db = DbAccess.getInstance(getActivity());
         db.open_to_read();
-
-        ArrayList<Sentence> sentences0 = db.getAllSentences();;
-        AllSentences.addAll(sentences0);
-        db.close();
-        Utils.FillData();
-
-        if(Objects.equals(category_sentence, "category 0")) {
-            AllSentences.clear();
-            AllSentences.addAll(sentences0);
-        }
-        if(Objects.equals(category_sentence, "category 1")) {
-            AllSentences.clear();
-            AllSentences.addAll(Utils.sentences1);
-        }
-        if(Objects.equals(category_sentence, "category 2")) {
-            AllSentences.clear();
-            AllSentences.addAll(Utils.sentences2);
-        }
-
+         allSentences = db.getAllSentences();
+        db.close();*/
 
         SetRandomInts();
         qstCounterTotal = qstsList.size();
@@ -205,7 +188,7 @@ public class ChoicesSentencesQcmFrag extends Fragment {
             rb2.setText(currentQuestion.getOption2());
 
             //----set tv_theVerbFR--------
-            tv_ofTheSentences.setText(AllSentences.get(qst_counter).getSentence_fr());
+            tv_ofTheSentences.setText(allSentences.get(qst_counter).getSentence_fr());
 
             qst_counter++;
 
@@ -222,12 +205,12 @@ public class ChoicesSentencesQcmFrag extends Fragment {
         }
     }
     private void SetRandomInts(){
-        for (int i = 0; i < AllSentences.size(); i++) {
+        for (int i = 0; i < allSentences.size(); i++) {
             List<Integer> randomList = new ArrayList<>();
             Random random = new Random();
 
             while(randomList.size() != 2) {
-                int j = random.nextInt(AllSentences.size());
+                int j = random.nextInt(allSentences.size());
                 if(!randomList.contains(j) && j != i){
                     randomList.add(j);
                 }
@@ -237,10 +220,10 @@ public class ChoicesSentencesQcmFrag extends Fragment {
             Collections.shuffle(randomList);
 
             String qst = getString(R.string.qstSentenceIntro);
-            String rb0_str = AllSentences.get(randomList.get(0)).getSentence_eng();
-            String rb1_str = AllSentences.get(randomList.get(1)).getSentence_eng();
-            String rb2_str = AllSentences.get(randomList.get(2)).getSentence_eng();
-            String right_Answer = AllSentences.get(i).getSentence_eng();
+            String rb0_str = allSentences.get(randomList.get(0)).getSentence_eng();
+            String rb1_str = allSentences.get(randomList.get(1)).getSentence_eng();
+            String rb2_str = allSentences.get(randomList.get(2)).getSentence_eng();
+            String right_Answer = allSentences.get(i).getSentence_eng();
 
             qstsList.add(new Question(qst, rb0_str, rb1_str, rb2_str, right_Answer));
         }

@@ -39,42 +39,7 @@ public class DbAccess {
     }
 
     //-------------------------------------Verbs Functions-------------------------------
-    // insert Verbs method
-    public boolean InsertVerbs(Verb verb) {
 
-        ContentValues values = new ContentValues();
-        values.put(MyDatabase.VERB_fr, verb.getVerb_fr());
-        values.put(MyDatabase.VERB_eng, verb.getVerb_eng());
-
-        long result = sqLiteDB.insert(MyDatabase.TABLE_VERBS, null, values);
-        return result != -1;
-    }
-
-    // update Verbs method
-    public boolean UpdateVerbs(Verb verb) {
-        ContentValues values = new ContentValues();
-        values.put(MyDatabase.VERB_fr, verb.getVerb_fr());
-        values.put(MyDatabase.VERB_eng, verb.getVerb_eng());
-
-        String args[] = {String.valueOf(verb.getVerb_id())};
-        long result = sqLiteDB.update(MyDatabase.TABLE_VERBS, values, "id=?", args);
-        return result > 0;
-    }
-
-    // getAllVerbs
-    public long getVerbsCount() {
-        return DatabaseUtils.queryNumEntries(openHelper.getReadableDatabase(), MyDatabase.TABLE_VERBS);
-    }
-
-
-    // Delete Verb method
-    public boolean DeleteVerbs(Verb verb) {
-
-        String[] args = {String.valueOf(verb.getVerb_id())};
-
-        int result = sqLiteDB.delete(MyDatabase.TABLE_VERBS, "id=?", args);
-        return result > 0;
-    }
 
     // Retrieve Verbs method    ----important-----
     public ArrayList<Verb> getAllVerbs() {
@@ -101,42 +66,6 @@ public class DbAccess {
 
     //-------------------------------------Sentences Functions-------------------------------
 
-    // insert Sentences method
-    public boolean InsertSentence(Sentence sentence) {
-
-        ContentValues values = new ContentValues();
-        values.put(MyDatabase.SENTENSES_fr, sentence.getSentence_fr());
-        values.put(MyDatabase.SENTENSES_eng, sentence.getSentence_eng());
-
-        long result = sqLiteDB.insert(MyDatabase.TABLE_SENTENSES, null, values);
-        return result != -1;
-    }
-
-    // update sentences method
-    public boolean UpdateSentence(Sentence sentence) {
-        ContentValues values = new ContentValues();
-        values.put(MyDatabase.VERB_fr, sentence.getSentence_fr());
-        values.put(MyDatabase.VERB_eng, sentence.getSentence_eng());
-
-        String args[] = {String.valueOf(sentence.getSentence_id())};
-        long result = sqLiteDB.update(MyDatabase.TABLE_SENTENSES, values, "id=?", args);
-        return result > 0;
-    }
-
-    // getAllSentences
-    public long getSentencesCount() {
-        return DatabaseUtils.queryNumEntries(openHelper.getReadableDatabase(), MyDatabase.TABLE_SENTENSES);
-    }
-
-
-    // Delete sentences method
-    public boolean DeleteSentences(Sentence sentence) {
-
-        String[] args = {String.valueOf(sentence.getSentence_id())};
-
-        int result = sqLiteDB.delete(MyDatabase.TABLE_SENTENSES, "id=?", args);
-        return result > 0;
-    }
 
     // Retrieve Sentences method
     public ArrayList<Sentence> getAllSentences() {
@@ -167,42 +96,6 @@ public class DbAccess {
 
     //-------------------------------------Phrasal Functions-------------------------------
 
-    // insert phrasal method
-    public boolean InsertPhrasal(Phrasal phrasal) {
-
-        ContentValues values = new ContentValues();
-        values.put(MyDatabase.VERB_fr, phrasal.getPhrasal_fr());
-        values.put(MyDatabase.VERB_eng, phrasal.getGetPhrasal_eng());
-
-        long result = sqLiteDB.insert(MyDatabase.TABLE_PHRASAL, null, values);
-        return result != -1;
-    }
-
-    // update phrasal method
-    public boolean UpdatePhrasal(Phrasal phrasal) {
-        ContentValues values = new ContentValues();
-        values.put(MyDatabase.VERB_fr, phrasal.getPhrasal_fr());
-        values.put(MyDatabase.VERB_eng, phrasal.getGetPhrasal_eng());
-
-        String args[] = {String.valueOf(phrasal.getPhrasal_id())};
-        long result = sqLiteDB.update(MyDatabase.TABLE_PHRASAL, values, "id=?", args);
-        return result > 0;
-    }
-
-    // getAllPhrasal
-    public long getPhrasalCount() {
-        return DatabaseUtils.queryNumEntries(openHelper.getReadableDatabase(), MyDatabase.TABLE_PHRASAL);
-    }
-
-
-    // Delete phrasal method
-    public boolean DeletePhrasal(Phrasal phrasal) {
-
-        String[] args = {String.valueOf(phrasal.getPhrasal_id())};
-
-        int result = sqLiteDB.delete(MyDatabase.TABLE_PHRASAL, "id=?", args);
-        return result > 0;
-    }
 
     // Retrieve Phrasal method
     public ArrayList<Phrasal> getAllPhrasal() {
@@ -231,5 +124,92 @@ public class DbAccess {
         return phrasalList;
     }
 
+    // Retrieve Nouns method    ----important-----
+    public ArrayList<Noun> getAllNouns() {
+        ArrayList<Noun> nounsList = new ArrayList<>();
 
+        Cursor cursor = sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_NOUNS, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String noun_eng = cursor.getString(1);
+                String noun_fr = cursor.getString(2);
+                String noun_sp = cursor.getString(3);
+                String noun_ar = cursor.getString(4);
+                String noun_example = cursor.getString(5);
+                Noun noun = new Noun(id, noun_eng, noun_fr, noun_sp, noun_ar,noun_example);
+                nounsList.add(noun);
+            }
+            while (cursor.moveToNext());
+            cursor.close();
+        }
+        return nounsList;
+    }
+    // Retrieve Adjs method    ----important-----
+    public ArrayList<Adjective> getAllAdjs() {
+        ArrayList<Adjective> adjsList = new ArrayList<>();
+
+        Cursor cursor = sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_ADJECTIVES, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String adj_eng = cursor.getString(1);
+                String adj_fr = cursor.getString(2);
+                String adj_sp = cursor.getString(3);
+                String adj_ar = cursor.getString(4);
+                String adj_example = cursor.getString(5);
+                Adjective adj = new Adjective(id, adj_eng, adj_fr, adj_sp, adj_ar,adj_example);
+                adjsList.add(adj);
+            }
+            while (cursor.moveToNext());
+            cursor.close();
+        }
+        return adjsList;
+    }
+    // Retrieve Advs method    ----important-----
+    public ArrayList<Adverb> getAllAdverbs() {
+        ArrayList<Adverb> advsList = new ArrayList<>();
+
+        Cursor cursor = sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_ADVERBS, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String adv_eng = cursor.getString(1);
+                String adv_fr = cursor.getString(2);
+                String adv_sp = cursor.getString(3);
+                String adv_ar = cursor.getString(4);
+                String adv_example = cursor.getString(5);
+                Adverb adv = new Adverb(id, adv_eng, adv_fr, adv_sp, adv_ar,adv_example);
+                advsList.add(adv);
+            }
+            while (cursor.moveToNext());
+            cursor.close();
+        }
+        return advsList;
+    }
+    // Retrieve Idioms method    ----important-----
+    public ArrayList<Idiom> getAllIdioms() {
+        ArrayList<Idiom> idiomsList = new ArrayList<>();
+
+        Cursor cursor = sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_IDIOMS, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String idiom_eng = cursor.getString(1);
+                String idiom_fr = cursor.getString(2);
+                String idiom_sp = cursor.getString(3);
+                String idiom_ar = cursor.getString(4);
+
+                Idiom idiom = new Idiom(id, idiom_eng, idiom_fr, idiom_sp, idiom_ar);
+                idiomsList.add(idiom);
+            }
+            while (cursor.moveToNext());
+            cursor.close();
+        }
+        return idiomsList;
+    }
 }

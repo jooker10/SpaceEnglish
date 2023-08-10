@@ -22,17 +22,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import anouar.oulhaj.p001.DB.Phrasal;
+import anouar.oulhaj.p001.DB.Adjective;
 import anouar.oulhaj.p001.Question;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
 
-public class ChoicesPhrasalQcmFrag extends Fragment {
+public class ChoicesAdjsQcmFrag extends Fragment {
 
-    private setOnChoicesFragClickListener listener;
+    private OnChoicesFragClickListener listener;
 
-    private TextView tv_qst, tv_score, tv_qstCount, tv_ofThePhrasal, tv_notes;
+    private TextView tv_qst, tv_score, tv_qstCount, tv_ofTheVerb, tv_notes;
     private RadioGroup radioGroup_choices;
     private RadioButton rb0, rb1, rb2;
     private Button btn_confirmNext;
@@ -40,17 +40,16 @@ public class ChoicesPhrasalQcmFrag extends Fragment {
     private ColorStateList rb_defaultColor_txt;
 
     private List<Question> qstsList = new ArrayList<>();
-    private List<Phrasal> allPhrasals = new ArrayList<>();
+    private List<Adjective> allAdjs = new ArrayList<>();
     private int qst_counter, qstCounterTotal;
-    private int score_phrasal;
+    private int score;
 
     private boolean isAnswered;
-    private int score;
 
     Question currentQuestion;
 
 
-    public ChoicesPhrasalQcmFrag() {
+    public ChoicesAdjsQcmFrag() {
         // Required empty public constructor
     }
 
@@ -58,34 +57,34 @@ public class ChoicesPhrasalQcmFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choices_phrasal_verb, container, false);
+        return inflater.inflate(R.layout.fragment_choices_adjs, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tv_qst = view.findViewById(R.id.the_question_of_phrasal_verb);
-        tv_score = view.findViewById(R.id.quiz_tv_score_phrasal_verb);
-        tv_qstCount = view.findViewById(R.id.quiz_tv_phrasal_verb_qstNumber);
-        tv_ofThePhrasal = view.findViewById(R.id.quiz_ThePhrasal_verb_qst);
-        tv_notes = view.findViewById(R.id.choicesFrag_tv_notes__phrasal_verb);
+        tv_qst = view.findViewById(R.id.the_question_of_adj);
+        tv_score = view.findViewById(R.id.quiz_tv_score_adjs);
+        tv_qstCount = view.findViewById(R.id.quiz_tv_adjs_qstNumber);
+        tv_ofTheVerb = view.findViewById(R.id.quiz_TheAdj_qst);
+        tv_notes = view.findViewById(R.id.choicesFrag_tv_notes_adjs);
 
-        btn_confirmNext = view.findViewById(R.id.quizFrag_Btn_confirm_next__phrasal_verb);
+        btn_confirmNext = view.findViewById(R.id.quizFrag_Btn_confirm_next_adjs);
 
-        radioGroup_choices = view.findViewById(R.id.choices_radioGroup__phrasal_verb);
-        rb0 = view.findViewById(R.id.choicesFrag_phrasal_verb_option0);
-        rb1 = view.findViewById(R.id.choicesFrag_phrasal_verb_option1);
-        rb2 = view.findViewById(R.id.choicesFrag_phrasal_verb_option2);
+        radioGroup_choices = view.findViewById(R.id.choices_radioGroup_adjs);
+        rb0 = view.findViewById(R.id.choicesFrag_adjs_option0);
+        rb1 = view.findViewById(R.id.choicesFrag_adjs_option1);
+        rb2 = view.findViewById(R.id.choicesFrag_adjs_option2);
 
 
         rb_defaultColor_txt = rb1.getTextColors();
         //------- fill Lists--------------
-        allPhrasals = Utils.phrasalsList;
+        allAdjs = Utils.adjsList;
 
-        /*DbAccess db = DbAccess.getInstance(getActivity());
+ /*       DbAccess db = DbAccess.getInstance(getActivity());
         db.open_to_read();
-        AllPhrasal = db.getAllPhrasal();
+        AllVerbs = db.getAllVerbs();
         db.close();*/
 
         SetRandomInts();
@@ -170,7 +169,7 @@ public class ChoicesPhrasalQcmFrag extends Fragment {
             rb2.setText(currentQuestion.getOption2());
 
             //----set tv_theVerbFR--------
-            tv_ofThePhrasal.setText(allPhrasals.get(qst_counter).getPhrasal_fr());
+            tv_ofTheVerb.setText(allAdjs.get(qst_counter).getAdj_fr());
 
             qst_counter++;
 
@@ -182,44 +181,47 @@ public class ChoicesPhrasalQcmFrag extends Fragment {
         }
         else{
             isAnswered = false;
-            listener.setScoreClick(0,0,score);
+           listener.setScoreClick(score,0,0);
 
         }
     }
+
+    //------Random fitch Verbs-------
     private void SetRandomInts(){
-        for (int i = 0; i < allPhrasals.size(); i++) {
-            List<Integer> randomList = new ArrayList<>();
+        for (int i = 0; i < allAdjs.size(); i++) {
+            List<Integer> randomInts = new ArrayList<>();
             Random random = new Random();
 
-            while(randomList.size() != 2) {
-                int j = random.nextInt(allPhrasals.size());
-                if(!randomList.contains(j) && j != i){
-                    randomList.add(j);
+            while(randomInts.size() != 2) {
+                int j = random.nextInt(allAdjs.size());
+                if(!randomInts.contains(j) && j != i){
+                    randomInts.add(j);
                 }
             }
+            randomInts.add(i);
+            Collections.shuffle(randomInts);
 
-            randomList.add(i);
-            Collections.shuffle(randomList);
-
-            String qst = getString(R.string.qstSentenceIntro);
-            String rb0_str = allPhrasals.get(randomList.get(0)).getGetPhrasal_eng();
-            String rb1_str = allPhrasals.get(randomList.get(1)).getGetPhrasal_eng();
-            String rb2_str = allPhrasals.get(randomList.get(2)).getGetPhrasal_eng();
-            String right_Answer = allPhrasals.get(i).getGetPhrasal_eng();
+            String qst = getString(R.string.qstVerbIntro);
+            String rb0_str = allAdjs.get(randomInts.get(0)).getGetAdj_eng();
+            String rb1_str = allAdjs.get(randomInts.get(1)).getGetAdj_eng();
+            String rb2_str = allAdjs.get(randomInts.get(2)).getGetAdj_eng();
+            String right_Answer = allAdjs.get(i).getGetAdj_eng();
 
             qstsList.add(new Question(qst, rb0_str, rb1_str, rb2_str, right_Answer));
         }
     }
 
-    public interface setOnChoicesFragClickListener {
-        void setScoreClick(int s0 , int s1 , int score);
+
+//-------------------------------Listener-------------------------------------------------------
+    public interface OnChoicesFragClickListener {
+        void setScoreClick(int verbScore,int s1,int s2);
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof setOnChoicesFragClickListener){
-            listener = (setOnChoicesFragClickListener) context;
+        if(context instanceof OnChoicesFragClickListener){
+            listener = (OnChoicesFragClickListener) context;
         }
     }
 

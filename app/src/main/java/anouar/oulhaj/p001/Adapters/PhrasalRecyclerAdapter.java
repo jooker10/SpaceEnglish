@@ -2,6 +2,7 @@ package anouar.oulhaj.p001.Adapters;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
+import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -97,10 +98,17 @@ public class PhrasalRecyclerAdapter extends RecyclerView.Adapter<PhrasalRecycler
                 speech.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
             });
             tv_example_expanded.setVisibility(View.GONE);
+            btn_example.setTextColor(Color.CYAN);
             btn_example.setOnClickListener(view -> {
-                int v = (tv_example_expanded.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE;
-                TransitionManager.beginDelayedTransition(layout_expanded, new AutoTransition());
-                tv_example_expanded.setVisibility(v);
+                if(tv_example_expanded.getVisibility() == View.GONE) {
+                    tv_example_expanded.setVisibility(View.VISIBLE);
+                    btn_example.setTextColor(Color.GRAY);
+                } else {
+                    tv_example_expanded.setVisibility(View.GONE);
+                    btn_example.setTextColor(Color.CYAN);
+                }
+                TransitionManager.beginDelayedTransition(layout_expanded,new AutoTransition());
+
             });
         }
 

@@ -120,13 +120,12 @@
 
             <Button
                 android:id="@+id/btn_example_expanded"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:backgroundTint="@color/background_white_900"
-                android:text="Examples"
-                android:textColor="@color/btn_txt_color" />
+                android:textAllCaps="false"
+                android:text="Examples" />
 
             <TextView
                 android:id="@+id/tv_expanded_examples"

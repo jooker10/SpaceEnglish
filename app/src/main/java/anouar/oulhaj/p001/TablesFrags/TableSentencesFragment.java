@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import anouar.oulhaj.p001.Adapters.SentencesRecyclerAdapter;
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DB.Sentence;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001.Utils;
 
 
 public class TableSentencesFragment extends Fragment {
@@ -49,27 +51,17 @@ public class TableSentencesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recycler = view.findViewById(R.id.recycler_table_sentences);
+        TextView tvHeadTitleVerbs = view.findViewById(R.id.headTitleTableSentences);
+        tvHeadTitleVerbs.setText("Table of Sentences (" + Utils.sentencesList.size() + ")");
 //        autoTxt_table = view.findViewById(R.id.autoTxt_table);
 
 
-        db = DbAccess.getInstance(getActivity());
+     /*   db = DbAccess.getInstance(getActivity());
         db.open_to_read();
         List<Sentence> AllSentences = db.getAllSentences();
-        db.close();
+        db.close();*/
 
-        List<Sentence> listSentence0 = new ArrayList<>();
-        listSentence0.addAll(AllSentences);
-        List<Sentence> listSentences1 = new ArrayList<>();
-        listSentences1.addAll(AllSentences);
-        listSentences1.addAll(AllSentences);
-        List<Sentence> listSentences2 = new ArrayList<>();
-        listSentences2.addAll(AllSentences);
-        listSentences2.addAll(AllSentences);
-        listSentences2.addAll(1,AllSentences);
-
-
-
-       SentencesRecyclerAdapter adapter = new SentencesRecyclerAdapter(AllSentences,getActivity(), new SentencesRecyclerAdapter.onRecyclerListener() {
+       SentencesRecyclerAdapter adapter = new SentencesRecyclerAdapter(Utils.sentencesList,getActivity(), new SentencesRecyclerAdapter.onRecyclerListener() {
            @Override
            public void onDataChanged() {
 
@@ -80,8 +72,8 @@ public class TableSentencesFragment extends Fragment {
         recycler.setAdapter(adapter);
 
 
-        ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,
-                getResources().getStringArray(R.array.categoryOfSentence));
+        /*ArrayAdapter adapter_category = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.categoryOfSentence));*/
 
       /*  autoTxt_table.setAdapter(adapter_category);
           autoTxt_table.setOnItemClickListener(new AdapterView.OnItemClickListener() {
