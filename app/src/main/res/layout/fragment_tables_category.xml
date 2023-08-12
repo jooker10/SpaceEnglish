@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".TablesFrags.TableVerbsFragment">
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -13,20 +12,20 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/headTitleTableAdjs"
+            android:id="@+id/headTitleForTableCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/titre_table_phrasal_bg"
+            android:background="@drawable/titre_table_verbs_bg"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Table of adjectives"
+            android:text="Table of Verbs"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_table_adjectives"
+            android:id="@+id/recyclerTableCategory"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="0dp">

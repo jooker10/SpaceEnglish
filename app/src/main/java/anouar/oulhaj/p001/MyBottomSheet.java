@@ -2,12 +2,10 @@ package anouar.oulhaj.p001;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 
@@ -49,7 +47,7 @@ public class MyBottomSheet extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.sheet_add_more_element,container,false);
+        return inflater.inflate(R.layout.sheet_adding_elements,container,false);
     }
 
     @NonNull

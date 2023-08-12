@@ -90,7 +90,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.custom_dialog_holder, container, false);
+        return inflater.inflate(R.layout.custom_dialog_update_element, container, false);
     }
 
     @Override

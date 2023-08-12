@@ -20,7 +20,7 @@
 
 
         <TextView
-            android:id="@+id/quiz_tv_score_idioms"
+            android:id="@+id/tvQuizUserScoreCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/quiz_tv_idioms_qstNumber"
+            android:id="@+id/tvQuizCurrentCounterCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,18 +59,18 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/the_question_of_idiom"
+                android:id="@+id/QuizTheQuestionOfCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
-                android:text="Quelle est la traduction du phrase : "
+                android:text="Choisissez la bonne réponse : "
                 android:textColor="@color/txt_gray_800_100"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold|italic" />
 
             <TextView
-                android:id="@+id/quiz_TheIdiom_qst"
+                android:id="@+id/QuizTheMainElementOfCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="12dp"
@@ -84,24 +84,13 @@
                 tools:text="verb" />
 
             <RadioGroup
-                android:id="@+id/choices_radioGroup_idioms"
+                android:id="@+id/quizRadioGroupCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_root_container">
 
                 <RadioButton
-                    android:id="@+id/choicesFrag_idioms_option0"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="option 0"
-                    android:textColor="@color/txt_gray_800_100"
-                    android:textSize="16sp"
-                    android:textStyle="italic" />
-
-                <RadioButton
-                    android:id="@+id/choicesFrag_idioms_option1"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:id="@+id/QuizCategoryOption1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="option 1"
@@ -110,8 +99,16 @@
                     android:textStyle="italic" />
 
                 <RadioButton
-                    android:id="@+id/choicesFrag_idioms_option2"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:id="@+id/QuizCategoryOption2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="option 1"
+                    android:textColor="@color/txt_gray_800_100"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
+                <RadioButton
+                    android:id="@+id/QuizCategoryOption3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="option 2"
@@ -123,7 +120,7 @@
             </RadioGroup>
 
             <Button
-                android:id="@+id/quizFrag_Btn_confirm_next_idioms"
+                android:id="@+id/btnConfirmNextCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
@@ -138,15 +135,13 @@
                 app:cardElevation="4dp">
 
                 <TextView
-                    android:id="@+id/choicesFrag_tv_notes_idioms"
+                    android:id="@+id/quizTvNotesCategory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
-                    android:fontFamily="@font/cagliostro"
-                    android:text="Good your Answers is Correct"
                     android:textColor="@color/blue_500"
                     android:textSize="20sp"
-                    android:textStyle="bold|italic" />
+                    android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>

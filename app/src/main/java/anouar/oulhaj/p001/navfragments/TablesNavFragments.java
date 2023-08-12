@@ -14,21 +14,17 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import anouar.oulhaj.p001.Adapters.PagerAdapter;
+import anouar.oulhaj.p001.EnumCategory;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.TablesFrags.TableAdjectivesFragment;
-import anouar.oulhaj.p001.TablesFrags.TableAdverbsFragment;
-import anouar.oulhaj.p001.TablesFrags.TableIdiomsFragment;
-import anouar.oulhaj.p001.TablesFrags.TableNounsFragment;
-import anouar.oulhaj.p001.TablesFrags.TablePhrasalFragment;
-import anouar.oulhaj.p001.TablesFrags.TableSentencesFragment;
-import anouar.oulhaj.p001.TablesFrags.TableVerbsFragment;
+import anouar.oulhaj.p001.TablesFrags.TableCategoryFragment;
+import anouar.oulhaj.p001.databinding.TableContainerFragmentBinding;
 
 
 public class TablesNavFragments extends Fragment {
 
+    TableContainerFragmentBinding binding;
 
     public TablesNavFragments() {
         // Required empty public constructor
@@ -39,31 +35,30 @@ public class TablesNavFragments extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.table_fragment_container, container, false);
+        return inflater.inflate(R.layout.table_container_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        binding = TableContainerFragmentBinding.bind(view);
         //---------Setup tabs with pagers---------------------------------
-        TabLayout tabs = view.findViewById(R.id.tablayout_tables);
-        ViewPager2 viewPager2 = view.findViewById(R.id.pager_tables);
+
 
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new TableVerbsFragment());
-        fragments.add(new TableSentencesFragment());
-        fragments.add(new TablePhrasalFragment());
-        fragments.add(new TableNounsFragment());
-        fragments.add(new TableAdjectivesFragment());
-        fragments.add(new TableAdverbsFragment());
-        fragments.add(new TableIdiomsFragment());
+        fragments.add(TableCategoryFragment.getInstance(EnumCategory.VERB.name()));
+        fragments.add(TableCategoryFragment.getInstance(EnumCategory.SENTENCE.name()));
+        fragments.add(TableCategoryFragment.getInstance(EnumCategory.PHRASAL.name()));
+        fragments.add(TableCategoryFragment.getInstance(EnumCategory.NOUN.name()));
+        fragments.add(TableCategoryFragment.getInstance(EnumCategory.ADJECTIVE.name()));
+        fragments.add(TableCategoryFragment.getInstance(EnumCategory.ADVERB.name()));
+        fragments.add(TableCategoryFragment.getInstance(EnumCategory.IDIOM.name()));
 
 
         PagerAdapter pagerAdapter = new PagerAdapter(requireActivity(), fragments);
-        viewPager2.setAdapter(pagerAdapter);
+        binding.tableNavPager2.setAdapter(pagerAdapter);
 
-        new TabLayoutMediator(tabs, viewPager2, (tab, position) -> {
+        new TabLayoutMediator(binding.tableNavTabLayout, binding.tableNavPager2, (tab, position) -> {
 
             switch (position) {
                 case 0:

@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/icon_app1"
+        android:icon="@drawable/icon_app_current"
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/Theme.P001"

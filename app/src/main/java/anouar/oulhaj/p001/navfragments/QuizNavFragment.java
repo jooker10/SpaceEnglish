@@ -16,14 +16,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 
 import anouar.oulhaj.p001.Adapters.PagerAdapter;
-import anouar.oulhaj.p001.QuizFrags.ChoicesAdjsQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.ChoicesAdvsQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.ChoicesIdiomsQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.ChoicesNounsQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.ChoicesPhrasalQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.ChoicesSentencesQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.MyQuizVerbFragment;
-import anouar.oulhaj.p001.QuizFrags.VerbsQuizFragment;
+import anouar.oulhaj.p001.EnumCategory;
+import anouar.oulhaj.p001.QuizFrags.QuizCategoriesFragment;
 import anouar.oulhaj.p001.R;
 
 
@@ -63,13 +57,13 @@ public class QuizNavFragment extends Fragment  {
         ViewPager2 pager2 = view.findViewById(R.id.viewPager_quiz);
 
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new MyQuizVerbFragment());
-        fragments.add(new ChoicesSentencesQcmFrag());
-        fragments.add(new ChoicesPhrasalQcmFrag());
-        fragments.add(new ChoicesNounsQcmFrag());
-        fragments.add(new ChoicesAdjsQcmFrag());
-        fragments.add(new ChoicesAdvsQcmFrag());
-        fragments.add(new ChoicesIdiomsQcmFrag());
+        fragments.add(QuizCategoriesFragment.getInstance(EnumCategory.VERB.name()));
+        fragments.add(QuizCategoriesFragment.getInstance(EnumCategory.SENTENCE.name()));
+        fragments.add(QuizCategoriesFragment.getInstance(EnumCategory.PHRASAL.name()));
+        fragments.add(QuizCategoriesFragment.getInstance(EnumCategory.NOUN.name()));
+        fragments.add(QuizCategoriesFragment.getInstance(EnumCategory.ADJECTIVE.name()));
+        fragments.add(QuizCategoriesFragment.getInstance(EnumCategory.ADVERB.name()));
+        fragments.add(QuizCategoriesFragment.getInstance(EnumCategory.IDIOM.name()));
 
         PagerAdapter pagerAdapter = new PagerAdapter(requireActivity(), fragments);
         pager2.setAdapter(pagerAdapter);

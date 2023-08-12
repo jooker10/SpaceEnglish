@@ -10,13 +10,11 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import java.util.Objects;
-
 import anouar.oulhaj.p001.Language;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
-public class SettingsFragment extends PreferenceFragmentCompat {
+public class SettingsNavFragment extends PreferenceFragmentCompat {
 
     private setOnChangeThemeListener listener;
     private SwitchPreferenceCompat switch_darkMode;

@@ -19,40 +19,41 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 import java.util.Locale;
 
 import anouar.oulhaj.p001.AbrLanguage;
-import anouar.oulhaj.p001.DB.Verb;
+import anouar.oulhaj.p001.DB.Category;
+import anouar.oulhaj.p001.EnumCategory;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
-public class VerbRecyclerAdapter extends RecyclerView.Adapter<VerbRecyclerAdapter.VerbRecyclerHolder> {
+public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerHolder> {
 
 
-    private List<Verb> verbs;
+    private List<Category> elements;
     private onRecyclerListener listener;
     private Context context;
-    public VerbRecyclerAdapter(List<Verb> verbs,Context context,onRecyclerListener listener) {
+    private String categoryType;
+    public CategoryRecyclerAdapter(List<Category> elements, Context context,String categoryType, onRecyclerListener listener) {
 
-        this.verbs = verbs;
+        this.elements = elements;
         this.context = context;
         this.listener = listener;
+        this.categoryType = categoryType;
     }
 
     @NonNull
     @Override
-    public VerbRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_holder_table,parent,false);
-        return new VerbRecyclerHolder(view);
+    public CategoryRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_holder_table,parent,false);
+        return new CategoryRecyclerHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VerbRecyclerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryRecyclerHolder holder, int position) {
 
-        holder.bind(verbs.get(position));
+        holder.bind(elements.get(position));
 
         holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.recycler_animation));
 
@@ -61,12 +62,12 @@ public class VerbRecyclerAdapter extends RecyclerView.Adapter<VerbRecyclerAdapte
 
     @Override
     public int getItemCount() {
-        return verbs.size();
+        return elements.size();
     }
 
-    class VerbRecyclerHolder extends ViewHolder {
+    class CategoryRecyclerHolder extends ViewHolder {
 
-        private Verb verb;
+        private Category element;
         private TextView tv_id, tv_verbNativeLang,tv_verbEng;
         private ImageView img_songs;
         private Button btn_example;
@@ -74,7 +75,7 @@ public class VerbRecyclerAdapter extends RecyclerView.Adapter<VerbRecyclerAdapte
         private TextView tv_example_expanded;
         private TextView tvKhtissarNativeLang;
 
-        public VerbRecyclerHolder( View itemView) {
+        public CategoryRecyclerHolder( View itemView) {
             super(itemView);
             tv_id = itemView.findViewById(R.id.holder_verbID);
             tv_verbEng = itemView.findViewById(R.id.holderVerbEnglish);
@@ -87,31 +88,37 @@ public class VerbRecyclerAdapter extends RecyclerView.Adapter<VerbRecyclerAdapte
             layout_expanded.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
         }
 
-        void bind(Verb verb){
-            this.verb = verb;
+        void bind(Category element){
+            this.element = element;
 
-            tv_id.setText(String.valueOf(verb.getVerb_id() + 1));
-            tv_verbEng.setText(verb.getVerb_eng());
-            tv_verbNativeLang.setText(ChoosingNativeLang(verb,tvKhtissarNativeLang));
+            tv_id.setText(String.valueOf(element.getCategoryID() + 1));
+            tv_verbEng.setText(element.getCategoryEng());
+            tv_verbNativeLang.setText(ChoosingNativeLang(element,tvKhtissarNativeLang));
 
-            tv_example_expanded.setText(verb.getVerb_example());
+            tv_example_expanded.setText(element.getCategoryExamples());
             img_songs.setOnClickListener(v -> {
-                String txt = verb.getVerb_eng();
+                String txt = element.getCategoryEng();
                 speech.speak(txt,TextToSpeech.QUEUE_FLUSH,null);
             });
             tv_example_expanded.setVisibility(View.GONE);
-            btn_example.setTextColor(Color.CYAN);
-            btn_example.setOnClickListener(view -> {
-                if(tv_example_expanded.getVisibility() == View.GONE) {
-                    tv_example_expanded.setVisibility(View.VISIBLE);
-                    btn_example.setTextColor(Color.GRAY);
-                } else {
-                    tv_example_expanded.setVisibility(View.GONE);
-                    btn_example.setTextColor(Color.CYAN);
-                }
-                TransitionManager.beginDelayedTransition(layout_expanded,new AutoTransition());
+           if(!categoryType.equals(EnumCategory.SENTENCE.name()) && !categoryType.equals(EnumCategory.IDIOM.name()))
+           {
+               btn_example.setTextColor(Color.CYAN);
+               btn_example.setOnClickListener(view -> {
+                   if(tv_example_expanded.getVisibility() == View.GONE) {
+                       tv_example_expanded.setVisibility(View.VISIBLE);
+                       btn_example.setTextColor(Color.GRAY);
+                   } else {
+                       tv_example_expanded.setVisibility(View.GONE);
+                       btn_example.setTextColor(Color.CYAN);
+                   }
+                   TransitionManager.beginDelayedTransition(layout_expanded,new AutoTransition());
 
-            });
+               });
+           }
+           else {
+               btn_example.setVisibility(View.GONE);
+           }
 
         }
         TextToSpeech speech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
@@ -126,16 +133,16 @@ public class VerbRecyclerAdapter extends RecyclerView.Adapter<VerbRecyclerAdapte
     }
 
     //----- Functions------------
-    private String ChoosingNativeLang(Verb verb , TextView tvKhtissarNativeLang){
+    private String ChoosingNativeLang(Category element , TextView tvKhtissarNativeLang){
         switch (Utils.language) {
             case SPANISH:
                 tvKhtissarNativeLang.setText(AbrLanguage.Sp.toString());
-                return verb.getVerb_sp();
+                return element.getCategorySp();
             case ARABIC:
                 tvKhtissarNativeLang.setText(AbrLanguage.Ar.toString());
-                return verb.getVerb_ar();
+                return element.getCategoryAr();
             default: tvKhtissarNativeLang.setText(AbrLanguage.Fr.toString());
-                return verb.getVerb_fr();
+                return element.getCategoryFr();
         }
     }
     //-------interfaces----------

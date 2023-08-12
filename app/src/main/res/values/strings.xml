@@ -17,9 +17,9 @@
 
     //-------------Category Array table-------------
     <string-array name="categoryOfSentence">
-        <item>category 0</item>
-        <item>category 1</item>
-        <item>category 2</item>
+        <item>enumCategory 0</item>
+        <item>enumCategory 1</item>
+        <item>enumCategory 2</item>
 
     </string-array>
     <!-- Preference Titles -->

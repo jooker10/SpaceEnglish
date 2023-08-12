@@ -6,12 +6,10 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,50 +24,23 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
-import java.util.List;
-
 import anouar.oulhaj.p001.DB.DbAccess;
-import anouar.oulhaj.p001.DB.Phrasal;
-import anouar.oulhaj.p001.DB.Sentence;
-import anouar.oulhaj.p001.DB.Verb;
-import anouar.oulhaj.p001.QuizFrags.ChoicesPhrasalQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.ChoicesSentencesQcmFrag;
-import anouar.oulhaj.p001.QuizFrags.VerbsQuizFragment;
+import anouar.oulhaj.p001.QuizFrags.QuizCategoriesFragment;
 import anouar.oulhaj.p001.databinding.ActivityMainBinding;
 import anouar.oulhaj.p001.navfragments.HomeNavFragment;
 import anouar.oulhaj.p001.navfragments.QuizNavFragment;
-import anouar.oulhaj.p001.navfragments.SettingsFragment;
+import anouar.oulhaj.p001.navfragments.SettingsNavFragment;
 import anouar.oulhaj.p001.navfragments.TablesNavFragments;
 
-public class MainActivity extends AppCompatActivity implements DialogFragment.onDialogPositiveClickListener
-, DialogFragment.onDialogNegativeClickListener, SettingsFragment.setOnChangeThemeListener,
-        HomeNavFragment.HomeFragClickListener, DialogFragment.onDialogNeutralClickListener, MyBottomSheet.SheetItemClickListener,
-        ChoicesSentencesQcmFrag.setOnChoicesFragClickListener, VerbsQuizFragment.OnChoicesFragClickListener, ChoicesPhrasalQcmFrag.setOnChoicesFragClickListener {
+public class MainActivity extends AppCompatActivity implements HomeNavFragment.HomeFragClickListener, QuizCategoriesFragment.QuizCategoryClickListener {
 
     // -------Declaration of variables------------
     private ActivityMainBinding binding;
 
-    private static final int HOME_NAV_INDEX = 0;
-    private static final int TABLE_NAV_INDEX = 1;
-    private static final int QUIZ_NAV_INDEX = 3;
-    private static final int SETTINGS_NAV_INDEX = 4;
-
     private InterstitialAd mInterstitialAd;
 
-    public static int pref_verb_score;
-    public static int pref_sentence_score;
-    public static int pref_phrasal_score;
-
-    public static String MAIN_CATEGORY_SENTENCES = "category 0";
-    public static String TAG_PREF_VERB_SCORE = "verb_score";
-    public static String TAG_PREF_SENTENCE_SCORE = "sentence_score";
-    public static String TAG_PREF_PHRASAL_SCORE = "phrasal_score";
-    public static String TAG_PREF_CHOOSING_LANG = "choosing_lang";
-
-    public static Uri uri_pref;
-
-    private SharedPreferences sp;
-    private SharedPreferences.Editor edit;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
 
     @Override
     protected void onStart() {
@@ -79,11 +50,11 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     @Override
     protected void onStop() {
         super.onStop();
-        edit.putInt(TAG_PREF_VERB_SCORE,pref_verb_score);
-        edit.putInt(TAG_PREF_SENTENCE_SCORE,pref_sentence_score);
-        edit.putInt(TAG_PREF_PHRASAL_SCORE,pref_phrasal_score);
-        edit.putString(TAG_PREF_CHOOSING_LANG,Utils.language.toString());
-        edit.apply();
+        sharedPreferencesEditor.putInt(Constants.TAG_PREF_VERB_SCORE, Constants.pref_verb_score);
+        sharedPreferencesEditor.putInt(Constants.TAG_PREF_SENTENCE_SCORE, Constants.pref_sentence_score);
+        sharedPreferencesEditor.putInt(Constants.TAG_PREF_PHRASAL_SCORE, Constants.pref_phrasal_score);
+        sharedPreferencesEditor.putString(Constants.TAG_PREF_CHOOSING_LANG, Utils.language.toString());
+        sharedPreferencesEditor.apply();
 
     }
 
@@ -94,30 +65,12 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //----- set Lists from DB----------
 
+        // fitch all category from DB
+        fillDataFromDB();
 
-    //_______Max and Authorized Count of verbs,sentences,phrasal-----------------
-        DbAccess db = DbAccess.getInstance(this);
-        db.open_to_read();
-                //----- set List of all----------
-          Utils.verbsList = db.getAllVerbs();
-          Utils.sentencesList = db.getAllSentences();
-          Utils.phrasalsList = db.getAllPhrasal();
-          Utils.nounsList = db.getAllNouns();
-          Utils.adjsList = db.getAllAdjs();
-          Utils.advsList = db.getAllAdverbs();
-          Utils.idiomsList = db.getAllIdioms();
-
-                //---------fin set---------------
-        List<Verb> allVerbs = db.getAllVerbs();
-        List<Sentence> allSentences = db.getAllSentences();
-        List<Phrasal> allPhrasals= db.getAllPhrasal();
-        db.close();
-        Utils.maxVerbsCount = allVerbs.size();
-        Utils.maxSentencesCount = allSentences.size();
-        Utils.maxPhrasalCount = allPhrasals.size();
-
-    // ------------------admob-----------------
+        // ------------------admob-----------------
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -127,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
 
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest,
+        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest,
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
@@ -167,18 +120,17 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
 
 
         //--------pref-------------
-        sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        edit = sp.edit();
-        pref_verb_score = sp.getInt(TAG_PREF_VERB_SCORE,0);
-        pref_sentence_score = sp.getInt(TAG_PREF_SENTENCE_SCORE,0);
-        pref_phrasal_score = sp.getInt(TAG_PREF_PHRASAL_SCORE,0);
-        String choosedLang = sp.getString(TAG_PREF_CHOOSING_LANG,"French");
-        if(choosedLang.equals(Language.SPANISH.toString())) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferencesEditor = sharedPreferences.edit();
+        Constants.pref_verb_score = sharedPreferences.getInt(Constants.TAG_PREF_VERB_SCORE, 0);
+        Constants.pref_sentence_score = sharedPreferences.getInt(Constants.TAG_PREF_SENTENCE_SCORE, 0);
+        Constants.pref_phrasal_score = sharedPreferences.getInt(Constants.TAG_PREF_PHRASAL_SCORE, 0);
+        String choosedLang = sharedPreferences.getString(Constants.TAG_PREF_CHOOSING_LANG, "French");
+        if (choosedLang.equals(Language.SPANISH.toString())) {
             Utils.language = Language.SPANISH;
         } else if (choosedLang.equals(Language.ARABIC.toString())) {
             Utils.language = Language.ARABIC;
-        }
-        else  Utils.language = Language.FRENCH;
+        } else Utils.language = Language.FRENCH;
 
         setBottomNavWithMenu();
 
@@ -187,24 +139,24 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
 
 
         //-----Shared preferences for img profile-------
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor edit = sp.edit();
-        String uriImg = sp.getString("uri_profile","");
-        uri_pref = Uri.parse(uriImg);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        String uriImg = sharedPreferences.getString("uri_profile", "");
+        Constants.uri_pref = Uri.parse(uriImg);
 
     }
 
     //-----------------------for Bottom Navigation view------------------------------
-    private void setBottomNavWithMenu(){
+    private void setBottomNavWithMenu() {
         //----SetMenuItem and His Frag-------------
         setNavFragment(new HomeNavFragment());
-        binding.bottomNav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
+        binding.bottomNav.getMenu().getItem(Constants.HOME_NAV_INDEX).setChecked(true);
         binding.bottomNav.setOnItemSelectedListener(item -> {
 
-            switch(item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.item_nav_home:
-                    setNavFragment(HomeNavFragment.newInstance(pref_verb_score
-                    ,pref_sentence_score,pref_phrasal_score));
+                    setNavFragment(HomeNavFragment.newInstance(Constants.pref_verb_score, Constants.pref_sentence_score, Constants.pref_phrasal_score, Constants.pref_noun_score
+                            , Constants.pref_adj_score, Constants.pref_adv_score, Constants.pref_idiom_score , "no category yet"));
                     return true;
                 case R.id.item_nav_tables:
                     setNavFragment(new TablesNavFragments());
@@ -213,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
                     setNavFragment(new QuizNavFragment());
                     return true;
                 case R.id.item_nav_settings:
-                    setNavFragment(new SettingsFragment());
+                    setNavFragment(new SettingsNavFragment());
                     return true;
             }
             return false;
@@ -221,69 +173,28 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     }
 
     private void ShowBottomSheet() {
-        /*  MyBottomSheet myBottomSheet = MyBottomSheet.newInstance();
 
-          myBottomSheet.show(getSupportFragmentManager(),MyBottomSheet.SHEET_TAG);*/
         MyBottomSheet myBottomSheet = new MyBottomSheet();
-        myBottomSheet.show(getSupportFragmentManager(),MyBottomSheet.SHEET_TAG);
+        myBottomSheet.show(getSupportFragmentManager(), MyBottomSheet.SHEET_TAG);
     }
 
-    private void setNavFragment(Fragment fragment){
+    private void setNavFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.fragment_enter_to_right,R.anim.fragment_exit_to_right,R.anim.fragment_enter_to_right,R.anim.fragment_exit_to_right);
-        ft.replace(R.id.main_frag_container,fragment);
+        ft.setCustomAnimations(R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right, R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right);
+        ft.replace(R.id.main_frag_container, fragment);
         ft.commit();
     }
-
-    @Override
-    public void onDialogPositiveClick(String fr, String eng) {
-       //------Btn to Insert Data to DB----------------
-     /*   DbAccess db = DbAccess.getInstance(this);
-        db.open_to_write();
-        db.InsertVerbs(new Verb(fr,eng));
-        db.close();*/
-    }
-
-    @Override
-    public void onDialogNegativeClick() {
-
-    }
-
-    @Override
-    public void onDialogNeutralClick() {
-
-    }
-
-    @Override
-    public void sheetBtnClick() {
-        Toast.makeText(this, "Button Sheet clicked", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void sheetItemClicked(String str) {
-        Toast.makeText(this, "sheet "+str, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void setScoreClick(int s0,int s1,int s2) {
-
-        HomeNavFragment homeNavFragment = HomeNavFragment.newInstance(s0,s1,s2);
-        setNavFragment(homeNavFragment);
-        binding.bottomNav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
-    }
-
 
 
     @Override
     public void onHomeGetStarted(int index) {
-        if(index == 1){
+        if (index == 1) {
             setNavFragment(new TablesNavFragments());
-            binding.bottomNav.getMenu().getItem(TABLE_NAV_INDEX).setChecked(true);
-        }
-        else {
+            binding.bottomNav.getMenu().getItem(Constants.TABLE_NAV_INDEX).setChecked(true);
+        } else {
             setNavFragment(new QuizNavFragment());
-            binding.bottomNav.getMenu().getItem(QUIZ_NAV_INDEX).setChecked(true);
+            binding.bottomNav.getMenu().getItem(Constants.QUIZ_NAV_INDEX).setChecked(true);
         }
 
     }
@@ -292,28 +203,25 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
     public void onPickImage() {
 
         ImagePicker.with(this)
-                .crop()	    			//Crop image(Optional), Check Customization for more option
-                .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .crop()                    //Crop image(Optional), Check Customization for more option
+                .compress(1024)            //Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)    //Final image resolution will be less than 1080 x 1080(Optional)
                 .start();
 
 
     }
 
-    @Override
-    public void changeTheme(boolean isDarkMode) {
-        binding.bottomNav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
-
-        if(isDarkMode){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-        }
-        else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
-        }
-       // setNavFragment(new SettingsFragment());
-        binding.bottomNav.getMenu().getItem(HOME_NAV_INDEX).setChecked(true);
+    private void fillDataFromDB() {
+        DbAccess db = DbAccess.getInstance(this);
+        db.open_to_read();
+        Utils.verbsList = db.getAllElementsOfCategory(EnumCategory.VERB.name(), true);
+        Utils.sentencesList = db.getAllElementsOfCategory(EnumCategory.SENTENCE.name(), false);
+        Utils.phrasalsList = db.getAllElementsOfCategory(EnumCategory.PHRASAL.name(), true);
+        Utils.nounsList = db.getAllElementsOfCategory(EnumCategory.NOUN.name(), true);
+        Utils.adjsList = db.getAllElementsOfCategory(EnumCategory.ADJECTIVE.name(), true);
+        Utils.advsList = db.getAllElementsOfCategory(EnumCategory.ADVERB.name(), true);
+        Utils.idiomsList = db.getAllElementsOfCategory(EnumCategory.IDIOM.name(), false);
+        db.close();
     }
 
 
@@ -325,14 +233,20 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.on
         super.onActivityResult(requestCode, resultCode, data);
 
         //-------for pick image----------------------
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             //-----editor shared for img profile test------
-            edit.putString("uri_profile", String.valueOf(uri));
-            edit.commit();
+            sharedPreferencesEditor.putString("uri_profile", String.valueOf(uri));
+            sharedPreferencesEditor.commit();
 
-            uri_pref = uri;
+            Constants.uri_pref = uri;
             setNavFragment(new HomeNavFragment());
         }
+    }
+
+    @Override
+    public void setScoreOnClick(int verbScore, int sentenceScore, int phrasalScore, int nounScore, int adjScore, int advScore, int idiomScore,String categoryType) {
+        setNavFragment(HomeNavFragment.newInstance(verbScore, sentenceScore, phrasalScore, nounScore, adjScore, advScore, idiomScore ,categoryType));
+        binding.bottomNav.getMenu().getItem(Constants.HOME_NAV_INDEX).setChecked(true);
     }
 }

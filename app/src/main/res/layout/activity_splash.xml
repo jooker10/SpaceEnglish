@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.414"
-        app:srcCompat="@drawable/icon_app1" />
+        app:srcCompat="@drawable/icon_app_current" />
 
     <TextView
         android:id="@+id/titleSplash"
