@@ -30,6 +30,16 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvCounterDownTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="15"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tvQuizCurrentCounterCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,6 +49,7 @@
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
+
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
@@ -59,7 +70,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/QuizTheQuestionOfCategory"
+                android:id="@+id/tvQuizMainQuestionCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -87,12 +98,19 @@
                 android:id="@+id/quizRadioGroupCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_root_container">
+                android:background="@drawable/shape_root_container"
+                android:padding="8dp">
 
                 <RadioButton
                     android:id="@+id/QuizCategoryOption1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/selector_radio_options"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
                     android:text="option 1"
                     android:textColor="@color/txt_gray_800_100"
                     android:textSize="16sp"
@@ -100,8 +118,14 @@
 
                 <RadioButton
                     android:id="@+id/QuizCategoryOption2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/selector_radio_options"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
                     android:text="option 1"
                     android:textColor="@color/txt_gray_800_100"
                     android:textSize="16sp"
@@ -109,8 +133,15 @@
 
                 <RadioButton
                     android:id="@+id/QuizCategoryOption3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/selector_radio_options"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
                     android:text="option 2"
                     android:textColor="@color/txt_gray_800_100"
                     android:textSize="16sp"

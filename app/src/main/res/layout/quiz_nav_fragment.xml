@@ -7,7 +7,7 @@
     tools:context=".navfragments.QuizNavFragment">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tablayout_quiz"
+        android:id="@+id/quizNavTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabIndicatorColor="@color/blue_500"
@@ -39,8 +39,8 @@
     </com.google.android.material.textfield.TextInputLayout>-->
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager_quiz"
+        android:id="@+id/quizNavPager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tablayout_quiz" />
+        android:layout_below="@id/quizNavTabLayout" />
 </RelativeLayout>

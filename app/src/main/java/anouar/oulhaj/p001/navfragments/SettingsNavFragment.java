@@ -10,40 +10,43 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import anouar.oulhaj.p001.Language;
+import anouar.oulhaj.p001.Constants;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
 public class SettingsNavFragment extends PreferenceFragmentCompat {
 
     private setOnChangeThemeListener listener;
-    private SwitchPreferenceCompat switch_darkMode;
-    private ListPreference listPreference;
+    private SwitchPreferenceCompat switchAppTheme;
+    public static final String KEY_SETTINGS_SWITCH_THEME = "switch_theme";
+    public static final String KEY_SETTINGS_SWITCH_LANGUAGE = "switch_language";
+    public static final String KEY_SETTINGS_BTN_PRIVACY = "btn_privacy";
+    public static final String KEY_SETTINGS_BTN_CONTACTUS = "btn_contactus";
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-        switch_darkMode = (SwitchPreferenceCompat) findPreference("dark_theme");
-        Preference btnPrivacy = findPreference("prefSettingsBtnPrivacy");
-        Preference btnContactEmail = findPreference("prefContactUs");
-        listPreference = (ListPreference) findPreference("languages");
+        switchAppTheme = (SwitchPreferenceCompat) findPreference(KEY_SETTINGS_SWITCH_THEME);
+        Preference btnPrivacy = findPreference(KEY_SETTINGS_BTN_PRIVACY);
+        Preference btnContactEmail = findPreference(KEY_SETTINGS_BTN_CONTACTUS);
+        ListPreference listPreference = (ListPreference) findPreference(KEY_SETTINGS_SWITCH_LANGUAGE);
 
-        listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
-                if(((String)newValue).equals("Arabic")) {
-                    Utils.language = Language.ARABIC;
-                } else if (((String)newValue).equals("Spanish")) {
-                    Utils.language = Language.SPANISH;
+        if (listPreference != null) {
+            listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                String txtValue = String.valueOf(newValue);
+                if(txtValue.equals(Constants.LANGUAGE_NATIVE_ARABIC)) {
+                    Utils.nativeLanguage = Constants.LANGUAGE_NATIVE_ARABIC;
+                } else if (txtValue.equals(Constants.LANGUAGE_NATIVE_SPANISH)) {
+                    Utils.nativeLanguage = Constants.LANGUAGE_NATIVE_SPANISH;
                 }
-                else Utils.language = Language.FRENCH;
+                else Utils.nativeLanguage = Constants.LANGUAGE_NATIVE_FRENCH;
                 return true;
-            }
-        });
+            });
+        }
 
-        switch_darkMode.setOnPreferenceClickListener(preference -> {
-            listener.changeTheme(switch_darkMode.isChecked());
+        switchAppTheme.setOnPreferenceClickListener(preference -> {
+            listener.onChangeTheme(switchAppTheme.isChecked());
             return true;
         });
 
@@ -61,7 +64,7 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
 
 
     public interface setOnChangeThemeListener {
-        void changeTheme(boolean isDarkMode);
+        void onChangeTheme(boolean isDarkMode);
     }
 
     @Override

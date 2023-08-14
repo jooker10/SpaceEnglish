@@ -21,20 +21,10 @@ import anouar.oulhaj.p001.databinding.HomeNavFragmentBinding;
 public class HomeNavFragment extends Fragment {
 
     private HomeNavFragmentBinding binding;
-    // Listener Home
-    private HomeFragClickListener homeListener;
-    SharedPreferences sp;
-    SharedPreferences.Editor edit;
-
-    public static final String ARG_UPDATED_CATEGORY_ANIMATION = "updated_category_animation";
+    private SharedPreferences sharedPreferences;
     private String categoryTypeAnim = "No category set yet";
-    private static final String ARG_CURRENT_VERB_SCORE = "arg_current_verb_score";
-    private static final String ARG_CURRENT_SENTENCE_SCORE = "arg_current_sentence_score";
-    private static final String ARG_CURRENT_PHRASAL_SCORE = "arg_current_phrasal_score";
-    private static final String ARG_CURRENT_NOUN_SCORE = "arg_current_noun_score";
-    private static final String ARG_CURRENT_ADJ_SCORE = "arg_current_adj_score";
-    private static final String ARG_CURRENT_ADV_SCORE = "arg_current_adv_score";
-    private static final String ARG_CURRENT_IDIOM_SCORE = "arg_current_idiom_score";
+    private HomeFragClickListener homeListener;
+    private int verbHomeScore = 12, sentenceHomeScore, phrasalHomeScore, nounHomeScore, adjHomeScore, advHomeScore, idiomHomeScore;
 
 
     @Override
@@ -43,35 +33,34 @@ public class HomeNavFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            categoryTypeAnim = bundle.getString(ARG_UPDATED_CATEGORY_ANIMATION, "no category set yet");
-            Constants.pref_verb_score = Math.max(Constants.pref_verb_score, bundle.getInt(ARG_CURRENT_VERB_SCORE));
-            Constants.pref_sentence_score = Math.max(Constants.pref_sentence_score, bundle.getInt(ARG_CURRENT_SENTENCE_SCORE));
-            Constants.pref_phrasal_score = Math.max(Constants.pref_phrasal_score, bundle.getInt(ARG_CURRENT_PHRASAL_SCORE));
-            Constants.pref_noun_score = Math.max(Constants.pref_noun_score, bundle.getInt(ARG_CURRENT_NOUN_SCORE));
-            Constants.pref_adj_score = Math.max(Constants.pref_adj_score, bundle.getInt(ARG_CURRENT_ADJ_SCORE));
-            Constants.pref_adv_score = Math.max(Constants.pref_adv_score, bundle.getInt(ARG_CURRENT_ADV_SCORE));
-            Constants.pref_idiom_score = Math.max(Constants.pref_idiom_score, bundle.getInt(ARG_CURRENT_IDIOM_SCORE));
+            categoryTypeAnim = bundle.getString(Constants.ARG_UPDATED_CATEGORY_ANIMATION, "no category set yet");
 
-        }
+            verbHomeScore =  bundle.getInt(Constants.ARG_CURRENT_VERB_SCORE,1);
+
+            sentenceHomeScore =  bundle.getInt(Constants.ARG_CURRENT_SENTENCE_SCORE,0);
+            phrasalHomeScore =  bundle.getInt(Constants.ARG_CURRENT_PHRASAL_SCORE,0);
+            nounHomeScore =  bundle.getInt(Constants.ARG_CURRENT_NOUN_SCORE,0);
+            adjHomeScore =  bundle.getInt(Constants.ARG_CURRENT_ADJ_SCORE,0);
+            advHomeScore =  bundle.getInt(Constants.ARG_CURRENT_ADV_SCORE,0);
+            idiomHomeScore =  bundle.getInt(Constants.ARG_CURRENT_IDIOM_SCORE,0);
+            }
 
     }
 
-    public static HomeNavFragment newInstance(int verbScore, int sentenceScore, int phrasalScore, int nounScore
-            , int adjScore, int advScore, int idiomScore, String categoryTypeAnim) {
+
+    public static HomeNavFragment newInstance(int verbUserScore,int sentenceUserScore,int phrasalUserScore,int nounUserScore,int adjUserScore,int advUserScore,int idiomUserScore , String categoryTypeAnim) {
         HomeNavFragment homeNavFragment = new HomeNavFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(ARG_CURRENT_VERB_SCORE, verbScore);
-        bundle.putInt(ARG_CURRENT_SENTENCE_SCORE, sentenceScore);
-        bundle.putInt(ARG_CURRENT_PHRASAL_SCORE, phrasalScore);
-        bundle.putInt(ARG_CURRENT_NOUN_SCORE, nounScore);
-        bundle.putInt(ARG_CURRENT_ADJ_SCORE, adjScore);
-        bundle.putInt(ARG_CURRENT_ADV_SCORE, advScore);
-        bundle.putInt(ARG_CURRENT_IDIOM_SCORE, idiomScore);
-        bundle.putString(ARG_UPDATED_CATEGORY_ANIMATION, categoryTypeAnim);
-
+        bundle.putInt(Constants.ARG_CURRENT_VERB_SCORE,verbUserScore);
+        bundle.putInt(Constants.ARG_CURRENT_SENTENCE_SCORE,sentenceUserScore);
+        bundle.putInt(Constants.ARG_CURRENT_PHRASAL_SCORE,phrasalUserScore);
+        bundle.putInt(Constants.ARG_CURRENT_NOUN_SCORE,nounUserScore);
+        bundle.putInt(Constants.ARG_CURRENT_ADJ_SCORE,adjUserScore);
+        bundle.putInt(Constants.ARG_CURRENT_ADV_SCORE,advUserScore);
+        bundle.putInt(Constants.ARG_CURRENT_IDIOM_SCORE,idiomUserScore);
+        bundle.putString(Constants.ARG_UPDATED_CATEGORY_ANIMATION, categoryTypeAnim);
         homeNavFragment.setArguments(bundle);
         return homeNavFragment;
-
     }
 
     public HomeNavFragment() {
@@ -91,15 +80,11 @@ public class HomeNavFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = HomeNavFragmentBinding.bind(view);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
 
         //------------pick Image for profile-------------------
-        binding.btnHomePickProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                homeListener.onPickImage();
-            }
-        });
+        binding.btnHomePickProfileImage.setOnClickListener(view1 -> homeListener.onPickImage());
 
         if (Constants.uri_pref != null) {
             binding.imgHomeProfile.setImageURI(Constants.uri_pref);
@@ -109,39 +94,25 @@ public class HomeNavFragment extends Fragment {
 
 
         //_____shared preferences---------------------------------------
-        sp = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        edit = sp.edit();
-        String your_user_name = sp.getString("user_name", "User 01");
+        String your_user_name = sharedPreferences.getString("user_name", "User 01");
         binding.TvHomeUserName.setText(your_user_name);
         // set Animation for ui updated
         setAnimationUpdatedScore();
 
-        binding.tvHomeVerbScore.setText(String.valueOf(Constants.pref_verb_score));
-        binding.tvHomeSentenceScore.setText(String.valueOf(Constants.pref_sentence_score));
-        binding.tvHomePhrasalScore.setText(String.valueOf(Constants.pref_phrasal_score));
-        binding.tvHomeNounScore.setText(String.valueOf(Constants.pref_noun_score));
-        binding.tvHomeAdjectiveScore.setText(String.valueOf(Constants.pref_adj_score));
-        binding.tvHomeAdverbScore.setText(String.valueOf(Constants.pref_adv_score));
-        binding.tvHomeIdiomScore.setText(String.valueOf(Constants.pref_idiom_score));
+        binding.tvHomeVerbScore.setText(String.valueOf(verbHomeScore));
+        binding.tvHomeSentenceScore.setText(String.valueOf(sentenceHomeScore));
+        binding.tvHomePhrasalScore.setText(String.valueOf(phrasalHomeScore));
+        binding.tvHomeNounScore.setText(String.valueOf(nounHomeScore));
+        binding.tvHomeAdjectiveScore.setText(String.valueOf(adjHomeScore));
+        binding.tvHomeAdverbScore.setText(String.valueOf(advHomeScore));
+        binding.tvHomeIdiomScore.setText(String.valueOf(idiomHomeScore));
 
-        int totalScore = Constants.pref_verb_score + Constants.pref_sentence_score + Constants.pref_phrasal_score
-                + Constants.pref_noun_score + Constants.pref_adj_score + Constants.pref_adv_score + Constants.pref_idiom_score;
+        int totalScore = verbHomeScore + sentenceHomeScore + phrasalHomeScore + nounHomeScore + adjHomeScore + advHomeScore + idiomHomeScore;
         binding.tvHomeTotalScore.setText(String.valueOf(totalScore));
 
         //---------btn_home_getstarted--------------------------------------
-        binding.btnHomeGoToLearn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                homeListener.onHomeGetStarted(1);
-            }
-        });
-        binding.btnHomeGoToQuiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                homeListener.onHomeGetStarted(3);
-            }
-        });
-
+        binding.btnHomeGoToLearn.setOnClickListener(v -> homeListener.onHomeGetStarted(1));
+        binding.btnHomeGoToQuiz.setOnClickListener(v -> homeListener.onHomeGetStarted(3));
 
     }
 
@@ -149,26 +120,26 @@ public class HomeNavFragment extends Fragment {
     private void setAnimationUpdatedScore() {
         binding.tvHomeTotalScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
         switch (categoryTypeAnim) {
-            case "VERB":
+            case Constants.VERB_NAME:
                 binding.tvHomeVerbScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
                 break;
-            case "SENTENCE":
+            case Constants.SENTENCE_NAME:
                 binding.tvHomeSentenceScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
                 break;
-            case "PHRASAL":
+            case Constants.PHRASAL_NAME:
                 binding.tvHomePhrasalScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
                 break;
-            case "NOUN":
+            case Constants.NOUN_NAME:
                 binding.tvHomeNounScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
 
                 break;
-            case "ADJECTIVE":
+            case Constants.ADJ_NAME:
                 binding.tvHomeAdjectiveScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
                 break;
-            case "ADVERB":
+            case Constants.ADV_NAME:
                 binding.tvHomeAdverbScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
                 break;
-            case "IDIOM":
+            case Constants.IDIOM_NAME:
                 binding.tvHomeIdiomScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
                 break;
         }
@@ -193,5 +164,7 @@ public class HomeNavFragment extends Fragment {
         super.onDetach();
         homeListener = null;
     }
+
+
 
 }

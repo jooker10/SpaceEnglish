@@ -30,4 +30,5 @@
 
     <!-- Checkout activity -->
     <string name="txt_examples">"bla bla bla bla bla bla \nbla bla bla bla bla bla \nbla bla bla bla bla bla \nbla bla bla bla bla bla \nbla bla bla bla bla bla \nbla bla bla bla bla bla \nbla bla bla bla bla bla "</string>
+    <string name="dialogMsgTxt">"bla bla bla bla bla bla bla bla bla bla bla bla bla bla "</string>
 </resources>

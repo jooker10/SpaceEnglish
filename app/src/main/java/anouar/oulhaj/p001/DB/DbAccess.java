@@ -4,13 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.icu.util.IslamicCalendar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-import anouar.oulhaj.p001.EnumCategory;
-import anouar.oulhaj.p001.Utils;
+import anouar.oulhaj.p001.Constants;
 
 public class DbAccess {
 
@@ -77,25 +74,25 @@ public class DbAccess {
     private Cursor selectCursorTable(String categoryType) {
 
         switch (categoryType) {
-            case "VERB":
+            case Constants.VERB_NAME :
                 return sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_VERBS, null);
 
-            case "SENTENCE":
+            case Constants.SENTENCE_NAME:
                 return sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_SENTENSES, null);
 
-            case "PHRASAL":
+            case Constants.PHRASAL_NAME:
                 return sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_PHRASAL, null);
 
-            case "NOUN":
+            case Constants.NOUN_NAME:
                 return sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_NOUNS, null);
 
-            case "ADJECTIVE":
+            case Constants.ADJ_NAME:
                 return sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_ADJECTIVES, null);
 
-            case "ADVERB":
+            case Constants.ADV_NAME:
                 return sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_ADVERBS, null);
 
-            case "IDIOM":
+            case Constants.IDIOM_NAME:
                 return sqLiteDB.rawQuery("SELECT * FROM " + MyDatabase.TABLE_IDIOMS, null);
         }
 

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:elevation="8dp"
+    app:cardBackgroundColor="@color/bg_gray_100_800"
+    app:cardCornerRadius="12dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/imgDialogIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_person_24" />
+
+        <TextView
+            android:id="@+id/tvDialogTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_toRightOf="@id/imgDialogIcon"
+            android:paddingHorizontal="8dp"
+            android:text="Title"
+            android:textColor="@color/blue_500"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDialogVerbMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogTitle"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/dialogMsgTxt"
+            android:textColor="@color/txt_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvDialogSentenceMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogVerbMsg"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/dialogMsgTxt"
+            android:textColor="@color/txt_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvDialogPhrasalMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogSentenceMsg"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/dialogMsgTxt"
+            android:textColor="@color/txt_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvDialogNounMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogPhrasalMsg"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/dialogMsgTxt"
+            android:textColor="@color/txt_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvDialogAdjMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogNounMsg"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/dialogMsgTxt"
+            android:textColor="@color/txt_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvDialogAdvMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogAdjMsg"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/dialogMsgTxt"
+            android:textColor="@color/txt_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvDialogIdiomMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogAdvMsg"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/dialogMsgTxt"
+            android:textColor="@color/txt_color"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnDialogNewQuiz"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogIdiomMsg"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="4dp"
+            android:text="New Quiz"
+            android:textAllCaps="false"
+            android:textColor="@color/blue_500" />
+
+        <Button
+            android:id="@+id/btnDialogSendHome"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDialogIdiomMsg"
+            android:layout_marginHorizontal="4dp"
+            android:layout_toLeftOf="@id/btnDialogNewQuiz"
+            android:text="Send Home"
+            android:textAllCaps="false"
+            android:textColor="@color/blue_500" />
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,6 +1,7 @@
 package anouar.oulhaj.p001.TablesFrags;
 
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import anouar.oulhaj.p001.Adapters.CategoryRecyclerAdapter;
+import anouar.oulhaj.p001.Constants;
 import anouar.oulhaj.p001.DB.Category;
 import anouar.oulhaj.p001.QuizFrags.QuizCategoriesFragment;
 import anouar.oulhaj.p001.R;
@@ -24,10 +27,9 @@ import anouar.oulhaj.p001.Utils;
 public class TableCategoryFragment extends Fragment {
 
     private QuizCategoriesFragment.QuizCategoryClickListener listener;
-    public static String TAG_CATEGORY_TYPE = "category";
     private String categoryType;
     private TextView tvHeadTitleCategory;
-
+    private TextToSpeech speech;
 
 
     public TableCategoryFragment() {
@@ -38,14 +40,14 @@ public class TableCategoryFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if(bundle != null) {
-            categoryType = bundle.getString(TAG_CATEGORY_TYPE,"VERB");
+        if (bundle != null) {
+            categoryType = bundle.getString(Constants.TAG_CATEGORY_TYPE, "Verbs");
         }
     }
 
     public static TableCategoryFragment getInstance(String categoryType) {
         Bundle bundle = new Bundle();
-        bundle.putString(TAG_CATEGORY_TYPE,categoryType);
+        bundle.putString(Constants.TAG_CATEGORY_TYPE, categoryType);
         TableCategoryFragment fragment = new TableCategoryFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -63,12 +65,23 @@ public class TableCategoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        speech = new TextToSpeech(requireActivity(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    speech.setLanguage(Locale.ENGLISH);
+                } else {
+                    // Handle initialization failure if needed.
+                }
+            }
+        });
+
         RecyclerView recycler = view.findViewById(R.id.recyclerTableCategory);
-         tvHeadTitleCategory = view.findViewById(R.id.headTitleForTableCategory);
+        tvHeadTitleCategory = view.findViewById(R.id.headTitleForTableCategory);
 
         ArrayList<Category> elements = selectElementType(categoryType);
 
-        CategoryRecyclerAdapter adapter = new CategoryRecyclerAdapter(elements, requireActivity(),categoryType, new CategoryRecyclerAdapter.onRecyclerListener() {
+        CategoryRecyclerAdapter adapter = new CategoryRecyclerAdapter(elements, requireActivity(), categoryType,speech, new CategoryRecyclerAdapter.onRecyclerListener() {
             @Override
             public void onDataChanged() {
 
@@ -84,38 +97,48 @@ public class TableCategoryFragment extends Fragment {
     private ArrayList<Category> selectElementType(String categoryType) {
         ArrayList<Category> elements = new ArrayList<>();
         switch (categoryType) {
-            case "VERB":
-          elements = Utils.verbsList;
+            case Constants.VERB_NAME:
+                elements = Utils.verbsList;
                 tvHeadTitleCategory.setText("Table of Verbs (" + Utils.verbsList.size() + ")");
                 break;
-            case "SENTENCE":
+            case Constants.SENTENCE_NAME:
                 elements = Utils.sentencesList;
                 tvHeadTitleCategory.setText("Table of Sentence-Phrases (" + Utils.sentencesList.size() + ")");
                 tvHeadTitleCategory.setTextSize(22f);
                 break;
-            case "PHRASAL":
+            case Constants.PHRASAL_NAME:
                 elements = Utils.phrasalsList;
                 tvHeadTitleCategory.setText("Table of Phrasal Verbs (" + Utils.phrasalsList.size() + ")");
                 break;
-            case "NOUN":
+            case Constants.NOUN_NAME:
                 elements = Utils.nounsList;
                 tvHeadTitleCategory.setText("Table of Nouns (" + Utils.nounsList.size() + ")");
                 break;
-            case "ADJECTIVE":
+            case Constants.ADJ_NAME:
                 elements = Utils.adjsList;
                 tvHeadTitleCategory.setText("Table of Adjectives (" + Utils.adjsList.size() + ")");
                 break;
-            case "ADVERB":
+            case Constants.ADV_NAME:
                 elements = Utils.advsList;
                 tvHeadTitleCategory.setText("Table of Adverbs (" + Utils.advsList.size() + ")");
                 break;
-            case "IDIOM":
+            case Constants.IDIOM_NAME:
                 elements = Utils.idiomsList;
                 tvHeadTitleCategory.setText("Table of Idioms (" + Utils.idiomsList.size() + ")");
                 break;
         }
 
-       return elements;
+        return elements;
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Release the TextToSpeech resources when the activity is destroyed.
+        if (speech != null) {
+            speech.stop();
+            speech.shutdown();
+        }
+    }
 }
