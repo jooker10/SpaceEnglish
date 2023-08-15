@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,71 +29,22 @@ import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 import anouar.oulhaj.p001.databinding.RecyclerHolderTableBinding;
 
-public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerHolder> {
+public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerHolder>  implements Filterable {
   RecyclerHolderTableBinding binding;
 
     private List<Category> allElements;
-    private List<Category> filteredElements;
+    private List<Category> filteredElements; // For filtered data
     private Context context;
     private String categoryType;
     private TextToSpeech speech;
-    public CategoryRecyclerAdapter(List<Category> allElements, Context context,String categoryType,TextToSpeech speech) {
+    private CustomFilter customFilter;
+    public CategoryRecyclerAdapter(List<Category> originalElements, Context context,String categoryType,TextToSpeech speech) {
 
-        this.allElements = allElements;
-        this.filteredElements = new ArrayList<>(allElements);
+        this.allElements = originalElements;
         this.context = context;
         this.categoryType = categoryType;
         this.speech = speech;
-    }
-
-    public void filter(String query) {
-        filteredElements.clear();
-        if (query.isEmpty()) {
-            filteredElements.addAll(allElements);
-        } else {
-            query = query.toLowerCase(Locale.getDefault());
-            for (Category category : allElements) {
-                if (category.getCategoryEng().toLowerCase(Locale.getDefault()).contains(query)) {
-                    filteredElements.add(category);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-    public void filterStartedWith(String query) {
-        filteredElements.clear();
-        if (query.isEmpty()) {
-            filteredElements.addAll(allElements);
-        } else {
-            query = query.toLowerCase();
-            for (Category category : allElements) {
-                if (category.getCategoryEng().toLowerCase().startsWith(query)) {
-                    filteredElements.add(category);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-    public void filter2(String query) {
-        filteredElements.clear();
-        if (query.isEmpty()) {
-            filteredElements.addAll(allElements);
-        } else {
-            query = query.toLowerCase();
-            for (Category category : allElements) {
-                if (category.getCategoryEng().toLowerCase().contains(query)) {
-                    filteredElements.add(category);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-
-
-    public void sayHello() {
-        Toast.makeText(context, "Hello from Adapter", Toast.LENGTH_SHORT).show();
+        filteredElements = new ArrayList<>(allElements);
     }
 
     @NonNull
@@ -114,6 +67,47 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
     @Override
     public int getItemCount() {
         return filteredElements.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (customFilter == null) {
+            customFilter = new CustomFilter();
+        }
+        return customFilter;
+    }
+
+    // Custom Filter class
+    private class CustomFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+
+            if (constraint != null && constraint.length() > 0) {
+                List<Category> filteredList = new ArrayList<>();
+
+                for (Category item : allElements) {
+                    // Implement your filter logic here
+                    if (item.getCategoryEng().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredList.add(item);
+                    }
+                }
+
+                filterResults.count = filteredList.size();
+                filterResults.values = filteredList;
+            } else {
+                filterResults.count = allElements.size();
+                filterResults.values = allElements;
+            }
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredElements = (List<Category>) results.values;
+            notifyDataSetChanged();
+        }
     }
 
     class CategoryRecyclerHolder extends ViewHolder {

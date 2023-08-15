@@ -350,8 +350,8 @@ public class MainActivity extends AppCompatActivity implements  OnFragmentNaviga
         // Implement your search logic here
         Toast.makeText(this, "text Submit", Toast.LENGTH_SHORT).show();
         if (mainAdapter != null) {
-            mainAdapter.filterStartedWith(query); // Call the filter method on the adapter
-            mainAdapter.notifyDataSetChanged();
+            /*mainAdapter.filterStartedWith(query); // Call the filter method on the adapter
+            mainAdapter.notifyDataSetChanged();*/
         }
     }
     @Override
@@ -370,17 +370,14 @@ public class MainActivity extends AppCompatActivity implements  OnFragmentNaviga
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Handle search query submission
-              // performSearch(query);
-
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Handle search query text changes
-
-                if (mainAdapter != null) {
-                    mainAdapter.filter2(newText); // Call the filter method on the adapter
+                if(mainAdapter != null) {
+                    mainAdapter.getFilter().filter(newText);
                 }
                 return true;
             }

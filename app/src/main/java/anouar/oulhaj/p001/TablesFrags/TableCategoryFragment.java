@@ -90,9 +90,7 @@ public class TableCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tables_category, container, false);
-        setHasOptionsMenu(true); // Inflate the fragment's menu
-        return view;
+        return inflater.inflate(R.layout.fragment_tables_category, container, false);
     }
 
     @Override
@@ -118,7 +116,7 @@ public class TableCategoryFragment extends Fragment {
          adapter = new CategoryRecyclerAdapter(elements, requireActivity(), categoryType, speech);
 
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-       // recycler.setHasFixedSize(true);
+        recycler.setHasFixedSize(true);
         recycler.setAdapter(adapter);
         navigationListener.onSetAdapterClickListener(adapter);
 
