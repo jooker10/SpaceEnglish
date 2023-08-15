@@ -5,6 +5,7 @@
 
         <EditTextPreference
             app:icon="@drawable/ic_person_24"
+            app:defaultValue="Anouar"
             app:key="user_name"
             app:title="User Name"
             app:useSimpleSummaryProvider="true" />

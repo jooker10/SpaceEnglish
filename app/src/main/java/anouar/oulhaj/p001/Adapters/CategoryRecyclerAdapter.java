@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,24 +30,73 @@ import anouar.oulhaj.p001.databinding.RecyclerHolderTableBinding;
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerHolder> {
   RecyclerHolderTableBinding binding;
 
-    private List<Category> elements;
-    private onRecyclerListener listener;
+    private List<Category> allElements;
+    private List<Category> filteredElements;
     private Context context;
     private String categoryType;
     private TextToSpeech speech;
-    public CategoryRecyclerAdapter(List<Category> elements, Context context,String categoryType,TextToSpeech speech, onRecyclerListener listener) {
+    public CategoryRecyclerAdapter(List<Category> allElements, Context context,String categoryType,TextToSpeech speech) {
 
-        this.elements = elements;
+        this.allElements = allElements;
+        this.filteredElements = new ArrayList<>(allElements);
         this.context = context;
-        this.listener = listener;
         this.categoryType = categoryType;
         this.speech = speech;
+    }
+
+    public void filter(String query) {
+        filteredElements.clear();
+        if (query.isEmpty()) {
+            filteredElements.addAll(allElements);
+        } else {
+            query = query.toLowerCase(Locale.getDefault());
+            for (Category category : allElements) {
+                if (category.getCategoryEng().toLowerCase(Locale.getDefault()).contains(query)) {
+                    filteredElements.add(category);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+    public void filterStartedWith(String query) {
+        filteredElements.clear();
+        if (query.isEmpty()) {
+            filteredElements.addAll(allElements);
+        } else {
+            query = query.toLowerCase();
+            for (Category category : allElements) {
+                if (category.getCategoryEng().toLowerCase().startsWith(query)) {
+                    filteredElements.add(category);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filter2(String query) {
+        filteredElements.clear();
+        if (query.isEmpty()) {
+            filteredElements.addAll(allElements);
+        } else {
+            query = query.toLowerCase();
+            for (Category category : allElements) {
+                if (category.getCategoryEng().toLowerCase().contains(query)) {
+                    filteredElements.add(category);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+
+
+    public void sayHello() {
+        Toast.makeText(context, "Hello from Adapter", Toast.LENGTH_SHORT).show();
     }
 
     @NonNull
     @Override
     public CategoryRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_holder_table,parent,false);
         binding = RecyclerHolderTableBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new CategoryRecyclerHolder(binding.getRoot());
     }
@@ -54,7 +104,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
     @Override
     public void onBindViewHolder(@NonNull CategoryRecyclerHolder holder, int position) {
 
-        holder.bind(elements.get(position));
+        holder.bind(filteredElements.get(position));
 
         holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.recycler_animation));
 
@@ -63,7 +113,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
 
     @Override
     public int getItemCount() {
-        return elements.size();
+        return filteredElements.size();
     }
 
     class CategoryRecyclerHolder extends ViewHolder {
@@ -130,18 +180,5 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
                 return element.getCategoryFr();
         }
     }
-    //-------interfaces----------
-    public interface onRecyclerListener{
-        void onDataChanged();
-    }
-
-    /*TextToSpeech speech = new TextToSpeech(context.getApplicationContext(), new TextToSpeech.OnInitListener() {
-        @Override
-        public void onInit(int status) {
-            if(status == TextToSpeech.SUCCESS){
-                speech.setLanguage(Locale.ENGLISH);
-            }
-        }
-    });*/
 
 }

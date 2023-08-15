@@ -1,11 +1,18 @@
 package anouar.oulhaj.p001.TablesFrags;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,21 +26,46 @@ import java.util.Locale;
 import anouar.oulhaj.p001.Adapters.CategoryRecyclerAdapter;
 import anouar.oulhaj.p001.Constants;
 import anouar.oulhaj.p001.DB.Category;
-import anouar.oulhaj.p001.QuizFrags.QuizCategoriesFragment;
+import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
 
 public class TableCategoryFragment extends Fragment {
 
-    private QuizCategoriesFragment.QuizCategoryClickListener listener;
+    private onFilterRecycleClickListener filterListener;
+    private OnFragmentNavigationListener navigationListener;
     private String categoryType;
     private TextView tvHeadTitleCategory;
     private TextToSpeech speech;
+    CategoryRecyclerAdapter adapter;
+   // SearchView searchView;
 
 
     public TableCategoryFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof onFilterRecycleClickListener) {
+            filterListener = (onFilterRecycleClickListener) context;
+        }
+        if(context instanceof OnFragmentNavigationListener){
+            navigationListener = (OnFragmentNavigationListener) context;
+        }
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (filterListener != null)
+            filterListener = null;
+        if (navigationListener != null)
+            navigationListener = null;
+
     }
 
     @Override
@@ -58,7 +90,9 @@ public class TableCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tables_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_tables_category, container, false);
+        setHasOptionsMenu(true); // Inflate the fragment's menu
+        return view;
     }
 
     @Override
@@ -81,16 +115,14 @@ public class TableCategoryFragment extends Fragment {
 
         ArrayList<Category> elements = selectElementType(categoryType);
 
-        CategoryRecyclerAdapter adapter = new CategoryRecyclerAdapter(elements, requireActivity(), categoryType,speech, new CategoryRecyclerAdapter.onRecyclerListener() {
-            @Override
-            public void onDataChanged() {
-
-            }
-        });
+         adapter = new CategoryRecyclerAdapter(elements, requireActivity(), categoryType, speech);
 
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recycler.setHasFixedSize(true);
+       // recycler.setHasFixedSize(true);
         recycler.setAdapter(adapter);
+        navigationListener.onSetAdapterClickListener(adapter);
+
+        tvHeadTitleCategory.setOnClickListener(view1 -> filterListener.onFilterClick(adapter));
     }
 
 
@@ -98,32 +130,32 @@ public class TableCategoryFragment extends Fragment {
         ArrayList<Category> elements = new ArrayList<>();
         switch (categoryType) {
             case Constants.VERB_NAME:
-                elements = Utils.verbsList;
+                elements = new ArrayList<>(Utils.verbsList);
                 tvHeadTitleCategory.setText("Table of Verbs (" + Utils.verbsList.size() + ")");
                 break;
             case Constants.SENTENCE_NAME:
-                elements = Utils.sentencesList;
+                elements = new ArrayList<>(Utils.sentencesList);
                 tvHeadTitleCategory.setText("Table of Sentence-Phrases (" + Utils.sentencesList.size() + ")");
                 tvHeadTitleCategory.setTextSize(22f);
                 break;
             case Constants.PHRASAL_NAME:
-                elements = Utils.phrasalsList;
+                elements = new ArrayList<>(Utils.phrasalsList);
                 tvHeadTitleCategory.setText("Table of Phrasal Verbs (" + Utils.phrasalsList.size() + ")");
                 break;
             case Constants.NOUN_NAME:
-                elements = Utils.nounsList;
+                elements = new ArrayList<>(Utils.nounsList);
                 tvHeadTitleCategory.setText("Table of Nouns (" + Utils.nounsList.size() + ")");
                 break;
             case Constants.ADJ_NAME:
-                elements = Utils.adjsList;
+                elements = new ArrayList<>(Utils.adjsList);
                 tvHeadTitleCategory.setText("Table of Adjectives (" + Utils.adjsList.size() + ")");
                 break;
             case Constants.ADV_NAME:
-                elements = Utils.advsList;
+                elements = new ArrayList<>(Utils.advsList);
                 tvHeadTitleCategory.setText("Table of Adverbs (" + Utils.advsList.size() + ")");
                 break;
             case Constants.IDIOM_NAME:
-                elements = Utils.idiomsList;
+                elements = new ArrayList<>(Utils.idiomsList);
                 tvHeadTitleCategory.setText("Table of Idioms (" + Utils.idiomsList.size() + ")");
                 break;
         }
@@ -140,5 +172,9 @@ public class TableCategoryFragment extends Fragment {
             speech.stop();
             speech.shutdown();
         }
+    }
+
+    public interface onFilterRecycleClickListener {
+        void onFilterClick(CategoryRecyclerAdapter adapter);
     }
 }

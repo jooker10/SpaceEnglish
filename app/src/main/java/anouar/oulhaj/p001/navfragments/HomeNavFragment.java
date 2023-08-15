@@ -1,12 +1,17 @@
 package anouar.oulhaj.p001.navfragments;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +19,9 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import anouar.oulhaj.p001.Constants;
+import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001.Utils;
 import anouar.oulhaj.p001.databinding.HomeNavFragmentBinding;
 
 
@@ -24,8 +31,9 @@ public class HomeNavFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String categoryTypeAnim = "No category set yet";
     private HomeFragClickListener homeListener;
+    private OnFragmentNavigationListener navigationListener;
     private int verbHomeScore = 12, sentenceHomeScore, phrasalHomeScore, nounHomeScore, adjHomeScore, advHomeScore, idiomHomeScore;
-
+    private boolean isFlipped = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +88,15 @@ public class HomeNavFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = HomeNavFragmentBinding.bind(view);
+        Utils.nameOfFragmentSearchView = "Home";
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
+        animCardViewScores();
+
+        // Notify the MainActivity that this fragment is selected
+        if (navigationListener != null) {
+            navigationListener.onFragmentSelected(this);
+        }
 
 
         //------------pick Image for profile-------------------
@@ -115,6 +131,35 @@ public class HomeNavFragment extends Fragment {
         binding.btnHomeGoToQuiz.setOnClickListener(v -> homeListener.onHomeGetStarted(3));
 
     }
+
+    private void animCardViewScores1() {
+        // animation
+        final Animation pageFlipAnimation = AnimationUtils.loadAnimation(requireActivity(), R.anim.flip_in);
+        binding.viewFlipper.setInAnimation(pageFlipAnimation);
+        binding.viewFlipper.setOutAnimation(pageFlipAnimation);
+        binding.viewFlipper.showNext();
+    }
+    private void animCardViewScores() {
+        Thread animationThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Animation pageFlipAnimation = AnimationUtils.loadAnimation(requireActivity(), R.anim.flip_in);
+
+                // You need to update the UI elements in the UI thread, so use runOnUiThread
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.viewFlipper.setInAnimation(pageFlipAnimation);
+                        binding.viewFlipper.setOutAnimation(pageFlipAnimation);
+                        binding.viewFlipper.showNext();
+                    }
+                });
+            }
+        });
+
+        animationThread.start();
+    }
+
 
     //--Functions----
     private void setAnimationUpdatedScore() {
@@ -157,12 +202,16 @@ public class HomeNavFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof HomeFragClickListener)
             homeListener = (HomeFragClickListener) context;
+        if(context instanceof OnFragmentNavigationListener)
+            navigationListener = (OnFragmentNavigationListener) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         homeListener = null;
+        if(navigationListener != null)
+            navigationListener = null;
     }
 
 

@@ -15,6 +15,8 @@ public class Utils {
     public static String nativeLanguage = "French";
 
     public static boolean isThemeNight = false;
+    public static boolean isSearchAdded = false;
+    public static String nameOfFragmentSearchView = "Home";
 
 
     public static ArrayList<Category> verbsList = new ArrayList<>();

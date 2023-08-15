@@ -11,12 +11,14 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import anouar.oulhaj.p001.Constants;
+import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.Utils;
 
 public class SettingsNavFragment extends PreferenceFragmentCompat {
 
     private setOnChangeThemeListener listener;
+    private OnFragmentNavigationListener navigationListener;
     private SwitchPreferenceCompat switchAppTheme;
     public static final String KEY_SETTINGS_SWITCH_THEME = "switch_theme";
     public static final String KEY_SETTINGS_SWITCH_LANGUAGE = "switch_language";
@@ -27,12 +29,21 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
+        Utils.nameOfFragmentSearchView = "Settings";
+
+
         switchAppTheme = (SwitchPreferenceCompat) findPreference(KEY_SETTINGS_SWITCH_THEME);
         Preference btnPrivacy = findPreference(KEY_SETTINGS_BTN_PRIVACY);
         Preference btnContactEmail = findPreference(KEY_SETTINGS_BTN_CONTACTUS);
         ListPreference listPreference = (ListPreference) findPreference(KEY_SETTINGS_SWITCH_LANGUAGE);
 
+        // Notify the MainActivity that this fragment is selected
+        if (navigationListener != null) {
+            navigationListener.onFragmentSelected(this);
+        }
+
         if (listPreference != null) {
+
             listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
                 String txtValue = String.valueOf(newValue);
                 if(txtValue.equals(Constants.LANGUAGE_NATIVE_ARABIC)) {
@@ -72,6 +83,9 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
         super.onAttach(context);
         if (context instanceof setOnChangeThemeListener)
             listener = (setOnChangeThemeListener) context;
+        if(context instanceof OnFragmentNavigationListener) {
+            navigationListener = (OnFragmentNavigationListener) context;
+        }
     }
 
     @Override

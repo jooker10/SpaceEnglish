@@ -1,5 +1,6 @@
 package anouar.oulhaj.p001.navfragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +16,34 @@ import java.util.ArrayList;
 
 import anouar.oulhaj.p001.Adapters.PagerAdapter;
 import anouar.oulhaj.p001.Constants;
+import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.TablesFrags.TableCategoryFragment;
+import anouar.oulhaj.p001.Utils;
 import anouar.oulhaj.p001.databinding.TableContainerFragmentBinding;
 
 
 public class TablesNavFragments extends Fragment {
 
     TableContainerFragmentBinding binding;
+    private OnFragmentNavigationListener navigationListener;
 
     public TablesNavFragments() {
         // Required empty public constructor
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentNavigationListener) {
+            navigationListener = (OnFragmentNavigationListener) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(navigationListener != null)
+            navigationListener = null;
     }
 
 
@@ -39,8 +57,14 @@ public class TablesNavFragments extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = TableContainerFragmentBinding.bind(view);
-        //---------Setup tabs with pagers---------------------------------
 
+        Utils.nameOfFragmentSearchView = "Tables";
+
+        //---------Setup tabs with pagers---------------------------------
+        // Notify the MainActivity that this fragment is selected
+        if (navigationListener != null) {
+            navigationListener.onFragmentSelected(this);
+        }
 
 
         ArrayList<Fragment> fragments = new ArrayList<>();
