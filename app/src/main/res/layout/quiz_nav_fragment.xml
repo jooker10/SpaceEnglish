@@ -1,46 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".navfragments.QuizNavFragment">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/quizNavTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/blue_500"
-        app:tabSelectedTextColor="@color/blue_500"
-        app:tabMode="auto">
-    </com.google.android.material.tabs.TabLayout>
-
-   <!-- <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/choices_spinner_category"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:layout_below="@id/tablayout_quiz"
-        android:hint="Choose a enumCategory"
-        android:textColorHint="@color/gray_500">
-
-        <AutoCompleteTextView
-            android:id="@+id/autoTxt_nav_Sentence_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            android:maxLines="1"
-            android:text="enumCategory 0"
-            android:textColor="@color/btn_txt_color"
-            android:textSize="16sp"
-            android:textStyle="italic|bold" />
-
-    </com.google.android.material.textfield.TextInputLayout>-->
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/quizNavPager2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/quizNavTabLayout" />
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="anouar.oulhaj.p001.InfoQuizFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

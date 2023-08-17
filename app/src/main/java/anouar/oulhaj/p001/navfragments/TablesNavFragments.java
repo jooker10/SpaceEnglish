@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,11 +18,11 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 
 import anouar.oulhaj.p001.Adapters.PagerAdapter;
-import anouar.oulhaj.p001.Constants;
+import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.TablesFrags.TableCategoryFragment;
-import anouar.oulhaj.p001.Utils;
+import anouar.oulhaj.p001._Main.Utils;
 import anouar.oulhaj.p001.WaitFragment;
 import anouar.oulhaj.p001.databinding.TableContainerFragmentBinding;
 
@@ -127,12 +126,13 @@ public class TablesNavFragments extends Fragment {
                     break;
                 case 6:
                     // Set the icon and title
-                    tabIcon.setImageResource(R.drawable.ic_lock_24);
+                   /* tabIcon.setImageResource(R.drawable.ic_lock_24);
                     tabTitle.setText("Idioms");
 
-                    tab.setCustomView(customTabView);
+                    tab.setCustomView(customTabView);*/
                    /* tab.setIcon(R.drawable.ic_lock_24);
-                    tab.setText(Constants.IDIOM_NAME);*/
+                    ;*/
+                    tab.setText(Constants.IDIOM_NAME);
                     break;
 
             }

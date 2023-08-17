@@ -7,9 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import anouar.oulhaj.p001.Constants;
-import anouar.oulhaj.p001.Utils;
-import anouar.oulhaj.p001._Main.MainActivity;
+import anouar.oulhaj.p001._Main.Constants;
+import anouar.oulhaj.p001._Main.Utils;
 
 public class DbAccess {
 

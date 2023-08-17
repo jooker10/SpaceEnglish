@@ -24,13 +24,11 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
-import anouar.oulhaj.p001.Constants;
+import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.DB.Category;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.Utils;
-import anouar.oulhaj.p001.databinding.RecyclerHolderTableBinding;
+import anouar.oulhaj.p001._Main.Utils;
 
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerHolder>  implements Filterable {
  // RecyclerHolderTableBinding binding;

@@ -1,4 +1,4 @@
-package anouar.oulhaj.p001;
+package anouar.oulhaj.p001._Main;
 
 import android.net.Uri;
 
@@ -25,6 +25,7 @@ public class Constants {
     public static final String TAG_PREF_ADV_SCORE = "adv_score";
     public static final String TAG_PREF_IDIOM_SCORE = "idiom_score";
     public static final String ARG_IS_THEME_DARK_MODE = "is_dark_mode";
+    public static final String ARG_STR_URI_PROFILE_IMG = "uri_profile";
 
 
     // no Final constants
@@ -36,7 +37,7 @@ public class Constants {
     public static int pref_adv_score = 0;
     public static int pref_idiom_score = 0;
 
-    public static Uri uri_pref;
+    public static String UriPref = "";
 
     public static final String KEY_SETTINGS_SWITCH_THEME = "switch_theme";
     public static final String KEY_SETTINGS_SWITCH_LANGUAGE = "switch_language";

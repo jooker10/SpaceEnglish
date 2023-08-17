@@ -25,7 +25,6 @@ import com.google.android.gms.ads.rewarded.RewardedAd;
 
 import anouar.oulhaj.p001.Adapters.CategoryRecyclerAdapter;
 import anouar.oulhaj.p001.AdsManager;
-import anouar.oulhaj.p001.Constants;
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DialogQuizFragment;
 import anouar.oulhaj.p001.InfoQuizFragment;
@@ -33,13 +32,9 @@ import anouar.oulhaj.p001.MyBottomSheet;
 import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.QuizFrags.QuizCategoriesFragment;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.SharedPrefsManager;
-import anouar.oulhaj.p001.TablesFrags.TableCategoryFragment;
-import anouar.oulhaj.p001.Utils;
 import anouar.oulhaj.p001.databinding.ActivityMainBinding;
 import anouar.oulhaj.p001.navfragments.HomeNavFragment;
 import anouar.oulhaj.p001.navfragments.QuizNavFragment;
-import anouar.oulhaj.p001.navfragments.QuizNavFragmentReplace;
 import anouar.oulhaj.p001.navfragments.SettingsNavFragment;
 import anouar.oulhaj.p001.navfragments.TablesNavFragments;
 import anouar.oulhaj.p001.onVideoBuyClickListener;
@@ -57,9 +52,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
     private RewardedAd rewardedAd;
     private InterstitialAd mInterstitialAd; // for addMob
     private CategoryRecyclerAdapter mainAdapter;
-    private Fragment activeFragment;
+   // private Fragment activeFragment;
     private SearchView searchView;
-   // MenuItem searchItem;
     private Menu mainMenu;
     private MyBottomSheet myBottomSheet;
 
@@ -71,18 +65,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        dbAccess = DbAccess.getInstance(this);
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        sharedPrefsManager = new SharedPrefsManager(this,sharedPreferences);
         adRequest = new AdRequest.Builder().build();
         adsManager = new AdsManager(this,adRequest,rewardedAd,mInterstitialAd);
-        dbAccess = DbAccess.getInstance(this);
+
+        sharedPrefsManager.getSharedPreferencesData(); // Retrieve some data from SharedPreferences
+        dbAccess.fillDataFromDBWithSomeInitialization(); // retrieve all category from DB
         adsManager.LoadAdsMob();
         adsManager.LoadVideoAds();
-
-        sharedPrefsManager = new SharedPrefsManager(this,sharedPreferences);
-        dbAccess.fillDataFromDBWithSomeInitialization(); // retrieve all category from DB
-
-        activeFragment = new HomeNavFragment();
         Utils.FillCorrectIncorrectAnswerResponses(); // answer of speakEnglish
-        sharedPrefsManager.getSharedPreferencesData(); // Retrieve some data from SharedPreferences
 
         binding.mainNavFab.setOnClickListener(view -> {
 
@@ -92,19 +85,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
         );
 
         setBottomNavWithMenu();
-       // if(searchItem != null) searchItem.setVisible(false);
 
         binding.bottomNav.setOnItemReselectedListener(item -> {
-            if(item.getItemId() == R.id.item_nav_home)
-                Toast.makeText(MainActivity.this, "Already selected", Toast.LENGTH_SHORT).show();
-            if(item.getItemId() == R.id.item_nav_quiz)
-                Toast.makeText(MainActivity.this, "Already selected", Toast.LENGTH_SHORT).show();
-            if(item.getItemId() == R.id.item_nav_tables)
-                Toast.makeText(MainActivity.this, "Already selected", Toast.LENGTH_SHORT).show();
-            if(item.getItemId() == R.id.item_nav_settings)
-                Toast.makeText(MainActivity.this, "Already selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Already selected", Toast.LENGTH_SHORT).show();
         });
-
 
     }
 
@@ -118,22 +102,18 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
 
             switch (item.getItemId()) {
                 case R.id.item_nav_home:
-                    activeFragment = new HomeNavFragment();
                     setNavFragment(HomeNavFragment.newInstance(verbMainScore,sentenceMainScore,phrasalMainScore,nounMainScore
                             ,adjMainScore,advMainScore,idiomMainScore,"no category yet"));
                     return true;
                 case R.id.item_nav_tables:
-                    activeFragment = new TableCategoryFragment();
                     setNavFragment(new TablesNavFragments());
                     return true;
                 case R.id.item_nav_quiz:
-                    activeFragment = new QuizNavFragmentReplace();
                    // setNavFragment(new QuizNavFragment());
-                    setNavFragment(new QuizNavFragmentReplace());
+                    setNavFragment(new QuizNavFragment());
                     return true;
                 case R.id.item_nav_settings:
                     adsManager.showAdsMob();
-                    activeFragment = new SettingsNavFragment();
                     setNavFragment(new SettingsNavFragment());
                     return true;
             }
@@ -326,13 +306,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
 
         //-------for pick image----------------------
         if (resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            //-----editor shared for img profile test------
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("uri_profile", String.valueOf(uri));
-            editor.apply();
 
-            Constants.uri_pref = uri;
+                Utils.uriProfile = data.getData();
             setNavFragment(new HomeNavFragment());
         }
     }

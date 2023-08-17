@@ -1,10 +1,7 @@
-package anouar.oulhaj.p001;
+package anouar.oulhaj.p001._Main;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-
-import anouar.oulhaj.p001._Main.MainActivity;
 
 public class SharedPrefsManager {
 
@@ -16,10 +13,8 @@ public class SharedPrefsManager {
         this.sharedPreferences = sharedPreferences;
     }
     public void getSharedPreferencesData() {
-        sharedPreferences = activity.getPreferences(MainActivity.MODE_PRIVATE);
 
-        String uriImg = sharedPreferences.getString("uri_profile", "");
-        Constants.uri_pref = Uri.parse(uriImg);
+        Utils.uriProfile = Uri.parse(sharedPreferences.getString(Constants.ARG_STR_URI_PROFILE_IMG, ""));
 
         // The Categories main scores displayed in HomeNavFragment
         activity.verbMainScore = sharedPreferences.getInt(Constants.TAG_PREF_VERB_SCORE,0);
@@ -65,6 +60,8 @@ public class SharedPrefsManager {
 
         editor.putString(Constants.TAG_NATIVE_LANGUAGE,Utils.nativeLanguage); // set preferences of current Native Language
         editor.putBoolean(Constants.ARG_IS_THEME_DARK_MODE , Utils.isThemeNight); //set the Theme Mode
+
+        editor.putString(Constants.ARG_STR_URI_PROFILE_IMG,Utils.uriProfile.toString());
 
         editor.apply();
     }

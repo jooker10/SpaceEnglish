@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager;
 
 import java.util.Objects;
 
+import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001._Main.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {

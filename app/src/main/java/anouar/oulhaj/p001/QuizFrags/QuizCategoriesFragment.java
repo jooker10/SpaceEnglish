@@ -24,13 +24,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
-import anouar.oulhaj.p001.Constants;
+import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.CountDownTimerHelper;
 import anouar.oulhaj.p001.DB.Category;
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.Question;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.Utils;
+import anouar.oulhaj.p001._Main.Utils;
 import anouar.oulhaj.p001.databinding.QuizCategoriesFragmentBinding;
 
 

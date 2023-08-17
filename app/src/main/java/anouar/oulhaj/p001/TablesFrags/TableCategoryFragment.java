@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import anouar.oulhaj.p001.Adapters.CategoryRecyclerAdapter;
-import anouar.oulhaj.p001.Constants;
+import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.DB.Category;
 import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.Utils;
+import anouar.oulhaj.p001._Main.Utils;
 
 
 public class TableCategoryFragment extends Fragment {

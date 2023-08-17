@@ -21,7 +21,9 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
+import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001._Main.MainActivity;
+import anouar.oulhaj.p001._Main.Utils;
 
 public class AdsManager {
     private MainActivity activity;

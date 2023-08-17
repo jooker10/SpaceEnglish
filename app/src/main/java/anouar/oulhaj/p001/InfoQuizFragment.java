@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import anouar.oulhaj.p001.QuizFrags.QuizCategoriesFragment;
+import anouar.oulhaj.p001._Main.Constants;
 
 
 public class InfoQuizFragment extends Fragment {

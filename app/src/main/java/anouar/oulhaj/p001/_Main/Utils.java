@@ -1,4 +1,6 @@
-package anouar.oulhaj.p001;
+package anouar.oulhaj.p001._Main;
+
+import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -49,6 +51,7 @@ public class Utils {
     public static int allAdjsNumber;
     public static int allAdvsNumber;
     public static int allIdiomsNumber;
+    public static Uri uriProfile;
 
 
     public static void FillCorrectIncorrectAnswerResponses(){

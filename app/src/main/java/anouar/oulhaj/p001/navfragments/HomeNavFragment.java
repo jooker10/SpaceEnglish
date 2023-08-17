@@ -1,27 +1,25 @@
 package anouar.oulhaj.p001.navfragments;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import anouar.oulhaj.p001.Constants;
+import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001.Utils;
+import anouar.oulhaj.p001._Main.Utils;
 import anouar.oulhaj.p001.databinding.HomeNavFragmentBinding;
 
 
@@ -34,7 +32,7 @@ public class HomeNavFragment extends Fragment {
     private OnFragmentNavigationListener navigationListener;
     private int verbHomeScore = 12, sentenceHomeScore, phrasalHomeScore, nounHomeScore, adjHomeScore, advHomeScore, idiomHomeScore;
     private boolean isFlipped = false;
-
+    private Uri uriProfile;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +76,6 @@ public class HomeNavFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-       // binding = HomeNavFragmentBinding.inflate(getParentFragment().getLayoutInflater(),container,false);
         return inflater.inflate(R.layout.home_nav_fragment, container, false);
     }
 
@@ -98,16 +93,14 @@ public class HomeNavFragment extends Fragment {
             navigationListener.onFragmentSelected(this);
         }
 
-
         //------------pick Image for profile-------------------
         binding.btnHomePickProfileImage.setOnClickListener(view1 -> homeListener.onPickImage());
 
-        if (Constants.uri_pref != null) {
-            binding.imgHomeProfile.setImageURI(Constants.uri_pref);
+        if (Utils.uriProfile != null && !Utils.uriProfile.toString().isEmpty() ) {
+            binding.imgHomeProfile.setImageURI(Utils.uriProfile);
         } else {
             binding.imgHomeProfile.setImageResource(R.drawable.ic_person_24);
         }
-
 
         //_____shared preferences---------------------------------------
         String yourUserName = sharedPreferences.getString(Constants.ARG_USER_NAME, "User 01");
