@@ -6,12 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.util.Objects;
 
 import anouar.oulhaj.p001.databinding.DialogQuizScoresBinding;
 
@@ -156,7 +153,7 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
         binding.btnDialogNewQuiz.setOnClickListener(v -> {
 
             //  Toast.makeText(requireActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
-            newQuizClickListener.onDialogNewQuizClick();
+            newQuizClickListener.onSheetDialogNewQuizClick();
             dismiss();
         });
         binding.btnDialogSendHome.setOnClickListener(view1 -> {
@@ -172,7 +169,7 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
     }
 
     public interface onDialogNewQuizClickListener {
-        void onDialogNewQuizClick();
+        void onSheetDialogNewQuizClick();
     }
 
     public interface onDialogNeutralClickListener {

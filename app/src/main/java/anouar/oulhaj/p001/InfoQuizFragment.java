@@ -6,19 +6,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.util.Objects;
 
 import anouar.oulhaj.p001.QuizFrags.QuizCategoriesFragment;
-import anouar.oulhaj.p001.navfragments.SettingsNavFragment;
 
 
 public class InfoQuizFragment extends Fragment {
@@ -31,7 +25,7 @@ public class InfoQuizFragment extends Fragment {
     Button btnAdvs;
     Button btnIdioms;
 
-    setFragmentToReplaceOnClickListener listener;
+    OnsetFragmentToReplaceClickListener listener;
 
 
     public InfoQuizFragment() {
@@ -41,8 +35,8 @@ public class InfoQuizFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof setFragmentToReplaceOnClickListener){
-            listener = (setFragmentToReplaceOnClickListener) context;
+        if(context instanceof OnsetFragmentToReplaceClickListener){
+            listener = (OnsetFragmentToReplaceClickListener) context;
         }
     }
 
@@ -74,56 +68,56 @@ public class InfoQuizFragment extends Fragment {
         btnVerbs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.Replace(QuizCategoriesFragment.getInstance(Constants.VERB_NAME));
+                listener.onReplaceInfoToQuiz(QuizCategoriesFragment.getInstance(Constants.VERB_NAME));
             }
         });
         btnVerbs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.Replace(QuizCategoriesFragment.getInstance(Constants.VERB_NAME));
+                listener.onReplaceInfoToQuiz(QuizCategoriesFragment.getInstance(Constants.VERB_NAME));
             }
         });
         btnSentences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.Replace(QuizCategoriesFragment.getInstance(Constants.SENTENCE_NAME));
+                listener.onReplaceInfoToQuiz(QuizCategoriesFragment.getInstance(Constants.SENTENCE_NAME));
             }
         });
         btnPhrasals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.Replace(QuizCategoriesFragment.getInstance(Constants.PHRASAL_NAME));
+                listener.onReplaceInfoToQuiz(QuizCategoriesFragment.getInstance(Constants.PHRASAL_NAME));
             }
         });
         btnNouns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.Replace(QuizCategoriesFragment.getInstance(Constants.NOUN_NAME));
+                listener.onReplaceInfoToQuiz(QuizCategoriesFragment.getInstance(Constants.NOUN_NAME));
             }
         });
         btnAdjs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.Replace(QuizCategoriesFragment.getInstance(Constants.ADJ_NAME));
+                listener.onReplaceInfoToQuiz(QuizCategoriesFragment.getInstance(Constants.ADJ_NAME));
             }
         });
         btnAdvs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.Replace(QuizCategoriesFragment.getInstance(Constants.ADV_NAME));
+                listener.onReplaceInfoToQuiz(QuizCategoriesFragment.getInstance(Constants.ADV_NAME));
             }
         });
         btnIdioms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.Replace(QuizCategoriesFragment.getInstance(Constants.IDIOM_NAME));
+                listener.onReplaceInfoToQuiz(QuizCategoriesFragment.getInstance(Constants.IDIOM_NAME));
             }
         });
     }
 
 
-    public interface setFragmentToReplaceOnClickListener{
-        void Replace(Fragment fragment);
+    public interface OnsetFragmentToReplaceClickListener {
+        void onReplaceInfoToQuiz(Fragment fragment);
     }
 
 }

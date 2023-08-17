@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="._Main.MainActivity"
             android:exported="true" />
 
         <meta-data

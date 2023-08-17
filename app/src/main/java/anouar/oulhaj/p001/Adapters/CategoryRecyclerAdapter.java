@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.zip.Inflater;
 
 import anouar.oulhaj.p001.Constants;
 import anouar.oulhaj.p001.DB.Category;
@@ -30,28 +33,30 @@ import anouar.oulhaj.p001.Utils;
 import anouar.oulhaj.p001.databinding.RecyclerHolderTableBinding;
 
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerHolder>  implements Filterable {
-  RecyclerHolderTableBinding binding;
+ // RecyclerHolderTableBinding binding;
 
-    private List<Category> allElements;
+    private List<Category> originalElements;
     private List<Category> filteredElements; // For filtered data
     private Context context;
     private String categoryType;
     private TextToSpeech speech;
-    private CustomFilter customFilter;
+    public  int index = 0;
+   private CustomFilter customFilter;
     public CategoryRecyclerAdapter(List<Category> originalElements, Context context,String categoryType,TextToSpeech speech) {
 
-        this.allElements = originalElements;
+        this.originalElements = originalElements;
         this.context = context;
         this.categoryType = categoryType;
         this.speech = speech;
-        filteredElements = new ArrayList<>(allElements);
+
+      filteredElements = new ArrayList<>(originalElements);
     }
 
     @NonNull
     @Override
     public CategoryRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = RecyclerHolderTableBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        return new CategoryRecyclerHolder(binding.getRoot());
+        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_holder_table,parent,false);
+        return new CategoryRecyclerHolder(view);
     }
 
     @Override
@@ -86,7 +91,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
             if (constraint != null && constraint.length() > 0) {
                 List<Category> filteredList = new ArrayList<>();
 
-                for (Category item : allElements) {
+                for (Category item : originalElements) {
                     // Implement your filter logic here
                     if (item.getCategoryEng().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filteredList.add(item);
@@ -96,8 +101,8 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
                 filterResults.count = filteredList.size();
                 filterResults.values = filteredList;
             } else {
-                filterResults.count = allElements.size();
-                filterResults.values = allElements;
+                filterResults.count = originalElements.size();
+                filterResults.values = originalElements;
             }
 
             return filterResults;
@@ -113,23 +118,39 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
     class CategoryRecyclerHolder extends ViewHolder {
 
         private Category category;
+        private TextView holderVerbId;
+        private TextView holderVerbEnglish;
+        private TextView holderVerbNativeLang;
+        private TextView tvExpandedExamples;
+        private LinearLayout linearLayoutExpanded;
+        private ImageView imgSongs;
+        private Button btnExampleExpanded;
+        private TextView tvFlagNativeLang;
 
 
         public CategoryRecyclerHolder( View itemView) {
             super(itemView);
-           // binding = RecyclerHolderTableBinding.bind(itemView);
-            binding.linearLayoutExpanded.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
+           holderVerbId = itemView.findViewById(R.id.holderVerbId);
+           holderVerbEnglish = itemView.findViewById(R.id.holderVerbEnglish);
+            holderVerbNativeLang = itemView.findViewById(R.id.holderVerbNativeLang);
+            tvExpandedExamples = itemView.findViewById(R.id.tvExpandedExamples);
+            linearLayoutExpanded = itemView.findViewById(R.id.linearLayoutExpanded);
+            imgSongs = itemView.findViewById(R.id.imgSongs);
+            btnExampleExpanded = itemView.findViewById(R.id.btnExampleExpanded);
+            tvFlagNativeLang = itemView.findViewById(R.id.tvFlagNativeLang);
+
+            linearLayoutExpanded.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
         }
 
         void bind(Category category){
             this.category = category;
+             index ++;
+            holderVerbId.setText(String.valueOf(category.getCategoryID() + 1));  // changed
+            holderVerbEnglish.setText(category.getCategoryEng());
+            holderVerbNativeLang.setText(ChoosingNativeLang(category,    tvFlagNativeLang));
 
-            binding.holderVerbId.setText(String.valueOf(category.getCategoryID() + 1));
-            binding.holderVerbEnglish.setText(category.getCategoryEng());
-            binding.holderVerbNativeLang.setText(ChoosingNativeLang(category,    binding.tvFlagNativeLang));
-
-            binding.tvExpandedExamples.setText(category.getCategoryExamples());
-            binding.imgSongs.setOnClickListener(v -> {
+            tvExpandedExamples.setText(category.getCategoryExamples());
+            imgSongs.setOnClickListener(v -> {
                 String txt = category.getCategoryEng();
                 if (speech != null) {
                     Toast.makeText(v.getContext(), txt, Toast.LENGTH_SHORT).show();
@@ -137,24 +158,24 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
                 }
                //-------speech
             });
-            binding.tvExpandedExamples.setVisibility(View.GONE);
+            tvExpandedExamples.setVisibility(View.GONE);
            if(!categoryType.equals(Constants.SENTENCE_NAME) && !categoryType.equals(Constants.IDIOM_NAME))
            {
-               binding.btnExampleExpanded.setTextColor(Color.CYAN);
-               binding.btnExampleExpanded.setOnClickListener(view -> {
-                   if(   binding.tvExpandedExamples.getVisibility() == View.GONE) {
-                       binding.tvExpandedExamples.setVisibility(View.VISIBLE);
-                       binding.btnExampleExpanded.setTextColor(Color.GRAY);
+               btnExampleExpanded.setTextColor(Color.CYAN);
+               btnExampleExpanded.setOnClickListener(view -> {
+                   if(   tvExpandedExamples.getVisibility() == View.GONE) {
+                       tvExpandedExamples.setVisibility(View.VISIBLE);
+                       btnExampleExpanded.setTextColor(Color.GRAY);
                    } else {
-                       binding.tvExpandedExamples.setVisibility(View.GONE);
-                       binding.btnExampleExpanded.setTextColor(Color.CYAN);
+                       tvExpandedExamples.setVisibility(View.GONE);
+                       btnExampleExpanded.setTextColor(Color.CYAN);
                    }
-                   TransitionManager.beginDelayedTransition(   binding.linearLayoutExpanded,new AutoTransition());
+                   TransitionManager.beginDelayedTransition(linearLayoutExpanded,new AutoTransition());
 
                });
            }
            else {
-               binding.btnExampleExpanded.setVisibility(View.GONE);
+               btnExampleExpanded.setVisibility(View.GONE);
            }
 
         }

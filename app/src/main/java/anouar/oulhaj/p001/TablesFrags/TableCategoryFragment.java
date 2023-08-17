@@ -4,15 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -118,9 +112,9 @@ public class TableCategoryFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.setHasFixedSize(true);
         recycler.setAdapter(adapter);
-        navigationListener.onSetAdapterClickListener(adapter);
+        navigationListener.onSetAdapterClick(adapter);
 
-        tvHeadTitleCategory.setOnClickListener(view1 -> filterListener.onFilterClick(adapter));
+       // tvHeadTitleCategory.setOnClickListener(view1 -> filterListener.onFilterClick(adapter));
     }
 
 
@@ -129,6 +123,7 @@ public class TableCategoryFragment extends Fragment {
         switch (categoryType) {
             case Constants.VERB_NAME:
                 elements = new ArrayList<>(Utils.verbsList);
+
                 tvHeadTitleCategory.setText("Table of Verbs (" + Utils.verbsList.size() + ")");
                 break;
             case Constants.SENTENCE_NAME:

@@ -13,8 +13,16 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- BackGround color. -->
         <item name="android:navigationBarColor">@color/bottom_nav_bg_color</item>
+        <item name="toolbarStyle">@style/ToolbarStyle</item>
         <!-- Customize your theme here. -->
 
+    </style>
+
+    <style name="ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:titleTextColor">@color/blue_700</item>
+        <item name="android:backgroundTint">@color/gray_400</item>
+
+        <!-- Add more attributes as needed -->
     </style>
 
 

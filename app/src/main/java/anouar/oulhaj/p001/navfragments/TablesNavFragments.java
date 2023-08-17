@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -20,6 +24,7 @@ import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
 import anouar.oulhaj.p001.TablesFrags.TableCategoryFragment;
 import anouar.oulhaj.p001.Utils;
+import anouar.oulhaj.p001.WaitFragment;
 import anouar.oulhaj.p001.databinding.TableContainerFragmentBinding;
 
 
@@ -66,7 +71,7 @@ public class TablesNavFragments extends Fragment {
             navigationListener.onFragmentSelected(this);
         }
 
-
+         boolean isIdiomsUnlocked = false;
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(TableCategoryFragment.getInstance(Constants.VERB_NAME));
         fragments.add(TableCategoryFragment.getInstance(Constants.SENTENCE_NAME));
@@ -74,18 +79,33 @@ public class TablesNavFragments extends Fragment {
         fragments.add(TableCategoryFragment.getInstance(Constants.NOUN_NAME));
         fragments.add(TableCategoryFragment.getInstance(Constants.ADJ_NAME));
         fragments.add(TableCategoryFragment.getInstance(Constants.ADV_NAME));
+        if(isIdiomsUnlocked)
         fragments.add(TableCategoryFragment.getInstance(Constants.IDIOM_NAME));
+        else
+            fragments.add(new WaitFragment());
 
         PagerAdapter pagerAdapter = new PagerAdapter(requireActivity(), fragments);
         binding.tableNavPager2.setAdapter(pagerAdapter);
 
+
         setUpTabsWithPagers();
+
+
     }
 
     //------Functions----------
+    // Function to change the fragment associated with a specific tab
+    private void changeFragmentForTab(int tabIndex, Fragment newFragment) {
+        FragmentStateAdapter adapter = (FragmentStateAdapter) binding.tableNavPager2.getAdapter();
+        if (adapter != null) {
+            adapter.notifyItemRemoved(1);
+        }
+    }
     private void setUpTabsWithPagers(){
         new TabLayoutMediator(binding.tableNavTabLayout, binding.tableNavPager2, (tab, position) -> {
-
+            View customTabView = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_tab_layout, null);
+            ImageView tabIcon = customTabView.findViewById(R.id.tab_idioms_img);
+            TextView tabTitle = customTabView.findViewById(R.id.tab_idioms_title);
             switch (position) {
                 case 0:
                     tab.setText(Constants.VERB_NAME);
@@ -106,10 +126,17 @@ public class TablesNavFragments extends Fragment {
                     tab.setText(Constants.ADV_NAME);
                     break;
                 case 6:
-                    tab.setText(Constants.IDIOM_NAME);
+                    // Set the icon and title
+                    tabIcon.setImageResource(R.drawable.ic_lock_24);
+                    tabTitle.setText("Idioms");
+
+                    tab.setCustomView(customTabView);
+                   /* tab.setIcon(R.drawable.ic_lock_24);
+                    tab.setText(Constants.IDIOM_NAME);*/
                     break;
 
             }
+
 
         }).attach();
     }

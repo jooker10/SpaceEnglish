@@ -110,8 +110,8 @@ public class HomeNavFragment extends Fragment {
 
 
         //_____shared preferences---------------------------------------
-        String your_user_name = sharedPreferences.getString("user_name", "User 01");
-        binding.TvHomeUserName.setText(your_user_name);
+        String yourUserName = sharedPreferences.getString(Constants.ARG_USER_NAME, "User 01");
+        binding.TvHomeUserName.setText(yourUserName);
         // set Animation for ui updated
         setAnimationUpdatedScore();
 
@@ -126,19 +126,13 @@ public class HomeNavFragment extends Fragment {
         int totalScore = verbHomeScore + sentenceHomeScore + phrasalHomeScore + nounHomeScore + adjHomeScore + advHomeScore + idiomHomeScore;
         binding.tvHomeTotalScore.setText(String.valueOf(totalScore));
 
-        //---------btn_home_getstarted--------------------------------------
+        //---------btn_home_get started--------------------------------------
         binding.btnHomeGoToLearn.setOnClickListener(v -> homeListener.onHomeGetStarted(1));
         binding.btnHomeGoToQuiz.setOnClickListener(v -> homeListener.onHomeGetStarted(3));
 
     }
 
-    private void animCardViewScores1() {
-        // animation
-        final Animation pageFlipAnimation = AnimationUtils.loadAnimation(requireActivity(), R.anim.flip_in);
-        binding.viewFlipper.setInAnimation(pageFlipAnimation);
-        binding.viewFlipper.setOutAnimation(pageFlipAnimation);
-        binding.viewFlipper.showNext();
-    }
+
     private void animCardViewScores() {
         Thread animationThread = new Thread(new Runnable() {
             @Override

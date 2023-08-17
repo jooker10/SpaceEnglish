@@ -23,25 +23,10 @@ import anouar.oulhaj.p001.QuizFrags.SheetBuyingFragment;
 
 public class MyBottomSheet extends BottomSheetDialogFragment {
 
-    private SheetItemClickListener sheetListener;
     public static final String SHEET_TAG = "sheet";
     //----------- Instance-------------
     public static MyBottomSheet newInstance() {
         return new MyBottomSheet();
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if(context instanceof SheetItemClickListener){
-            sheetListener = (SheetItemClickListener) context;
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        sheetListener = null;
     }
 
     @Nullable
@@ -95,10 +80,7 @@ public class MyBottomSheet extends BottomSheetDialogFragment {
 
     }
 
-    public interface SheetItemClickListener {
-        void sheetBtnClick();
-        void sheetItemClicked(String str);
-    }
+
     private void setVideoBuyFragment(Fragment fragment){
 
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();

@@ -9,6 +9,7 @@ public class Utils {
 
     //---for saving img url test--------
     public static String imgUrl = "";
+    //public static String  userName = ""
 
     //------ the main qst in native language----------
     public static String txtMainQuestionNative;
@@ -32,6 +33,23 @@ public class Utils {
 
 
     public static int maxQuestionsOfQuiz = 10;
+
+    public static int allowedVerbsNumber = 100;
+    public static int allowedPhrasalsNumber = 50;
+    public static int allowedSentencesNumber = 50;
+    public static int allowedNounsNumber = 50;
+    public static int allowedAdjsNumber = 50;
+    public static int allowedAdvsNumber = 50;
+    public static int allowedIdiomsNumber = 50;
+
+    public static int allVerbsNumber;
+    public static int allPhrasalsNumber;
+    public static int allSentencesNumber;
+    public static int allNounsNumber;
+    public static int allAdjsNumber;
+    public static int allAdvsNumber;
+    public static int allIdiomsNumber;
+
 
     public static void FillCorrectIncorrectAnswerResponses(){
         Utils.phrasesCorrectAnswers.add("Fantastic! You've got it right!");

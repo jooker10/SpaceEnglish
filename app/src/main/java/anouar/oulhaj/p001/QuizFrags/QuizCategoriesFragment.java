@@ -225,7 +225,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
         categoryScores.put(categoryType, userScore);
 
-        listener.setScoreOnClick(
+        listener.onSetScoreClick(
                 categoryScores.get(Constants.VERB_NAME),
                 categoryScores.get(Constants.SENTENCE_NAME),
                 categoryScores.get(Constants.PHRASAL_NAME),
@@ -290,7 +290,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
     //-------------------------------Listener-------------------------------------------------------
     public interface QuizCategoryClickListener {
-        void setScoreOnClick(int verbScore, int sentenceScore, int phrasalScore, int nounScore, int adjScore, int advScore, int idiomScore, String categoryType);
+        void onSetScoreClick(int verbScore, int sentenceScore, int phrasalScore, int nounScore, int adjScore, int advScore, int idiomScore, String categoryType);
     }
 
     @Override

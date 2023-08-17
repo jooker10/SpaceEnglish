@@ -9,6 +9,9 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,71 +33,198 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 verbs!?"
-                android:textColor="@color/txt_color"
-                android:textSize="16sp" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_margin="8dp"
-                android:padding="4dp"
-                android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:background="@color/bg_gray_100_800"
-            android:gravity="center_vertical">
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:text="Add 10 sentences!?"
-                android:textColor="@color/txt_color"
-                android:textSize="16sp" />
-
-            <Button
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_margin="8dp"
-                android:padding="4dp"
-                android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:background="@color/bg_gray_100_800"
-            android:gravity="center_vertical">
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
                 android:text="Add 10 phrasal verbs !?"
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
+                android:id="@+id/btnVideoVerbs"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:text="Watch a video"
+                android:textColor="@color/btn_txt_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@color/bg_gray_100_800"
+            android:gravity="center_vertical">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="Add 5 sentences!?"
+                android:textColor="@color/txt_color"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnVideoSentences"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:text="Watch a video"
+                android:textColor="@color/btn_txt_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@color/bg_gray_100_800"
+            android:gravity="center_vertical">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="Add 5 phrasals!?"
+                android:textColor="@color/txt_color"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnVideoPhrasals"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:text="Watch a video"
+                android:textColor="@color/btn_txt_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="8dp"
+            android:background="@color/bg_gray_100_800"
+            android:gravity="center_vertical">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="Add 5 Nouns  !?"
+                android:textColor="@color/txt_color"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnVideoNouns"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:text="Watch a video"
+                android:textColor="@color/btn_txt_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="8dp"
+            android:background="@color/bg_gray_100_800"
+            android:gravity="center_vertical">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="Add 5 Adjectives !?"
+                android:textColor="@color/txt_color"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnVideoAdjs"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:text="Watch a video"
+                android:textColor="@color/btn_txt_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="8dp"
+            android:background="@color/bg_gray_100_800"
+            android:gravity="center_vertical">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="Add 5 Adverbs !?"
+                android:textColor="@color/txt_color"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnVideoAdvs"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:text="Watch a video"
+                android:textColor="@color/btn_txt_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="8dp"
+            android:background="@color/bg_gray_100_800"
+            android:gravity="center_vertical">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="Add 5 Idioms !?"
+                android:textColor="@color/txt_color"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnVideoIdoms"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,4 +238,6 @@
 
 
     </LinearLayout>
+
+    </ScrollView>
 </androidx.cardview.widget.CardView>

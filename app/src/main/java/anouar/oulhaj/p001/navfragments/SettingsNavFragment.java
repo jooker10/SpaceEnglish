@@ -20,10 +20,7 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
     private setOnChangeThemeListener listener;
     private OnFragmentNavigationListener navigationListener;
     private SwitchPreferenceCompat switchAppTheme;
-    public static final String KEY_SETTINGS_SWITCH_THEME = "switch_theme";
-    public static final String KEY_SETTINGS_SWITCH_LANGUAGE = "switch_language";
-    public static final String KEY_SETTINGS_BTN_PRIVACY = "btn_privacy";
-    public static final String KEY_SETTINGS_BTN_CONTACTUS = "btn_contactus";
+
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -32,10 +29,10 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
         Utils.nameOfFragmentSearchView = "Settings";
 
 
-        switchAppTheme = (SwitchPreferenceCompat) findPreference(KEY_SETTINGS_SWITCH_THEME);
-        Preference btnPrivacy = findPreference(KEY_SETTINGS_BTN_PRIVACY);
-        Preference btnContactEmail = findPreference(KEY_SETTINGS_BTN_CONTACTUS);
-        ListPreference listPreference = (ListPreference) findPreference(KEY_SETTINGS_SWITCH_LANGUAGE);
+        switchAppTheme = (SwitchPreferenceCompat) findPreference(Constants.KEY_SETTINGS_SWITCH_THEME);
+        Preference btnPrivacy = findPreference(Constants.KEY_SETTINGS_BTN_PRIVACY);
+        Preference btnContactEmail = findPreference(Constants.KEY_SETTINGS_BTN_CONTACTUS);
+        ListPreference listPreference = (ListPreference) findPreference(Constants.KEY_SETTINGS_SWITCH_LANGUAGE);
 
         // Notify the MainActivity that this fragment is selected
         if (navigationListener != null) {

@@ -38,6 +38,11 @@ public class Constants {
 
     public static Uri uri_pref;
 
+    public static final String KEY_SETTINGS_SWITCH_THEME = "switch_theme";
+    public static final String KEY_SETTINGS_SWITCH_LANGUAGE = "switch_language";
+    public static final String KEY_SETTINGS_BTN_PRIVACY = "btn_privacy";
+    public static final String KEY_SETTINGS_BTN_CONTACTUS = "btn_contactus";
+
     //--------------------------------------Home Frag-----------------------------------
     public static final String ARG_CURRENT_VERB_SCORE = "arg_current_verb_score";
     public static final String ARG_CURRENT_SENTENCE_SCORE = "arg_current_sentence_score";
@@ -46,6 +51,14 @@ public class Constants {
     public static final String ARG_CURRENT_ADJ_SCORE = "arg_current_adj_score";
     public static final String ARG_CURRENT_ADV_SCORE = "arg_current_adv_score";
     public static final String ARG_CURRENT_IDIOM_SCORE = "arg_current_idiom_score";
+
+    public static final String ARG_ALLOWED_VERBS_NUMBER = "arg_allowed_verbs_number";
+    public static final String ARG_ALLOWED_SENTENCES_NUMBER = "arg_allowed_sentences_number";
+    public static final String ARG_ALLOWED_PHRASALS_NUMBER = "arg_allowed_phrasals_number";
+    public static final String ARG_ALLOWED_NOUNS_NUMBER = "arg_allowed_nouns_number";
+    public static final String ARG_ALLOWED_ADJS_NUMBER = "arg_allowed_adjs_number";
+    public static final String ARG_ALLOWED_ADVS_NUMBER = "arg_allowed_advs_number";
+    public static final String ARG_ALLOWED_IDIOMS_NUMBER = "arg_allowed_idioms_number";
 
     public static final String ARG_UPDATED_CATEGORY_ANIMATION = "updated_category_animation";
 
@@ -66,7 +79,7 @@ public class Constants {
     public static final int ADV_INDEX = 5;
     public static final int IDIOM_INDEX = 6;
 
-
+   public static final String ARG_USER_NAME = "user_name";
 
 
 }
