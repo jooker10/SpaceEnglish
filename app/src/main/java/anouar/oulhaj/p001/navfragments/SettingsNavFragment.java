@@ -52,9 +52,11 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
                 return true;
             });
         }
+        switchAppTheme.setChecked(Utils.isThemeNight);
 
         switchAppTheme.setOnPreferenceClickListener(preference -> {
-            listener.onChangeTheme(switchAppTheme.isChecked());
+            Utils.isThemeNight = switchAppTheme.isChecked();
+            listener.onChangeTheme(Utils.isThemeNight);
             return true;
         });
 

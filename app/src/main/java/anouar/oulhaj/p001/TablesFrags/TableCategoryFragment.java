@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import anouar.oulhaj.p001.Adapters.CategoryRecyclerAdapter;
+import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.DB.Category;
 import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
-import anouar.oulhaj.p001._Main.Utils;
 
 
 public class TableCategoryFragment extends Fragment {
@@ -33,6 +33,7 @@ public class TableCategoryFragment extends Fragment {
     private TextView tvHeadTitleCategory;
     private TextToSpeech speech;
     CategoryRecyclerAdapter adapter;
+    DbAccess dbAccess;
    // SearchView searchView;
 
 
@@ -91,71 +92,26 @@ public class TableCategoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        speech = new TextToSpeech(requireActivity(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    speech.setLanguage(Locale.ENGLISH);
-                } else {
-                    // Handle initialization failure if needed.
-                }
+        tvHeadTitleCategory = view.findViewById(R.id.headTitleForTableCategory);
+        RecyclerView recycler = view.findViewById(R.id.recyclerTableCategory);
+        dbAccess = DbAccess.getInstance(requireActivity());
+        speech = new TextToSpeech(requireActivity(), status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                speech.setLanguage(Locale.ENGLISH);
             }
         });
 
-        RecyclerView recycler = view.findViewById(R.id.recyclerTableCategory);
-        tvHeadTitleCategory = view.findViewById(R.id.headTitleForTableCategory);
-
-        ArrayList<Category> elements = selectElementType(categoryType);
+        ArrayList<Category> elements = dbAccess.getRequiredElementsList(categoryType,tvHeadTitleCategory);
 
          adapter = new CategoryRecyclerAdapter(elements, requireActivity(), categoryType, speech);
 
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
         recycler.setHasFixedSize(true);
         recycler.setAdapter(adapter);
         navigationListener.onSetAdapterClick(adapter);
 
        // tvHeadTitleCategory.setOnClickListener(view1 -> filterListener.onFilterClick(adapter));
     }
-
-
-    private ArrayList<Category> selectElementType(String categoryType) {
-        ArrayList<Category> elements = new ArrayList<>();
-        switch (categoryType) {
-            case Constants.VERB_NAME:
-                elements = new ArrayList<>(Utils.verbsList);
-
-                tvHeadTitleCategory.setText("Table of Verbs (" + Utils.verbsList.size() + ")");
-                break;
-            case Constants.SENTENCE_NAME:
-                elements = new ArrayList<>(Utils.sentencesList);
-                tvHeadTitleCategory.setText("Table of Sentence-Phrases (" + Utils.sentencesList.size() + ")");
-                tvHeadTitleCategory.setTextSize(22f);
-                break;
-            case Constants.PHRASAL_NAME:
-                elements = new ArrayList<>(Utils.phrasalsList);
-                tvHeadTitleCategory.setText("Table of Phrasal Verbs (" + Utils.phrasalsList.size() + ")");
-                break;
-            case Constants.NOUN_NAME:
-                elements = new ArrayList<>(Utils.nounsList);
-                tvHeadTitleCategory.setText("Table of Nouns (" + Utils.nounsList.size() + ")");
-                break;
-            case Constants.ADJ_NAME:
-                elements = new ArrayList<>(Utils.adjsList);
-                tvHeadTitleCategory.setText("Table of Adjectives (" + Utils.adjsList.size() + ")");
-                break;
-            case Constants.ADV_NAME:
-                elements = new ArrayList<>(Utils.advsList);
-                tvHeadTitleCategory.setText("Table of Adverbs (" + Utils.advsList.size() + ")");
-                break;
-            case Constants.IDIOM_NAME:
-                elements = new ArrayList<>(Utils.idiomsList);
-                tvHeadTitleCategory.setText("Table of Idioms (" + Utils.idiomsList.size() + ")");
-                break;
-        }
-
-        return elements;
-    }
-
 
     @Override
     public void onDestroy() {

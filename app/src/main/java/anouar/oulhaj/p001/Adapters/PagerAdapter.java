@@ -14,6 +14,7 @@ public class PagerAdapter extends FragmentStateAdapter {
     public PagerAdapter(@NonNull FragmentActivity fragmentActivity,ArrayList<Fragment> fragments) {
         super(fragmentActivity);
         this.fragments = fragments;
+
     }
 
     @NonNull

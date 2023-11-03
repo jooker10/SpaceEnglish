@@ -2,6 +2,7 @@ package anouar.oulhaj.p001;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,16 +67,16 @@ public class MyBottomSheet extends BottomSheetDialogFragment {
         radioVideo.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
                 setVideoBuyFragment(new SheetVideoFragment());
-              //  radioVideo.setTextColor(getResources().getColor(R.color.blue_500));
+               radioVideo.setTextColor(Color.WHITE);
             }
-           // else { radioVideo.setTextColor(getResources().getColor(R.color.gray_600));}
+            else { radioVideo.setTextColor(getResources().getColor(R.color.gray_600));}
         });
         radioBuy.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
                 setVideoBuyFragment(new SheetBuyingFragment());
-               // radioBuy.setTextColor(getResources().getColor(R.color.blue_500));
+                radioBuy.setTextColor(Color.WHITE);
             }
-            //else {radioBuy.setTextColor(getResources().getColor(R.color.gray_600));}
+            else {radioBuy.setTextColor(getResources().getColor(R.color.gray_600));}
         });
 
     }

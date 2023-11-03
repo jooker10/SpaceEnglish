@@ -3,35 +3,33 @@ package anouar.oulhaj.p001._Main;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import androidx.appcompat.widget.SearchView;
-
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.MobileAds;
 
 import anouar.oulhaj.p001.Adapters.CategoryRecyclerAdapter;
 import anouar.oulhaj.p001.AdsManager;
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.DialogQuizFragment;
-import anouar.oulhaj.p001.InfoQuizFragment;
 import anouar.oulhaj.p001.MyBottomSheet;
 import anouar.oulhaj.p001.OnFragmentNavigationListener;
+import anouar.oulhaj.p001.QuizFrags.InfoQuizFragment;
 import anouar.oulhaj.p001.QuizFrags.QuizCategoriesFragment;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001.SoundManager;
 import anouar.oulhaj.p001.databinding.ActivityMainBinding;
 import anouar.oulhaj.p001.navfragments.HomeNavFragment;
 import anouar.oulhaj.p001.navfragments.QuizNavFragment;
@@ -39,8 +37,8 @@ import anouar.oulhaj.p001.navfragments.SettingsNavFragment;
 import anouar.oulhaj.p001.navfragments.TablesNavFragments;
 import anouar.oulhaj.p001.onVideoBuyClickListener;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentNavigationListener,HomeNavFragment.HomeFragClickListener, QuizCategoriesFragment.QuizCategoryClickListener,
-        onVideoBuyClickListener,SettingsNavFragment.setOnChangeThemeListener, InfoQuizFragment.OnsetFragmentToReplaceClickListener, DialogQuizFragment.onDialogSendHomeClickListener, DialogQuizFragment.onDialogNewQuizClickListener {
+public class MainActivity extends AppCompatActivity implements OnFragmentNavigationListener, HomeNavFragment.HomeFragClickListener, QuizCategoriesFragment.QuizCategoryClickListener,
+        onVideoBuyClickListener, SettingsNavFragment.setOnChangeThemeListener, InfoQuizFragment.OnsetFragmentToReplaceClickListener, DialogQuizFragment.onDialogSendHomeClickListener, DialogQuizFragment.onDialogNewQuizClickListener {
 
     // -------Declaration of variables------------
     private ActivityMainBinding binding;
@@ -48,16 +46,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
     private SharedPrefsManager sharedPrefsManager;
     private SharedPreferences sharedPreferences;
     private AdsManager adsManager;
-    private AdRequest adRequest;
-    private RewardedAd rewardedAd;
-    private InterstitialAd mInterstitialAd; // for addMob
     private CategoryRecyclerAdapter mainAdapter;
-   // private Fragment activeFragment;
     private SearchView searchView;
     private Menu mainMenu;
     private MyBottomSheet myBottomSheet;
+    private SoundManager soundManager;
 
-    public  int verbMainScore,sentenceMainScore,phrasalMainScore,nounMainScore,adjMainScore,advMainScore,idiomMainScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,51 +59,59 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        dbAccess = DbAccess.getInstance(this);
-        sharedPreferences = getPreferences(MODE_PRIVATE);
-        sharedPrefsManager = new SharedPrefsManager(this,sharedPreferences);
-        adRequest = new AdRequest.Builder().build();
-        adsManager = new AdsManager(this,adRequest,rewardedAd,mInterstitialAd);
+        setSupportActionBar(binding.customToolbar);
+        soundManager = new SoundManager(this);
 
+        initialiseAllAdsType();  //all ads loading
+        dbAccess = DbAccess.getInstance(this);
+        dbAccess.getDBListCategorySize(); // get Total size of each category
+
+        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_FILE_NAME, MODE_PRIVATE);
+        sharedPrefsManager = new SharedPrefsManager(this, sharedPreferences);
         sharedPrefsManager.getSharedPreferencesData(); // Retrieve some data from SharedPreferences
-        dbAccess.fillDataFromDBWithSomeInitialization(); // retrieve all category from DB
-        adsManager.LoadAdsMob();
-        adsManager.LoadVideoAds();
+
         Utils.FillCorrectIncorrectAnswerResponses(); // answer of speakEnglish
 
-        binding.mainNavFab.setOnClickListener(view -> {
-
-                    ShowBottomSheet();
-
-                }
+        binding.mainNavFab.setOnClickListener(view -> ShowBottomSheet()
         );
 
         setBottomNavWithMenu();
 
-        binding.bottomNav.setOnItemReselectedListener(item -> {
-            Toast.makeText(MainActivity.this, "Already selected", Toast.LENGTH_SHORT).show();
-        });
+        binding.bottomNav.setOnItemReselectedListener(item -> Toast.makeText(MainActivity.this, "Already selected", Toast.LENGTH_SHORT).show());
+
 
     }
 
+    private void initialiseAllAdsType() {
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adsManager = new AdsManager(this, adRequest);
+        MobileAds.initialize(this);
+        adsManager.LoadAdsMob();
+        adsManager.LoadVideoAds();
+    }
+
+
     //-----------------------for Bottom Navigation view------------------------------
     private void setBottomNavWithMenu() {
+        binding.bottomNav.getMenu().findItem(R.id.item_nav_home).setIcon(R.drawable.selector_home_nav_change_icon);
+        binding.bottomNav.getMenu().findItem(R.id.item_nav_tables).setIcon(R.drawable.selector_table_nav_change_icon);
+        binding.bottomNav.getMenu().findItem(R.id.item_nav_quiz).setIcon(R.drawable.selector_quiz_nav_change_icon);
+        binding.bottomNav.getMenu().findItem(R.id.item_nav_settings).setIcon(R.drawable.selector_settings_nav_change_icon);
+
         //----SetMenuItem and His Frag-------------
-        setNavFragment(HomeNavFragment.newInstance(verbMainScore,sentenceMainScore,phrasalMainScore,nounMainScore
-                ,adjMainScore,advMainScore,idiomMainScore,"no category yet"));
-        binding.bottomNav.getMenu().getItem(Constants.HOME_NAV_INDEX).setChecked(true);
+        setNavFragment(HomeNavFragment.newInstance(""));
+        // binding.bottomNav.getMenu().getItem(Constants.HOME_NAV_INDEX).setChecked(true);
         binding.bottomNav.setOnItemSelectedListener(item -> {
 
             switch (item.getItemId()) {
                 case R.id.item_nav_home:
-                    setNavFragment(HomeNavFragment.newInstance(verbMainScore,sentenceMainScore,phrasalMainScore,nounMainScore
-                            ,adjMainScore,advMainScore,idiomMainScore,"no category yet"));
+                    setNavFragment(HomeNavFragment.newInstance(""));
                     return true;
                 case R.id.item_nav_tables:
                     setNavFragment(new TablesNavFragments());
                     return true;
                 case R.id.item_nav_quiz:
-                   // setNavFragment(new QuizNavFragment());
                     setNavFragment(new QuizNavFragment());
                     return true;
                 case R.id.item_nav_settings:
@@ -130,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
 
     private void setNavFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
-        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right, R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right);
         ft.replace(R.id.main_frag_container, fragment);
@@ -163,25 +164,50 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
 
     }
 
-    //--------------------------------*****------------------------------------------
 
-    @Override //called when the user finish the quiz to set the right points added to the right place
-    public void onSetScoreClick(int verbPointsAdded, int sentencePointsAdded, int phrasalPointsAdded , int nounPointsAdded, int adjPointsAdded, int advPointsAdded, int idiomPointsAdded, String categoryType) {
+    @Override
+    public void onShowSimpleAdsQuiz() {
+        adsManager.showAdsMob();
+    }
 
-        verbMainScore+=verbPointsAdded;sentenceMainScore+=sentencePointsAdded; // add points to the main scores
-        phrasalMainScore+=phrasalPointsAdded;nounMainScore+=nounPointsAdded;
-        adjMainScore+=adjPointsAdded;advMainScore+=advPointsAdded;idiomMainScore+=idiomPointsAdded;
+    @Override
+    public void onShowVideoAdsQuiz() {
+        adsManager.showVideoAdsQuiz();
+    }
 
-        String verbMsg = "Verbs --> " + verbMainScore + " (" + verbPointsAdded+ " points added).";
-        String sentenceMsg = "Sentences --> " + sentenceMainScore + " (" + sentencePointsAdded+ " points added).";
-        String phrasalMsg = "Phrasal verbs --> " + phrasalMainScore + " (" + phrasalPointsAdded+ " points added).";
-        String nounMsg = "Nouns --> " + nounMainScore + " (" + nounPointsAdded+ " points added).";
-        String adjMsg = "Adjectives --> " + adjMainScore + " (" + adjPointsAdded+ " points added).";
-        String advMsg = "Adverbs --> " + advMainScore + " (" + advPointsAdded+ " points added).";
-        String idiomMsg = "Idioms --> " + idiomMainScore + " (" + idiomPointsAdded+ " points added).";
+    @Override
+    public void onSetQuizCategoryResultClick(String categoryType, int pointsAdded, int elementsAdded) {
+        switch (categoryType) {
+            case Constants.VERB_NAME:
+                DialogQuizFragment dialog1 = DialogQuizFragment.newInstance(categoryType, Scores.verbScore, pointsAdded, elementsAdded, Scores.verbQuizCompleted);
+                dialog1.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
+                break;
+            case Constants.SENTENCE_NAME:
+                DialogQuizFragment dialog2 = DialogQuizFragment.newInstance(categoryType, Scores.sentenceScore, pointsAdded, elementsAdded, Scores.sentenceQuizCompleted);
+                dialog2.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
+                break;
+            case Constants.PHRASAL_NAME:
+                DialogQuizFragment dialog3 = DialogQuizFragment.newInstance(categoryType, Scores.phrasalScore, pointsAdded, elementsAdded, Scores.phrasalQuizCompleted);
+                dialog3.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
+                break;
+            case Constants.NOUN_NAME:
+                DialogQuizFragment dialog4 = DialogQuizFragment.newInstance(categoryType, Scores.nounScore, pointsAdded, elementsAdded, Scores.nounQuizCompleted);
+                dialog4.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
+                break;
+            case Constants.ADJ_NAME:
+                DialogQuizFragment dialog5 = DialogQuizFragment.newInstance(categoryType, Scores.adjScore, pointsAdded, elementsAdded, Scores.adjQuizCompleted);
+                dialog5.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
+                break;
+            case Constants.ADV_NAME:
+                DialogQuizFragment dialog6 = DialogQuizFragment.newInstance(categoryType, Scores.advScore, pointsAdded, elementsAdded, Scores.advQuizCompleted);
+                dialog6.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
+                break;
+            case Constants.IDIOM_NAME:
+                DialogQuizFragment dialog7 = DialogQuizFragment.newInstance(categoryType, Scores.idiomScore, pointsAdded, elementsAdded, Scores.idiomQuizCompleted);
+                dialog7.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
+                break;
 
-        DialogQuizFragment dialog = DialogQuizFragment.newInstance("Your Score :",verbMsg,sentenceMsg,phrasalMsg,nounMsg,adjMsg,advMsg,idiomMsg,R.drawable.ic_person_24,categoryType);
-        dialog.show(getSupportFragmentManager(),DialogQuizFragment.TAG);
+        }
     }
 
     @Override
@@ -197,8 +223,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
 
     @Override  // called from sheetDialog to send home and finished the quiz
     public void onDialogSendHomeClick(String categoryType) {
-        setNavFragment(HomeNavFragment.newInstance(verbMainScore, sentenceMainScore, phrasalMainScore, nounMainScore,  //set updated scores to HomeFrag
-                adjMainScore, advMainScore, idiomMainScore ,categoryType));
+        setNavFragment(HomeNavFragment.newInstance(categoryType));
         binding.bottomNav.getMenu().getItem(Constants.HOME_NAV_INDEX).setChecked(true);
     }
 
@@ -226,20 +251,25 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
             }
         }
     }
+
     @Override
     public void onSetAdapterClick(CategoryRecyclerAdapter adapter) {
-        if(adapter != null)
+        if (adapter != null)
             mainAdapter = adapter;
 
     }
 
     @Override // called from sheetVideoFragment in sheetDialog
     public void onShowVideoAds(String categoryType) {
-        adsManager.showVideoAds(categoryType);
+        adsManager.showRewardedVideoAds(categoryType);
+        dbAccess.getDBListCategorySize();
+        setNavFragment(new TablesNavFragments());
+        binding.bottomNav.getMenu().getItem(Constants.TABLE_NAV_INDEX).setChecked(true);
     }
+
     @Override
     public void onBuyWithPaypal() {
-          adsManager.showPaypal(10f);
+        adsManager.showPaypal(10f);
     }
 
     // CallBack and Overrides methods
@@ -249,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
         mainMenu = menu;
         // Get the SearchView from the menu item
         MenuItem searchItem = menu.findItem(R.id.menu_action_search);
-        if(Utils.nameOfFragmentSearchView.equals("Home")) {
+        if (Utils.nameOfFragmentSearchView.equals("Home")) {
             searchItem.setVisible(false);
         }
 
@@ -265,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Handle search query text changes
-                if(mainAdapter != null) {
+                if (mainAdapter != null) {
                     mainAdapter.getFilter().filter(newText);
                 }
                 return true;
@@ -273,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
         });
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -280,26 +311,25 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
             // Handle search icon click here
             Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
             return true;
-        } else if (id ==R.id.menu_main_buy) {
+        } else if (id == R.id.menu_main_buy) {
             Toast.makeText(this, "Buy", Toast.LENGTH_SHORT).show();
             //-----paypal___________
             adsManager.showPaypal(2f);
-        } else if (id ==R.id.menu_main_ads) {
-            Toast.makeText(this, "Buy", Toast.LENGTH_SHORT).show();
-            //-----ads___________
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(MainActivity.this);
-            }
+        } else if (id == R.id.menu_main_ads) {
+            Toast.makeText(this, "Ads", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onStop() {
         super.onStop();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         sharedPrefsManager.putSharedPreferencesScores(editor);
+        sharedPrefsManager.putSharedPrefTheme(editor);
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -307,8 +337,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
         //-------for pick image----------------------
         if (resultCode == Activity.RESULT_OK) {
 
+            if (data != null)
                 Utils.uriProfile = data.getData();
             setNavFragment(new HomeNavFragment());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundManager.release();
     }
 }

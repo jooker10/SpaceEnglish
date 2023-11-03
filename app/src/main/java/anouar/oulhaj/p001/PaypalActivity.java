@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 public class PaypalActivity extends AppCompatActivity {
     public static final String clientKey = "AUvSv5PZOScx3mJPksdgnFdxaw-qj6XXNzNha_DvF0zpF4H0g9mfANN4M_eMgG2in8pdzowQOosTtuXw";
     public static final int PAYPAL_REQUEST_CODE = 123;
+    public static final String ARG_PAYMENT_AMOUNT = "amount";
     private static PayPalConfiguration config = new PayPalConfiguration()
             // Start with mock environment.  When ready,
             // switch to sandbox (ENVIRONMENT_SANDBOX)
@@ -33,7 +34,7 @@ public class PaypalActivity extends AppCompatActivity {
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             // on below line we are passing a client id.
             .clientId(clientKey);
-    private EditText amountEdt;
+    private TextView tvAmount;
     private TextView paymentTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +43,17 @@ public class PaypalActivity extends AppCompatActivity {
 
 
 
-        double amount_paypal =getIntent().getDoubleExtra("amount",1);
+        double amount_paypal =getIntent().getDoubleExtra(ARG_PAYMENT_AMOUNT,10);
 
 
             // on below line we are initializing our variables.
-            amountEdt = findViewById(R.id.EditAmount);
+            tvAmount = findViewById(R.id.etPaypalAmount);
 
             // creating a variable for button, edit text and status tv.
             Button makePaymentBtn = findViewById(R.id.BtnPay);
             paymentTV = findViewById(R.id.txtStatus);
 
-            amountEdt.setText(amount_paypal+"");
+        tvAmount.setText(String.valueOf(amount_paypal));
 
             // on below line adding click listener to our make payment button.
             makePaymentBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +68,7 @@ public class PaypalActivity extends AppCompatActivity {
         private void getPayment() {
 
             // Getting the amount from editText
-            String amount = amountEdt.getText().toString();
+            String amount = tvAmount.getText().toString();
 
             // Creating a paypal payment on below line.
             PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "USD", "ANOUAR OULHAJ",

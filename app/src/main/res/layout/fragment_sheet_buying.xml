@@ -33,6 +33,14 @@
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
+            <EditText
+                android:id="@+id/et_paypal_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="amount"
+                android:inputType="number|numberDecimal" />
+
             <Button
                 android:id="@+id/btnBuyAll"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"

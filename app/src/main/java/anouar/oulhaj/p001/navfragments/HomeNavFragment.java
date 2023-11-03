@@ -2,14 +2,15 @@ package anouar.oulhaj.p001.navfragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.preference.PreferenceManager;
 import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.OnFragmentNavigationListener;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001._Main.Scores;
 import anouar.oulhaj.p001._Main.Utils;
 import anouar.oulhaj.p001.databinding.HomeNavFragmentBinding;
 
@@ -27,43 +29,27 @@ public class HomeNavFragment extends Fragment {
 
     private HomeNavFragmentBinding binding;
     private SharedPreferences sharedPreferences;
-    private String categoryTypeAnim = "No category set yet";
+    private String categoryTypeAnim = "";
     private HomeFragClickListener homeListener;
     private OnFragmentNavigationListener navigationListener;
-    private int verbHomeScore = 12, sentenceHomeScore, phrasalHomeScore, nounHomeScore, adjHomeScore, advHomeScore, idiomHomeScore;
     private boolean isFlipped = false;
-    private Uri uriProfile;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            categoryTypeAnim = bundle.getString(Constants.ARG_UPDATED_CATEGORY_ANIMATION, "no category set yet");
+            categoryTypeAnim = bundle.getString(Constants.ARG_UPDATED_CATEGORY_ANIMATION, "");
 
-            verbHomeScore =  bundle.getInt(Constants.ARG_CURRENT_VERB_SCORE,1);
-
-            sentenceHomeScore =  bundle.getInt(Constants.ARG_CURRENT_SENTENCE_SCORE,0);
-            phrasalHomeScore =  bundle.getInt(Constants.ARG_CURRENT_PHRASAL_SCORE,0);
-            nounHomeScore =  bundle.getInt(Constants.ARG_CURRENT_NOUN_SCORE,0);
-            adjHomeScore =  bundle.getInt(Constants.ARG_CURRENT_ADJ_SCORE,0);
-            advHomeScore =  bundle.getInt(Constants.ARG_CURRENT_ADV_SCORE,0);
-            idiomHomeScore =  bundle.getInt(Constants.ARG_CURRENT_IDIOM_SCORE,0);
             }
 
     }
 
 
-    public static HomeNavFragment newInstance(int verbUserScore,int sentenceUserScore,int phrasalUserScore,int nounUserScore,int adjUserScore,int advUserScore,int idiomUserScore , String categoryTypeAnim) {
+    public static HomeNavFragment newInstance( String categoryTypeAnim) {
         HomeNavFragment homeNavFragment = new HomeNavFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Constants.ARG_CURRENT_VERB_SCORE,verbUserScore);
-        bundle.putInt(Constants.ARG_CURRENT_SENTENCE_SCORE,sentenceUserScore);
-        bundle.putInt(Constants.ARG_CURRENT_PHRASAL_SCORE,phrasalUserScore);
-        bundle.putInt(Constants.ARG_CURRENT_NOUN_SCORE,nounUserScore);
-        bundle.putInt(Constants.ARG_CURRENT_ADJ_SCORE,adjUserScore);
-        bundle.putInt(Constants.ARG_CURRENT_ADV_SCORE,advUserScore);
-        bundle.putInt(Constants.ARG_CURRENT_IDIOM_SCORE,idiomUserScore);
         bundle.putString(Constants.ARG_UPDATED_CATEGORY_ANIMATION, categoryTypeAnim);
         homeNavFragment.setArguments(bundle);
         return homeNavFragment;
@@ -76,13 +62,15 @@ public class HomeNavFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_nav_fragment, container, false);
+        binding = HomeNavFragmentBinding.inflate(getLayoutInflater(),container,false);
+       // return inflater.inflate(R.layout.home_nav_fragment, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = HomeNavFragmentBinding.bind(view);
+        //binding = HomeNavFragmentBinding.bind(view);
         Utils.nameOfFragmentSearchView = "Home";
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
@@ -92,6 +80,17 @@ public class HomeNavFragment extends Fragment {
         if (navigationListener != null) {
             navigationListener.onFragmentSelected(this);
         }
+
+        //----linear info expanded
+        linearMoreInfoExpandedCollapsed(binding.tvLabelTotalClick , binding.linearTotalInfoExpanded);
+        linearMoreInfoExpandedCollapsed(binding.tvLabelVerbsClick , binding.linearVerbsInfoExpanded);
+        linearMoreInfoExpandedCollapsed(binding.tvLabelSentenceClick , binding.linearSentenceInfoExpanded);
+        linearMoreInfoExpandedCollapsed(binding.tvLabelPhrasalClick , binding.linearPhrasalInfoExpanded);
+        linearMoreInfoExpandedCollapsed(binding.tvLabelNounClick , binding.linearNounInfoExpanded);
+        linearMoreInfoExpandedCollapsed(binding.tvLabelAdjClick , binding.linearAdjInfoExpanded);
+        linearMoreInfoExpandedCollapsed(binding.tvLabelAdvClick , binding.linearAdvInfoExpanded);
+        linearMoreInfoExpandedCollapsed(binding.tvLabelIdiomClick , binding.linearIdiomInfoExpanded);
+
 
         //------------pick Image for profile-------------------
         binding.btnHomePickProfileImage.setOnClickListener(view1 -> homeListener.onPickImage());
@@ -103,29 +102,121 @@ public class HomeNavFragment extends Fragment {
         }
 
         //_____shared preferences---------------------------------------
-        String yourUserName = sharedPreferences.getString(Constants.ARG_USER_NAME, "User 01");
-        binding.TvHomeUserName.setText(yourUserName);
+        Utils.userName = sharedPreferences.getString(Constants.KEY_USER_NAME, "User 01");
+        binding.TvHomeUserName.setText(Utils.userName);
+        binding.homeTvWelcomeUser.setText("Welcome " + Utils.userName + " to the Learn English App . Are you ready?");
         // set Animation for ui updated
         setAnimationUpdatedScore();
 
-        binding.tvHomeVerbScore.setText(String.valueOf(verbHomeScore));
-        binding.tvHomeSentenceScore.setText(String.valueOf(sentenceHomeScore));
-        binding.tvHomePhrasalScore.setText(String.valueOf(phrasalHomeScore));
-        binding.tvHomeNounScore.setText(String.valueOf(nounHomeScore));
-        binding.tvHomeAdjectiveScore.setText(String.valueOf(adjHomeScore));
-        binding.tvHomeAdverbScore.setText(String.valueOf(advHomeScore));
-        binding.tvHomeIdiomScore.setText(String.valueOf(idiomHomeScore));
-
-        int totalScore = verbHomeScore + sentenceHomeScore + phrasalHomeScore + nounHomeScore + adjHomeScore + advHomeScore + idiomHomeScore;
-        binding.tvHomeTotalScore.setText(String.valueOf(totalScore));
+       updateHomeTV();
 
         //---------btn_home_get started--------------------------------------
-        binding.btnHomeGoToLearn.setOnClickListener(v -> homeListener.onHomeGetStarted(1));
-        binding.btnHomeGoToQuiz.setOnClickListener(v -> homeListener.onHomeGetStarted(3));
+        binding.btnHomeGoToLearn.setOnClickListener(v -> homeListener.onHomeGetStarted(Constants.TABLE_NAV_INDEX));
+        binding.btnHomeGoToQuiz.setOnClickListener(v -> homeListener.onHomeGetStarted(Constants.QUIZ_NAV_INDEX));
+
+       /* SetEnableTvScore(binding.imgHomeLockPhrasal,Scores.totalScore,Constants.permissionPhrasalScore);
+        SetEnableTvScore(binding.imgHomeLockNoun ,Scores.totalScore,Constants.permissionNounScore);
+        SetEnableTvScore(binding.imgHomeLockAdj,Scores.totalScore,Constants.permissionAdjScore);
+        SetEnableTvScore(binding.imgHomeLockAdv,Scores.totalScore,Constants.permissionAdvScore);
+        SetEnableTvScore(binding.imgHomeLockIdiom,Scores.totalScore,Constants.permissionIdiomScore);*/
 
     }
 
+    private void updateHomeTV() {
+        // TV Scores
+        binding.tvHomeVerbScore.setText(String.valueOf(Scores.verbScore));
+        binding.tvHomeSentenceScore.setText(String.valueOf(Scores.sentenceScore));
+        binding.tvHomePhrasalScore.setText(String.valueOf(Scores.phrasalScore));
+        binding.tvHomeNounScore.setText(String.valueOf(Scores.nounScore));
+        binding.tvHomeAdjScore.setText(String.valueOf(Scores.adjScore));
+        binding.tvHomeAdvScore.setText(String.valueOf(Scores.advScore));
+        binding.tvHomeIdiomScore.setText(String.valueOf(Scores.idiomScore));
 
+        // TV quiz completed
+        binding.tvQuizVerbComp.setText(String.valueOf(Scores.verbQuizCompleted));
+        binding.tvQuizSentenceComp.setText(String.valueOf(Scores.sentenceQuizCompleted));
+        binding.tvQuizPhrasalComp.setText(String.valueOf(Scores.phrasalQuizCompleted));
+        binding.tvQuizNounComp.setText(String.valueOf(Scores.nounQuizCompleted));
+        binding.tvQuizAdjComp.setText(String.valueOf(Scores.adjQuizCompleted));
+        binding.tvQuizAdvComp.setText(String.valueOf(Scores.advQuizCompleted));
+        binding.tvQuizIdiomComp.setText(String.valueOf(Scores.idiomQuizCompleted));
+        // TV quiz completed correctly
+        binding.tvQuizVerbCompCorrectly.setText(String.valueOf(Scores.verbQuizCounterCompletedCorrectly));
+        binding.tvSentenceQuizCompletedCorrectly.setText(String.valueOf(Scores.sentenceQuizCounterCompletedCorrectly));
+        binding.tvPhrasalCompCorrectly.setText(String.valueOf(Scores.phrasalQuizCounterCompletedCorrectly));
+        binding.tvNounCompCorrectly.setText(String.valueOf(Scores.nounQuizCounterCompletedCorrectly));
+        binding.tvAdjQuizCompCorrectly.setText(String.valueOf(Scores.adjQuizCounterCompletedCorrectly));
+        binding.tvAdvQuizCompCorrectly.setText(String.valueOf(Scores.advQuizCounterCompletedCorrectly));
+        binding.tvIdiomQuizCompCorrectly.setText(String.valueOf(Scores.idiomQuizCounterCompletedCorrectly));
+
+        // TV elements added
+        binding.tvVerbAdded.setText(String.valueOf(Scores.verbAdded));
+        binding.tvSentenceAdded.setText(String.valueOf(Scores.sentenceAdded));
+        binding.tvPhrasalAdded.setText(String.valueOf(Scores.phrasalAdded));
+        binding.tvNounAdded.setText(String.valueOf(Scores.nounAdded));
+        binding.tvAdjAdded.setText(String.valueOf(Scores.adjAdded));
+        binding.tvAdvAdded.setText(String.valueOf(Scores.advAdded));
+        binding.tvIdiomAdded.setText(String.valueOf(Scores.idiomAdded));
+
+        // TV elements added video
+        binding.tvVerbAddedVideo.setText(String.valueOf(Scores.verbAddedVideo));
+        binding.tvSentenceAddedVideo.setText(String.valueOf(Scores.sentenceAddedVideo));
+        binding.tvPhrasalAddedVideo.setText(String.valueOf(Scores.phrasalAddedVideo));
+        binding.tvNounAddedVideo.setText(String.valueOf(Scores.nounAddedVideo));
+        binding.tvAdjAddedVideo.setText(String.valueOf(Scores.adjAddedVideo));
+        binding.tvAdvAddedVideo.setText(String.valueOf(Scores.advAddedVideo));
+        binding.tvIdiomAddedVideo.setText(String.valueOf(Scores.idiomAddedVideo));
+
+        // TV points added video
+        binding.tvVerbPointsVideo.setText(String.valueOf(Scores.verbPointsAddedVideo));
+        binding.tvSentencePointsAddedVideo.setText(String.valueOf(Scores.sentencePointsAddedVideo));
+        binding.tvPhrasalPointsVideos.setText(String.valueOf(Scores.phrasalPointsAddedVideo));
+        binding.tvNounPointsAddedVideo.setText(String.valueOf(Scores.nounPointsAddedVideo));
+        binding.tvAdjPointsAddedVideo.setText(String.valueOf(Scores.adjPointsAddedVideo));
+        binding.tvAdvPointsAddedVideo.setText(String.valueOf(Scores.advPointsAddedVideo));
+        binding.tvIdiomPointsVideo.setText(String.valueOf(Scores.idiomPointsAddedVideo));
+
+        // update total variables
+
+        int totalQuizCompleted = Scores.verbQuizCompleted +Scores.sentenceQuizCompleted +Scores.phrasalQuizCompleted +Scores.nounQuizCompleted
+                +Scores.adjQuizCompleted +Scores.advQuizCompleted +Scores.idiomQuizCompleted;
+        binding.tvTotalQuizCompleted.setText(String.valueOf(totalQuizCompleted));
+
+        int totalElementsAdded = Scores.verbAdded + Scores.sentenceAdded + Scores.phrasalAdded + Scores.nounAdded
+                               + Scores.adjAdded + Scores.advAdded + Scores.idiomAdded;
+        binding.tvTotalAdded.setText(String.valueOf(totalElementsAdded));
+
+        int totalElementsAddedVideo = Scores.verbAddedVideo + Scores.sentenceAddedVideo + Scores.phrasalAddedVideo + Scores.nounAddedVideo
+                + Scores.adjAddedVideo+ Scores.advAddedVideo + Scores.idiomAddedVideo;
+        binding.tvTotalAddedVideo.setText(String.valueOf(totalElementsAddedVideo));
+
+        int totalPointsAddedVideo = Scores.verbPointsAddedVideo + Scores.sentencePointsAddedVideo + Scores.phrasalPointsAddedVideo
+                               + Scores.nounPointsAddedVideo + Scores.adjPointsAddedVideo + Scores.advPointsAddedVideo + Scores.idiomPointsAddedVideo;
+        binding.tvTotalPointsVideos.setText(String.valueOf(totalPointsAddedVideo));
+
+        int totalQuizCompletedCorrectly = Scores.verbQuizCounterCompletedCorrectly +Scores.sentenceQuizCounterCompletedCorrectly +Scores.phrasalQuizCounterCompletedCorrectly +Scores.nounQuizCounterCompletedCorrectly
+                +Scores.adjQuizCounterCompletedCorrectly +Scores.advQuizCounterCompletedCorrectly +Scores.idiomQuizCounterCompletedCorrectly;
+        binding.tvTotalQuizCompleted.setText(String.valueOf(totalQuizCompletedCorrectly));
+
+        // main total score
+        int totalScore = Scores.verbScore + Scores.sentenceScore + Scores.phrasalScore + Scores.nounScore
+                + Scores.adjScore + Scores.advScore + Scores.idiomScore + totalPointsAddedVideo;
+        binding.tvHomeTotalScore.setText(String.valueOf(totalScore));
+        Scores.totalScore = totalScore;
+
+
+
+    }
+
+    private void linearMoreInfoExpandedCollapsed(TextView tvToClickOn , LinearLayout linearExpanded){
+    tvToClickOn.setOnClickListener(v -> {
+
+        if(linearExpanded.getVisibility() == View.VISIBLE)
+            linearExpanded.setVisibility(View.GONE);
+        else
+            linearExpanded.setVisibility(View.VISIBLE);
+    });
+}
     private void animCardViewScores() {
         Thread animationThread = new Thread(new Runnable() {
             @Override
@@ -166,10 +257,10 @@ public class HomeNavFragment extends Fragment {
 
                 break;
             case Constants.ADJ_NAME:
-                binding.tvHomeAdjectiveScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
+                binding.tvHomeAdjScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
                 break;
             case Constants.ADV_NAME:
-                binding.tvHomeAdverbScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
+                binding.tvHomeAdvScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
                 break;
             case Constants.IDIOM_NAME:
                 binding.tvHomeIdiomScore.setAnimation(AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_score_tv));
@@ -201,6 +292,13 @@ public class HomeNavFragment extends Fragment {
             navigationListener = null;
     }
 
-
+    private void SetEnableTvScore(ImageView imgLock, int globalMainScore , int permissionScore) {
+        if(globalMainScore < permissionScore){
+            imgLock.setVisibility(View.VISIBLE);
+        }
+        else {
+            imgLock.setVisibility(View.GONE);
+        }
+    }
 
 }

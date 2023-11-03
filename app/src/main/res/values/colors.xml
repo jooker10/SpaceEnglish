@@ -4,20 +4,23 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="silver">#C0C0C0</color>
 
-    <!--Color degres of purple -->
+    <!--Color degrees of purple -->
     <color name="purple_200">#CE93D8</color>
     <color name="purple_500">#9C27B0</color>
     <color name="purple_700">#7B1FA2</color>
-    <!--Color degres of Teal -->
-    <color name="teal_200">#80CBC4</color>
-    <color name="teal_700">#00796B</color>
-    <!--Color degres of green -->
-    <!--Color degres of blue -->
+
+    <!--Color degrees of blue -->
     <color name="blue_200">#90CAF9</color>
     <color name="blue_500">#2196F3</color>
     <color name="blue_700">#1976D2</color>
-    <!--Color degres of gray -->
+
+    <!--Color degrees of gray -->
+    <color name="gray_light">#D3D3D3</color>
+    <color name="platinum">#E5E4E2</color>
+    <color name="nickel">#727472</color>
+    <color name="gray_50">#f2f2f2</color>
     <color name="gray_100">#F5F5F5</color>
     <color name="gray_200">#EEEEEE</color>
     <color name="gray_400">#BDBDBD</color>
@@ -26,17 +29,55 @@
     <color name="gray_700">#616161</color>
     <color name="gray_800">#424242</color>
     <color name="gray_900">#212121</color>
+    <!--Color degres of Teal -->
+    <color name="teal_200">#80CBC4</color>
+    <color name="teal_500">#009688</color>
+    <color name="teal_700">#00796B</color>
+    <!--Color degres of green -->
+    <color name="green_200">#c6f68d</color>
+    <color name="green_400">#90ee02</color>
+    <color name="green_500">#75e900</color>
+    <color name="green_700">#41c300</color>
+    <color name="buttonBackground">#FF4081</color>       <!-- Couleur d'arrière-plan des boutons -->
+    <color name="buttonText">#FFFFFF</color>
 
-    <!--commun color light and dark mode-->
-   <color name="bottom_nav_bg_color">#FAFAFA</color>
-    <color name="bottom_nav_white_black_checked">@color/blue_500</color>
-    <color name="bottom_nav_white_black_unchecked">@color/gray_400</color>
+<!--
+    colors homogenous with white
+
+-->
+    <color name="sky_blue">#87CEEB</color>
+    <color name="light_blue">#3498DB</color>
+    <color name="coral">#FF6B6B</color>
+    <color name="soft_orange">#FFA500</color>
+    <color name="turquoise">#1ABC9C</color>
+    <color name="salmon">#FFA07A</color>
+    <color name="pastel_purple">#9B59B6</color>
+    <color name="lilac">#8E44AD</color>
+    <color name="mint_green">#2ECC71</color>
+    <color name="lemon_yellow">#F1C40F</color>
+    <color name="soft_yellow">#FFD700</color>
+    <color name="lime_green">#7FFF00</color>
+    <color name="pale_pink">#FFC0CB</color>
+    <color name="light_gray">#E0E0E0</color>
+
+
+    <!--Commons colors principal of the app-->
+    <color name="custom_primary">@color/gray_400</color>
+    <color name="custom_primary_dark">@color/gray_50</color>
+    <color name="custom_secondary">@color/coral</color>
+
+    <!--commons colors light and dark mode-->
+   <color name="bottom_nav_bg_color">@color/white</color>
+    <color name="bottom_nav_white_black_checked">@color/custom_secondary</color>
+    <color name="bottom_nav_white_black_unchecked">@color/gray_700</color>
     <color name="txt_color">@color/gray_700</color>
-    <color name="btn_txt_color">@color/blue_500</color>
+    <color name="btn_txt_color">@color/custom_secondary</color>
     <color name="background_white_900">@color/white</color>
-    <color name="background_blue_gray">@color/blue_500</color>
+    <color name="background_blue_gray">@color/custom_primary</color>
     <color name="txt_gray_800_100">@color/gray_800</color>
     <color name="bg_gray_100_800">@color/gray_100</color>
+    <color name="btn_bg_desabled">@color/gray_200</color>
+    <color name="btn_text_desabled">@color/gray_400</color>
 
 
 </resources>

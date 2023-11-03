@@ -9,16 +9,11 @@ import anouar.oulhaj.p001.DB.Category;
 public class Utils {
 
 
-    //---for saving img url test--------
-    public static String imgUrl = "";
-    //public static String  userName = ""
 
     //------ the main qst in native language----------
-    public static String txtMainQuestionNative;
     public static String nativeLanguage = "French";
 
     public static boolean isThemeNight = false;
-    public static boolean isSearchAdded = false;
     public static String nameOfFragmentSearchView = "Home";
 
 
@@ -34,7 +29,7 @@ public class Utils {
     public static ArrayList<String> phrasesIncorrectAnswers = new ArrayList<>();
 
 
-    public static int maxQuestionsOfQuiz = 10;
+    public static int maxQuestionsPerQuiz = 5;
 
     public static int allowedVerbsNumber = 100;
     public static int allowedPhrasalsNumber = 50;
@@ -44,14 +39,16 @@ public class Utils {
     public static int allowedAdvsNumber = 50;
     public static int allowedIdiomsNumber = 50;
 
-    public static int allVerbsNumber;
-    public static int allPhrasalsNumber;
-    public static int allSentencesNumber;
-    public static int allNounsNumber;
-    public static int allAdjsNumber;
-    public static int allAdvsNumber;
-    public static int allIdiomsNumber;
+    public static int totalVerbsNumber;
+    public static int totalPhrasalsNumber;
+    public static int totalSentencesNumber;
+    public static int totalNounsNumber;
+    public static int totalAdjsNumber;
+    public static int totalAdvsNumber;
+    public static int totalIdiomsNumber;
     public static Uri uriProfile;
+    public static String userName = "User 1";
+    public static boolean isFirstTimeActivity = false;
 
 
     public static void FillCorrectIncorrectAnswerResponses(){

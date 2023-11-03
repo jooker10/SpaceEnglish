@@ -1,29 +1,59 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.P001" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.MainStyle" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue_500</item>
-        <item name="colorPrimaryVariant">@color/blue_700</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/custom_primary</item>
+        <item name="colorPrimaryVariant">@color/custom_primary_dark</item>
+        <item name="colorOnPrimary">@color/gray_900</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/blue_200</item>
-        <item name="colorSecondaryVariant">@color/purple_500</item>
+        <item name="colorSecondary">@color/custom_secondary</item>
+        <item name="colorSecondaryVariant">@color/blue_700</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColorSecondary">@color/black</item>
         <!-- BackGround color. -->
-        <item name="android:navigationBarColor">@color/bottom_nav_bg_color</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+
         <item name="toolbarStyle">@style/ToolbarStyle</item>
         <!-- Customize your theme here. -->
+        <item name="android:textViewStyle"> @style/MyMaterialTextViewStyle</item>
 
     </style>
 
     <style name="ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:titleTextColor">@color/blue_700</item>
-        <item name="android:backgroundTint">@color/gray_400</item>
-
-        <!-- Add more attributes as needed -->
+        <item name="android:titleTextColor">@color/custom_secondary</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
+    <style name="ToolbarTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:gravity">center</item>
+        <item name="fontFamily">@font/bungee_inline</item>
+    </style>
+    <!--<style name="MyMaterialButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/gray_400</item>
+        <item name="android:backgroundTint">@color/custom_secondary</item>
+    </style>-->
+
+    <style name="MyMaterialTextViewStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/gray_700</item>
+        <item name="android:fontFamily">@font/acme</item>
+        <!-- Add other TextView attributes here -->
+    </style>
+
+    Replace custom_font with the name of your font resource.
+
+    Remember to adjust attributes like font style, size, and color according to your design preferences.
+
+    Please note that the attributes and methods mentioned above are based on the information available as of September 2021. Android development practices might have evolved since then. Always refer to the latest Android documentation for the most up-to-date guidance.
+
+
+
+
+
+
 
 
 </resources>

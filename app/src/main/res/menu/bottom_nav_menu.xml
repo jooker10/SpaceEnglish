@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/item_nav_home"
-        android:icon="@drawable/ic_home_24"
+        android:icon="@drawable/ic_home_outline_24"
         android:checked="true"
         android:title="Home" />
     <item
         android:id="@+id/item_nav_tables"
-        android:icon="@drawable/ic_table_vertical_24"
+        android:icon="@drawable/ic_outline_table_24"
         android:iconTint="@color/purple_500"
         android:title="Tables" />
     <item
@@ -16,12 +16,12 @@
         android:enabled="false"/>
     <item
         android:id="@+id/item_nav_quiz"
-        android:icon="@drawable/ic_question_answer_24"
+        android:icon="@drawable/ic_outline_question_answer_24"
         android:title="Q/A" />
     <item
         android:id="@+id/item_nav_settings"
         android:checked="false"
-        android:icon="@drawable/ic_settings_24"
+        android:icon="@drawable/ic_outline_settings_24"
         android:title="Settings"
         />
 

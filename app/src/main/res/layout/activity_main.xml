@@ -7,12 +7,23 @@
     tools:context="._Main.MainActivity">
 
 
-
-    <FrameLayout
-        android:id="@+id/main_frag_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/customToolbar"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/txt_gray_800_100"
+            app:titleTextAppearance="@style/ToolbarTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
+        <FrameLayout
+            android:id="@+id/main_frag_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -23,6 +34,7 @@
         app:layout_scrollFlags="scroll|enterAlways"
         android:layout_gravity="bottom"
         app:fabCradleMargin="0dp"
+        app:fabAnimationMode="slide"
         android:backgroundTint="@color/bottom_nav_bg_color"
         app:fabCradleRoundedCornerRadius="0dp"
         app:fabCradleVerticalOffset="0dp">

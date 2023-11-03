@@ -33,21 +33,21 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 phrasal verbs !?"
+                android:text="You want to add : 10 points + 5 verbs  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnVideoVerbs"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_margin="8dp"
-                android:padding="4dp"
                 android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
+                android:layout_margin="8dp"
+                android:paddingHorizontal="4dp"
+                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+                android:textColor="@drawable/selector_btn_txt_enabled_state"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,21 +64,21 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 5 sentences!?"
+                android:text="You want to add : 10 points + 5 sentences  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnVideoSentences"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:padding="4dp"
                 android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
+                android:paddingHorizontal="4dp"
+                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+                android:textColor="@drawable/selector_btn_txt_enabled_state"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,21 +95,20 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 5 phrasals!?"
+                android:text="You want to add : 10 points + 5 phrasal verbs  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnVideoPhrasals"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:padding="4dp"
                 android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
+                android:paddingHorizontal="4dp"
+                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+                android:textColor="@drawable/selector_btn_txt_enabled_state"               android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -126,21 +125,21 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 5 Nouns  !?"
+                android:text="You want to add : 10 points + 5 nouns "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnVideoNouns"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:padding="4dp"
                 android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
+                android:paddingHorizontal="4dp"
+                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+                android:textColor="@drawable/selector_btn_txt_enabled_state"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -157,21 +156,20 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 5 Adjectives !?"
+                android:text="You want to add : 10 points + 5 adjectives  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnVideoAdjs"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:padding="4dp"
                 android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
+                android:paddingHorizontal="4dp"
+                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+                android:textColor="@drawable/selector_btn_txt_enabled_state"              android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -188,21 +186,21 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 5 Adverbs !?"
+                android:text="You want to add : 10 points + 5 adverbs  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnVideoAdvs"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:padding="4dp"
                 android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
+                android:paddingHorizontal="4dp"
+                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+                android:textColor="@drawable/selector_btn_txt_enabled_state"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -219,21 +217,20 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 5 Idioms !?"
+                android:text="You want to add : 10 points + 5 Idioms "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnVideoIdoms"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:padding="4dp"
                 android:text="Watch a video"
-                android:textColor="@color/btn_txt_color"
-                android:textSize="14sp" />
+                android:paddingHorizontal="4dp"
+                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+                android:textColor="@drawable/selector_btn_txt_enabled_state"               android:textSize="12sp" />
         </LinearLayout>
 
 

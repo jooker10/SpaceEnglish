@@ -9,7 +9,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="anouar.oulhaj.p001.InfoQuizFragment"
+        android:name="anouar.oulhaj.p001.QuizFrags.InfoQuizFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

@@ -21,7 +21,8 @@
         android:layout_marginLeft="12dp"
         android:fontFamily="@font/akaya_telivigala"
         android:text="Options"
-        android:textColor="@color/blue_500"
+        android:textColor="@color/custom_secondary"
+        android:layout_gravity="center_horizontal"
         android:textSize="25sp" />
 
     <RadioGroup
@@ -35,14 +36,14 @@
             android:id="@+id/radioVideo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:checked="true"
             android:layout_weight="1"
-
-            android:button="@android:color/transparent"
             android:background="@drawable/selector_radio_checkable"
+            android:button="@android:color/transparent"
+
+            android:checked="true"
+            android:gravity="center"
             android:text="Watching videos"
-            android:textColor="@color/gray_600"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 

@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Learn English</string>
+    <string name="app_name">Space English</string>
+    <string name="ADS_APP_ID">ca-app-pub-1653992568721047~4945796884</string>
+    <string name="ADS_APP_ID_TEST">ca-app-pub-3940256099942544~3347511713</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="qstVerbIntro">Quelle est la traduction du verbe : </string>
@@ -13,6 +15,14 @@
         <item>French</item>
         <item>Spanish</item>
         <item>Arabic</item>
+    </string-array>
+
+    <string-array name="max_questions_per_quiz">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
     </string-array>
 
     //-------------Category Array table-------------

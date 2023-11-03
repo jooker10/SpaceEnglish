@@ -1,8 +1,13 @@
 package anouar.oulhaj.p001._Main;
 
-import android.net.Uri;
-
 public class Constants {
+
+    // allowed open
+    public static final int permissionPhrasalScore = 100;
+    public static final int permissionNounScore = 200;
+    public static final int permissionAdjScore = 400;
+    public static final int permissionAdvScore = 700;
+    public static final int permissionIdiomScore = 1000;
 
     // final Constants
     public static final int HOME_NAV_INDEX = 0;
@@ -26,18 +31,10 @@ public class Constants {
     public static final String TAG_PREF_IDIOM_SCORE = "idiom_score";
     public static final String ARG_IS_THEME_DARK_MODE = "is_dark_mode";
     public static final String ARG_STR_URI_PROFILE_IMG = "uri_profile";
+    public static final String TAG_SCORES_TOTAL_SCORE = "global_main_score";
+    public static final String SHARED_PREFS_FILE_NAME = "privateFile.xml";
+    public static final String ARG_IS_FIRST_TIME_ACTIVITY = "arg_is_first_time_activity";
 
-
-    // no Final constants
-    public static int pref_verb_score = 0;
-    public static int pref_sentence_score = 0;
-    public static int pref_phrasal_score = 0;
-    public static int pref_noun_score = 0;
-    public static int pref_adj_score = 0;
-    public static int pref_adv_score = 0;
-    public static int pref_idiom_score = 0;
-
-    public static String UriPref = "";
 
     public static final String KEY_SETTINGS_SWITCH_THEME = "switch_theme";
     public static final String KEY_SETTINGS_SWITCH_LANGUAGE = "switch_language";
@@ -72,15 +69,48 @@ public class Constants {
     public static final String ADV_NAME = "Adverbs";
     public static final String IDIOM_NAME = "Idioms";
 
-    public static final int VERBS_INDEX = 0;
-    public static final int SENTENCES_INDEX = 1;
-    public static final int PHRASAL_INDEX = 2;
-    public static final int NOUN_INDEX = 3;
-    public static final int ADJ_INDEX = 4;
-    public static final int ADV_INDEX = 5;
-    public static final int IDIOM_INDEX = 6;
 
-   public static final String ARG_USER_NAME = "user_name";
+   public static final String KEY_USER_NAME = "user_name";
 
+
+    public static final String TAG_VERB_ADDED = "tag_verb_added";
+    public static final String TAG_SENTENCE_ADDED = "tag_sentence_added";
+    public static final String TAG_PHRASAL_ADDED = "tag_phrasal_added";
+    public static final String TAG_NOUN_ADDED = "tag_noun_added";
+    public static final String TAG_ADJ_ADDED = "tag_adj_added";
+    public static final String TAG_ADV_ADDED = "tag_adv_added";
+    public static final String TAG_IDIOM_ADDED = "tag_idiom_added";
+
+    public static final String TAG_VERB_ADDED_VIDEO = "tag_verb_added_video";
+    public static final String TAG_SENTENCE_ADDED_VIDEO  = "tag_sentence_added_video";
+    public static final String TAG_PHRASAL_ADDED_VIDEO = "tag_phrasal_added_video";
+    public static final String TAG_NOUN_ADDED_VIDEO  = "tag_noun_added_video";
+    public static final String TAG_ADJ_ADDED_VIDEO  = "tag_adj_added_video";
+    public static final String TAG_ADV_ADDED_VIDEO  = "tag_adv_added_video";
+    public static final String TAG_IDIOM_ADDED_VIDEO  = "tag_idiom_added_video";
+
+    public static final String TAG_VERB_POINT_ADDED_VIDEO = "tag_verb_point_added_video";
+    public static final String TAG_SENTENCE_POINT_ADDED_VIDEO  = "tag_sentence_point_added_video";
+    public static final String TAG_PHRASAL_POINT_ADDED_VIDEO = "tag_phrasal_point_added_video";
+    public static final String TAG_NOUN_POINT_ADDED_VIDEO  = "tag_noun_point_added_video";
+    public static final String TAG_ADJ_POINT_ADDED_VIDEO  = "tag_adj_point_added_video";
+    public static final String TAG_ADV_POINT_ADDED_VIDEO  = "tag_adv_point_added_video";
+    public static final String TAG_IDIOM_POINT_ADDED_VIDEO  = "tag_idiom_point_added_video";
+
+    public static final String TAG_VERB_QUIZ_COMPLETED = "tag_verb_quiz_completed";
+    public static final String TAG_SENTENCE_QUIZ_COMPLETED = "tag_sentence_quiz_completed";
+    public static final String TAG_PHRASAL_QUIZ_COMPLETED = "tag_phrasal_quiz_completed";
+    public static final String TAG_NOUN_QUIZ_COMPLETED = "tag_noun_quiz_completed";
+    public static final String TAG_ADJ_QUIZ_COMPLETED = "tag_adj_quiz_completed";
+    public static final String TAG_ADV_QUIZ_COMPLETED = "tag_adv_quiz_completed";
+    public static final String TAG_IDIOM_QUIZ_COMPLETED = "tag_idiom_quiz_completed";
+
+    public static final String TAG_VERB_QUIZ_COMPLETED_CORRECTLY = "tag_verb_quiz_completed_correctly";
+    public static final String TAG_SENTENCE_QUIZ_COMPLETED_CORRECTLY = "tag_sentence_quiz_completed_correctly";
+    public static final String TAG_PHRASAL_QUIZ_COMPLETED_CORRECTLY = "tag_phrasal_quiz_completed_correctly";
+    public static final String TAG_NOUN_QUIZ_COMPLETED_CORRECTLY = "tag_noun_quiz_completed_correctly";
+    public static final String TAG_ADJ_QUIZ_COMPLETED_CORRECTLY = "tag_adj_quiz_completed_correctly";
+    public static final String TAG_ADV_QUIZ_COMPLETED_CORRECTLY = "tag_adv_quiz_completed_correctly";
+    public static final String TAG_IDIOM_QUIZ_COMPLETED_CORRECTLY = "tag_idiom_quiz_completed_correctly";
 
 }

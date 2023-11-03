@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001._Main.Scores;
+import anouar.oulhaj.p001._Main.Utils;
 import anouar.oulhaj.p001.onVideoBuyClickListener;
 
 
@@ -57,6 +59,14 @@ public class SheetVideoFragment extends Fragment {
         Button btnVideoAdjs = view.findViewById(R.id.btnVideoAdjs);
         Button btnVideoAdvs = view.findViewById(R.id.btnVideoAdvs);
         Button btnVideoIdoms = view.findViewById(R.id.btnVideoIdoms);
+
+        // permission buttons the enabled true
+        enableButton(btnVideoPhrasals, Scores.totalScore,Constants.permissionPhrasalScore);
+        enableButton(btnVideoNouns, Scores.totalScore,Constants.permissionNounScore);
+        enableButton(btnVideoAdjs, Scores.totalScore,Constants.permissionAdjScore);
+        enableButton(btnVideoAdvs, Scores.totalScore,Constants.permissionAdvScore);
+        enableButton(btnVideoIdoms, Scores.totalScore,Constants.permissionIdiomScore);
+
         btnVideoVerbs.setOnClickListener(view13 -> {
             Toast.makeText(requireActivity(), "Show video verbs", Toast.LENGTH_SHORT).show();
             videoBuyClickListener.onShowVideoAds(Constants.VERB_NAME);
@@ -91,4 +101,9 @@ public class SheetVideoFragment extends Fragment {
 
         });
     }
+
+    private void enableButton(Button button , int globalMainScore , int permissionScore) {
+        button.setEnabled(globalMainScore >= permissionScore);
+    }
+
 }

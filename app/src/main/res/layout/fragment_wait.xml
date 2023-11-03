@@ -7,10 +7,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tvScoreOpen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fontFamily="@font/akaya_telivigala"
         android:gravity="center"
-        android:text="it would unlkcen when you retched 200 points"
+        android:text="Required"
+        android:textColor="@color/background_blue_gray"
         android:textSize="20sp" />
 
 </FrameLayout>

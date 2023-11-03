@@ -8,15 +8,25 @@
     tools:context=".PaypalActivity">
 
     <!--Edit text for entering the amount-->
-    <EditText
-        android:id="@+id/EditAmount"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
-        android:hint="Enter Amount to be Paid"
-        android:inputType="numberDecimal" />
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Amount to pay : "/>
+        <TextView
+            android:id="@+id/etPaypalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textColor="@color/green_700"
+            android:text="00.00"/>
+    </LinearLayout>
 
     <!--button for making a payment-->
     <Button

@@ -18,18 +18,18 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
+import anouar.oulhaj.p001.SoundManager;
 import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.CountDownTimerHelper;
 import anouar.oulhaj.p001.DB.Category;
 import anouar.oulhaj.p001.DB.DbAccess;
 import anouar.oulhaj.p001.Question;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001._Main.Scores;
 import anouar.oulhaj.p001._Main.Utils;
 import anouar.oulhaj.p001.databinding.QuizCategoriesFragmentBinding;
 
@@ -37,6 +37,7 @@ import anouar.oulhaj.p001.databinding.QuizCategoriesFragmentBinding;
 public class QuizCategoriesFragment extends Fragment implements CountDownTimerHelper.OnCountdownListener {
     private QuizCategoriesFragmentBinding binding;
     private QuizCategoryClickListener listener;
+    private SoundManager soundManager;
 
     private TextToSpeech speech;
     private CountDownTimerHelper countDownTimerHelper;
@@ -89,6 +90,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = QuizCategoriesFragmentBinding.bind(view);
+        soundManager = new SoundManager(requireActivity());
 
         binding.tvQuizMainQuestionCategory.setText(choosingNativeLangQuestion(Utils.nativeLanguage)); // changed
 
@@ -117,7 +119,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         ArrayList<Category> allLitOfElements = new ArrayList<>(db.getAllElementsOfCategory(categoryType, false));
         db.close();
         Collections.shuffle(allLitOfElements);
-        chosenListOfElements = allLitOfElements.subList(0, Utils.maxQuestionsOfQuiz);
+        chosenListOfElements = allLitOfElements.subList(0, Utils.maxQuestionsPerQuiz);
         qstCounterTotal = chosenListOfElements.size();
 //-------------------------------------------------------------begin-----------------------------------------------------------------
 
@@ -128,7 +130,9 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
         binding.btnConfirmNextCategory.setOnClickListener(v -> {   // the button Confirm/Next
             if (!isAnswered) checkAnswer();
-            else showNextQst();
+            else {
+                showNextQst();
+            }
         });
         //-----------------------------------------------------------------------------------------------------------------------------------------
           txtRadioOptionToSpeech(binding.QuizCategoryOption1);
@@ -149,6 +153,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     //---------------------------------------------------------------------------------------------
 
     private void checkEmptyAnswerCounter() {
+
+        listener.onShowSimpleAdsQuiz();
 
         isAnswered = true;
         binding.btnConfirmNextCategory.setText("Next");
@@ -212,31 +218,6 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     }
 
 
-    @SuppressWarnings("ConstantConditions")
-    private void setScoreToTheRightCategory(int userScore) {
-        Map<String, Integer> categoryScores = new HashMap<>();
-        categoryScores.put(Constants.VERB_NAME, 0);
-        categoryScores.put(Constants.SENTENCE_NAME, 0);
-        categoryScores.put(Constants.PHRASAL_NAME, 0);
-        categoryScores.put(Constants.NOUN_NAME, 0);
-        categoryScores.put(Constants.ADJ_NAME, 0);
-        categoryScores.put(Constants.ADV_NAME, 0);
-        categoryScores.put(Constants.IDIOM_NAME, 0);
-
-        categoryScores.put(categoryType, userScore);
-
-        listener.onSetScoreClick(
-                categoryScores.get(Constants.VERB_NAME),
-                categoryScores.get(Constants.SENTENCE_NAME),
-                categoryScores.get(Constants.PHRASAL_NAME),
-                categoryScores.get(Constants.NOUN_NAME),
-                categoryScores.get(Constants.ADJ_NAME),
-                categoryScores.get(Constants.ADV_NAME),
-                categoryScores.get(Constants.IDIOM_NAME),
-                categoryType
-        );
-    }
-
     private String choosingNativeLangQuestion(String nativeLanguage) {
         switch (nativeLanguage) {
             case Constants.LANGUAGE_NATIVE_ARABIC:
@@ -266,7 +247,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     public void onTick(int secondsUntilFinished) {
         // Toast.makeText(requireActivity(), secondsUntilFinished, Toast.LENGTH_SHORT).show();
         binding.tvCounterDownTimer.setText(String.valueOf(secondsUntilFinished));
-        if(secondsUntilFinished<= 5) {
+        if(secondsUntilFinished <= 5) {
+            soundManager.playSound(requireActivity(),R.raw.start_quiz);
             binding.tvCounterDownTimer.setTextColor(Color.RED);
         }
         else {
@@ -281,6 +263,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         counterDownTimerOver();
         int idCheckedRadio = binding.quizRadioGroupCategory.getCheckedRadioButtonId();
         if (idCheckedRadio == -1) {
+            soundManager.playSound(requireActivity(),R.raw.error4);
             checkEmptyAnswerCounter();
         } else {
             checkAnswer();
@@ -290,7 +273,9 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
     //-------------------------------Listener-------------------------------------------------------
     public interface QuizCategoryClickListener {
-        void onSetScoreClick(int verbScore, int sentenceScore, int phrasalScore, int nounScore, int adjScore, int advScore, int idiomScore, String categoryType);
+        void onShowSimpleAdsQuiz();
+        void onShowVideoAdsQuiz();
+        void onSetQuizCategoryResultClick(String categoryType , int pointsAdded , int elementsAdded);
     }
 
     @Override
@@ -310,6 +295,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        soundManager.release();
         // Release the TextToSpeech resources when the fragment is destroyed.
         if (speech != null) {
             speech.stop();
@@ -329,26 +315,6 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
                 }
 
     }
-
-    private void finishSetUpdatedScoreDialog(int userScore) {
-        /*isAnswered = false;*/
-        int pointsAdded = 0;
-        float result = Float.valueOf(userScore);
-        if (result < qstCounterTotal / 2f) {
-            Toast.makeText(requireActivity(), "NV, " + pointsAdded + " added.", Toast.LENGTH_SHORT).show();
-        } else if (result == qstCounterTotal) {
-            pointsAdded = 3;
-            Toast.makeText(requireActivity(), "Waaaaw " + pointsAdded + " added.", Toast.LENGTH_SHORT).show();
-        } else {
-            pointsAdded = 1;
-            Toast.makeText(requireActivity(), "Validé " + pointsAdded + " added.", Toast.LENGTH_SHORT).show();
-        }
-
-        setScoreToTheRightCategory(pointsAdded);
-
-    }
-
-
 
 
     //---------------------------gpt function-------------------------------------------
@@ -415,6 +381,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     }
 
     private void handleCorrectAnswer(RadioButton rbSelected) {
+        soundManager.playSound(requireActivity(),R.raw.coins1);
         userScore++;
         int randomIndex = new Random().nextInt(Utils.phrasesCorrectAnswers.size());
         String text = Utils.phrasesCorrectAnswers.get(randomIndex);
@@ -429,6 +396,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
 
     private void handleIncorrectAnswer() {
+        soundManager.playSound(requireActivity(),R.raw.error0);
         int randomIndex = new Random().nextInt(Utils.phrasesIncorrectAnswers.size());
         String text = Utils.phrasesIncorrectAnswers.get(randomIndex);
         speakEnglish(text);
@@ -471,9 +439,108 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     private void finishQuiz() {
         //  here you can finish the quiz with dialog and set scores...etc        counter 6 = max 6
         isAnswered = true;
+        listener.onShowVideoAdsQuiz();
         if (countDownTimerHelper != null)
             countDownTimerHelper.stop();
-        finishSetUpdatedScoreDialog(userScore);
+
+        finishQuizUpdateAll(userScore);
+    }
+    private void finishQuizUpdateAll(int userScore) {
+        int pointsAdded = 0;
+        int elementsAdded = 0;
+
+        String answerCorrectCounterPerQuiz = userScore+"/"+qstCounterTotal;
+        float result = userScore;
+
+        if(result == qstCounterTotal) {
+            // result 20
+            pointsAdded = 5;
+            elementsAdded = 3;
+
+        } else if (result >= 0.75f * qstCounterTotal) {
+            // result >=15
+            pointsAdded = 3;
+            elementsAdded = 2;
+        } else if (result >= 0.5f * qstCounterTotal) {
+            // esult >=10
+            pointsAdded = 2;
+            elementsAdded = 1;
+        } else if(result >= 0.25f * qstCounterTotal){
+            // result >= 5
+            pointsAdded = 1;
+            elementsAdded = 0;
+
+        } else {
+            // result <5
+            pointsAdded = 0;
+            elementsAdded = 0;
+        }
+
+        finishQuizUpdateEachCategory(categoryType,pointsAdded,elementsAdded);
+        listener.onSetQuizCategoryResultClick(categoryType,pointsAdded,elementsAdded);
+
+    }
+
+    private void finishQuizUpdateEachCategory(String categoryType , int pointsAdded , int elementsAdded){
+        switch(categoryType){
+            case Constants.VERB_NAME:
+             Scores.verbScore += pointsAdded;
+             Utils.allowedVerbsNumber = getCurrentElementsNewSize(Utils.totalVerbsNumber,Utils.allowedVerbsNumber,elementsAdded);
+             Scores.verbQuizCompleted++;
+             Scores.verbAdded += elementsAdded;
+             Scores.verbPointsAdded += pointsAdded;
+             if(pointsAdded == 5) Scores.verbQuizCounterCompletedCorrectly++;
+                break;
+            case Constants.SENTENCE_NAME:
+                Scores.sentenceScore += pointsAdded;
+                Utils.allowedSentencesNumber = getCurrentElementsNewSize(Utils.totalSentencesNumber,Utils.allowedSentencesNumber,elementsAdded);
+                Scores.sentenceQuizCompleted++;
+                Scores.sentenceAdded += elementsAdded;
+                Scores.sentencePointsAdded += pointsAdded;
+                if(pointsAdded == 5) Scores.sentenceQuizCounterCompletedCorrectly++;
+                break;
+            case Constants.PHRASAL_NAME:
+                Scores.phrasalScore += pointsAdded;
+                Utils.allowedPhrasalsNumber = getCurrentElementsNewSize(Utils.totalPhrasalsNumber,Utils.allowedPhrasalsNumber,elementsAdded);
+                Scores.phrasalQuizCompleted++;
+                Scores.phrasalAdded += elementsAdded;
+                Scores.phrasalPointsAdded += pointsAdded;
+                if(pointsAdded == 5) Scores.phrasalQuizCounterCompletedCorrectly++;
+                break;
+            case Constants.NOUN_NAME:
+                Scores.nounScore += pointsAdded;
+                Utils.allowedNounsNumber = getCurrentElementsNewSize(Utils.totalNounsNumber,Utils.allowedNounsNumber,elementsAdded);
+                Scores.nounQuizCompleted++;
+                Scores.nounAdded += elementsAdded;
+                Scores.nounPointsAdded += pointsAdded;
+                if(pointsAdded == 5) Scores.nounQuizCounterCompletedCorrectly++;
+                break;
+            case Constants.ADJ_NAME:
+                Scores.adjScore += pointsAdded;
+                Utils.allowedAdjsNumber = getCurrentElementsNewSize(Utils.totalAdjsNumber,Utils.allowedAdjsNumber,elementsAdded);
+                Scores.adjQuizCompleted++;
+                Scores.adjAdded += elementsAdded;
+                Scores.adjPointsAdded += pointsAdded;
+                if(pointsAdded == 5) Scores.adjQuizCounterCompletedCorrectly++;
+                break;
+            case Constants.ADV_NAME:
+                Scores.advScore += pointsAdded;
+                Utils.allowedAdvsNumber = getCurrentElementsNewSize(Utils.totalAdvsNumber,Utils.allowedAdvsNumber,elementsAdded);
+                Scores.advQuizCompleted++;
+                Scores.advAdded += elementsAdded;
+                Scores.advPointsAdded += pointsAdded;
+                if(pointsAdded == 5) Scores.advQuizCounterCompletedCorrectly++;
+                break;
+            case Constants.IDIOM_NAME:
+                Scores.idiomScore += pointsAdded;
+                Utils.allowedIdiomsNumber = getCurrentElementsNewSize(Utils.totalIdiomsNumber,Utils.allowedIdiomsNumber,elementsAdded);
+                Scores.idiomQuizCompleted++;
+                Scores.idiomAdded += elementsAdded;
+                Scores.idiomPointsAdded += pointsAdded;
+                if(pointsAdded == 5) Scores.idiomQuizCounterCompletedCorrectly++;
+                break;
+
+        }
     }
 
     private void txtRadioOptionToSpeech (RadioButton radioOption) {
@@ -486,6 +553,17 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
                 }
             }
         });
+    }
+
+    private int getCurrentElementsNewSize(int maxElementsCategory,int currentElementsCategory,int elementsAdded ){
+        if((currentElementsCategory + elementsAdded) <= maxElementsCategory) {
+            currentElementsCategory  += elementsAdded;
+        } else{
+            currentElementsCategory = maxElementsCategory;
+        }
+        return currentElementsCategory;
+
+
     }
 
 }

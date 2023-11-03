@@ -19,11 +19,10 @@
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:layout_marginTop="4dp"
-            android:background="@color/gray_200"
             android:padding="2dp"
             app:shapeAppearanceOverlay="@style/circular"
             app:srcCompat="@drawable/ic_person_24"
-            app:strokeColor="?colorPrimary"
+            app:strokeColor="@color/gray_600"
             app:strokeWidth="3dp" />
 
         <TextView
@@ -35,8 +34,6 @@
             android:layout_marginBottom="-10dp"
             android:padding="0dp"
             android:text="+"
-
-            android:textColor="?colorPrimary"
             android:textSize="30sp" />
 
         <TextView
@@ -50,7 +47,6 @@
             android:gravity="center"
             android:padding="4dp"
             android:text="userName"
-            android:textColor="@color/blue_500"
             android:textSize="24sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -60,15 +56,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relative_waves"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="4dp"
-        android:fontFamily="@font/akaya_telivigala"
-        android:text="Welcome user"
-        android:textColor="@color/txt_color"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:gravity="center"
+        android:text="Welcome user to your amazing app "
+        android:textColor="@color/gray_500"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnHomeGoToLearn"
@@ -76,7 +71,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/homeTvWelcomeUser"
         android:layout_centerInParent="true"
-        android:text="Learn first" />
+        android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+        android:textColor="@drawable/selector_btn_txt_enabled_state"
+        android:elevation="16dp"
+        android:text="Learn first"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnHomeGoToQuiz"
@@ -84,341 +83,1489 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btnHomeGoToLearn"
         android:layout_centerInParent="true"
-        android:text="test your self" />
+        android:elevation="16dp"
+        android:text="test your self"
+        android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+        android:textColor="@drawable/selector_btn_txt_enabled_state"
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:layout_below="@id/btnHomeGoToQuiz">
+        android:layout_below="@id/btnHomeGoToQuiz"
+        android:layout_marginBottom="?actionBarSize">
 
         <ViewFlipper
             android:id="@+id/viewFlipper"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/homeCardViewScores"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:padding="4dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/homeCardViewScores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="12dp"
+                android:padding="4dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="8dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp">
+
+                        <TextView
+                            android:id="@+id/tvLabelTotalClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_centerVertical="false"
+                            android:text="> Total Score :"
+                            android:textColor="@color/custom_secondary"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomeTotalScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:paddingRight="16dp"
+                            android:text="0"
+                            android:textColor="@color/custom_secondary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearTotalInfoExpanded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvHomeTotalScore"
+                            android:orientation="vertical"
+                            android:paddingLeft="16dp"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Total Quiz completed :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvTotalQuizCompleted"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Total Quiz completed correctly :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvTotalQuizCompletedCorrectly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Total elements Added :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvTotalAdded"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Total Elements Added (Videos)"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvTotalAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Total Points Added  (Videos)"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvTotalPointsVideos"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view7"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp">
+
+                        <TextView
+                            android:id="@+id/tvLabelVerbsClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_centerVertical="false"
+                            android:text="> Verbs Score :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomeVerbScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:paddingRight="16dp"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearVerbsInfoExpanded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvHomeVerbScore"
+                            android:orientation="vertical"
+                            android:paddingLeft="16dp"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Verbs Quiz completed :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvQuizVerbComp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Verbs Quiz completed correctly :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvQuizVerbCompCorrectly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Verbs Added :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvVerbAdded"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Verbs added (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvVerbAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Verbs points added  (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvVerbPointsVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view6"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp">
+
+                        <TextView
+                            android:id="@+id/tvLabelSentenceClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_centerVertical="false"
+                            android:text="> Sentences Score :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomeSentenceScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:paddingRight="16dp"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearSentenceInfoExpanded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvHomeSentenceScore"
+                            android:orientation="vertical"
+                            android:paddingLeft="16dp"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Sentences Quiz completed :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/tvQuizSentenceComp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Sentences Quiz completed Correctly :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSentenceQuizCompletedCorrectly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Sentences Added :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSentenceAdded"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Sentences added  (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvSentenceAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Sentences Points added  (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvSentencePointsAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view5"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp">
+
+                        <TextView
+                            android:id="@+id/tvLabelPhrasalClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_centerVertical="false"
+                            android:text="> Phrasal Verbs Score :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomePhrasalScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:paddingRight="16dp"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearPhrasalInfoExpanded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvHomePhrasalScore"
+                            android:orientation="vertical"
+                            android:paddingLeft="16dp"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Phrasal Verbs Quiz completed :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvQuizPhrasalComp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Phrasal Verbs Quiz completed correctly :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvPhrasalCompCorrectly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Phrasal Verbs Added :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvPhrasalAdded"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Phrasal Verbs Added  (Videos) :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvPhrasalAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Phrasal Verbs Points Added (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvPhrasalPointsVideos"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp">
+
+                        <TextView
+                            android:id="@+id/tvLabelNounClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_centerVertical="false"
+                            android:text="> Nouns Score :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomeNounScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:paddingRight="16dp"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearNounInfoExpanded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvHomeNounScore"
+                            android:orientation="vertical"
+                            android:paddingLeft="16dp"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Nouns Quiz completed :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvQuizNounComp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Nouns Quiz Completed Correctly :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvNounCompCorrectly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Nouns Added :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvNounAdded"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/tvNoun"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Nouns Added  (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvNounAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Nouns points added (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvNounPointsAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp">
+
+                        <TextView
+                            android:id="@+id/tvLabelAdjClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_centerVertical="false"
+                            android:text="> Adjectives Score :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomeAdjScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:paddingRight="16dp"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearAdjInfoExpanded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvHomeAdjScore"
+                            android:orientation="vertical"
+                            android:paddingLeft="16dp"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adjectives Quiz completed :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvQuizAdjComp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adjectives Quiz completed correctly :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvAdjQuizCompCorrectly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adjectives Added :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvAdjAdded"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adjectives added (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvAdjAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adjectives points added (Videos)  :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvAdjPointsAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="8dp">
+
+                        <TextView
+                            android:id="@+id/tvLabelAdvClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_centerVertical="false"
+                            android:text="> Adverbs Score :"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomeAdvScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:paddingRight="16dp"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearAdvInfoExpanded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvHomeAdvScore"
+                            android:orientation="vertical"
+                            android:paddingLeft="16dp"
+                            android:visibility="gone">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adverbs Quiz completed :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvQuizAdvComp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adverbs Quiz completed correctly :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvAdvQuizCompCorrectly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adverbs Added :"
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvAdvAdded"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textColor="@color/txt_color"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adverbs added (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvAdvAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Adverbs points added (Videos) :  "
+                                    android:textSize="16sp" />
+
+                                <TextView
+
+                                    android:id="@+id/tvAdvPointsAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/akaya_telivigala"
-                        android:text="Total Score :"
-                        android:textColor="@color/blue_500"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:paddingLeft="8dp">
 
-                    <TextView
-                        android:id="@+id/tvHomeTotalScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="30dp"
-                        android:text="0"
-                        android:textColor="@color/blue_500"
-                        android:textSize="24sp"
-                        android:textStyle="bold|italic" />
+                        <TextView
+                            android:id="@+id/tvLabelIdiomClick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_centerVertical="false"
+                            android:text="> Idioms Score :"
+                            android:textSize="20sp" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tvHomeIdiomScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="8dp"
+                            android:paddingRight="16dp"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="?android:attr/listDivider" />
+                        <LinearLayout
+                            android:id="@+id/linearIdiomInfoExpanded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvHomeIdiomScore"
+                            android:orientation="vertical"
+                            android:paddingLeft="16dp"
+                            android:visibility="gone">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/akaya_telivigala"
-                        android:text="Verbs Score :"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Idioms Quiz completed :"
+                                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tvHomeVerbScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingRight="16dp"
-                        android:text="0"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp"
-                        android:textStyle="bold|italic" />
-                </RelativeLayout>
+                                <TextView
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="?android:attr/listDivider" />
+                                    android:id="@+id/tvQuizIdiomComp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp">
+                            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/akaya_telivigala"
-                        android:text="Sentences Score :"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp" />
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/tvHomeSentenceScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingRight="16dp"
-                        android:text="0"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp"
-                        android:textStyle="bold|italic" />
-                </RelativeLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Idioms Quiz completed correctly :  "
+                                    android:textSize="16sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="?android:attr/listDivider" />
+                                <TextView
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp">
+                                    android:id="@+id/tvIdiomQuizCompCorrectly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/akaya_telivigala"
-                        android:text="Phrasal Score :"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp" />
+                            </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tvHomePhrasalScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingRight="16dp"
-                        android:text="0"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp"
-                        android:textStyle="bold|italic" />
-                </RelativeLayout>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="?android:attr/listDivider" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Idioms Added :"
+                                    android:textSize="16sp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp">
+                                <TextView
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/akaya_telivigala"
-                        android:text="Nouns Score :"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp" />
+                                    android:id="@+id/tvIdiomAdded"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/tvHomeNounScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingRight="16dp"
-                        android:text="0"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp"
-                        android:textStyle="bold|italic" />
-                </RelativeLayout>
+                            </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="?android:attr/listDivider" />
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Idioms added  (Videos):  "
+                                    android:textSize="16sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/akaya_telivigala"
-                        android:text="Adjectives Score :"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp" />
+                                <TextView
 
-                    <TextView
-                        android:id="@+id/tvHomeAdjectiveScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingRight="16dp"
-                        android:text="0"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp"
-                        android:textStyle="bold|italic" />
-                </RelativeLayout>
+                                    android:id="@+id/tvIdiomAddedVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="?android:attr/listDivider" />
+                            </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/akaya_telivigala"
-                        android:text="Adverbs Score :"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="Idioms points added (Videos) :  "
+                                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tvHomeAdverbScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingRight="16dp"
-                        android:text="0"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp"
-                        android:textStyle="bold|italic" />
-                </RelativeLayout>
+                                <TextView
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:background="?android:attr/listDivider" />
+                                    android:id="@+id/tvIdiomPointsVideo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:fontFamily="@font/akaya_telivigala"
+                                    android:text="0"
+                                    android:textSize="20sp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp">
+                            </RelativeLayout>
+                        </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/akaya_telivigala"
-                        android:text="Idioms Score :"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp" />
+                    </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tvHomeIdiomScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingRight="16dp"
-                        android:text="0"
-                        android:textColor="@color/txt_color"
-                        android:textSize="20sp"
-                        android:textStyle="bold|italic" />
-                </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:background="?android:attr/listDivider" />
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </ViewFlipper>
     </ScrollView>

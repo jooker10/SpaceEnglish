@@ -1,6 +1,7 @@
 package anouar.oulhaj.p001.Adapters;
 
 import android.animation.LayoutTransition;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
@@ -13,8 +14,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,30 +25,40 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.VideoController;
+import com.google.android.gms.ads.nativead.MediaView;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001.DB.Category;
 import anouar.oulhaj.p001.R;
+import anouar.oulhaj.p001._Main.Constants;
 import anouar.oulhaj.p001._Main.Utils;
 
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerHolder>  implements Filterable {
- // RecyclerHolderTableBinding binding;
 
+    private static final String ADS_NATIVE_ID = "ca-app-pub-1653992568721047/3630761505"; // reel
+    //private static final String ADS_NATIVE_ID = "ca-app-pub-3940256099942544/1044960115"; // test
     private List<Category> originalElements;
     private List<Category> filteredElements; // For filtered data
     private Context context;
+    private Activity activity;
     private String categoryType;
     private TextToSpeech speech;
-    public  int index = 0;
    private CustomFilter customFilter;
-    public CategoryRecyclerAdapter(List<Category> originalElements, Context context,String categoryType,TextToSpeech speech) {
+   private static boolean isNativeAds = false;
+    public CategoryRecyclerAdapter(List<Category> originalElements, Context context, String categoryType, TextToSpeech speech) {
 
         this.originalElements = originalElements;
         this.context = context;
         this.categoryType = categoryType;
         this.speech = speech;
+        this.activity = (Activity) context;
 
       filteredElements = new ArrayList<>(originalElements);
     }
@@ -53,19 +66,30 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
     @NonNull
     @Override
     public CategoryRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_holder_table,parent,false);
-        return new CategoryRecyclerHolder(view);
+
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_holder_table, parent, false);
+            return new CategoryRecyclerHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull CategoryRecyclerHolder holder, int position) {
 
-        holder.bind(filteredElements.get(position));
+       holder.bind(filteredElements.get(position));
+       if((position + 1) % 10 == 0 && position != 0) {
+           holder.frameNativeAdsHolder.setVisibility(View.VISIBLE);
+           holder.bindNativeData();
+       }
+       else {
+           holder.frameNativeAdsHolder.setVisibility(View.GONE);
+       }
 
-        holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.recycler_animation));
+
+       holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.recycler_animation));
 
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -124,6 +148,8 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
         private ImageView imgSongs;
         private Button btnExampleExpanded;
         private TextView tvFlagNativeLang;
+        private FrameLayout frameNativeAdsHolder;
+        NativeAdView nativeAdView;
 
 
         public CategoryRecyclerHolder( View itemView) {
@@ -136,13 +162,16 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
             imgSongs = itemView.findViewById(R.id.imgSongs);
             btnExampleExpanded = itemView.findViewById(R.id.btnExampleExpanded);
             tvFlagNativeLang = itemView.findViewById(R.id.tvFlagNativeLang);
+            frameNativeAdsHolder = itemView.findViewById(R.id.frameNativeAdsHolder);
+            frameNativeAdsHolder.setVisibility(View.GONE);
 
             linearLayoutExpanded.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
+
+            nativeAdView = (NativeAdView) activity.getLayoutInflater().inflate(R.layout.native_ad_unit, null);
         }
 
         void bind(Category category){
             this.category = category;
-             index ++;
             holderVerbId.setText(String.valueOf(category.getCategoryID() + 1));  // changed
             holderVerbEnglish.setText(category.getCategoryEng());
             holderVerbNativeLang.setText(ChoosingNativeLang(category,    tvFlagNativeLang));
@@ -159,14 +188,13 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
             tvExpandedExamples.setVisibility(View.GONE);
            if(!categoryType.equals(Constants.SENTENCE_NAME) && !categoryType.equals(Constants.IDIOM_NAME))
            {
-               btnExampleExpanded.setTextColor(Color.CYAN);
                btnExampleExpanded.setOnClickListener(view -> {
                    if(   tvExpandedExamples.getVisibility() == View.GONE) {
                        tvExpandedExamples.setVisibility(View.VISIBLE);
-                       btnExampleExpanded.setTextColor(Color.GRAY);
+
                    } else {
                        tvExpandedExamples.setVisibility(View.GONE);
-                       btnExampleExpanded.setTextColor(Color.CYAN);
+
                    }
                    TransitionManager.beginDelayedTransition(linearLayoutExpanded,new AutoTransition());
 
@@ -177,8 +205,80 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
            }
 
         }
+        void bindNativeData() {
+            AdLoader adLoader = new AdLoader.Builder(context, ADS_NATIVE_ID)
+                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                        @Override
+                        public void onNativeAdLoaded(NativeAd nativeAd) {
+                            populateNativeAdView(nativeAd, nativeAdView);
+                            frameNativeAdsHolder.removeAllViews();
+                            frameNativeAdsHolder.addView(nativeAdView);
+                        }
+                    })
+                    .build();
+
+            adLoader.loadAd(new AdRequest.Builder().build());
+        }
+
+        private void populateNativeAdView(NativeAd nativeAd, NativeAdView nativeAdView) {
+            MediaView mediaView = nativeAdView.findViewById(R.id.native_ad_media);
+            mediaView.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
+            nativeAdView.setMediaView(mediaView);
+            mediaView.setMediaContent(nativeAd.getMediaContent());
+
+            TextView headLine = nativeAdView.findViewById(R.id.native_ad_headline);
+            TextView body = nativeAdView.findViewById(R.id.native_ad_body);
+            TextView rating = nativeAdView.findViewById(R.id.native_ad_ratingFloat);
+            TextView price = nativeAdView.findViewById(R.id.native_ad_price);
+            Button install = nativeAdView.findViewById(R.id.native_ad_call_to_action);
+            ImageView icon = nativeAdView.findViewById(R.id.native_ad_icon);
+
+            headLine.setText(nativeAd.getHeadline());
+            if (nativeAd.getBody() == null){
+                body.setVisibility(View.INVISIBLE);
+            }
+            else {
+                body.setText(nativeAd.getBody());
+                body.setVisibility(View.VISIBLE);
+            }
+
+            if (nativeAd.getIcon() == null){
+                icon.setVisibility(View.GONE);
+            }
+            else {
+                icon.setImageDrawable(nativeAd.getIcon().getDrawable());
+                icon.setVisibility(View.VISIBLE);
+            }
+
+             if (nativeAd.getPrice() == null){
+                price.setVisibility(View.INVISIBLE);
+            }
+            else {
+                price.setText(nativeAd.getPrice());
+                price.setVisibility(View.VISIBLE);
+            }
+            if (nativeAd.getStarRating() == null){
+                rating.setVisibility(View.INVISIBLE);
+            }
+            else {
+                rating.setText(String.valueOf(nativeAd.getStarRating().floatValue()));
+                rating.setVisibility(View.VISIBLE);
+            }
+            if (nativeAd.getCallToAction() == null){
+                install.setVisibility(View.INVISIBLE);
+            }
+            else {
+                install.setText(nativeAd.getCallToAction());
+                install.setVisibility(View.VISIBLE);
+            }
+
+            nativeAdView.setNativeAd(nativeAd);
+
+        }
 
     }
+
+
 
     //----- Functions------------
     private String ChoosingNativeLang(Category element , TextView tvLangFlag){

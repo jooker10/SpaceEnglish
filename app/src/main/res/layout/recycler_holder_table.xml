@@ -9,135 +9,147 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:background="@color/bottom_nav_bg_color"
-        android:padding="0dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imgSongs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="9dp"
-            android:background="@color/background_white_900"
-            android:src="@drawable/ic_play_arrow_24" />
+        <FrameLayout
+            android:id="@+id/frameNativeAdsHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvKhtissarEn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/holderVerbEnglish"
-            android:layout_marginStart="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/holderVerbEnglish"
-            android:background="@color/blue_500"
-            android:padding="4dp"
-            android:text="En"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-             />
+        </FrameLayout>
 
-        <TextView
-            android:id="@+id/tvFlagNativeLang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/holderVerbNativeLang"
-            android:layout_marginStart="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/holderVerbNativeLang"
-            android:background="@color/blue_500"
-            android:padding="4dp"
-            android:text="Fr"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/holderVerbId"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
-            android:background="@color/background_white_900"
-            android:gravity="center"
-            android:textColor="@color/btn_txt_color"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="100" />
+            android:background="@color/bottom_nav_bg_color"
+            android:padding="0dp">
 
-        <TextView
-            android:id="@+id/holderVerbNativeLang"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/holderVerbEnglish"
-            android:layout_marginEnd="16dp"
-            android:layout_toRightOf="@id/holderVerbId"
-            android:background="@drawable/fr_eng_tv_bg"
-            android:fontFamily="@font/akaya_telivigala"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="2dp"
-            android:textColor="@color/txt_color"
-            android:textSize="20sp"
-            tools:text="verbe" />
-
-        <TextView
-            android:id="@+id/holderVerbEnglish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/holderVerbId"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/holderVerbId"
-            android:background="@drawable/fr_eng_tv_bg"
-            android:fontFamily="@font/akaya_telivigala"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingTop="2dp"
-            android:textColor="@color/txt_color"
-            android:textSize="20sp"
-            tools:text="verb" />
-
-        <LinearLayout
-            android:id="@+id/linearLayoutExpanded"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/holderVerbNativeLang"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btnExampleExpanded"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+            <ImageView
+                android:id="@+id/imgSongs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textAllCaps="false"
-                android:text="Examples" />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="9dp"
+                android:background="@color/background_white_900"
+                android:src="@drawable/ic_play_arrow_24" />
 
             <TextView
-                android:id="@+id/tvExpandedExamples"
+                android:id="@+id/tvKhtissarEn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/holderVerbEnglish"
+                android:layout_marginStart="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/holderVerbEnglish"
+                android:background="@color/custom_secondary"
+                android:padding="4dp"
+                android:text="En"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFlagNativeLang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/holderVerbNativeLang"
+                android:layout_marginStart="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/holderVerbNativeLang"
+                android:background="@color/custom_secondary"
+                android:padding="4dp"
+                android:text="Fr"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/holderVerbId"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/background_white_900"
+                android:gravity="center"
+                android:textColor="@color/custom_secondary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="100" />
+
+            <TextView
+                android:id="@+id/holderVerbNativeLang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@string/txt_examples"
-                android:textColor="@color/txt_gray_800_100"
-                android:textStyle="bold|italic"
-                android:visibility="gone" />
-        </LinearLayout>
+                android:layout_below="@id/holderVerbEnglish"
+                android:layout_marginEnd="16dp"
+                android:layout_toRightOf="@id/holderVerbId"
+                android:background="@drawable/fr_eng_tv_bg"
+                android:fontFamily="@font/akaya_telivigala"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="8dp"
+                android:textColor="@color/txt_color"
+                android:textSize="20sp"
+                tools:text="verbe" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/holderVerbEnglish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/holderVerbId"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_toRightOf="@id/holderVerbId"
+                android:background="@drawable/fr_eng_tv_bg"
+                android:fontFamily="@font/akaya_telivigala"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="2dp"
+                android:textColor="@color/txt_color"
+                android:textSize="20sp"
+                tools:text="verb" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutExpanded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/holderVerbNativeLang"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnExampleExpanded"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/custom_secondary"
+                    android:layout_marginStart="4dp"
+                    android:text="Examples"
+                    android:textAllCaps="false" />
+
+                <TextView
+                    android:id="@+id/tvExpandedExamples"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="@string/txt_examples"
+                    android:textColor="@color/txt_gray_800_100"
+                    android:textStyle="bold|italic"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>

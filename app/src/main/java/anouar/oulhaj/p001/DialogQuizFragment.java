@@ -16,30 +16,18 @@ import anouar.oulhaj.p001.databinding.DialogQuizScoresBinding;
 
 public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
 
+    private static final String ARG_CATEGORY_TYPE = "category";
+    private static final String ARG_MAIN_SCORE = "arg_main_score";
+    private static final String ARG_POINTS_ADDED = "arg_points_added";
+    private static final String ARG_ELEMENTS_ADDED = "arg_elements_added";
+    private static final String ARG_QUIZ_COUNTER = "arg_quiz_counter";
+
     private DialogQuizScoresBinding binding;
     public static final String TAG = "quizDialog";
-    private static final String ARG_TITLE = "title";
-    private static final String ARG_MSG_VERB = "msgVerb";
-    private static final String ARG_MSG_SENTENCE = "msgSentence";
-    private static final String ARG_MSG_PHRASAL = "msgPhrasal";
-    private static final String ARG_MSG_NOUN = "msgNoun";
-    private static final String ARG_MSG_ADJ = "msgAdj";
-    private static final String ARG_MSG_ADV = "msgAdv";
-    private static final String ARG_MSG_IDIOM = "msgIdiom";
-    private static final String ARG_ICON = "icon";
-    private static final String ARG_CATEGORY_TYPE = "Verb";
 
 
-    private String titleDialog;
-    private int iconDialog;
     private String categoryType;
-    private String msgVerbDialog;
-    private String msgSentenceDialog;
-    private String msgSPhrasalDialog;
-    private String msgNounDialog;
-    private String msgAdjDialog;
-    private String msgAdvDialog;
-    private String msgIdiomDialog;
+    private int mainScore,pointsAdded,elementsAdded,quizCounter;
 
 
     private onDialogSendHomeClickListener sendHomeClickListener;
@@ -78,32 +66,24 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            titleDialog = bundle.getString(ARG_TITLE);
-            iconDialog = bundle.getInt(ARG_ICON);
             categoryType = bundle.getString(ARG_CATEGORY_TYPE);
-            msgVerbDialog = bundle.getString(ARG_MSG_VERB);
-            msgSentenceDialog = bundle.getString(ARG_MSG_SENTENCE);
-            msgSPhrasalDialog = bundle.getString(ARG_MSG_PHRASAL);
-            msgNounDialog = bundle.getString(ARG_MSG_NOUN);
-            msgAdjDialog = bundle.getString(ARG_MSG_ADJ);
-            msgAdvDialog = bundle.getString(ARG_MSG_ADV);
-            msgIdiomDialog = bundle.getString(ARG_MSG_IDIOM);
+            mainScore = bundle.getInt(ARG_MAIN_SCORE);
+            pointsAdded = bundle.getInt(ARG_POINTS_ADDED);
+            elementsAdded = bundle.getInt(ARG_ELEMENTS_ADDED);
+            quizCounter = bundle.getInt(ARG_QUIZ_COUNTER);
+
         }
 
     }
 
-    public static DialogQuizFragment newInstance(String title, String verbMsg, String sentenceMsg, String phrasalMsg, String nounMsg, String adjMsg, String advMsg, String idiomMsg, int icon, String categoryType) {
+    public static DialogQuizFragment newInstance(String categoryType, int mainScore,int pointsAdded , int elementsAdded , int quizCounter) {
         Bundle bundle = new Bundle();
-        bundle.putString(ARG_TITLE, title);
-        bundle.putInt(ARG_ICON, icon);
         bundle.putString(ARG_CATEGORY_TYPE, categoryType);
-        bundle.putString(ARG_MSG_VERB, verbMsg);
-        bundle.putString(ARG_MSG_SENTENCE, sentenceMsg);
-        bundle.putString(ARG_MSG_PHRASAL, phrasalMsg);
-        bundle.putString(ARG_MSG_NOUN, nounMsg);
-        bundle.putString(ARG_MSG_ADJ, adjMsg);
-        bundle.putString(ARG_MSG_ADV, advMsg);
-        bundle.putString(ARG_MSG_IDIOM, idiomMsg);
+        bundle.putInt(ARG_MAIN_SCORE, mainScore);
+        bundle.putInt(ARG_POINTS_ADDED, pointsAdded);
+        bundle.putInt(ARG_ELEMENTS_ADDED, elementsAdded);
+        bundle.putInt(ARG_QUIZ_COUNTER, quizCounter);
+
 
         DialogQuizFragment dialog_fragment = new DialogQuizFragment();
         dialog_fragment.setArguments(bundle);
@@ -124,40 +104,20 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
         binding = DialogQuizScoresBinding.bind(view);
 
         //______set Txt and Events----------------
-        binding.tvDialogTitle.setText(titleDialog);
-        binding.imgDialogIcon.setImageResource(iconDialog);
-        binding.tvDialogVerbMsg.setText(msgVerbDialog);
-        binding.tvDialogSentenceMsg.setText(msgSentenceDialog);
-        binding.tvDialogPhrasalMsg.setText(msgSPhrasalDialog);
-        binding.tvDialogNounMsg.setText(msgNounDialog);
-        binding.tvDialogAdjMsg.setText(msgAdjDialog);
-        binding.tvDialogAdvMsg.setText(msgAdvDialog);
-        binding.tvDialogIdiomMsg.setText(msgIdiomDialog);
-        binding.tvDialogTitle.setText(titleDialog);
-        binding.imgDialogIcon.setImageResource(iconDialog);
+        binding.tvDialogTitle.setText(categoryType);
 
-        if (categoryType.equals(Constants.VERB_NAME))
-            binding.tvDialogVerbMsg.setTextColor(Color.GREEN);
-        if (categoryType.equals(Constants.SENTENCE_NAME))
-            binding.tvDialogSentenceMsg.setTextColor(Color.GREEN);
-        if (categoryType.equals(Constants.PHRASAL_NAME))
-            binding.tvDialogPhrasalMsg.setTextColor(Color.GREEN);
-        if (categoryType.equals(Constants.NOUN_NAME))
-            binding.tvDialogNounMsg.setTextColor(Color.GREEN);
-        if (categoryType.equals(Constants.ADJ_NAME))
-            binding.tvDialogAdjMsg.setTextColor(Color.GREEN);
-        if (categoryType.equals(Constants.ADV_NAME))
-            binding.tvDialogAdvMsg.setTextColor(Color.GREEN);
-        if (categoryType.equals(Constants.IDIOM_NAME))
-            binding.tvDialogIdiomMsg.setTextColor(Color.GREEN);
+        binding.tvMainScore.setText(categoryType + " Score : " + mainScore);
+        binding.tvPointsAdded.setText("Points : "+ pointsAdded + " points.");
+        binding.tvElementsAdded.setText("Extra "+elementsAdded + categoryType + " : "+elementsAdded);
+        binding.tvQuizNumberCounter.setText(categoryType + " Quiz completed : " + quizCounter);
 
-        binding.btnDialogNewQuiz.setOnClickListener(v -> {
+        binding.btnNewQuiz.setOnClickListener(v -> {
 
             //  Toast.makeText(requireActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
             newQuizClickListener.onSheetDialogNewQuizClick();
             dismiss();
         });
-        binding.btnDialogSendHome.setOnClickListener(view1 -> {
+        binding.btnSendHome.setOnClickListener(view1 -> {
             // Toast.makeText(requireActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
             sendHomeClickListener.onDialogSendHomeClick(categoryType);
             dismiss();
