@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 
@@ -58,9 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
     private AdsManager adsManager;
     private CategoryRecyclerAdapter mainRecyclerAdapter;
     private Menu mainMenu;
-    MenuItem menuItem;
-    MenuItem searchItem;
-    SearchView searchView;
+    private MenuItem searchItem;
     private MyBottomSheet myBottomSheet;
     private SoundManager soundManager;
     private RatingManager ratingManager;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
     private NetworkChangeReceiver networkChangeReceiver;
 
 
-    @Override
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -79,8 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
 
         textToSpeechManager = new TextToSpeechManager(this, status -> {
             // Handle initialization status if needed
-        });
-
+        });  // handel the textToSpeech.
 
         // Create an IntentFilter to specify the system broadcast
         networkChangeReceiver = new NetworkChangeReceiver(this);
@@ -107,7 +105,70 @@ public class MainActivity extends AppCompatActivity implements OnFragmentNavigat
 
         setBottomNavWithMenuGPT(); // settings of binding the menu with the BottomNav.
 
+    }*/
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       binding = ActivityMainBinding.inflate(getLayoutInflater());
+       setContentView(binding.getRoot());
+
+       setSupportActionBar(binding.customToolbar);
+
+       initTextToSpeech();
+       registerNetworkChangeReceiver();
+       initSoundManager();
+       initRatingManager();
+       initAds();
+       initDatabaseAccess();
+       initSharedPreferences();
+       initUtils();  // a List of Correct and Incorrect Response.
+
+       binding.mainNavFab.setOnClickListener(v -> ShowBottomSheet());
+       setBottomNavWithMenuGPT();
+   }
+
+    private void initTextToSpeech() {
+        textToSpeechManager = new TextToSpeechManager(this, status -> {
+            // Handle initialization status if needed
+        });
     }
+
+    private void registerNetworkChangeReceiver() {
+        networkChangeReceiver = new NetworkChangeReceiver(this);
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeReceiver, intentFilter);
+    }
+
+    private void initSoundManager() {
+        soundManager = new SoundManager(this);
+    }
+
+    private void initRatingManager() {
+        ratingManager = new RatingManager(this);
+        ratingManager.requestReviewInfo();
+    }
+
+    private void initAds() {
+        initialiseAllAdsType();
+    }
+
+    private void initDatabaseAccess() {
+        dbAccess = DbAccess.getInstance(this);
+        dbAccess.getDBListCategorySize();
+    }
+
+    private void initSharedPreferences() {
+        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_FILE_NAME, MODE_PRIVATE);
+        sharedPrefsManager = new SharedPrefsManager(this, sharedPreferences);
+        sharedPrefsManager.getSharedPreferencesData();
+    }
+
+    private void initUtils() {
+        Utils.FillListsCorrectIncorrectAnswerResponses();
+    }
+
+
+
 
     private void initialiseAllAdsType() {
 
