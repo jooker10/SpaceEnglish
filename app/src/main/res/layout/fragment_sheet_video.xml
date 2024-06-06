@@ -33,7 +33,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="You want to add : 10 points + 5 verbs  "
+                android:text="Add 10 points + 5 verbs  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -64,7 +64,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="You want to add : 10 points + 5 sentences  "
+                android:text="Add 10 points + 5 sentences  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -95,7 +95,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="You want to add : 10 points + 5 phrasal verbs  "
+                android:text="Add 10 points + 5 phrasal verbs  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -125,7 +125,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="You want to add : 10 points + 5 nouns "
+                android:text="Add 10 points + 5 nouns "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -156,7 +156,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="You want to add : 10 points + 5 adjectives  "
+                android:text="Add 10 points + 5 adjectives  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -186,7 +186,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="You want to add : 10 points + 5 adverbs  "
+                android:text="Add 10 points + 5 adverbs  "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -217,7 +217,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="You want to add : 10 points + 5 Idioms "
+                android:text="Add 10 points + 5 Idioms "
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 

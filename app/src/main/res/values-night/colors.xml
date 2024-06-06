@@ -13,6 +13,8 @@
     <color name="bg_gray_100_800">@color/gray_800</color>
     <color name="btn_bg_desabled">@color/gray_800</color>
     <color name="btn_text_desabled">@color/gray_900</color>
+    <color name="progress_bg_gray50_gray800">@color/gray_800</color>
+    <color name="progress_bg_white_gray800">@color/gray_800</color>
 
     <!--Commons colors principal of the app-->
     <color name="custom_primary">@color/gray_600</color>

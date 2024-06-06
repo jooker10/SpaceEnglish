@@ -79,5 +79,8 @@
     <color name="btn_bg_desabled">@color/gray_200</color>
     <color name="btn_text_desabled">@color/gray_400</color>
 
+    <color name="progress_bg_gray50_gray800">@color/gray_50</color>
+    <color name="progress_bg_white_gray800">@color/white</color>
+
 
 </resources>

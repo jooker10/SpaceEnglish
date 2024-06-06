@@ -1,134 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:elevation="8dp"
     app:cardBackgroundColor="@color/bg_gray_100_800"
     app:cardCornerRadius="12dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_margin="8dp"
         android:background="@android:color/transparent"
         android:backgroundTint="@android:color/transparent"
-        android:padding="8dp">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/iconDialog"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
             android:src="@drawable/ic_check_circle_24" />
 
         <TextView
-            android:id="@+id/tvDialogTitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvDialogCongrat"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iconDialog"
-            android:layout_centerHorizontal="true"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:paddingHorizontal="8dp"
-            android:text="Title"
             android:fontFamily="@font/cagliostro"
-            android:textColor="@color/white"
-            android:background="@color/custom_secondary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvMainScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvDialogTitle"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
             android:gravity="center"
+            android:padding="8dp"
             android:paddingHorizontal="8dp"
-            android:text="Main Score "
             android:textColor="@color/custom_secondary"
-            android:fontFamily="@font/akaya_telivigala"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Congrat" />
 
-        <TextView
-            android:id="@+id/tvPointsAdded"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvMainScore"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:paddingHorizontal="8dp"
-            android:text="Points Added "
-            android:textColor="@color/txt_gray_800_100"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:layout_margin="8dp"
+            android:gravity="center_vertical"
+            android:padding="4dp">
 
-        <TextView
-            android:id="@+id/tvElementsAdded"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:fontFamily="@font/amaranth"
+                android:text="Your Result :"
+                android:textColor="@color/txt_gray_800_100"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvDialogResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="0"
+                android:textColor="@color/custom_secondary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvPointsAdded"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:paddingHorizontal="8dp"
-            android:text="Elements Added "
-            android:textColor="@color/txt_gray_800_100"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:layout_margin="8dp"
+            android:gravity="center_vertical"
+            android:padding="4dp">
 
-        <TextView
-            android:id="@+id/tvQuizNumberCounter"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:fontFamily="@font/amaranth"
+                android:text="Points Added :"
+                android:textColor="@color/txt_gray_800_100"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvPointsAdded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:text="0"
+                android:textColor="@color/txt_gray_800_100"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvElementsAdded"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:paddingHorizontal="8dp"
-            android:text="Elements Added "
-            android:textColor="@color/txt_gray_800_100"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/btnSendHome"
+            android:layout_margin="8dp"
+            android:gravity="center_vertical"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/tvDialogCategoryElementAdded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:fontFamily="@font/amaranth"
+                android:text="Elements Added :"
+                android:textColor="@color/txt_gray_800_100"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvElementsAdded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:text="0"
+                android:textColor="@color/txt_gray_800_100"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvQuizNumberCounter"
-            android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-            android:textColor="@drawable/selector_btn_txt_enabled_state"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            android:text="Send Home" />
+            android:layout_marginHorizontal="16dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnNewQuiz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvQuizNumberCounter"
-            android:layout_alignParentRight="true"
-            android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-            android:textColor="@drawable/selector_btn_txt_enabled_state"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:text="New Quiz" />
+            <Button
+                android:id="@+id/btnSendHome"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="10dp"
+                android:text="Home"
+                android:textColor="@color/custom_secondary" />
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/btnNewQuiz"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="10dp"
+                android:text="New Quiz"
+                android:textColor="@color/custom_secondary" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>

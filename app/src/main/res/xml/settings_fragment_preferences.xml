@@ -1,0 +1,45 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="General">
+
+        <EditTextPreference
+            app:icon="@drawable/ic_person_settings_24"
+            app:defaultValue="Anouar"
+            app:key="user_name"
+            app:title="User Name"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:key="switch_language"
+            app:defaultValue="French"
+            app:entries="@array/languages"
+            app:entryValues="@array/languages"
+            app:icon="@drawable/ic_language_24"
+            app:title="Native language"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:summaryOff="Enable dark theme mode"
+            android:summaryOn="Disable dark theme mode"
+            app:icon="@drawable/ic_dark_mode_24"
+            app:key="switch_theme"
+            app:title="Theme" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="More">
+        <Preference
+            android:key="btn_contactus"
+            android:icon="@drawable/ic_phone_24"
+            android:summary="Send us an email for more info"
+            android:title="Contact us" />
+        <Preference
+            android:key="btn_privacy"
+            android:icon="@drawable/ic_privacy_tip_24"
+            android:summary="Tap to access app privacy"
+            android:title="Terms and Privacy Policy" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

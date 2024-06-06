@@ -2,19 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_action_search"
+        android:id="@+id/mainmenu_search"
         android:title="Search"
         android:icon="@drawable/ic_search_24"
-
+        android:visible="false"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
     <item
-        android:id="@+id/menu_main_buy"
-        android:title="Buy"
+        android:id="@+id/menu_main_contact_us"
+        android:title="Contact us"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/menu_main_ads"
-        android:title="ads"
-        app:showAsAction="never"/>
+        android:id="@+id/menu_main_rating_app"
+        android:icon="@drawable/ic1_rate"
+        android:title="Rate"
+        app:showAsAction="always"/>
 
 </menu>

@@ -2,19 +2,14 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <alpha
-        android:duration="3000"
+        android:duration="1500"
         android:fromAlpha="0"
         android:toAlpha="1" />
-    <rotate
-        android:duration="1500"
-        android:fromDegrees="180"
-        android:pivotX="50%"
-        android:pivotY="50%"
-        android:toDegrees="0" />
+
     <scale
         android:duration="1500"
-        android:fromXScale="300%"
-        android:fromYScale="300%"
+        android:fromXScale="200%"
+        android:fromYScale="200%"
         android:pivotX="50%"
         android:pivotY="50%"
         android:toXScale="100%"
