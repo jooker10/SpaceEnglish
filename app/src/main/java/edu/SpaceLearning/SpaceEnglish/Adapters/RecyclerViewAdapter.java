@@ -23,13 +23,13 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.SpaceLearning.SpaceEnglish.DB.Category;
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.Category;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish._Main.Constants;
 import edu.SpaceLearning.SpaceEnglish._Main.TextToSpeechManager;
 import edu.SpaceLearning.SpaceEnglish._Main.Utils;
 
-public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerHolder>  implements Filterable {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CategoryRecyclerHolder>  implements Filterable {
 
 
     private List<Category> originalElements;
@@ -41,7 +41,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
     /*private CustomFilter customFilter;*/
     private onShowAdsClickListener listener;
    private boolean isAdsShowed = false;
-    public CategoryRecyclerAdapter(List<Category> originalElements, Context context, String categoryType , TextToSpeechManager textToSpeechManager , onShowAdsClickListener listener ) {
+    public RecyclerViewAdapter(List<Category> originalElements, Context context, String categoryType , TextToSpeechManager textToSpeechManager , onShowAdsClickListener listener ) {
 
         this.originalElements = originalElements;
         this.context = context;

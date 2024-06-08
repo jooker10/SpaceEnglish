@@ -9,11 +9,22 @@ public class Constants {
     public static final int permissionAdvScore = 400;
     public static final int permissionIdiomScore = 600;
 
+    public static final int[] permissionCategoryScoreArray = {permissionPhrasalScore,permissionNounScore,permissionAdjScore,permissionAdvScore,permissionIdiomScore};
+
     // final Constants
     public static final int HOME_NAV_INDEX = 0;
     public static final int TABLE_NAV_INDEX = 1;
     public static final int QUIZ_NAV_INDEX = 3;
     public static final int SETTINGS_NAV_INDEX = 4;
+
+    public static final String TAG_HOME_NAV_FRAGMENT = "home_nav_fragment";
+    public static final String TAG_TABLES_NAV_FRAGMENT = "tables_nav_fragment";
+    public static final String TAG_QUIZ_NAV_FRAGMENT = "quiz_nav_fragment";
+    public static final String TAG_SETTINGS_NAV_FRAGMENT = "settings_nav_fragment";
+    public static final String TAG_TABLES_CATEGORY_FRAGMENT = "tables_category_fragment";
+    public static final String TAG_QUIZ_CATEGORY_FRAGMENT = "quiz_category_fragment";
+    public static final String TAG_SHEET_MAIN_FRAGMENT = "sheet_main_fragment";
+    public static final String NO_CONNECTION_FRAGMENT = "no_connection_fragment";
 
     public static final String TAG_PREF_CHOOSING_LANG = "choosing_lang";
     public static final String TAG_NATIVE_LANGUAGE = "French";
@@ -70,6 +81,8 @@ public class Constants {
     public static final String ADV_NAME = "Adverbs";
     public static final String IDIOM_NAME = "Idioms";
 
+    public static final String[] categoryNameArray = {VERB_NAME,SENTENCE_NAME,PHRASAL_NAME,NOUN_NAME,ADJ_NAME,ADV_NAME,IDIOM_NAME};
+
 
    public static final String KEY_USER_NAME = "user_name";
 
@@ -82,6 +95,8 @@ public class Constants {
     public static final String TAG_ADV_ADDED = "tag_adv_added";
     public static final String TAG_IDIOM_ADDED = "tag_idiom_added";
 
+    public static final String[] tagListCategoryAdded = {TAG_VERB_ADDED,TAG_SENTENCE_ADDED,TAG_PHRASAL_ADDED,TAG_NOUN_ADDED,TAG_ADJ_ADDED,TAG_ADV_ADDED,TAG_IDIOM_ADDED};
+
     public static final String TAG_VERB_ADDED_VIDEO = "tag_verb_added_video";
     public static final String TAG_SENTENCE_ADDED_VIDEO  = "tag_sentence_added_video";
     public static final String TAG_PHRASAL_ADDED_VIDEO = "tag_phrasal_added_video";
@@ -89,6 +104,9 @@ public class Constants {
     public static final String TAG_ADJ_ADDED_VIDEO  = "tag_adj_added_video";
     public static final String TAG_ADV_ADDED_VIDEO  = "tag_adv_added_video";
     public static final String TAG_IDIOM_ADDED_VIDEO  = "tag_idiom_added_video";
+
+    public static final String[] tagListCategoryAddedVideo = {TAG_VERB_ADDED_VIDEO,TAG_SENTENCE_ADDED_VIDEO,TAG_PHRASAL_ADDED_VIDEO,TAG_NOUN_ADDED_VIDEO,TAG_ADJ_ADDED_VIDEO,TAG_ADV_ADDED_VIDEO,TAG_IDIOM_ADDED_VIDEO};
+
 
     public static final String TAG_VERB_POINT_ADDED_VIDEO = "tag_verb_point_added_video";
     public static final String TAG_SENTENCE_POINT_ADDED_VIDEO  = "tag_sentence_point_added_video";
@@ -98,6 +116,9 @@ public class Constants {
     public static final String TAG_ADV_POINT_ADDED_VIDEO  = "tag_adv_point_added_video";
     public static final String TAG_IDIOM_POINT_ADDED_VIDEO  = "tag_idiom_point_added_video";
 
+    public static final String[] tagListCategoryPointAddedVideo = {TAG_VERB_POINT_ADDED_VIDEO,TAG_SENTENCE_POINT_ADDED_VIDEO,TAG_PHRASAL_POINT_ADDED_VIDEO,
+            TAG_NOUN_POINT_ADDED_VIDEO,TAG_ADJ_POINT_ADDED_VIDEO,TAG_ADV_POINT_ADDED_VIDEO,TAG_IDIOM_POINT_ADDED_VIDEO};
+
     public static final String TAG_VERB_QUIZ_COMPLETED = "tag_verb_quiz_completed";
     public static final String TAG_SENTENCE_QUIZ_COMPLETED = "tag_sentence_quiz_completed";
     public static final String TAG_PHRASAL_QUIZ_COMPLETED = "tag_phrasal_quiz_completed";
@@ -106,6 +127,9 @@ public class Constants {
     public static final String TAG_ADV_QUIZ_COMPLETED = "tag_adv_quiz_completed";
     public static final String TAG_IDIOM_QUIZ_COMPLETED = "tag_idiom_quiz_completed";
 
+    public static final String[] tagCategoryQuizCompleted = {TAG_VERB_QUIZ_COMPLETED,TAG_SENTENCE_QUIZ_COMPLETED,TAG_PHRASAL_QUIZ_COMPLETED
+    ,TAG_NOUN_QUIZ_COMPLETED,TAG_ADJ_QUIZ_COMPLETED,TAG_ADV_QUIZ_COMPLETED,TAG_IDIOM_QUIZ_COMPLETED};
+
     public static final String TAG_VERB_QUIZ_COMPLETED_CORRECTLY = "tag_verb_quiz_completed_correctly";
     public static final String TAG_SENTENCE_QUIZ_COMPLETED_CORRECTLY = "tag_sentence_quiz_completed_correctly";
     public static final String TAG_PHRASAL_QUIZ_COMPLETED_CORRECTLY = "tag_phrasal_quiz_completed_correctly";
@@ -113,5 +137,8 @@ public class Constants {
     public static final String TAG_ADJ_QUIZ_COMPLETED_CORRECTLY = "tag_adj_quiz_completed_correctly";
     public static final String TAG_ADV_QUIZ_COMPLETED_CORRECTLY = "tag_adv_quiz_completed_correctly";
     public static final String TAG_IDIOM_QUIZ_COMPLETED_CORRECTLY = "tag_idiom_quiz_completed_correctly";
+
+    public static final String[] tagCategoryQuizCompletedCorrectly = {TAG_VERB_QUIZ_COMPLETED_CORRECTLY,TAG_SENTENCE_QUIZ_COMPLETED_CORRECTLY,TAG_PHRASAL_QUIZ_COMPLETED_CORRECTLY
+            ,TAG_NOUN_QUIZ_COMPLETED_CORRECTLY,TAG_ADJ_QUIZ_COMPLETED_CORRECTLY,TAG_ADV_QUIZ_COMPLETED_CORRECTLY,TAG_IDIOM_QUIZ_COMPLETED_CORRECTLY};
 
 }

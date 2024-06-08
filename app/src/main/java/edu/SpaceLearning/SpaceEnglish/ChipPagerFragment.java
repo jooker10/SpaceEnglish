@@ -10,20 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-import edu.SpaceLearning.SpaceEnglish.Adapters.ChipPagerAdapter;
 import edu.SpaceLearning.SpaceEnglish.Adapters.ChipRecyclerAdapter;
-import edu.SpaceLearning.SpaceEnglish.Adapters.TablePagerAdapter;
 import edu.SpaceLearning.SpaceEnglish._Main.Constants;
 import edu.SpaceLearning.SpaceEnglish._Main.Scores;
 import edu.SpaceLearning.SpaceEnglish._Main.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.FragmentChipPagerBinding;
-import edu.SpaceLearning.SpaceEnglish.databinding.TableContainerFragmentBinding;
 
 
 public class ChipPagerFragment extends Fragment {
@@ -77,8 +71,8 @@ public class ChipPagerFragment extends Fragment {
 
         Scores.totalQuizCompleted = Scores.verbQuizCompleted + Scores.sentenceQuizCompleted + Scores.phrasalQuizCompleted + Scores.nounQuizCompleted
                 +Scores.adjQuizCompleted + Scores.advQuizCompleted + Scores.idiomQuizCompleted;
-        Scores.totalQuizCompletedCorrectly = Scores.verbQuizCompletedCorrectly + Scores.sentenceQuizCounterCompletedCorrectly + Scores.phrasalQuizCounterCompletedCorrectly
-                +Scores.nounQuizCounterCompletedCorrectly + Scores.adjQuizCounterCompletedCorrectly+Scores.advQuizCounterCompletedCorrectly + Scores.idiomQuizCounterCompletedCorrectly;
+        Scores.totalQuizCompletedCorrectly = Scores.verbQuizCompletedCorrectly + Scores.sentenceQuizCompletedCorrectly + Scores.phrasalQuizCompletedCorrectly
+                +Scores.nounQuizCompletedCorrectly + Scores.adjQuizCompletedCorrectly +Scores.advQuizCompletedCorrectly + Scores.idiomQuizCompletedCorrectly;
         Scores.totalElementsAdded = Scores.verbAdded + Scores.sentenceAdded + Scores.phrasalAdded + Scores.nounAdded + Scores.adjAdded+Scores.advAdded+Scores.idiomAdded;
         Scores.totalElementsAddedVideo = Scores.verbAddedVideo + Scores.sentenceAddedVideo + Scores.phrasalAddedVideo + Scores.nounAddedVideo + Scores.adjAddedVideo+Scores.advAddedVideo+Scores.idiomAddedVideo;
         Scores.totalPointsAddedVideo = Scores.verbPointsAddedVideo + Scores.sentencePointsAddedVideo + Scores.phrasalPointsAddedVideo + Scores.nounPointsAddedVideo
@@ -139,42 +133,42 @@ public class ChipPagerFragment extends Fragment {
 
         chipItemsSentenceScore.add(new ChipItem("Sentences Score",String.valueOf(Scores.sentenceScore)));
         chipItemsSentenceScore.add(new ChipItem(Utils.QUIZ_COMPLETED_NAME,String.valueOf(Scores.sentenceQuizCompleted)));
-        chipItemsSentenceScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.sentenceQuizCounterCompletedCorrectly)));
+        chipItemsSentenceScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.sentenceQuizCompletedCorrectly)));
         chipItemsSentenceScore.add(new ChipItem(Utils.QUIZ_ELEMENT_ADDED_NAME,String.valueOf(Scores.sentenceAdded)));
         chipItemsSentenceScore.add(new ChipItem(Utils.QUIZ_QUIZ_ELEMENT_ADDED_VIDEO_NAME,String.valueOf(Scores.sentenceAddedVideo)));
         chipItemsSentenceScore.add(new ChipItem(Utils.QUIZ_POINT_ADDED_VIDEO_NAME,String.valueOf(Scores.sentencePointsAddedVideo)));
 
         chipItemsPhrasalScore.add(new ChipItem("Phrasal Verbs Score",String.valueOf(Scores.phrasalScore)));
         chipItemsPhrasalScore.add(new ChipItem(Utils.QUIZ_COMPLETED_NAME,String.valueOf(Scores.phrasalQuizCompleted)));
-        chipItemsPhrasalScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.phrasalQuizCounterCompletedCorrectly)));
+        chipItemsPhrasalScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.phrasalQuizCompletedCorrectly)));
         chipItemsPhrasalScore.add(new ChipItem(Utils.QUIZ_ELEMENT_ADDED_NAME,String.valueOf(Scores.phrasalAdded)));
         chipItemsPhrasalScore.add(new ChipItem(Utils.QUIZ_QUIZ_ELEMENT_ADDED_VIDEO_NAME,String.valueOf(Scores.phrasalAddedVideo)));
         chipItemsPhrasalScore.add(new ChipItem(Utils.QUIZ_POINT_ADDED_VIDEO_NAME,String.valueOf(Scores.phrasalPointsAddedVideo)));
 
         chipItemsNounScore.add(new ChipItem("Nouns Score",String.valueOf(Scores.nounScore)));
         chipItemsNounScore.add(new ChipItem(Utils.QUIZ_COMPLETED_NAME,String.valueOf(Scores.nounQuizCompleted)));
-        chipItemsNounScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.nounQuizCounterCompletedCorrectly)));
+        chipItemsNounScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.nounQuizCompletedCorrectly)));
         chipItemsNounScore.add(new ChipItem(Utils.QUIZ_ELEMENT_ADDED_NAME,String.valueOf(Scores.nounAdded)));
         chipItemsNounScore.add(new ChipItem(Utils.QUIZ_QUIZ_ELEMENT_ADDED_VIDEO_NAME,String.valueOf(Scores.nounAddedVideo)));
         chipItemsNounScore.add(new ChipItem(Utils.QUIZ_POINT_ADDED_VIDEO_NAME,String.valueOf(Scores.nounPointsAddedVideo)));
 
         chipItemsAdjScore.add(new ChipItem("Adjectives Score",String.valueOf(Scores.adjScore)));
         chipItemsAdjScore.add(new ChipItem(Utils.QUIZ_COMPLETED_NAME,String.valueOf(Scores.adjQuizCompleted)));
-        chipItemsAdjScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.adjQuizCounterCompletedCorrectly)));
+        chipItemsAdjScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.adjQuizCompletedCorrectly)));
         chipItemsAdjScore.add(new ChipItem(Utils.QUIZ_ELEMENT_ADDED_NAME,String.valueOf(Scores.adjAdded)));
         chipItemsAdjScore.add(new ChipItem(Utils.QUIZ_QUIZ_ELEMENT_ADDED_VIDEO_NAME,String.valueOf(Scores.adjAddedVideo)));
         chipItemsAdjScore.add(new ChipItem(Utils.QUIZ_POINT_ADDED_VIDEO_NAME,String.valueOf(Scores.adjPointsAddedVideo)));
 
         chipItemsAdvScore.add(new ChipItem("Adverbs Score",String.valueOf(Scores.advScore)));
         chipItemsAdvScore.add(new ChipItem(Utils.QUIZ_COMPLETED_NAME,String.valueOf(Scores.advQuizCompleted)));
-        chipItemsAdvScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.advQuizCounterCompletedCorrectly)));
+        chipItemsAdvScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.advQuizCompletedCorrectly)));
         chipItemsAdvScore.add(new ChipItem(Utils.QUIZ_ELEMENT_ADDED_NAME,String.valueOf(Scores.advAdded)));
         chipItemsAdvScore.add(new ChipItem(Utils.QUIZ_QUIZ_ELEMENT_ADDED_VIDEO_NAME,String.valueOf(Scores.advAddedVideo)));
         chipItemsAdvScore.add(new ChipItem(Utils.QUIZ_POINT_ADDED_VIDEO_NAME,String.valueOf(Scores.advPointsAddedVideo)));
 
         chipItemsIdiomScore.add(new ChipItem("Idioms Score",String.valueOf(Scores.idiomScore)));
         chipItemsIdiomScore.add(new ChipItem(Utils.QUIZ_COMPLETED_NAME,String.valueOf(Scores.idiomQuizCompleted)));
-        chipItemsIdiomScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.idiomQuizCounterCompletedCorrectly)));
+        chipItemsIdiomScore.add(new ChipItem(Utils.QUIZ_COMPLETED_CORRECTLY_NAME,String.valueOf(Scores.idiomQuizCompletedCorrectly)));
         chipItemsIdiomScore.add(new ChipItem(Utils.QUIZ_ELEMENT_ADDED_NAME,String.valueOf(Scores.idiomAdded)));
         chipItemsIdiomScore.add(new ChipItem(Utils.QUIZ_QUIZ_ELEMENT_ADDED_VIDEO_NAME,String.valueOf(Scores.idiomAddedVideo)));
         chipItemsIdiomScore.add(new ChipItem(Utils.QUIZ_POINT_ADDED_VIDEO_NAME,String.valueOf(Scores.idiomPointsAddedVideo)));

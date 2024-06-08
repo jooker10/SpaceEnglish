@@ -26,7 +26,7 @@ SharedPrefsManager sharedPrefsManager;
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_FILE_NAME,MODE_PRIVATE);
         defaultSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPrefsManager = new SharedPrefsManager(this,sharedPreferences);
+        sharedPrefsManager = new SharedPrefsManager(sharedPreferences);
         sharedPrefsManager.getSharedPrefTheme();
         onChangeTheme(Utils.isThemeNight);
         setContentView(R.layout.activity_splash);

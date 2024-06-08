@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish.DB;
+package edu.SpaceLearning.SpaceEnglish.DataBaseFiles;
 
 public class Category {
 

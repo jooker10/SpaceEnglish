@@ -8,15 +8,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
-import edu.SpaceLearning.SpaceEnglish._Main.TextToSpeechManager;
 import edu.SpaceLearning.SpaceEnglish._Main.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.DialogQuizScoresBinding;
 
 
-public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
+public class DialogQuizFragment extends DialogFragment {
 
     private static final String ARG_CATEGORY_TYPE = "category";
     private static final String ARG_MAIN_SCORE = "arg_main_score";
@@ -35,8 +34,7 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
 
     private onDialogSendHomeClickListener sendHomeClickListener;
     private onDialogNewQuizClickListener newQuizClickListener;
-    private onDialogNeutralClickListener neutralListener;
-    private TextToSpeechManager textToSpeechManager;
+
 
     public DialogQuizFragment() {
         // Required empty public constructor
@@ -52,9 +50,7 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
         if (context instanceof onDialogNewQuizClickListener) {
             newQuizClickListener = (onDialogNewQuizClickListener) context;
         }
-        if (context instanceof onDialogNeutralClickListener) {
-            neutralListener = (onDialogNeutralClickListener) context;
-        }
+
     }
 
     @Override
@@ -62,7 +58,6 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
         super.onDetach();
         sendHomeClickListener = null;
         newQuizClickListener = null;
-        neutralListener = null;
     }
 
     @Override
@@ -106,13 +101,12 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         binding = DialogQuizScoresBinding.bind(view);
 
-        MainActivity mainActivity = (MainActivity) requireActivity();
-        textToSpeechManager = mainActivity.getTextToSpeechManager();
+
 
         //______set Txt and Events----------------
         binding.tvDialogCongrat.setText(msg);
-        if (textToSpeechManager != null) {
-            textToSpeechManager.speak(msg);
+        if (MainActivity.textToSpeechManager != null) {
+            MainActivity.textToSpeechManager.speak(msg);
         }
 
         binding.tvDialogResult.setText(userRightScore + "/" + Utils.maxQuestionsPerQuiz);
@@ -142,7 +136,4 @@ public class DialogQuizFragment extends androidx.fragment.app.DialogFragment {
         void onSheetDialogNewQuizClick();
     }
 
-    public interface onDialogNeutralClickListener {
-        void onDialogNeutralClick();
-    }
 }

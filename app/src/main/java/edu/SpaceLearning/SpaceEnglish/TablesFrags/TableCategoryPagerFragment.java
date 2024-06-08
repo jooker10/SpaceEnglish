@@ -2,7 +2,6 @@ package edu.SpaceLearning.SpaceEnglish.TablesFrags;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,54 +14,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
-import edu.SpaceLearning.SpaceEnglish.Adapters.CategoryRecyclerAdapter;
-import edu.SpaceLearning.SpaceEnglish.DB.DbAccess;
+import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter;
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess;
 import edu.SpaceLearning.SpaceEnglish._Main.Constants;
-import edu.SpaceLearning.SpaceEnglish.DB.Category;
-import edu.SpaceLearning.SpaceEnglish.OnFragmentNavigationListener;
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.Category;
+import edu.SpaceLearning.SpaceEnglish.OnTablesRecyclerViewClickListener;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
-import edu.SpaceLearning.SpaceEnglish._Main.TextToSpeechManager;
 
 
 public class TableCategoryPagerFragment extends Fragment {
 
     private onFilterRecycleClickListener filterListener;
-    private OnFragmentNavigationListener navigationListener;
+    private OnTablesRecyclerViewClickListener onTablesRecyclerViewClickListener;
     private String categoryType;
-    private TextView tvHeadTitleCategory;
-    CategoryRecyclerAdapter recylerAdapterCategory;
-    DbAccess dbAccess;
-    private TextToSpeechManager textToSpeechManager;
-    // SearchView searchView;
-
-
+    private TextView tvTitleType;
+    private RecyclerViewAdapter recyclerViewAdapter;
+    private DbAccess dbAccess;
     public TableCategoryPagerFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof onFilterRecycleClickListener) {
-            filterListener = (onFilterRecycleClickListener) context;
-        }
-        if(context instanceof OnFragmentNavigationListener){
-            navigationListener = (OnFragmentNavigationListener) context;
-        }
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (filterListener != null)
-            filterListener = null;
-        if (navigationListener != null)
-            navigationListener = null;
-
     }
 
     @Override
@@ -94,30 +65,52 @@ public class TableCategoryPagerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MainActivity mainActivity = (MainActivity) requireActivity();
-        textToSpeechManager = mainActivity.getTextToSpeechManager();
 
-        RecyclerView recyclerCategoryTable = view.findViewById(R.id.recyclerTableCategory);
-        tvHeadTitleCategory = view.findViewById(R.id.headTitleForTableCategory);
+        RecyclerView tableRecyclerView = view.findViewById(R.id.recyclerTableCategory);
+        tvTitleType = view.findViewById(R.id.headTitleForTableCategory);
 
         dbAccess = DbAccess.getInstance(requireActivity());
 
 
-        ArrayList<Category> elements = dbAccess.getRequiredElementsList(categoryType,tvHeadTitleCategory);
+        ArrayList<Category> elements = dbAccess.getRequiredElementsList(categoryType, tvTitleType);
 
-        CategoryRecyclerAdapter.onShowAdsClickListener listener = (CategoryRecyclerAdapter.onShowAdsClickListener) requireActivity();
-         recylerAdapterCategory = new CategoryRecyclerAdapter(elements, requireActivity(), categoryType , textToSpeechManager , listener );
+        RecyclerViewAdapter.onShowAdsClickListener onShowAdsClickListener = (RecyclerViewAdapter.onShowAdsClickListener) requireActivity();
+         recyclerViewAdapter = new RecyclerViewAdapter(elements, requireActivity(), categoryType , MainActivity.textToSpeechManager , onShowAdsClickListener );
 
-        recyclerCategoryTable.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        recyclerCategoryTable.setHasFixedSize(true);
-        recyclerCategoryTable.setAdapter(recylerAdapterCategory);
+        tableRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        tableRecyclerView.setHasFixedSize(true);
+        tableRecyclerView.setAdapter(recyclerViewAdapter);
 
-        navigationListener.onSetAdapterClick(recylerAdapterCategory);
-        tvHeadTitleCategory.setOnClickListener(view1 -> filterListener.onFilterClick(recylerAdapterCategory));
+        onTablesRecyclerViewClickListener.onTableRecyclerViewClick(recyclerViewAdapter);
+        tvTitleType.setOnClickListener(view1 -> filterListener.onFilterClick(recyclerViewAdapter));
     }
 
 
     public interface onFilterRecycleClickListener {
-        void onFilterClick(CategoryRecyclerAdapter adapter);
+        void onFilterClick(RecyclerViewAdapter adapter);
     }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof onFilterRecycleClickListener) {
+            filterListener = (onFilterRecycleClickListener) context;
+        }
+        if(context instanceof OnTablesRecyclerViewClickListener){
+            onTablesRecyclerViewClickListener = (OnTablesRecyclerViewClickListener) context;
+        }
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (filterListener != null)
+            filterListener = null;
+        if (onTablesRecyclerViewClickListener != null)
+            onTablesRecyclerViewClickListener = null;
+
+    }
+
 }

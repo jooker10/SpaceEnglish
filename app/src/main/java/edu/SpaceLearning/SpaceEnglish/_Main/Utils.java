@@ -3,8 +3,9 @@ package edu.SpaceLearning.SpaceEnglish._Main;
 import android.net.Uri;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import edu.SpaceLearning.SpaceEnglish.DB.Category;
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.MyDatabase;
 
 public class Utils {
 
@@ -24,6 +25,9 @@ public class Utils {
 
     public static ArrayList<String> phrasesCorrectAnswers = new ArrayList<>();
     public static ArrayList<String> phrasesIncorrectAnswers = new ArrayList<>();
+    public static ArrayList<String> tableListNames = new ArrayList<>();
+    public static HashMap<String,String> tableHashNames = new HashMap<>();
+
 
     public static boolean switchSimpleToVideoAds = true;
     public static int maxQuestionsPerQuiz = 10;
@@ -69,6 +73,29 @@ public class Utils {
         Utils.phrasesIncorrectAnswers.add("Don't worry, you'll get it next time! Try again!");
         Utils.phrasesIncorrectAnswers.add("That's not it, but you're learning with every try!");
         Utils.phrasesIncorrectAnswers.add("Keep going! Mistakes are part of the learning process.");
+
+    }
+
+    public static void FillHashMapTableName() {
+        tableHashNames.put(Constants.VERB_NAME, MyDatabase.TABLE_VERBS);
+        tableHashNames.put(Constants.SENTENCE_NAME,MyDatabase.TABLE_SENTENSES);
+        tableHashNames.put(Constants.PHRASAL_NAME,MyDatabase.TABLE_PHRASAL);
+        tableHashNames.put(Constants.NOUN_NAME,MyDatabase.TABLE_NOUNS);
+        tableHashNames.put(Constants.ADJ_NAME,MyDatabase.TABLE_ADJECTIVES);
+        tableHashNames.put(Constants.ADV_NAME,MyDatabase.TABLE_ADVERBS);
+        tableHashNames.put(Constants.IDIOM_NAME,MyDatabase.TABLE_IDIOMS);
+    }
+    public static void FillTableNames () {
+
+        tableListNames.add(Constants.ALL_NAME);
+        tableListNames.add(Constants.VERB_NAME);
+        tableListNames.add(Constants.SENTENCE_NAME);
+        tableListNames.add(Constants.PHRASAL_NAME);
+        tableListNames.add(Constants.NOUN_NAME);
+        tableListNames.add(Constants.ADJ_NAME);
+        tableListNames.add(Constants.ADV_NAME);
+        tableListNames.add(Constants.IDIOM_NAME);
+
 
     }
 }

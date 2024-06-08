@@ -21,7 +21,7 @@ public class WaitFragment extends Fragment {
     private static final String ARG_PERMISSION_SCORE = "permission";
 
     private int permissionScore;
-    private AdsManager adsManager;
+    //private AdsManager adsManager;
 
     public WaitFragment() {
         // Required empty public constructor

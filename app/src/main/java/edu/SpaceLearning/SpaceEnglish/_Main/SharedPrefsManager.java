@@ -1,25 +1,20 @@
 package edu.SpaceLearning.SpaceEnglish._Main;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
 public class SharedPrefsManager {
 
     private SharedPreferences sharedPreferences;
-    private final Activity activity;
 
-    public SharedPrefsManager( Activity activity, SharedPreferences sharedPreferences) {
-        this.activity = activity;
+    public SharedPrefsManager(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
     public void getSharedPreferencesData() {
 
-
         Utils.uriProfile = Uri.parse(sharedPreferences.getString(Constants.ARG_STR_URI_PROFILE_IMG, ""));
         Scores.totalScore = sharedPreferences.getInt(Constants.TAG_SCORES_TOTAL_SCORE, 0);
 
-        // The Categories main scores displayed in HomeNavFragment
         Scores.verbScore = sharedPreferences.getInt(Constants.TAG_PREF_VERB_SCORE,0);
         Scores.sentenceScore = sharedPreferences.getInt(Constants.TAG_PREF_SENTENCE_SCORE,0);
         Scores.phrasalScore = sharedPreferences.getInt(Constants.TAG_PREF_PHRASAL_SCORE,0);
@@ -29,47 +24,68 @@ public class SharedPrefsManager {
         Scores.idiomScore = sharedPreferences.getInt(Constants.TAG_PREF_IDIOM_SCORE,0);
 
         // elements added
-        Scores.verbAdded = sharedPreferences.getInt(Constants.TAG_VERB_ADDED , 0);
+
+        for(int i = 0 ; i<Scores.categoryListAdded.length;i++) {
+            Scores.categoryListAdded[i] = sharedPreferences.getInt(Constants.tagListCategoryAdded[i],0);
+        }
+
+        /*Scores.verbAdded = sharedPreferences.getInt(Constants.TAG_VERB_ADDED , 0);
         Scores.sentenceAdded = sharedPreferences.getInt(Constants.TAG_SENTENCE_ADDED , 0);
         Scores.phrasalAdded = sharedPreferences.getInt(Constants.TAG_PHRASAL_ADDED , 0);
         Scores.nounAdded = sharedPreferences.getInt(Constants.TAG_NOUN_ADDED , 0);
         Scores.adjAdded = sharedPreferences.getInt(Constants.TAG_ADJ_ADDED , 0);
         Scores.advAdded = sharedPreferences.getInt(Constants.TAG_ADV_ADDED , 0);
-        Scores.idiomAdded = sharedPreferences.getInt(Constants.TAG_IDIOM_ADDED , 0);
+        Scores.idiomAdded = sharedPreferences.getInt(Constants.TAG_IDIOM_ADDED , 0);*/
         // elements added video
-        Scores.verbAddedVideo = sharedPreferences.getInt(Constants.TAG_VERB_ADDED_VIDEO , 0);
+
+        for(int i = 0 ; i < Scores.categoryListAdded.length ; i++) {
+            Scores.categoryListAdded[i] = sharedPreferences.getInt(Constants.tagListCategoryAdded[i],0);
+        }
+      /*  Scores.verbAddedVideo = sharedPreferences.getInt(Constants.TAG_VERB_ADDED_VIDEO , 0);
         Scores.sentenceAddedVideo = sharedPreferences.getInt(Constants.TAG_SENTENCE_ADDED_VIDEO , 0);
         Scores.phrasalAddedVideo = sharedPreferences.getInt(Constants.TAG_PHRASAL_ADDED_VIDEO , 0);
         Scores.nounAddedVideo = sharedPreferences.getInt(Constants.TAG_NOUN_ADDED_VIDEO , 0);
         Scores.adjAddedVideo = sharedPreferences.getInt(Constants.TAG_ADJ_ADDED_VIDEO , 0);
         Scores.advAddedVideo = sharedPreferences.getInt(Constants.TAG_ADV_ADDED_VIDEO , 0);
-        Scores.idiomAddedVideo = sharedPreferences.getInt(Constants.TAG_IDIOM_ADDED_VIDEO , 0);
+        Scores.idiomAddedVideo = sharedPreferences.getInt(Constants.TAG_IDIOM_ADDED_VIDEO , 0);*/
+        for(int i = 0 ; i < Scores.categoryListAddedVideo.length ; i++) {
+            Scores.categoryListAddedVideo[i] = sharedPreferences.getInt(Constants.tagListCategoryAddedVideo[i],0);
+        }
 
         // Points added video
-        Scores.verbPointsAddedVideo = sharedPreferences.getInt(Constants.TAG_VERB_POINT_ADDED_VIDEO , 0);
+       /* Scores.verbPointsAddedVideo = sharedPreferences.getInt(Constants.TAG_VERB_POINT_ADDED_VIDEO , 0);
         Scores.sentencePointsAddedVideo = sharedPreferences.getInt(Constants.TAG_SENTENCE_POINT_ADDED_VIDEO , 0);
         Scores.phrasalPointsAddedVideo = sharedPreferences.getInt(Constants.TAG_PHRASAL_POINT_ADDED_VIDEO , 0);
         Scores.nounPointsAddedVideo = sharedPreferences.getInt(Constants.TAG_NOUN_POINT_ADDED_VIDEO , 0);
         Scores.adjPointsAddedVideo = sharedPreferences.getInt(Constants.TAG_ADJ_POINT_ADDED_VIDEO , 0);
         Scores.advPointsAddedVideo = sharedPreferences.getInt(Constants.TAG_ADV_POINT_ADDED_VIDEO , 0);
-        Scores.idiomPointsAddedVideo = sharedPreferences.getInt(Constants.TAG_IDIOM_POINT_ADDED_VIDEO , 0);
+        Scores.idiomPointsAddedVideo = sharedPreferences.getInt(Constants.TAG_IDIOM_POINT_ADDED_VIDEO , 0);*/
+        for(int i = 0 ; i < Scores.categoryListPointsAddedVideo.length ; i++) {
+            Scores.categoryListPointsAddedVideo[i] = sharedPreferences.getInt(Constants.tagListCategoryPointAddedVideo[i],0);
+        }
 
         // quiz number completed
-        Scores.verbQuizCompleted = sharedPreferences.getInt(Constants.TAG_VERB_QUIZ_COMPLETED,0);
+        /*Scores.verbQuizCompleted = sharedPreferences.getInt(Constants.TAG_VERB_QUIZ_COMPLETED,0);
         Scores.sentenceQuizCompleted = sharedPreferences.getInt(Constants.TAG_SENTENCE_QUIZ_COMPLETED,0);
         Scores.phrasalQuizCompleted = sharedPreferences.getInt(Constants.TAG_PHRASAL_QUIZ_COMPLETED,0);
         Scores.nounQuizCompleted = sharedPreferences.getInt(Constants.TAG_NOUN_QUIZ_COMPLETED,0);
         Scores.adjQuizCompleted = sharedPreferences.getInt(Constants.TAG_ADJ_QUIZ_COMPLETED,0);
         Scores.advQuizCompleted = sharedPreferences.getInt(Constants.TAG_ADV_QUIZ_COMPLETED,0);
-        Scores.idiomQuizCompleted = sharedPreferences.getInt(Constants.TAG_IDIOM_QUIZ_COMPLETED,0);
+        Scores.idiomQuizCompleted = sharedPreferences.getInt(Constants.TAG_IDIOM_QUIZ_COMPLETED,0);*/
+        for(int i = 0 ; i < Scores.categoryListQuizCompleted.length ; i++) {
+            Scores.categoryListQuizCompleted[i] = sharedPreferences.getInt(Constants.tagCategoryQuizCompleted[i],0);
+        }
         // quiz number completed correctly
-        Scores.verbQuizCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_VERB_QUIZ_COMPLETED_CORRECTLY,0);
-        Scores.sentenceQuizCounterCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_SENTENCE_QUIZ_COMPLETED_CORRECTLY,0);
-        Scores.phrasalQuizCounterCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_PHRASAL_QUIZ_COMPLETED_CORRECTLY,0);
-        Scores.nounQuizCounterCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_NOUN_QUIZ_COMPLETED_CORRECTLY,0);
-        Scores.adjQuizCounterCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_ADJ_QUIZ_COMPLETED_CORRECTLY,0);
-        Scores.advQuizCounterCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_ADV_QUIZ_COMPLETED_CORRECTLY,0);
-        Scores.idiomQuizCounterCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_IDIOM_QUIZ_COMPLETED_CORRECTLY,0);
+        /*Scores.verbQuizCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_VERB_QUIZ_COMPLETED_CORRECTLY,0);
+        Scores.sentenceQuizCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_SENTENCE_QUIZ_COMPLETED_CORRECTLY,0);
+        Scores.phrasalQuizCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_PHRASAL_QUIZ_COMPLETED_CORRECTLY,0);
+        Scores.nounQuizCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_NOUN_QUIZ_COMPLETED_CORRECTLY,0);
+        Scores.adjQuizCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_ADJ_QUIZ_COMPLETED_CORRECTLY,0);
+        Scores.advQuizCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_ADV_QUIZ_COMPLETED_CORRECTLY,0);
+        Scores.idiomQuizCompletedCorrectly = sharedPreferences.getInt(Constants.TAG_IDIOM_QUIZ_COMPLETED_CORRECTLY,0);*/
+        for(int i = 0 ; i < Scores.categoryListQuizCompletedCorrectly.length ; i++) {
+            Scores.categoryListQuizCompletedCorrectly[i] = sharedPreferences.getInt(Constants.tagCategoryQuizCompletedCorrectly[i],0);
+        }
 
         // The allowed max of each category
         Utils.allowedVerbsNumber = sharedPreferences.getInt(Constants.ARG_ALLOWED_VERBS_NUMBER,100);
@@ -135,12 +151,12 @@ public class SharedPrefsManager {
 
         // number of quiz completed correctly
         editor.putInt(Constants.TAG_VERB_QUIZ_COMPLETED_CORRECTLY, Scores.verbQuizCompletedCorrectly);
-        editor.putInt(Constants.TAG_SENTENCE_QUIZ_COMPLETED_CORRECTLY, Scores.sentenceQuizCounterCompletedCorrectly);
-        editor.putInt(Constants.TAG_PHRASAL_QUIZ_COMPLETED_CORRECTLY, Scores.phrasalQuizCounterCompletedCorrectly);
-        editor.putInt(Constants.TAG_NOUN_QUIZ_COMPLETED_CORRECTLY, Scores.nounQuizCounterCompletedCorrectly);
-        editor.putInt(Constants.TAG_ADJ_QUIZ_COMPLETED_CORRECTLY, Scores.adjQuizCounterCompletedCorrectly);
-        editor.putInt(Constants.TAG_ADV_QUIZ_COMPLETED_CORRECTLY, Scores.advQuizCounterCompletedCorrectly);
-        editor.putInt(Constants.TAG_IDIOM_QUIZ_COMPLETED_CORRECTLY, Scores.idiomQuizCounterCompletedCorrectly);
+        editor.putInt(Constants.TAG_SENTENCE_QUIZ_COMPLETED_CORRECTLY, Scores.sentenceQuizCompletedCorrectly);
+        editor.putInt(Constants.TAG_PHRASAL_QUIZ_COMPLETED_CORRECTLY, Scores.phrasalQuizCompletedCorrectly);
+        editor.putInt(Constants.TAG_NOUN_QUIZ_COMPLETED_CORRECTLY, Scores.nounQuizCompletedCorrectly);
+        editor.putInt(Constants.TAG_ADJ_QUIZ_COMPLETED_CORRECTLY, Scores.adjQuizCompletedCorrectly);
+        editor.putInt(Constants.TAG_ADV_QUIZ_COMPLETED_CORRECTLY, Scores.advQuizCompletedCorrectly);
+        editor.putInt(Constants.TAG_IDIOM_QUIZ_COMPLETED_CORRECTLY, Scores.idiomQuizCompletedCorrectly);
 
         // points added video
         editor.putInt(Constants.TAG_VERB_POINT_ADDED_VIDEO,Scores.verbPointsAddedVideo);

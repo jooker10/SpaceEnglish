@@ -13,22 +13,17 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import edu.SpaceLearning.SpaceEnglish._Main.Constants;
-import edu.SpaceLearning.SpaceEnglish.OnFragmentNavigationListener;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish._Main.Utils;
 
 public class SettingsNavFragment extends PreferenceFragmentCompat {
 
     private setOnChangeThemeListener themeListener;
-    private OnFragmentNavigationListener navigationListener;
     private SwitchPreferenceCompat switchAppTheme;
-
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings_fragment_preferences, rootKey);
-
-        Utils.fragmentNameTagSearch = "Settings";
 
 
         switchAppTheme = (SwitchPreferenceCompat) findPreference(Constants.KEY_SETTINGS_SWITCH_THEME);
@@ -36,10 +31,6 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
         Preference btnContactEmail = findPreference(Constants.KEY_SETTINGS_BTN_CONTACTUS);
         ListPreference listSwitchLanguagePreference = (ListPreference) findPreference(Constants.KEY_SETTINGS_SWITCH_LANGUAGE);
 
-        // Notify the MainActivity that this fragment is selected
-        if (navigationListener != null) {
-            navigationListener.onFragmentSelected(this);
-        }
 
         if (listSwitchLanguagePreference != null) {
 
@@ -106,14 +97,13 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
         super.onAttach(context);
         if (context instanceof setOnChangeThemeListener)
             themeListener = (setOnChangeThemeListener) context;
-        if(context instanceof OnFragmentNavigationListener) {
-            navigationListener = (OnFragmentNavigationListener) context;
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        if(themeListener != null)
         themeListener = null;
     }
 }
