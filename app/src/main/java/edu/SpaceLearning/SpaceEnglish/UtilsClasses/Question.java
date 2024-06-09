@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
 
 public class Question {
 

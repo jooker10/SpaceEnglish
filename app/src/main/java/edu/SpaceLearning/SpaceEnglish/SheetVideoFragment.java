@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish.QuizFrags;
+package edu.SpaceLearning.SpaceEnglish;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,16 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.R;
-import edu.SpaceLearning.SpaceEnglish._Main.Scores;
-import edu.SpaceLearning.SpaceEnglish.onVideoBuyClickListener;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores;
+import edu.SpaceLearning.SpaceEnglish.Listeners.onVideoBuyClickListener;
 
 
 public class SheetVideoFragment extends Fragment {

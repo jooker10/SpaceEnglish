@@ -11,11 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WaitFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WaitFragment extends Fragment {
 
     private static final String ARG_PERMISSION_SCORE = "permission";

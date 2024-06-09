@@ -17,9 +17,9 @@ import android.widget.RadioButton;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
-import edu.SpaceLearning.SpaceEnglish._Main.Utils;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 
 public class FirstActivity extends AppCompatActivity {
 
@@ -99,12 +99,12 @@ public class FirstActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         SharedPreferences.Editor defaultEditor = defaultSharedPreferences.edit();
 
-        editor.putString(Constants.KEY_USER_NAME,Utils.userName);
-        editor.putString(Constants.TAG_NATIVE_LANGUAGE,Utils.nativeLanguage);
-        editor.putBoolean(Constants.ARG_IS_THEME_DARK_MODE,Utils.isThemeNight);
+        editor.putString(Constants.KEY_PREF_USER_NAME,Utils.userName);
+        editor.putString(Constants.TAG_PREF_NATIVE_LANGUAGE,Utils.nativeLanguage);
+        editor.putBoolean(Constants.TAG_PREF_IS_THEME_DARK_MODE,Utils.isThemeNight);
 
         defaultEditor.putString(Constants.KEY_SETTINGS_SWITCH_LANGUAGE,Utils.nativeLanguage);
-        defaultEditor.putString(Constants.KEY_USER_NAME,Utils.userName);
+        defaultEditor.putString(Constants.KEY_PREF_USER_NAME,Utils.userName);
         defaultEditor.putBoolean(Constants.KEY_SETTINGS_SWITCH_THEME,Utils.isThemeNight);
 
         editor.apply();

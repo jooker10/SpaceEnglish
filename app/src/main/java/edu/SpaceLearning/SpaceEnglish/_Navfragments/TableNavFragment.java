@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish.navfragments;
+package edu.SpaceLearning.SpaceEnglish._Navfragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,20 +17,20 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 
 import edu.SpaceLearning.SpaceEnglish.Adapters.TablePagerAdapter;
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.TablesFrags.TableCategoryPagerFragment;
-import edu.SpaceLearning.SpaceEnglish._Main.Scores;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores;
 import edu.SpaceLearning.SpaceEnglish.WaitFragment;
 import edu.SpaceLearning.SpaceEnglish.databinding.TableContainerFragmentBinding;
 
 
-public class TablesNavFragments extends Fragment {
+public class TableNavFragment extends Fragment {
 
     private TableContainerFragmentBinding binding;
     private final ArrayList<Fragment> pagerListFragments = new ArrayList<>();;
 
-    public TablesNavFragments() {
+    public TableNavFragment() {
         // Required empty public constructor
     }
 
@@ -46,10 +46,9 @@ public class TablesNavFragments extends Fragment {
         binding = TableContainerFragmentBinding.bind(view);
 
 
-        addAllowedPagerCategoryFragments(); // fill the pagerFragments.
-        TablePagerAdapter tablePagerAdapter = new TablePagerAdapter(requireActivity(), pagerListFragments);
-        binding.tableNavPager2.setAdapter(tablePagerAdapter);
-        setUpTabsTableWithPagers();
+        addAllowedPagerCategoryFragments(); // fill the required pagerFragments in TableFragment.
+
+        setUpTabsTableWithPager2(); // combine Tabs with pager2 in TableFragment.
 
     }
 
@@ -63,7 +62,9 @@ public class TablesNavFragments extends Fragment {
         }
 
     }
-    private void setUpTabsTableWithPagers(){
+    private void setUpTabsTableWithPager2(){
+        TablePagerAdapter tablePagerAdapter = new TablePagerAdapter(requireActivity(), pagerListFragments);
+        binding.tableNavPager2.setAdapter(tablePagerAdapter);
         new TabLayoutMediator(binding.tableNavTabLayout, binding.tableNavPager2, (tab, position) -> {
 
             switch (position) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navfragments.HomeNavFragment">
+    tools:context="._Navfragments.HomeNavFragment">
 
     <RelativeLayout
         android:id="@+id/relativeHomeHead"
@@ -195,7 +195,7 @@
     </RadioGroup>
     </HorizontalScrollView>-->
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/chipTabLayout"
+        android:id="@+id/info_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnHomeGoToQuiz"
@@ -206,9 +206,9 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/chipViewPager2"
+        android:id="@+id/info_scores_pager_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/chipTabLayout"
+        android:layout_below="@id/info_tab_layout"
         android:layout_margin="8dp" />
 </RelativeLayout>

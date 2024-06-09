@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,11 +20,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
-
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
-import edu.SpaceLearning.SpaceEnglish._Main.CustomToast;
-import edu.SpaceLearning.SpaceEnglish._Main.Scores;
-import edu.SpaceLearning.SpaceEnglish._Main.Utils;
 
 public class AdsManager {
     private static final String ADS_INTERSTITIAL_ID = "ca-app-pub-8315645297205950/3611783850"; //reel

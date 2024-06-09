@@ -168,7 +168,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvQuizMainQuestionCategory"
+            android:id="@+id/tv_quiz_choose_the_right_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -179,7 +179,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/QuizTheMainElementOfCategory"
+            android:id="@+id/tv_quiz_main_element_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"

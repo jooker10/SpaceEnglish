@@ -35,27 +35,32 @@ import java.util.Objects;
 
 
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter;
-import edu.SpaceLearning.SpaceEnglish.AdsManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.AdsManager;
 import edu.SpaceLearning.SpaceEnglish.Broadcast.NetworkChangeReceiver;
 import edu.SpaceLearning.SpaceEnglish.Broadcast.NoConnectionFragment;
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess;
 import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment;
 import edu.SpaceLearning.SpaceEnglish.MyBottomSheet;
-import edu.SpaceLearning.SpaceEnglish.OnTablesRecyclerViewClickListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.OnTablesRecyclerViewClickListener;
 import edu.SpaceLearning.SpaceEnglish.QuizFrags.QuizCategoriesFragment;
 import edu.SpaceLearning.SpaceEnglish.R;
-import edu.SpaceLearning.SpaceEnglish.SoundManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.CustomToast;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.RatingManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SharedPrefsManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.ActivityMainBinding;
-import edu.SpaceLearning.SpaceEnglish.navfragments.HomeNavFragment;
-import edu.SpaceLearning.SpaceEnglish.navfragments.QuizNavFragment;
-import edu.SpaceLearning.SpaceEnglish.navfragments.SettingsNavFragment;
-import edu.SpaceLearning.SpaceEnglish.navfragments.TablesNavFragments;
-import edu.SpaceLearning.SpaceEnglish.onVideoBuyClickListener;
+import edu.SpaceLearning.SpaceEnglish._Navfragments.HomeNavFragment;
+import edu.SpaceLearning.SpaceEnglish._Navfragments.QuizNavFragment;
+import edu.SpaceLearning.SpaceEnglish._Navfragments.SettingsNavFragment;
+import edu.SpaceLearning.SpaceEnglish._Navfragments.TableNavFragment;
+import edu.SpaceLearning.SpaceEnglish.Listeners.onVideoBuyClickListener;
 
 public class MainActivity extends AppCompatActivity implements OnTablesRecyclerViewClickListener, HomeNavFragment.HomeFragClickListener, QuizCategoriesFragment.QuizCategoryClickListener, RecyclerViewAdapter.onShowAdsClickListener,
         onVideoBuyClickListener,NetworkChangeReceiver.NetworkChangeListener, SettingsNavFragment.setOnChangeThemeListener, QuizNavFragment.OnsetFragmentToReplaceClickListener, DialogQuizFragment.onDialogSendHomeClickListener, DialogQuizFragment.onDialogNewQuizClickListener {
 
-    private static final int REQUEST_IMAGE_PICK_PERMISSION = 200;
     // -------Declaration of variables------------
     private ActivityMainBinding binding;
     private DbAccess dbAccess;
@@ -89,8 +94,9 @@ public class MainActivity extends AppCompatActivity implements OnTablesRecyclerV
        initRatingManager();
        initAds();
 
-       binding.mainNavFab.setOnClickListener(v -> ShowBottomSheet());
-       setBottomNavWithMenu();
+       binding.mainNavFab.setOnClickListener(v -> ShowMainBottomSheet());
+
+       setBottomMainNavWithMenu();
    }
 
     private void initTextToSpeech() {
@@ -137,11 +143,11 @@ public class MainActivity extends AppCompatActivity implements OnTablesRecyclerV
 
     private void initUtils() {
        Utils.FillHashMapTableName();
-       Utils.FillTableNames();
+       Utils.FillListCategoriesNames();
         Utils.FillListsCorrectIncorrectAnswerResponses();
     }
 
-    private void setBottomNavWithMenu() {
+    private void setBottomMainNavWithMenu() {
         binding.bottomNav.getMenu().findItem(R.id.item_nav_home).setIcon(R.drawable.selector_home_nav_change_icon);
         binding.bottomNav.getMenu().findItem(R.id.item_nav_tables).setIcon(R.drawable.selector_table_nav_change_icon);
         binding.bottomNav.getMenu().findItem(R.id.item_nav_quiz).setIcon(R.drawable.selector_quiz_nav_change_icon);
@@ -199,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements OnTablesRecyclerV
                 Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
                 setNavFragment(new NoConnectionFragment(), Constants.NO_CONNECTION_FRAGMENT);
             } else {
-                setNavFragment(new TablesNavFragments(), Constants.TAG_TABLES_NAV_FRAGMENT);
+                setNavFragment(new TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT);
             }
         }
         if (fragmentTag.equals(Constants.TAG_QUIZ_NAV_FRAGMENT)) {
@@ -212,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements OnTablesRecyclerV
         }
     }
 
-    private void ShowBottomSheet() {
+    private void ShowMainBottomSheet() {
         if (myBottomSheet == null || !myBottomSheet.isVisible()) {
             myBottomSheet = new MyBottomSheet();
             myBottomSheet.show(getSupportFragmentManager(), MyBottomSheet.SHEET_TAG);
@@ -231,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements OnTablesRecyclerV
     @Override //called from Home to go to a destination given
     public void onHomeGetStarted(int index) {
         if (index == Constants.TABLE_NAV_INDEX) {
-            setNavFragment(new TablesNavFragments(),Constants.TAG_TABLES_NAV_FRAGMENT);
+            setNavFragment(new TableNavFragment(),Constants.TAG_TABLES_NAV_FRAGMENT);
             binding.bottomNav.getMenu().getItem(Constants.TABLE_NAV_INDEX).setChecked(true);
         } else {
             setNavFragment(new QuizNavFragment(),Constants.TAG_QUIZ_NAV_FRAGMENT);
@@ -326,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements OnTablesRecyclerV
     public void onShowVideoAds(String categoryType) {
         adsManager.showRewardedVideoAds(categoryType);
         dbAccess.getDBListCategorySize();
-        setNavFragment(new TablesNavFragments(), Constants.TAG_TABLES_NAV_FRAGMENT);
+        setNavFragment(new TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT);
         binding.bottomNav.getMenu().getItem(Constants.TABLE_NAV_INDEX).setChecked(true);
     }
 
@@ -461,7 +467,7 @@ public class MainActivity extends AppCompatActivity implements OnTablesRecyclerV
     public void onNetworkChange(boolean isConnected) {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_frag_container);
 
-        if (currentFragment instanceof TablesNavFragments || currentFragment instanceof NoConnectionFragment) {
+        if (currentFragment instanceof TableNavFragment || currentFragment instanceof NoConnectionFragment) {
             if (!isConnected) {
                 Toast.makeText(this, "No Connection", Toast.LENGTH_LONG).show();
                 if (!(currentFragment instanceof NoConnectionFragment)) {
@@ -469,8 +475,8 @@ public class MainActivity extends AppCompatActivity implements OnTablesRecyclerV
                 }
             } else {
                 Toast.makeText(this, "Connection Active", Toast.LENGTH_SHORT).show();
-                if (!(currentFragment instanceof TablesNavFragments)) {
-                    setNavFragment(new TablesNavFragments(), Constants.TAG_TABLES_NAV_FRAGMENT);
+                if (!(currentFragment instanceof TableNavFragment)) {
+                    setNavFragment(new TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT);
                 }
             }
         }

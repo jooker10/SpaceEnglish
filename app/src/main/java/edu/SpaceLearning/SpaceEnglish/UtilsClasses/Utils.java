@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish._Main;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
 
 import android.net.Uri;
 
@@ -85,7 +85,7 @@ public class Utils {
         tableHashNames.put(Constants.ADV_NAME,MyDatabase.TABLE_ADVERBS);
         tableHashNames.put(Constants.IDIOM_NAME,MyDatabase.TABLE_IDIOMS);
     }
-    public static void FillTableNames () {
+    public static void FillListCategoriesNames() {
 
         tableListNames.add(Constants.ALL_NAME);
         tableListNames.add(Constants.VERB_NAME);

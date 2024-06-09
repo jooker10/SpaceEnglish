@@ -11,29 +11,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import edu.SpaceLearning.SpaceEnglish.ChipItem;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.InfoScore;
 import edu.SpaceLearning.SpaceEnglish.R;
 
-public class ChipRecyclerAdapter extends RecyclerView.Adapter<ChipRecyclerAdapter.ChipRecyclerHolder> {
-    private ArrayList<ChipItem> items;
+public class HomeInfoScoresRecyclerAdapter extends RecyclerView.Adapter<HomeInfoScoresRecyclerAdapter.InfoScoreRecyclerHolder> {
+    private ArrayList<InfoScore> items;
 
-    public ChipRecyclerAdapter(ArrayList<ChipItem> items) {
+    public HomeInfoScoresRecyclerAdapter(ArrayList<InfoScore> items) {
         this.items = items;
     }
 
     @NonNull
     @Override
-    public ChipRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item_recycler_chip,parent,false);
+    public InfoScoreRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item_recycler_info_scores,parent,false);
 
-        return new ChipRecyclerHolder(view);
+        return new InfoScoreRecyclerHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChipRecyclerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InfoScoreRecyclerHolder holder, int position) {
 
-        ChipItem chipItem = items.get(position);
-        holder.bind(chipItem,position);
+        InfoScore infoScore = items.get(position);
+        holder.bind(infoScore,position);
         holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.recycler_animation_chip));
 
 
@@ -46,20 +46,20 @@ public class ChipRecyclerAdapter extends RecyclerView.Adapter<ChipRecyclerAdapte
 
 
 
-     class ChipRecyclerHolder extends RecyclerView.ViewHolder {
-        private ChipItem item;
+     class InfoScoreRecyclerHolder extends RecyclerView.ViewHolder {
+        private InfoScore item;
         private TextView tvTitleLabel;
         private TextView tvScore;
         private View divider;
 
-        public ChipRecyclerHolder(@NonNull View itemView) {
+        public InfoScoreRecyclerHolder(@NonNull View itemView) {
             super(itemView);
             tvTitleLabel = itemView.findViewById(R.id.tvRecyclerHomeTitleLabel);
             tvScore = itemView.findViewById(R.id.tvRecyclerHomeScoreCounter);
             divider = itemView.findViewById(R.id.dividerRecyclerColor);
         }
 
-        void bind(ChipItem item , int position) {
+        void bind(InfoScore item , int position) {
             this.item = item;
             tvTitleLabel.setText(item.getTitleLabel());
             tvScore.setText(item.getScoreCounter());

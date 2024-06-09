@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +19,21 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
-import edu.SpaceLearning.SpaceEnglish.SoundManager;
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.CountDownTimerHelper;
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.Category;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category;
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess;
-import edu.SpaceLearning.SpaceEnglish.Question;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Question;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
-import edu.SpaceLearning.SpaceEnglish._Main.Scores;
-import edu.SpaceLearning.SpaceEnglish._Main.Utils;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.QuizCategoriesFragmentBinding;
 
 
@@ -47,8 +50,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     private ColorStateList rbDefaultColorTxt;
 
     private List<Question> questionsList = new ArrayList<>();
-    private List<Category> choosedElementsList = new ArrayList<>();
-    private int currentQstCounter, qstCounterTotal;
+    private List<Category> currentElementsList = new ArrayList<>();
+    private int currentQstCounter, totalQuestionsCounter;
     private int userRightScore = 0;
     private int userWrongScore = 0;
 
@@ -91,37 +94,16 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         super.onViewCreated(view, savedInstanceState);
         binding = QuizCategoriesFragmentBinding.bind(view);
         soundManager = new SoundManager(requireActivity());
-
-        binding.tvQuizMainQuestionCategory.setText(choosingNativeLangQuestion(Utils.nativeLanguage)); // Choose the right native Language
-
-        if (categoryType.equals(Constants.IDIOM_NAME) || categoryType.equals(Constants.SENTENCE_NAME)) {
-            maxCounterTimer = 20;
-            RadioGroup.LayoutParams layoutParams1 = (RadioGroup.LayoutParams) binding.QuizCategoryOption1.getLayoutParams();
-            layoutParams1.setMargins(0, 12, 0, 4);
-            RadioGroup.LayoutParams layoutParams2 = (RadioGroup.LayoutParams) binding.QuizCategoryOption2.getLayoutParams();
-            layoutParams2.setMargins(0, 12, 0, 4);
-            RadioGroup.LayoutParams layoutParams3 = (RadioGroup.LayoutParams) binding.QuizCategoryOption3.getLayoutParams();
-            layoutParams3.setMargins(0, 12, 0, 4);
-        }
-        // Initialize the countdown timer and start it if not running
-        if (countDownTimerHelper == null) {
-            countDownTimerHelper = new CountDownTimerHelper(maxCounterTimer * 1000L, 1000);
-            countDownTimerHelper.setListener(this);
-        }
-
         rbDefaultColorTxt = binding.QuizCategoryOption2.getTextColors();
 
-        //------- fill Lists--------------
-        DbAccess db = DbAccess.getInstance(requireActivity());
-        db.open_to_read();
-        ArrayList<Category> allElementsList = new ArrayList<>(db.getAllElementsCategory(categoryType, false));
-        db.close();
-        Collections.shuffle(allElementsList);
-        choosedElementsList = allElementsList.subList(0, Utils.maxQuestionsPerQuiz);
-        qstCounterTotal = choosedElementsList.size();
+        binding.tvQuizChooseTheRightAnswer.setText(chooseTvQuizRightAnswerRequiredLanguage(Utils.nativeLanguage)); // Choose the right native Language
+
+        fillListWithRequiredCategoryFromDataBase();
+        ifCategoryIsSentenceOrIdiomAddMargins();
+        initCountDownTimerAndStartIt();
 //-------------------------------------------------------------begin-----------------------------------------------------------------
 
-        SetRandomQuestions(); // Random 3 indexes including the right index --> to choose 3 Questions instance including the right Question.
+        setRandomQuestions(); // Random 3 indexes including the right index --> to choose 3 Questions instance including the right Question.
 
         showNextQuestion();       // a new question set with there options + native element
 
@@ -132,19 +114,51 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
             }
         });
         //-----------------------------------------------------------------------------------------------------------------------------------------
+
           txtRadioOptionToSpeech(binding.QuizCategoryOption1);
           txtRadioOptionToSpeech(binding.QuizCategoryOption2);
           txtRadioOptionToSpeech(binding.QuizCategoryOption3);
-          String theQst = choosingNativeLangQuestion(Utils.nativeLanguage);
-        String mainElementQst = binding.QuizTheMainElementOfCategory.getText().toString();
+
+          String theQst = chooseTvQuizRightAnswerRequiredLanguage(Utils.nativeLanguage);
+        String mainElementQst = binding.tvQuizMainElementQuestion.getText().toString();
         String option1 = binding.QuizCategoryOption1.getText().toString();
         String option2 = binding.QuizCategoryOption2.getText().toString();
         String option3 = binding.QuizCategoryOption3.getText().toString();
 
-        binding.fabShareQstFriend.setOnClickListener(v -> shareQst(theQst+ " :\n" +mainElementQst+ "\n" + "A."+option1+
-                "\n" + "B."+option2+ "\n" + "C."+option3 +"\n"+"\n" + "For additional questions or tests, please visit our app :"
-                +"\n" + getString(R.string.url_app1)));
+        String questionToShareTxt = theQst + " :\n" +mainElementQst + "\n" + "A." + option1 +
+                "\n" + "B." + option2 + "\n" + "C." + option3 + "\n"+"\n" + "For additional questions or tests, please visit our app :"
+                +"\n" + getString(R.string.url_app1);
+        binding.fabShareQstFriend.setOnClickListener(v -> shareQst(questionToShareTxt));
 
+    }
+
+    private void ifCategoryIsSentenceOrIdiomAddMargins() {
+        if (categoryType.equals(Constants.IDIOM_NAME) || categoryType.equals(Constants.SENTENCE_NAME)) {
+            maxCounterTimer = 20;
+            RadioGroup.LayoutParams layoutParams1 = (RadioGroup.LayoutParams) binding.QuizCategoryOption1.getLayoutParams();
+            layoutParams1.setMargins(0, 12, 0, 4);
+            RadioGroup.LayoutParams layoutParams2 = (RadioGroup.LayoutParams) binding.QuizCategoryOption2.getLayoutParams();
+            layoutParams2.setMargins(0, 12, 0, 4);
+            RadioGroup.LayoutParams layoutParams3 = (RadioGroup.LayoutParams) binding.QuizCategoryOption3.getLayoutParams();
+            layoutParams3.setMargins(0, 12, 0, 4);
+        }
+    }
+
+    private void fillListWithRequiredCategoryFromDataBase() {
+        DbAccess db = DbAccess.getInstance(requireActivity());
+        db.open_to_read();
+        ArrayList<Category> allElementsList = new ArrayList<>(db.getAllElementsCategory(categoryType, false));
+        db.close();
+        Collections.shuffle(allElementsList);
+        currentElementsList = allElementsList.subList(0, Utils.maxQuestionsPerQuiz);
+        totalQuestionsCounter = currentElementsList.size();
+    }
+
+    private void initCountDownTimerAndStartIt() {
+        if (countDownTimerHelper == null) {
+            countDownTimerHelper = new CountDownTimerHelper(maxCounterTimer * 1000L, 1000);
+            countDownTimerHelper.setListener(this);
+        }
     }
 
     //---------------------------------------------------------------------------------------------
@@ -175,7 +189,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         }
 
         // the counter is reached the final Question then change the btn to finish
-        if (currentQstCounter == qstCounterTotal) {
+        if (currentQstCounter == totalQuestionsCounter) {
             binding.btnConfirmNextCategory.setText("Finish");
             binding.btnConfirmNextCategory.setTextColor(Color.GREEN);
             binding.btnConfirmNextCategory.setBackgroundColor(Color.WHITE);
@@ -189,13 +203,13 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         }
     }
 
-    private void SetRandomQuestions() {
-        for (int i = 0; i < choosedElementsList.size(); i++) {
+   /* private void SetRandomQuestions1() {
+        for (int i = 0; i < currentElementsList.size(); i++) {
             List<Integer> randomList = new ArrayList<>();
             Random random = new Random();
 
             while (randomList.size() != 2) {
-                int j = random.nextInt(choosedElementsList.size());
+                int j = random.nextInt(currentElementsList.size());
                 if (!randomList.contains(j) && j != i) {
                     randomList.add(j);
                 }
@@ -205,17 +219,51 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
             Collections.shuffle(randomList);
 
             String mainNativeElement = choosingTheRightMainElementLang(Utils.nativeLanguage, i); // here change the Element language
-            String rbOption1 = choosedElementsList.get(randomList.get(0)).getCategoryEng();
-            String rbOption2 = choosedElementsList.get(randomList.get(1)).getCategoryEng();
-            String rbOption3 = choosedElementsList.get(randomList.get(2)).getCategoryEng();
-            String rightAnswer = choosedElementsList.get(i).getCategoryEng();
+            String rbOption1 = currentElementsList.get(randomList.get(0)).getCategoryEng();
+            String rbOption2 = currentElementsList.get(randomList.get(1)).getCategoryEng();
+            String rbOption3 = currentElementsList.get(randomList.get(2)).getCategoryEng();
+            String rightAnswer = currentElementsList.get(i).getCategoryEng();
+
+            questionsList.add(new Question(mainNativeElement, rbOption1, rbOption2, rbOption3, rightAnswer));
+        }
+    }*/
+
+    private void setRandomQuestions() {
+        Set<Integer> randomSet = new HashSet<>();
+        Random random = new Random();
+
+        for (int i = 0; i < currentElementsList.size(); i++) {
+            randomSet.clear(); // Clear the set for each new iteration
+
+            // Generate two random indices different from i
+            while (randomSet.size() < 2) {
+                int randomIndex = random.nextInt(currentElementsList.size());
+                if (randomIndex != i) {
+                    randomSet.add(randomIndex);
+                }
+            }
+
+            // Add i to the set
+            randomSet.add(i);
+
+            // Convert set to list for shuffling
+            List<Integer> randomList = new ArrayList<>(randomSet);
+            Collections.shuffle(randomList);
+            // Now randomList contains 3 unique indices: i and two others
+            // You can use these indices to select questions from currentElementsList
+            String mainNativeElement = choosingTheRightMainElementLang(Utils.nativeLanguage, i); // here change the Element language
+            String rbOption1 = currentElementsList.get(randomList.get(0)).getCategoryEng();
+            String rbOption2 = currentElementsList.get(randomList.get(1)).getCategoryEng();
+            String rbOption3 = currentElementsList.get(randomList.get(2)).getCategoryEng();
+            String rightAnswer = currentElementsList.get(i).getCategoryEng();
 
             questionsList.add(new Question(mainNativeElement, rbOption1, rbOption2, rbOption3, rightAnswer));
         }
     }
 
 
-    private String choosingNativeLangQuestion(String nativeLanguage) {
+
+    private String chooseTvQuizRightAnswerRequiredLanguage(String nativeLanguage) {
         switch (nativeLanguage) {
             case Constants.LANGUAGE_NATIVE_ARABIC:
                 return getResources().getString(R.string.TheQstInArabic);
@@ -230,13 +278,13 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     private String choosingTheRightMainElementLang(String nativeLanguage, int currentIndex) {
         switch (nativeLanguage) {
             case Constants.LANGUAGE_NATIVE_ARABIC:
-                return choosedElementsList.get(currentIndex).getCategoryAr();
+                return currentElementsList.get(currentIndex).getCategoryAr();
 
             case Constants.LANGUAGE_NATIVE_SPANISH:
-                return choosedElementsList.get(currentIndex).getCategorySp();
+                return currentElementsList.get(currentIndex).getCategorySp();
 
             default:
-                return choosedElementsList.get(currentIndex).getCategoryFr();
+                return currentElementsList.get(currentIndex).getCategoryFr();
         }
     }
 
@@ -309,8 +357,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
 
     //---------------------------gpt function-------------------------------------------
-    private void showNextQuestion() {
-        if (currentQstCounter < qstCounterTotal) {
+    private void showNextQuestion1() {
+        if (currentQstCounter < totalQuestionsCounter) {
 
             countDownTimerHelper.start(); //Start the timer
             resetUIForNextQuestion(); // Reset UI components for the next question
@@ -326,6 +374,34 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         }
     }
 
+    private void showNextQuestion() {
+        if (currentQstCounter < totalQuestionsCounter) {
+            if (countDownTimerHelper != null) {
+                countDownTimerHelper.start(); // Start the timer
+            }
+            resetUIForNextQuestion(); // Reset UI components for the next question
+            if (currentQstCounter < questionsList.size()) {
+                currentQuestion = questionsList.get(currentQstCounter);
+                updateUIWithQuestion(currentQuestion);
+                currentQstCounter++;
+            } else {
+                // Handle the case when questionsList does not contain enough questions
+                // This might indicate an error in the data or logic
+                String TAG = "error";
+                Log.e(TAG, "Not enough questions in the list.");
+                return;
+            }
+            // Update the TextView with the initial time (converted to seconds)
+            binding.tvCounterDownTimer.setText(String.valueOf(maxCounterTimer / 1000));
+        } else {
+            if (countDownTimerHelper != null) {
+                countDownTimerHelper.stop();
+            }
+            finishQuiz();
+        }
+    }
+
+
     private void resetUIForNextQuestion() {
         isAnswered = false;
         binding.progressBarTimer.setProgress(0);
@@ -337,11 +413,11 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     }
 
     private void updateUIWithQuestion(Question question) {
-        binding.QuizTheMainElementOfCategory.setText(question.getTheMainElement());
+        binding.tvQuizMainElementQuestion.setText(question.getTheMainElement());
         binding.QuizCategoryOption1.setText(question.getOption0());
         binding.QuizCategoryOption2.setText(question.getOption1());
         binding.QuizCategoryOption3.setText(question.getOption2());
-        binding.tvQuizCurrentCounterCategory.setText((currentQstCounter + 1) + "/" + qstCounterTotal);
+        binding.tvQuizCurrentCounterCategory.setText((currentQstCounter + 1) + "/" + totalQuestionsCounter);
     }
 
     private void checkAnswer() {
@@ -361,7 +437,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
             // Pause the timer when checking the answer
             countDownTimerHelper.pause();
 
-            if (currentQstCounter == qstCounterTotal) {
+            if (currentQstCounter == totalQuestionsCounter) {
                 binding.btnConfirmNextCategory.setText("Finish");     // changed R.string.finish_text
 
             }
@@ -443,23 +519,23 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         float result = userScore;
         String msg = "";
 
-        if(result == qstCounterTotal) {
+        if(result == totalQuestionsCounter) {
             // result 20
             pointsAdded = 10;
             elementsAdded = 3;
             msg = "Perfection Achieved!";
 
-        } else if (result >= 0.75f * qstCounterTotal) {
+        } else if (result >= 0.75f * totalQuestionsCounter) {
             // result >=15
             pointsAdded = 5;
             elementsAdded = 2;
             msg = "Excellent";
-        } else if (result >= 0.5f * qstCounterTotal) {
+        } else if (result >= 0.5f * totalQuestionsCounter) {
             // esult >=10
             pointsAdded = 4;
             elementsAdded = 1;
             msg = "Average";
-        } else if(result >= 0.25f * qstCounterTotal){
+        } else if(result >= 0.25f * totalQuestionsCounter){
             // result >= 5
             pointsAdded = 1;
             elementsAdded = 0;

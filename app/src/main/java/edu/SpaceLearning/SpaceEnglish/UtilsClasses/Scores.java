@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish._Main;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
 
 public class Scores {
 
@@ -19,6 +19,9 @@ public class Scores {
     public static int adjScore;
     public static int advScore;
     public static int idiomScore;
+
+    public static int[] mainScores = {verbScore, sentenceScore, phrasalScore, nounScore, adjScore, advScore, idiomScore};
+
 
     public static int[] categoryListScore = {verbScore,sentenceScore,phrasalScore,nounScore,adjScore,advScore,idiomScore};
 

@@ -23,11 +23,11 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.Category;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category;
 import edu.SpaceLearning.SpaceEnglish.R;
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
-import edu.SpaceLearning.SpaceEnglish._Main.TextToSpeechManager;
-import edu.SpaceLearning.SpaceEnglish._Main.Utils;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CategoryRecyclerHolder>  implements Filterable {
 

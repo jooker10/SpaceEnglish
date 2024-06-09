@@ -11,10 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
-import edu.SpaceLearning.SpaceEnglish._Main.SharedPrefsManager;
-import edu.SpaceLearning.SpaceEnglish._Main.Utils;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SharedPrefsManager;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -35,7 +35,7 @@ SharedPrefsManager sharedPrefsManager;
         ImageView iconSplash = findViewById(R.id.img_splash_icon);
         iconSplash.setAnimation(AnimationUtils.loadAnimation(this, R.anim.splash_icon_anim));
 
-        boolean isInitialConfigurationCompleted = defaultSharedPrefs.getBoolean(Constants.ARG_IS_FIRST_TIME_ACTIVITY, false);
+        boolean isInitialConfigurationCompleted = defaultSharedPrefs.getBoolean(Constants.TAG_PREF_IS_FIRST_TIME_ACTIVITY, false);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -46,7 +46,7 @@ SharedPrefsManager sharedPrefsManager;
                 } else {
                     // If initial configuration is not completed, load FirstActivity
                     SharedPreferences.Editor editor = defaultSharedPrefs.edit();
-                    editor.putBoolean(Constants.ARG_IS_FIRST_TIME_ACTIVITY, true);
+                    editor.putBoolean(Constants.TAG_PREF_IS_FIRST_TIME_ACTIVITY, true);
                     editor.apply();
                     loadFirstActivity();
                 }

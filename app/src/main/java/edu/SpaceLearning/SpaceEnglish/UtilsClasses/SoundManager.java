@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
 
 import android.content.Context;
 import android.media.AudioAttributes;

@@ -7,11 +7,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
 
-public class HomeCategoriesPagerAdapter extends FragmentStateAdapter {
+public class InfoScorePager2Adapter extends FragmentStateAdapter {
 
     private final ArrayList<Fragment> fragments;
 
-    public HomeCategoriesPagerAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Fragment> fragments) {
+    public InfoScorePager2Adapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Fragment> fragments) {
         super(fragmentActivity);
         this.fragments = fragments;
 

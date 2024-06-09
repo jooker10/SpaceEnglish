@@ -8,8 +8,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
-import edu.SpaceLearning.SpaceEnglish._Main.Utils;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 
 public class DbAccess {
 

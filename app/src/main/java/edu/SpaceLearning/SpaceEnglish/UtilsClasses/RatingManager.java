@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish._Main;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
 
 import android.app.Activity;
 import android.content.Context;

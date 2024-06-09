@@ -1,4 +1,4 @@
-package edu.SpaceLearning.SpaceEnglish.navfragments;
+package edu.SpaceLearning.SpaceEnglish._Navfragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.R;
-import edu.SpaceLearning.SpaceEnglish._Main.Utils;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 
 public class SettingsNavFragment extends PreferenceFragmentCompat {
 

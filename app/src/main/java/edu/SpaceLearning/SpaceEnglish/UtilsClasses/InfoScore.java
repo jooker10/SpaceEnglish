@@ -1,10 +1,10 @@
-package edu.SpaceLearning.SpaceEnglish;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
 
-public class ChipItem {
+public class InfoScore {
     private String titleLabel;
     private String scoreCounter;
 
-    public ChipItem(String titleLabel, String scoreCounter) {
+    public InfoScore(String titleLabel, String scoreCounter) {
         this.titleLabel = titleLabel;
         this.scoreCounter = scoreCounter;
     }

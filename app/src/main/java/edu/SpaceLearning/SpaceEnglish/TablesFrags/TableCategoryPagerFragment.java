@@ -17,21 +17,23 @@ import java.util.ArrayList;
 
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter;
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess;
-import edu.SpaceLearning.SpaceEnglish._Main.Constants;
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.Category;
-import edu.SpaceLearning.SpaceEnglish.OnTablesRecyclerViewClickListener;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category;
+import edu.SpaceLearning.SpaceEnglish.Listeners.OnTablesRecyclerViewClickListener;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
 
 
 public class TableCategoryPagerFragment extends Fragment {
 
-    private onFilterRecycleClickListener filterListener;
+   // private onTableCategoryClickListener tableCategoryClickListener;
     private OnTablesRecyclerViewClickListener onTablesRecyclerViewClickListener;
     private String categoryType;
-    private TextView tvTitleType;
+    private TextView tvTableTitleType;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private DbAccess dbAccess;
+    private ArrayList<Category> elements;
+    RecyclerView tableRecyclerView;
+
     public TableCategoryPagerFragment() {
         // Required empty public constructor
     }
@@ -66,37 +68,48 @@ public class TableCategoryPagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        RecyclerView tableRecyclerView = view.findViewById(R.id.recyclerTableCategory);
-        tvTitleType = view.findViewById(R.id.headTitleForTableCategory);
-
-        dbAccess = DbAccess.getInstance(requireActivity());
+         tvTableTitleType = view.findViewById(R.id.headTitleForTableCategory);
+         tableRecyclerView = view.findViewById(R.id.recyclerTableCategory);
 
 
-        ArrayList<Category> elements = dbAccess.getRequiredElementsList(categoryType, tvTitleType);
+        initDataBaseRequiredElementsList(); // getRequiredElementsList used to fetch data required type list.
 
+        initRecyclerViewForTableFragment(); // init the recyclerView of the required table.
+
+        onTablesRecyclerViewClickListener.onTableRecyclerViewClick(recyclerViewAdapter);
+       // tvTableTitleType.setOnClickListener(view1 -> tableCategoryClickListener.onFilterClick(recyclerViewAdapter));
+    }
+
+    private void initRecyclerViewForTableFragment() {
         RecyclerViewAdapter.onShowAdsClickListener onShowAdsClickListener = (RecyclerViewAdapter.onShowAdsClickListener) requireActivity();
-         recyclerViewAdapter = new RecyclerViewAdapter(elements, requireActivity(), categoryType , MainActivity.textToSpeechManager , onShowAdsClickListener );
+        recyclerViewAdapter = new RecyclerViewAdapter(elements, requireActivity(), categoryType , MainActivity.textToSpeechManager , onShowAdsClickListener );
 
         tableRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         tableRecyclerView.setHasFixedSize(true);
         tableRecyclerView.setAdapter(recyclerViewAdapter);
-
-        onTablesRecyclerViewClickListener.onTableRecyclerViewClick(recyclerViewAdapter);
-        tvTitleType.setOnClickListener(view1 -> filterListener.onFilterClick(recyclerViewAdapter));
     }
 
+    private void initDataBaseRequiredElementsList() {
+        DbAccess dbAccess = DbAccess.getInstance(requireActivity());
+        dbAccess.open_to_read();
+        elements = dbAccess.getRequiredElementsList(categoryType, tvTableTitleType);
+        dbAccess.close();
+    }
 
-    public interface onFilterRecycleClickListener {
+/*
+
+    public interface onTableCategoryClickListener {
         void onFilterClick(RecyclerViewAdapter adapter);
     }
+*/
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof onFilterRecycleClickListener) {
-            filterListener = (onFilterRecycleClickListener) context;
-        }
+        /*if (context instanceof onTableCategoryClickListener) {
+            tableCategoryClickListener = (onTableCategoryClickListener) context;
+        }*/
         if(context instanceof OnTablesRecyclerViewClickListener){
             onTablesRecyclerViewClickListener = (OnTablesRecyclerViewClickListener) context;
         }
@@ -106,8 +119,8 @@ public class TableCategoryPagerFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        if (filterListener != null)
-            filterListener = null;
+       /* if (tableCategoryClickListener != null)
+            tableCategoryClickListener = null;*/
         if (onTablesRecyclerViewClickListener != null)
             onTablesRecyclerViewClickListener = null;
 
