@@ -21,6 +21,10 @@
     <string name="description_app2"></string>
     <string name="txt_examples">cccc</string>
     <string name="share_qst_with_friends">Test your friends with this question!</string>
+    <string name="confirm_quiz_text">Confirm</string>
+    <string name="next_quiz_text">Next</string>
+    <string name="finish_quiz_text">Finish</string>
+    <string name="no_answer_selected_text">Please Answer the Question first</string>
 
 
     <string-array name="languages">

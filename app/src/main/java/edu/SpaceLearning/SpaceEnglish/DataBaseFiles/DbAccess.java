@@ -43,7 +43,7 @@ public class DbAccess {
 
 
     // Retrieve AllCategoryElements
-    public ArrayList<Category> getAllElementsCategory(String categoryType, boolean isWithExample) {
+    public ArrayList<Category> getAllElementsCategoryList(String categoryType, boolean isWithExample) {
         ArrayList<Category> elementList = new ArrayList<>();
 
         Cursor cursor = sqLiteDB.rawQuery("SELECT * FROM " + Utils.tableHashNames.get(categoryType), null);;
@@ -75,13 +75,13 @@ public class DbAccess {
 
         open_to_read();
 
-        ArrayList<Category> allVerbsList = new ArrayList<>(getAllElementsCategory(Constants.VERB_NAME, true));
-        ArrayList<Category> allSentencesList = new ArrayList<>(getAllElementsCategory(Constants.SENTENCE_NAME, false));
-        ArrayList<Category> allPhrasalsList = new ArrayList<>(getAllElementsCategory(Constants.PHRASAL_NAME, true));
-        ArrayList<Category> allNounsList = new ArrayList<>(getAllElementsCategory(Constants.NOUN_NAME, true));
-        ArrayList<Category> allAdjsList = new ArrayList<>(getAllElementsCategory(Constants.ADJ_NAME, true));
-        ArrayList<Category> allAdvsList = new ArrayList<>(getAllElementsCategory(Constants.ADV_NAME, true));
-        ArrayList<Category> allIdiomsList = new ArrayList<>(getAllElementsCategory(Constants.IDIOM_NAME, false));
+        ArrayList<Category> allVerbsList = new ArrayList<>(getAllElementsCategoryList(Constants.VERB_NAME, true));
+        ArrayList<Category> allSentencesList = new ArrayList<>(getAllElementsCategoryList(Constants.SENTENCE_NAME, false));
+        ArrayList<Category> allPhrasalsList = new ArrayList<>(getAllElementsCategoryList(Constants.PHRASAL_NAME, true));
+        ArrayList<Category> allNounsList = new ArrayList<>(getAllElementsCategoryList(Constants.NOUN_NAME, true));
+        ArrayList<Category> allAdjsList = new ArrayList<>(getAllElementsCategoryList(Constants.ADJ_NAME, true));
+        ArrayList<Category> allAdvsList = new ArrayList<>(getAllElementsCategoryList(Constants.ADV_NAME, true));
+        ArrayList<Category> allIdiomsList = new ArrayList<>(getAllElementsCategoryList(Constants.IDIOM_NAME, false));
 
         close();
 
@@ -101,33 +101,33 @@ public class DbAccess {
         ArrayList<Category> elements = new ArrayList<>();
         switch (categoryType) {
             case Constants.VERB_NAME:
-                elements = new ArrayList<>(getAllElementsCategory(Constants.VERB_NAME, true).subList(0,Utils.allowedVerbsNumber));
+                elements = new ArrayList<>(getAllElementsCategoryList(Constants.VERB_NAME, true).subList(0,Utils.allowedVerbsNumber));
                 tvHeadTitleCategory.setText("Table of " + categoryType +  "(" + elements.size() + "/"+ Utils.totalVerbsNumber +")");
                 break;
             case Constants.SENTENCE_NAME:
-                elements = new ArrayList<>(getAllElementsCategory(Constants.SENTENCE_NAME, false).subList(0,Utils.allowedSentencesNumber));
+                elements = new ArrayList<>(getAllElementsCategoryList(Constants.SENTENCE_NAME, false).subList(0,Utils.allowedSentencesNumber));
                 tvHeadTitleCategory.setText("Table of " + categoryType +  "(" + elements.size() + "/"+ Utils.totalSentencesNumber +")");
                 tvHeadTitleCategory.setTextSize(22f);
                 break;
             case Constants.PHRASAL_NAME:
-                elements = new ArrayList<>(getAllElementsCategory(Constants.PHRASAL_NAME, true).subList(0,Utils.allowedPhrasalsNumber));
+                elements = new ArrayList<>(getAllElementsCategoryList(Constants.PHRASAL_NAME, true).subList(0,Utils.allowedPhrasalsNumber));
                 tvHeadTitleCategory.setText("Table of " + categoryType +  "(" + elements.size() + "/"+ Utils.totalPhrasalsNumber +")");
                 break;
             case Constants.NOUN_NAME:
-                elements = new ArrayList<>(getAllElementsCategory(Constants.NOUN_NAME, true).subList(0,Utils.allowedNounsNumber));
+                elements = new ArrayList<>(getAllElementsCategoryList(Constants.NOUN_NAME, true).subList(0,Utils.allowedNounsNumber));
                 tvHeadTitleCategory.setText("Table of " + categoryType +  "(" + elements.size() + "/"+ Utils.totalNounsNumber +")");
                 break;
             case Constants.ADJ_NAME:
-                elements = new ArrayList<>(getAllElementsCategory(Constants.ADJ_NAME, true).subList(0,Utils.allowedAdjsNumber));
+                elements = new ArrayList<>(getAllElementsCategoryList(Constants.ADJ_NAME, true).subList(0,Utils.allowedAdjsNumber));
                 tvHeadTitleCategory.setText("Table of " + categoryType +  "(" + elements.size() + "/"+ Utils.totalAdjsNumber +")");
 
                 break;
             case Constants.ADV_NAME:
-                elements = new ArrayList<>(getAllElementsCategory(Constants.ADV_NAME, true).subList(0,Utils.allowedAdvsNumber));
+                elements = new ArrayList<>(getAllElementsCategoryList(Constants.ADV_NAME, true).subList(0,Utils.allowedAdvsNumber));
                 tvHeadTitleCategory.setText("Table of " + categoryType +  "(" + elements.size() + "/"+ Utils.totalAdvsNumber +")");
                 break;
             case Constants.IDIOM_NAME:
-                elements = new ArrayList<>(getAllElementsCategory(Constants.IDIOM_NAME, false).subList(0,Utils.allowedIdiomsNumber));
+                elements = new ArrayList<>(getAllElementsCategoryList(Constants.IDIOM_NAME, false).subList(0,Utils.allowedIdiomsNumber));
                 tvHeadTitleCategory.setText("Table of " + categoryType +  "(" + elements.size() + "/"+ Utils.totalIdiomsNumber +")");
                 break;
         }

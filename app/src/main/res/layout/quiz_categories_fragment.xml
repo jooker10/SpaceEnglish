@@ -145,7 +145,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tvQuizCurrentCounterCategory"
+            android:id="@+id/tv_quiz_current_index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -168,7 +168,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_quiz_choose_the_right_answer"
+            android:id="@+id/tv_quiz_choose_the_right_answer_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -194,7 +194,7 @@
             tools:text="verb" />
 
         <RadioGroup
-            android:id="@+id/quizRadioGroupCategory"
+            android:id="@+id/quiz_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_root_container"
