@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -45,6 +44,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
     private CountDownTimerHelper countDownTimerHelper;
     private int maxCounterTimer = 15;
+    private final int maxAllowedAddedPoints = 10;
 
     private String categoryType;
 
@@ -478,7 +478,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     private void finishQuiz() {
         //  here you can finish the quiz with dialog and set scores...etc
         if(Utils.switchSimpleToVideoAds) {
-            quizCategoryListener.onShowVideoAdsQuiz();} else {quizCategoryListener.onShowVideoAdsQuiz();}
+            quizCategoryListener.onShowSimpleAdsQuiz();} else {quizCategoryListener.onShowVideoAdsQuiz();}
         Utils.switchSimpleToVideoAds = !Utils.switchSimpleToVideoAds;
 
         if (countDownTimerHelper != null)
@@ -493,93 +493,84 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         String msg = "";
 
         if((float) userScore == Utils.maxQuestionsPerQuiz) {
-            // result 20
             pointsAdded = 10;
             elementsAdded = 3;
             msg = "Perfection Achieved!";
 
         } else if ((float) userScore >= 0.75f * Utils.maxQuestionsPerQuiz) {
-            // result >=15
             pointsAdded = 5;
             elementsAdded = 2;
             msg = "Excellent";
         } else if ((float) userScore >= 0.5f * Utils.maxQuestionsPerQuiz) {
-            // esult >=10
             pointsAdded = 4;
             elementsAdded = 1;
             msg = "Average";
         } else if((float) userScore >= 0.25f * Utils.maxQuestionsPerQuiz){
-            // result >= 5
             pointsAdded = 1;
             msg = "Below Average";
 
+
+
         } else {
-            // result <5
             msg = "Needs improvement";
         }
 
-        finishQuizUpdateEachCategory(categoryType,pointsAdded,elementsAdded);
+        finishQuizUpdateScoresCategory(categoryType,pointsAdded,elementsAdded);
         quizCategoryListener.onSetQuizCategoryResultClick(categoryType,pointsAdded,elementsAdded,userRightScore,msg);
 
     }
 
-    private void finishQuizUpdateEachCategory(String categoryType , int pointsAdded , int elementsAdded){
+
+    private void finishQuizUpdateScoresCategory(String categoryType , int pointsAdded , int elementsAdded){
         switch(categoryType){
             case Constants.VERB_NAME:
-             Scores.verbScore += pointsAdded;
-             Utils.allowedVerbsNumber = getCurrentElementsNewSize(Utils.totalVerbsNumber,Utils.allowedVerbsNumber,elementsAdded);
-             Scores.verbQuizCompleted++;
-             Scores.verbAdded += elementsAdded;
-             //Scores.verbPointsAdded += pointsAdded;
-             if(pointsAdded == 10) Scores.verbQuizCompletedCorrectly++;
+                Scores.verbScore += pointsAdded;
+                Utils.allowedVerbsNumber = Math.min(Utils.totalVerbsNumber, Utils.allowedVerbsNumber + elementsAdded);
+                Scores.verbQuizCompleted++;
+                Scores.verbAdded += elementsAdded;
+             if(pointsAdded == maxAllowedAddedPoints) { Scores.verbQuizCompletedCorrectly++;}
                 break;
             case Constants.SENTENCE_NAME:
                 Scores.sentenceScore += pointsAdded;
-                Utils.allowedSentencesNumber = getCurrentElementsNewSize(Utils.totalSentencesNumber,Utils.allowedSentencesNumber,elementsAdded);
+                Utils.allowedSentencesNumber = Math.min(Utils.totalSentencesNumber,Utils.allowedSentencesNumber + elementsAdded);
                 Scores.sentenceQuizCompleted++;
                 Scores.sentenceAdded += elementsAdded;
-               // Scores.sentencePointsAdded += pointsAdded;
-                if(pointsAdded == 10) Scores.sentenceQuizCompletedCorrectly++;
+                if(pointsAdded == maxAllowedAddedPoints) Scores.sentenceQuizCompletedCorrectly++;
                 break;
             case Constants.PHRASAL_NAME:
                 Scores.phrasalScore += pointsAdded;
-                Utils.allowedPhrasalsNumber = getCurrentElementsNewSize(Utils.totalPhrasalsNumber,Utils.allowedPhrasalsNumber,elementsAdded);
+                Utils.allowedPhrasalsNumber = Math.min(Utils.totalPhrasalsNumber,Utils.allowedPhrasalsNumber + elementsAdded);
                 Scores.phrasalQuizCompleted++;
                 Scores.phrasalAdded += elementsAdded;
-               // Scores.phrasalPointsAdded += pointsAdded;
-                if(pointsAdded == 10) Scores.phrasalQuizCompletedCorrectly++;
+                if(pointsAdded == maxAllowedAddedPoints) Scores.phrasalQuizCompletedCorrectly++;
                 break;
             case Constants.NOUN_NAME:
                 Scores.nounScore += pointsAdded;
-                Utils.allowedNounsNumber = getCurrentElementsNewSize(Utils.totalNounsNumber,Utils.allowedNounsNumber,elementsAdded);
+                Utils.allowedNounsNumber = Math.min(Utils.totalNounsNumber,Utils.allowedNounsNumber + elementsAdded);
                 Scores.nounQuizCompleted++;
                 Scores.nounAdded += elementsAdded;
-                //Scores.nounPointsAdded += pointsAdded;
-                if(pointsAdded == 10) Scores.nounQuizCompletedCorrectly++;
+                if(pointsAdded == maxAllowedAddedPoints) Scores.nounQuizCompletedCorrectly++;
                 break;
             case Constants.ADJ_NAME:
                 Scores.adjScore += pointsAdded;
-                Utils.allowedAdjsNumber = getCurrentElementsNewSize(Utils.totalAdjsNumber,Utils.allowedAdjsNumber,elementsAdded);
+                Utils.allowedAdjsNumber = Math.min(Utils.totalAdjsNumber,Utils.allowedAdjsNumber + elementsAdded);
                 Scores.adjQuizCompleted++;
                 Scores.adjAdded += elementsAdded;
-                //Scores.adjPointsAdded += pointsAdded;
-                if(pointsAdded == 10) Scores.adjQuizCompletedCorrectly++;
+                if(pointsAdded == maxAllowedAddedPoints) Scores.adjQuizCompletedCorrectly++;
                 break;
             case Constants.ADV_NAME:
                 Scores.advScore += pointsAdded;
-                Utils.allowedAdvsNumber = getCurrentElementsNewSize(Utils.totalAdvsNumber,Utils.allowedAdvsNumber,elementsAdded);
+                Utils.allowedAdvsNumber = Math.min(Utils.totalAdvsNumber,Utils.allowedAdvsNumber + elementsAdded);
                 Scores.advQuizCompleted++;
                 Scores.advAdded += elementsAdded;
-                //Scores.advPointsAdded += pointsAdded;
-                if(pointsAdded == 10) Scores.advQuizCompletedCorrectly++;
+                if(pointsAdded == maxAllowedAddedPoints) Scores.advQuizCompletedCorrectly++;
                 break;
             case Constants.IDIOM_NAME:
                 Scores.idiomScore += pointsAdded;
-                Utils.allowedIdiomsNumber = getCurrentElementsNewSize(Utils.totalIdiomsNumber,Utils.allowedIdiomsNumber,elementsAdded);
+                Utils.allowedIdiomsNumber = Math.min(Utils.totalIdiomsNumber,Utils.allowedIdiomsNumber + elementsAdded);
                 Scores.idiomQuizCompleted++;
                 Scores.idiomAdded += elementsAdded;
-                //Scores.idiomPointsAdded += pointsAdded;
-                if(pointsAdded == 10) Scores.idiomQuizCompletedCorrectly++;
+                if(pointsAdded == maxAllowedAddedPoints) Scores.idiomQuizCompletedCorrectly++;
                 break;
 
         }
@@ -597,7 +588,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         });
     }
 
-    private int getCurrentElementsNewSize(int maxElementsCategory,int currentElementsCategory,int elementsAdded ){
+    /*private int getCurrentElementsNewSize(int maxElementsCategory,int currentElementsCategory,int elementsAdded ){
         if((currentElementsCategory + elementsAdded) <= maxElementsCategory) {
             currentElementsCategory  += elementsAdded;
         } else{
@@ -606,7 +597,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         return currentElementsCategory;
 
 
-    }
+    }*/
 
     private void shareQst(String qstToShare) {
         // Create an Intent with ACTION_SEND
