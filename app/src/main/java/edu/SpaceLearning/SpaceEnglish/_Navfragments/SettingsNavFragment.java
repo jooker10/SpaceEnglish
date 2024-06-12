@@ -12,13 +12,14 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 
 public class SettingsNavFragment extends PreferenceFragmentCompat {
 
-    private setOnChangeThemeListener themeListener;
+    private InteractionMainActivityFragmentsListener interactionListener;
     private SwitchPreferenceCompat switchAppTheme;
 
     @Override
@@ -49,7 +50,7 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
 
         switchAppTheme.setOnPreferenceClickListener(preference -> {
             Utils.isThemeNight = switchAppTheme.isChecked();
-            themeListener.onChangeTheme(Utils.isThemeNight);
+            interactionListener.onChangeTheme(Utils.isThemeNight);
             return true;
         });
 
@@ -88,22 +89,18 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
 
     }
 
-    public interface setOnChangeThemeListener {
-        void onChangeTheme(boolean isDarkMode);
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof setOnChangeThemeListener)
-            themeListener = (setOnChangeThemeListener) context;
+        if (context instanceof InteractionMainActivityFragmentsListener)
+            interactionListener = (InteractionMainActivityFragmentsListener) context;
 
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        if(themeListener != null)
-        themeListener = null;
+        if(interactionListener != null)
+        interactionListener = null;
     }
 }

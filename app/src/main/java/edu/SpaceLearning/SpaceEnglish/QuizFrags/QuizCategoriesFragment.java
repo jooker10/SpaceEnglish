@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.CountDownTimerHelper;
@@ -39,7 +41,8 @@ import edu.SpaceLearning.SpaceEnglish.databinding.QuizCategoriesFragmentBinding;
 
 public class QuizCategoriesFragment extends Fragment implements CountDownTimerHelper.OnCountdownListener {
     private QuizCategoriesFragmentBinding binding;
-    private QuizCategoryClickListener quizCategoryListener;
+    private InteractionMainActivityFragmentsListener interactionListener;
+    private AdsClickListener adsClickListener;
     private SoundManager soundManager;
 
     private CountDownTimerHelper countDownTimerHelper;
@@ -166,7 +169,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
     private void checkEmptyAnswerCounter() {
 
-        quizCategoryListener.onShowSimpleAdsQuiz();
+        adsClickListener.onShowSimpleAdsQuiz();
         userWrongScore++;
         binding.tvQuizUserWrongAnswerCounter.setText(String.valueOf(userWrongScore));
 
@@ -315,25 +318,23 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     }
 
 
-    //-------------------------------Listener-------------------------------------------------------
-    public interface QuizCategoryClickListener {
-        void onShowSimpleAdsQuiz();
-        void onShowVideoAdsQuiz();
-        void onSetQuizCategoryResultClick(String categoryType , int pointsAdded , int elementsAdded , int userRightAnswerScore , String msg);
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof QuizCategoryClickListener) {
-            quizCategoryListener = (QuizCategoryClickListener) context;
+        if (context instanceof InteractionMainActivityFragmentsListener) {
+            interactionListener = (InteractionMainActivityFragmentsListener) context;
+        }
+        if(context instanceof AdsClickListener){
+            adsClickListener = (AdsClickListener) context;
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        quizCategoryListener = null;
+        interactionListener = null;
+        adsClickListener = null;
     }
 
     @Override
@@ -478,7 +479,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     private void finishQuiz() {
         //  here you can finish the quiz with dialog and set scores...etc
         if(Utils.switchSimpleToVideoAds) {
-            quizCategoryListener.onShowSimpleAdsQuiz();} else {quizCategoryListener.onShowVideoAdsQuiz();}
+            adsClickListener.onShowSimpleAdsQuiz();} else {
+            adsClickListener.onShowVideoAdsQuiz();}
         Utils.switchSimpleToVideoAds = !Utils.switchSimpleToVideoAds;
 
         if (countDownTimerHelper != null)
@@ -516,7 +518,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         }
 
         finishQuizUpdateScoresCategory(categoryType,pointsAdded,elementsAdded);
-        quizCategoryListener.onSetQuizCategoryResultClick(categoryType,pointsAdded,elementsAdded,userRightScore,msg);
+        interactionListener.onSetQuizCategoryResultClick(categoryType,pointsAdded,elementsAdded,userRightScore,msg);
 
     }
 

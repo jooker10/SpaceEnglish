@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter;
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess;
+import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category;
 import edu.SpaceLearning.SpaceEnglish.Listeners.OnTablesRecyclerViewClickListener;
@@ -26,8 +28,7 @@ import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
 
 public class TableCategoryPagerFragment extends Fragment {
 
-   // private onTableCategoryClickListener tableCategoryClickListener;
-    private OnTablesRecyclerViewClickListener onTablesRecyclerViewClickListener;
+    private InteractionMainActivityFragmentsListener interactionListener;
     private String categoryType;
     private TextView tvTableTitleType;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -76,13 +77,13 @@ public class TableCategoryPagerFragment extends Fragment {
 
         initRecyclerViewForTableFragment(); // init the recyclerView of the required table.
 
-        onTablesRecyclerViewClickListener.onTableRecyclerViewClick(recyclerViewAdapter);
+        interactionListener.onTableRecyclerViewClick(recyclerViewAdapter);
        // tvTableTitleType.setOnClickListener(view1 -> tableCategoryClickListener.onFilterClick(recyclerViewAdapter));
     }
 
     private void initRecyclerViewForTableFragment() {
-        RecyclerViewAdapter.onShowAdsClickListener onShowAdsClickListener = (RecyclerViewAdapter.onShowAdsClickListener) requireActivity();
-        recyclerViewAdapter = new RecyclerViewAdapter(elements, requireActivity(), categoryType , MainActivity.textToSpeechManager , onShowAdsClickListener );
+        AdsClickListener adsClickListener = (AdsClickListener) requireActivity();
+        recyclerViewAdapter = new RecyclerViewAdapter(elements, requireActivity(), categoryType , MainActivity.textToSpeechManager , adsClickListener );
 
         tableRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         tableRecyclerView.setHasFixedSize(true);
@@ -96,22 +97,13 @@ public class TableCategoryPagerFragment extends Fragment {
         dbAccess.close();
     }
 
-/*
-
-    public interface onTableCategoryClickListener {
-        void onFilterClick(RecyclerViewAdapter adapter);
-    }
-*/
-
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        /*if (context instanceof onTableCategoryClickListener) {
-            tableCategoryClickListener = (onTableCategoryClickListener) context;
-        }*/
-        if(context instanceof OnTablesRecyclerViewClickListener){
-            onTablesRecyclerViewClickListener = (OnTablesRecyclerViewClickListener) context;
+
+        if(context instanceof InteractionMainActivityFragmentsListener){
+            interactionListener = (InteractionMainActivityFragmentsListener) context;
         }
 
     }
@@ -119,10 +111,8 @@ public class TableCategoryPagerFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-       /* if (tableCategoryClickListener != null)
-            tableCategoryClickListener = null;*/
-        if (onTablesRecyclerViewClickListener != null)
-            onTablesRecyclerViewClickListener = null;
+        if (interactionListener != null)
+            interactionListener = null;
 
     }
 

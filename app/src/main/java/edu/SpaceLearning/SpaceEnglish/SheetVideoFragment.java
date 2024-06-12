@@ -11,15 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
-import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores;
-import edu.SpaceLearning.SpaceEnglish.Listeners.onVideoBuyClickListener;
 
 
 public class SheetVideoFragment extends Fragment {
 
-    private onVideoBuyClickListener videoBuyClickListener;
+    private AdsClickListener adsClickListener;
 
     public SheetVideoFragment() {
         // Required empty public constructor
@@ -28,15 +27,15 @@ public class SheetVideoFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof onVideoBuyClickListener)
-            videoBuyClickListener = (onVideoBuyClickListener) context;
+        if(context instanceof AdsClickListener)
+            adsClickListener = (AdsClickListener) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        if(videoBuyClickListener != null)
-            videoBuyClickListener = null;
+        if(adsClickListener != null)
+            adsClickListener = null;
     }
 
     @Override
@@ -66,29 +65,29 @@ public class SheetVideoFragment extends Fragment {
         enableButton(btnVideoIdoms, Scores.totalScore,Constants.permissionIdiomScore);
 
         btnVideoVerbs.setOnClickListener(view13 -> {
-            videoBuyClickListener.onShowVideoAds(Constants.VERB_NAME);
+            adsClickListener.onShowVideoAds(Constants.VERB_NAME);
         });
         btnVideoSentences.setOnClickListener(view12 -> {
-            videoBuyClickListener.onShowVideoAds(Constants.SENTENCE_NAME);
+            adsClickListener.onShowVideoAds(Constants.SENTENCE_NAME);
         });
         btnVideoPhrasals.setOnClickListener(view1 -> {
-            videoBuyClickListener.onShowVideoAds(Constants.PHRASAL_NAME);
+            adsClickListener.onShowVideoAds(Constants.PHRASAL_NAME);
 
         });
         btnVideoNouns.setOnClickListener(view1 -> {
-            videoBuyClickListener.onShowVideoAds(Constants.NOUN_NAME);
+            adsClickListener.onShowVideoAds(Constants.NOUN_NAME);
 
         });
         btnVideoAdjs.setOnClickListener(view1 -> {
-            videoBuyClickListener.onShowVideoAds(Constants.ADJ_NAME);
+            adsClickListener.onShowVideoAds(Constants.ADJ_NAME);
 
         });
         btnVideoAdvs.setOnClickListener(view1 -> {
-            videoBuyClickListener.onShowVideoAds(Constants.ADV_NAME);
+            adsClickListener.onShowVideoAds(Constants.ADV_NAME);
 
         });
         btnVideoIdoms.setOnClickListener(view1 -> {
-            videoBuyClickListener.onShowVideoAds(Constants.IDIOM_NAME);
+            adsClickListener.onShowVideoAds(Constants.IDIOM_NAME);
 
         });
     }

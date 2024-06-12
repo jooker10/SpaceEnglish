@@ -10,12 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.DialogQuizScoresBinding;
+import edu.SpaceLearning.SpaceEnglish.databinding.GptDialogScoresBinding;
 
 
 public class DialogQuizFragment extends DialogFragment {
+
+    private InteractionMainActivityFragmentsListener interactionListener;
 
     private static final String ARG_CATEGORY_TYPE = "category";
     private static final String ARG_MAIN_SCORE = "arg_main_score";
@@ -32,8 +37,6 @@ public class DialogQuizFragment extends DialogFragment {
     private int pointsAdded,elementsAdded,userRightScore;
 
 
-    private onDialogSendHomeClickListener sendHomeClickListener;
-    private onDialogNewQuizClickListener newQuizClickListener;
 
 
     public DialogQuizFragment() {
@@ -43,21 +46,17 @@ public class DialogQuizFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof onDialogSendHomeClickListener) {
-            sendHomeClickListener = (onDialogSendHomeClickListener) context;
+        if (context instanceof InteractionMainActivityFragmentsListener) {
+            interactionListener = (InteractionMainActivityFragmentsListener) context;
         }
 
-        if (context instanceof onDialogNewQuizClickListener) {
-            newQuizClickListener = (onDialogNewQuizClickListener) context;
-        }
 
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        sendHomeClickListener = null;
-        newQuizClickListener = null;
+        interactionListener = null;
     }
 
     @Override
@@ -117,23 +116,16 @@ public class DialogQuizFragment extends DialogFragment {
         binding.btnNewQuiz.setOnClickListener(v -> {
 
             //  Toast.makeText(requireActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
-            newQuizClickListener.onSheetDialogNewQuizClick();
+            interactionListener.onSheetDialogNewQuizClick();
             dismiss();
         });
         binding.btnSendHome.setOnClickListener(view1 -> {
             // Toast.makeText(requireActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
-            sendHomeClickListener.onDialogSendHomeClick(categoryType);
+            interactionListener.onDialogSendHomeClick(categoryType);
             dismiss();
         });
     }
 
-    //--------------Interfaces-------------------
-    public interface onDialogSendHomeClickListener {
-        void onDialogSendHomeClick(String categoryType);
-    }
 
-    public interface onDialogNewQuizClickListener {
-        void onSheetDialogNewQuizClick();
-    }
 
 }

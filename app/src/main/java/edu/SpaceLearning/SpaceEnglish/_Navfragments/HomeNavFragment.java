@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import edu.SpaceLearning.SpaceEnglish.Adapters.InfoScorePager2Adapter;
 import edu.SpaceLearning.SpaceEnglish.HomeInfoScoresPager2Fragment;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.HomeNavFragmentBinding;
@@ -29,7 +30,7 @@ import edu.SpaceLearning.SpaceEnglish.databinding.HomeNavFragmentBinding;
 public class HomeNavFragment extends Fragment {
 
     private HomeNavFragmentBinding binding;
-    private HomeFragClickListener homeListener;
+    private InteractionMainActivityFragmentsListener interactionListener;
     private final ArrayList<Fragment> fragmentsForPager2InfoScores = new ArrayList<>();
 
     public HomeNavFragment() {
@@ -56,8 +57,8 @@ public class HomeNavFragment extends Fragment {
 
     private void initUIHome() {
         setImageHomeProfile();
-        binding.btnHomeGoToLearn.setOnClickListener(v -> homeListener.onHomeGetStarted(Constants.TABLE_NAV_INDEX));
-        binding.btnHomeGoToQuiz.setOnClickListener(v -> homeListener.onHomeGetStarted(Constants.QUIZ_NAV_INDEX));
+        binding.btnHomeGoToLearn.setOnClickListener(v -> interactionListener.onHomeGetStarted(Constants.TABLE_NAV_INDEX));
+        binding.btnHomeGoToQuiz.setOnClickListener(v -> interactionListener.onHomeGetStarted(Constants.QUIZ_NAV_INDEX));
         binding.tvHomeUserName.setText("Hi, " + Utils.userName);
     }
 
@@ -70,7 +71,7 @@ public class HomeNavFragment extends Fragment {
     private void setImageHomeProfile() {
 
         binding.imgHomeProfile.setOnClickListener(v -> {
-            homeListener.onPickImage();
+            interactionListener.onPickImage();
         } );
         if (Utils.uriProfile != null && !Utils.uriProfile.toString().isEmpty() ) {
             binding.imgHomeProfile.setImageURI(Utils.uriProfile);
@@ -93,23 +94,18 @@ public class HomeNavFragment extends Fragment {
         }).attach();
     }
 
-    //------------------HomeListener--------------------------------------------
-    public interface HomeFragClickListener {
-        void onHomeGetStarted(int index);
-        void onPickImage();
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof HomeFragClickListener)
-            homeListener = (HomeFragClickListener) context;
+        if (context instanceof InteractionMainActivityFragmentsListener)
+            interactionListener = (InteractionMainActivityFragmentsListener) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        if(homeListener != null) {homeListener = null;}
+        if(interactionListener != null) {
+            interactionListener = null;}
 
     }
 

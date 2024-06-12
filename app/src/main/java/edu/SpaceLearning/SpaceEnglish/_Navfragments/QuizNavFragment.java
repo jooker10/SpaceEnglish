@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.QuizFrags.QuizCategoriesFragment;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
@@ -27,7 +28,7 @@ import edu.SpaceLearning.SpaceEnglish.databinding.FragmentNavQuizBinding;
 public class QuizNavFragment extends Fragment  {
 
     private FragmentNavQuizBinding binding;
-    private OnsetFragmentToReplaceClickListener setRequiredCategoryQuizListener;
+    private InteractionMainActivityFragmentsListener interactionListener;
     private final ArrayList<Button> buttons = new ArrayList<>();
     private final ArrayList <TextView> textViews = new ArrayList<>();
 
@@ -88,7 +89,7 @@ public class QuizNavFragment extends Fragment  {
             buttons.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setRequiredCategoryQuizListener.onSetRequiredFragmentQuiz(QuizCategoriesFragment.getInstance(Constants.categoryNameArray[finalI]));
+                    interactionListener.onSetRequiredFragmentQuiz(QuizCategoriesFragment.getInstance(Constants.categoryNameArray[finalI]));
                 }
             });
         }
@@ -106,16 +107,12 @@ public class QuizNavFragment extends Fragment  {
         }
     }
 
-    public interface OnsetFragmentToReplaceClickListener {
-        void onSetRequiredFragmentQuiz(Fragment fragment);
-        void onShowSimpleAdsQuiz();
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof OnsetFragmentToReplaceClickListener){
-            setRequiredCategoryQuizListener = (OnsetFragmentToReplaceClickListener) context;
+        if(context instanceof InteractionMainActivityFragmentsListener){
+            interactionListener = (InteractionMainActivityFragmentsListener) context;
         }
 
     }
@@ -123,8 +120,8 @@ public class QuizNavFragment extends Fragment  {
     @Override
     public void onDetach() {
         super.onDetach();
-        if (setRequiredCategoryQuizListener != null) {
-            setRequiredCategoryQuizListener = null;}
+        if (interactionListener != null) {
+            interactionListener = null;}
 
     }
 

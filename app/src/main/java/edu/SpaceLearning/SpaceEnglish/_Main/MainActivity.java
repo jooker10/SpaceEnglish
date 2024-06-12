@@ -35,6 +35,8 @@ import java.util.Objects;
 
 
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter;
+import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.AdsManager;
 import edu.SpaceLearning.SpaceEnglish.Broadcast.NetworkChangeReceiver;
 import edu.SpaceLearning.SpaceEnglish.Broadcast.NoConnectionFragment;
@@ -56,10 +58,8 @@ import edu.SpaceLearning.SpaceEnglish._Navfragments.HomeNavFragment;
 import edu.SpaceLearning.SpaceEnglish._Navfragments.QuizNavFragment;
 import edu.SpaceLearning.SpaceEnglish._Navfragments.SettingsNavFragment;
 import edu.SpaceLearning.SpaceEnglish._Navfragments.TableNavFragment;
-import edu.SpaceLearning.SpaceEnglish.Listeners.onVideoBuyClickListener;
 
-public class MainActivity extends AppCompatActivity implements OnTablesRecyclerViewClickListener, HomeNavFragment.HomeFragClickListener, QuizCategoriesFragment.QuizCategoryClickListener, RecyclerViewAdapter.onShowAdsClickListener,
-        onVideoBuyClickListener,NetworkChangeReceiver.NetworkChangeListener, SettingsNavFragment.setOnChangeThemeListener, QuizNavFragment.OnsetFragmentToReplaceClickListener, DialogQuizFragment.onDialogSendHomeClickListener, DialogQuizFragment.onDialogNewQuizClickListener {
+public class MainActivity extends AppCompatActivity implements InteractionMainActivityFragmentsListener,AdsClickListener,NetworkChangeReceiver.NetworkChangeListener {
 
     // -------Declaration of variables------------
     private ActivityMainBinding binding;

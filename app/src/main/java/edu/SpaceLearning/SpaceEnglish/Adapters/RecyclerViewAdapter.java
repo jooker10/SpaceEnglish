@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
@@ -39,9 +40,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private String categoryType;
     private TextToSpeechManager textToSpeechManager;
     /*private CustomFilter customFilter;*/
-    private onShowAdsClickListener listener;
+    private AdsClickListener adsClickListener;
    private boolean isAdsShowed = false;
-    public RecyclerViewAdapter(List<Category> originalElements, Context context, String categoryType , TextToSpeechManager textToSpeechManager , onShowAdsClickListener listener ) {
+    public RecyclerViewAdapter(List<Category> originalElements, Context context, String categoryType , TextToSpeechManager textToSpeechManager , AdsClickListener adsClickListener) {
 
         this.originalElements = originalElements;
         this.context = context;
@@ -49,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.activity = (Activity) context;
         this.textToSpeechManager = textToSpeechManager;
         filteredElements = new ArrayList<>(originalElements);
-        this.listener = listener;
+        this.adsClickListener = adsClickListener;
     }
 
     @NonNull
@@ -68,7 +69,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
        holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.recycler_animation_table));
 
        if(position == 10 && !isAdsShowed) {
-           listener.onShowSimpleAdsQuiz();
+           adsClickListener.onShowSimpleAdsQuiz();
            isAdsShowed = true;
        }
 
@@ -216,8 +217,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public interface onShowAdsClickListener {
-        void onShowSimpleAdsQuiz();
-    }
+
 
 }
