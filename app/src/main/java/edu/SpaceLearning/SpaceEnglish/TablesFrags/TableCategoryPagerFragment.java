@@ -18,22 +18,21 @@ import java.util.ArrayList;
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter;
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess;
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category;
-import edu.SpaceLearning.SpaceEnglish.Listeners.OnTablesRecyclerViewClickListener;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
 
 
 public class TableCategoryPagerFragment extends Fragment {
 
-    private InteractionMainActivityFragmentsListener interactionListener;
+    private InteractionActivityFragmentsListener interactionListener;
     private String categoryType;
     private TextView tvTableTitleType;
     private RecyclerViewAdapter recyclerViewAdapter;
     private ArrayList<Category> elements;
-    RecyclerView tableRecyclerView;
+    private RecyclerView tableRecyclerView;
 
     public TableCategoryPagerFragment() {
         // Required empty public constructor
@@ -77,7 +76,7 @@ public class TableCategoryPagerFragment extends Fragment {
 
         initRecyclerViewForTableFragment(); // init the recyclerView of the required table.
 
-        interactionListener.onTableRecyclerViewClick(recyclerViewAdapter);
+        interactionListener.onFilterTableRecycler(recyclerViewAdapter);
        // tvTableTitleType.setOnClickListener(view1 -> tableCategoryClickListener.onFilterClick(recyclerViewAdapter));
     }
 
@@ -102,8 +101,8 @@ public class TableCategoryPagerFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if(context instanceof InteractionMainActivityFragmentsListener){
-            interactionListener = (InteractionMainActivityFragmentsListener) context;
+        if(context instanceof InteractionActivityFragmentsListener){
+            interactionListener = (InteractionActivityFragmentsListener) context;
         }
 
     }

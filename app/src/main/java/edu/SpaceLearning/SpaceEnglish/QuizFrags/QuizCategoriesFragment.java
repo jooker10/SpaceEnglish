@@ -25,7 +25,7 @@ import java.util.Random;
 import java.util.Set;
 
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.CountDownTimerHelper;
@@ -41,7 +41,7 @@ import edu.SpaceLearning.SpaceEnglish.databinding.QuizCategoriesFragmentBinding;
 
 public class QuizCategoriesFragment extends Fragment implements CountDownTimerHelper.OnCountdownListener {
     private QuizCategoriesFragmentBinding binding;
-    private InteractionMainActivityFragmentsListener interactionListener;
+    private InteractionActivityFragmentsListener interactionListener;
     private AdsClickListener adsClickListener;
     private SoundManager soundManager;
 
@@ -297,7 +297,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         binding.tvCounterDownTimer.setText(String.valueOf(secondsUntilFinished));
         binding.progressBarTimer.setProgress(binding.progressBarTimer.getProgress() + 100/(maxCounterTimer-1));
         if(secondsUntilFinished <= 5) {
-            soundManager.playSound(requireActivity(),R.raw.start_quiz);
+            soundManager.playSound(requireActivity(),R.raw.start_sound1);
            //binding.tvCounterDownTimer.setTextColor(Color.RED);
         }
 
@@ -310,7 +310,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         counterDownTimerOver();
         int idCheckedRadio = binding.quizRadioGroup.getCheckedRadioButtonId();
         if (idCheckedRadio == -1) {
-            soundManager.playSound(requireActivity(),R.raw.error4);
+            soundManager.playSound(requireActivity(),R.raw.error_sound2);
             checkEmptyAnswerCounter();
         } else {
             checkAnswer();
@@ -322,8 +322,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof InteractionMainActivityFragmentsListener) {
-            interactionListener = (InteractionMainActivityFragmentsListener) context;
+        if (context instanceof InteractionActivityFragmentsListener) {
+            interactionListener = (InteractionActivityFragmentsListener) context;
         }
         if(context instanceof AdsClickListener){
             adsClickListener = (AdsClickListener) context;
@@ -406,7 +406,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         int checkedRadioID = binding.quizRadioGroup.getCheckedRadioButtonId();
         if (checkedRadioID != -1) {
             isAnswered = true;
-            if(countDownTimerHelper != null) {countDownTimerHelper.pause();}  // Pause the timer when checking the answer
+            if(countDownTimerHelper != null) {countDownTimerHelper.stop();}  // Pause the timer when checking the answer
             binding.btnConfirmNextCategory.setText(R.string.next_quiz_text);
             RadioButton radioSelected = requireView().findViewById(checkedRadioID);
             String userAnswer = radioSelected.getText().toString();
@@ -440,7 +440,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     }
 
     private void handleCorrectAnswer() {
-        soundManager.playSound(requireActivity(),R.raw.coins1);
+        soundManager.playSound(requireActivity(),R.raw.coins_sound1);
         userRightScore++;
         //  if you want you can add anim here!
         binding.tvQuizUserRightAnswerCounter.setAnimation(AnimationUtils.loadAnimation(requireActivity(),R.anim.anim_tv_right_wrong_score));
@@ -456,7 +456,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
     private void handleIncorrectAnswer() {
         userWrongScore++;
-        soundManager.playSound(requireActivity(),R.raw.error0);
+        soundManager.playSound(requireActivity(),R.raw.error_sound1);
         int randomIndex = new Random().nextInt(Utils.phrasesIncorrectAnswers.size());
         String text = Utils.phrasesIncorrectAnswers.get(randomIndex);
         speakEnglish(text);
@@ -518,7 +518,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         }
 
         finishQuizUpdateScoresCategory(categoryType,pointsAdded,elementsAdded);
-        interactionListener.onSetQuizCategoryResultClick(categoryType,pointsAdded,elementsAdded,userRightScore,msg);
+        interactionListener.onSendScoresToDialog(categoryType,pointsAdded,elementsAdded,userRightScore,msg);
 
     }
 

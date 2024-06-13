@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import edu.SpaceLearning.SpaceEnglish.Adapters.InfoScorePager2Adapter;
 import edu.SpaceLearning.SpaceEnglish.HomeInfoScoresPager2Fragment;
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.HomeNavFragmentBinding;
@@ -30,7 +30,7 @@ import edu.SpaceLearning.SpaceEnglish.databinding.HomeNavFragmentBinding;
 public class HomeNavFragment extends Fragment {
 
     private HomeNavFragmentBinding binding;
-    private InteractionMainActivityFragmentsListener interactionListener;
+    private InteractionActivityFragmentsListener interactionListener;
     private final ArrayList<Fragment> fragmentsForPager2InfoScores = new ArrayList<>();
 
     public HomeNavFragment() {
@@ -71,7 +71,7 @@ public class HomeNavFragment extends Fragment {
     private void setImageHomeProfile() {
 
         binding.imgHomeProfile.setOnClickListener(v -> {
-            interactionListener.onPickImage();
+            interactionListener.onPickImageProfile();
         } );
         if (Utils.uriProfile != null && !Utils.uriProfile.toString().isEmpty() ) {
             binding.imgHomeProfile.setImageURI(Utils.uriProfile);
@@ -97,8 +97,8 @@ public class HomeNavFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof InteractionMainActivityFragmentsListener)
-            interactionListener = (InteractionMainActivityFragmentsListener) context;
+        if (context instanceof InteractionActivityFragmentsListener)
+            interactionListener = (InteractionActivityFragmentsListener) context;
     }
 
     @Override

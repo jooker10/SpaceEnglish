@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.MyDatabase;
+import edu.SpaceLearning.SpaceEnglish.R;
 
 public class Utils {
 
@@ -26,6 +27,7 @@ public class Utils {
     public static ArrayList<String> phrasesCorrectAnswers = new ArrayList<>();
     public static ArrayList<String> phrasesIncorrectAnswers = new ArrayList<>();
     public static ArrayList<String> tableListNames = new ArrayList<>();
+    public static ArrayList<Integer> colorsList = new ArrayList<>();
     public static HashMap<String,String> tableHashNames = new HashMap<>();
 
 
@@ -96,6 +98,16 @@ public class Utils {
         tableListNames.add(Constants.ADV_NAME);
         tableListNames.add(Constants.IDIOM_NAME);
 
+
+    }
+
+    public static void FillListColors() {
+       // colorsList.add(R.color.custom_secondary);
+        colorsList.add(R.color.gray_600);
+        colorsList.add(R.color.pastel_purple);
+        colorsList.add(R.color.soft_orange);
+        colorsList.add(R.color.mint_green);
+        colorsList.add(R.color.light_blue);
 
     }
 }

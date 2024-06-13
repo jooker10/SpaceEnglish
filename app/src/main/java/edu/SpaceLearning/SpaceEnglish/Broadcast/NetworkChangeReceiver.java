@@ -14,10 +14,10 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             void onNetworkChange(boolean isConnected);
         }
 
-        private NetworkChangeListener listener;
+        private NetworkChangeListener networkChangeListener;
 
-        public NetworkChangeReceiver(NetworkChangeListener listener) {
-            this.listener = listener;
+        public NetworkChangeReceiver(NetworkChangeListener networkChangeListener) {
+            this.networkChangeListener = networkChangeListener;
         }
 
         @Override
@@ -25,8 +25,8 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-            if (listener != null) {
-                listener.onNetworkChange(isConnected);
+            if (networkChangeListener != null) {
+                networkChangeListener.onNetworkChange(isConnected);
             }
         }
 

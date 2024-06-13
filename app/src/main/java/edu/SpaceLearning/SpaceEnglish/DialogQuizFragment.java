@@ -10,17 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.DialogQuizScoresBinding;
-import edu.SpaceLearning.SpaceEnglish.databinding.GptDialogScoresBinding;
 
 
 public class DialogQuizFragment extends DialogFragment {
 
-    private InteractionMainActivityFragmentsListener interactionListener;
+    private InteractionActivityFragmentsListener interactionListener;
 
     private static final String ARG_CATEGORY_TYPE = "category";
     private static final String ARG_MAIN_SCORE = "arg_main_score";
@@ -46,8 +44,8 @@ public class DialogQuizFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof InteractionMainActivityFragmentsListener) {
-            interactionListener = (InteractionMainActivityFragmentsListener) context;
+        if (context instanceof InteractionActivityFragmentsListener) {
+            interactionListener = (InteractionActivityFragmentsListener) context;
         }
 
 
@@ -115,12 +113,10 @@ public class DialogQuizFragment extends DialogFragment {
 
         binding.btnNewQuiz.setOnClickListener(v -> {
 
-            //  Toast.makeText(requireActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
-            interactionListener.onSheetDialogNewQuizClick();
+            interactionListener.onDialogNewQuiz();
             dismiss();
         });
         binding.btnSendHome.setOnClickListener(view1 -> {
-            // Toast.makeText(requireActivity(), "Button Clicked", Toast.LENGTH_SHORT).show();
             interactionListener.onDialogSendHomeClick(categoryType);
             dismiss();
         });

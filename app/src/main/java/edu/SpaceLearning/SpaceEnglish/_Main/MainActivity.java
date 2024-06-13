@@ -1,7 +1,6 @@
 package edu.SpaceLearning.SpaceEnglish._Main;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -36,14 +35,13 @@ import java.util.Objects;
 
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter;
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.AdsManager;
 import edu.SpaceLearning.SpaceEnglish.Broadcast.NetworkChangeReceiver;
 import edu.SpaceLearning.SpaceEnglish.Broadcast.NoConnectionFragment;
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess;
 import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment;
 import edu.SpaceLearning.SpaceEnglish.MyBottomSheet;
-import edu.SpaceLearning.SpaceEnglish.Listeners.OnTablesRecyclerViewClickListener;
 import edu.SpaceLearning.SpaceEnglish.QuizFrags.QuizCategoriesFragment;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager;
@@ -59,7 +57,7 @@ import edu.SpaceLearning.SpaceEnglish._Navfragments.QuizNavFragment;
 import edu.SpaceLearning.SpaceEnglish._Navfragments.SettingsNavFragment;
 import edu.SpaceLearning.SpaceEnglish._Navfragments.TableNavFragment;
 
-public class MainActivity extends AppCompatActivity implements InteractionMainActivityFragmentsListener,AdsClickListener,NetworkChangeReceiver.NetworkChangeListener {
+public class MainActivity extends AppCompatActivity implements InteractionActivityFragmentsListener,AdsClickListener,NetworkChangeReceiver.NetworkChangeListener {
 
     // -------Declaration of variables------------
     private ActivityMainBinding binding;
@@ -67,8 +65,7 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
     private SharedPrefsManager sharedPrefsManager;
     private SharedPreferences sharedPreferences;
     private AdsManager adsManager;
-    private RecyclerViewAdapter mainRecyclerAdapter;
-    private Menu mainMenu;
+    private RecyclerViewAdapter tableRecyclerAdapter;
     private MenuItem searchItem;
     private MyBottomSheet myBottomSheet;
     private SoundManager soundManager;
@@ -76,8 +73,9 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
     public static TextToSpeechManager textToSpeechManager;
     private boolean showRatingSheet = true;
     private NetworkChangeReceiver networkChangeReceiver;
+    private boolean isTableFragmentActive = false;
 
-   @Override
+    @Override
    protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -142,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
     }
 
     private void initUtils() {
+       Utils.FillListColors();
        Utils.FillHashMapTableName();
        Utils.FillListCategoriesNames();
         Utils.FillListsCorrectIncorrectAnswerResponses();
@@ -163,22 +162,18 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
 
             switch (item.getItemId()) {
                 case R.id.item_nav_home:
-                    searchItem.setVisible(false);
                     fragmentTAG = Constants.TAG_HOME_NAV_FRAGMENT;
                     selectedFragment = new HomeNavFragment();
                     break;
                 case R.id.item_nav_tables:
-                    searchItem.setVisible(true);
                     fragmentTAG = Constants.TAG_TABLES_NAV_FRAGMENT;
                     checkNetworkAndUpdateUI(fragmentTAG);
                     return true; // Network check will handle fragment replacement
                 case R.id.item_nav_quiz:
-                    searchItem.setVisible(false);
                     fragmentTAG = Constants.TAG_QUIZ_NAV_FRAGMENT;
                     checkNetworkAndUpdateUI(fragmentTAG);
                     return true; // Network check will handle fragment replacement
                 case R.id.item_nav_settings:
-                    searchItem.setVisible(false);
                     fragmentTAG = Constants.TAG_SETTINGS_NAV_FRAGMENT;
                     selectedFragment = new SettingsNavFragment();
                     break;
@@ -231,6 +226,8 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
         ft.setCustomAnimations(R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right, R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right);
         ft.replace(R.id.main_frag_container, fragment,fragmentTAG);
         ft.commit();
+        // Update isTableFragmentActive based on the fragment TAG
+        isTableFragmentActive = fragmentTAG.equals(Constants.TAG_TABLES_NAV_FRAGMENT);
     }
 
 
@@ -248,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
 
 
     @Override
-    public void onPickImage() {
+    public void onPickImageProfile() {
         // Check if permission is not granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -287,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
     }
 
     @Override
-    public void onSetQuizCategoryResultClick(String categoryType, int pointsAdded, int elementsAdded , int userRightAnswerScore , String msg) {
+    public void onSendScoresToDialog(String categoryType, int pointsAdded, int elementsAdded , int userRightAnswerScore , String msg) {
         DialogQuizFragment dialog5 = DialogQuizFragment.newInstance(categoryType, pointsAdded, elementsAdded, userRightAnswerScore ,msg);
         dialog5.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
     }
@@ -310,21 +307,20 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
     }
 
     @Override  //called from sheetDialog to re-play the quiz
-    public void onSheetDialogNewQuizClick() {
+    public void onDialogNewQuiz() {
         setNavFragment(new QuizNavFragment(),Constants.TAG_QUIZ_NAV_FRAGMENT);
         binding.bottomNav.getMenu().getItem(Constants.QUIZ_NAV_INDEX).setChecked(true);
     }
 
     @Override  // called from InfoFragment to replace it with the quiz frag CategoryType selected
-    public void onSetRequiredFragmentQuiz(Fragment fragment) {
+    public void onSetRequiredCategoryFragmentQuiz(Fragment fragment) {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setNavFragment(fragment,Constants.TAG_QUIZ_CATEGORY_FRAGMENT);
     }
 
     @Override
-    public void onTableRecyclerViewClick(RecyclerViewAdapter adapter) {
-        if (adapter != null)
-            mainRecyclerAdapter = adapter;
+    public void onFilterTableRecycler(RecyclerViewAdapter tableAdapter) {
+            this.tableRecyclerAdapter = tableAdapter;
 
     }
 
@@ -341,29 +337,35 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        mainMenu = menu;
 
         // Get the SearchView from the menu item
          searchItem = menu.findItem(R.id.mainmenu_search);
+
+        if (isTableFragmentActive) {
+            searchItem.setVisible(true);
+        } else {
+            searchItem.setVisible(false);
+        }
 
 
         // Initialize SearchView
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         // Set up search event listeners
+        assert searchView != null;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Handle search query submission if needed
 
-                return true; // Return true to consume the event
+                return false; // Return true to consume the event
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Handle search query text changes
-                if (mainRecyclerAdapter != null) {
-                    mainRecyclerAdapter.getFilter().filter(newText);
+                if (tableRecyclerAdapter != null) {
+                    tableRecyclerAdapter.getFilter().filter(newText);
                 }
                 return true; // Return true to consume the event
             }
@@ -427,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements InteractionMainAc
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //-------for pick image----------------------
-        if(requestCode == ImagePicker.REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+        if(requestCode == ImagePicker.REQUEST_CODE && resultCode == android.app.Activity.RESULT_OK && data != null) {
             Utils.uriProfile = data.getData();
             setNavFragment(new HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT);
         }

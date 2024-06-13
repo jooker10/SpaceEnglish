@@ -12,14 +12,14 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionMainActivityFragmentsListener;
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 
 public class SettingsNavFragment extends PreferenceFragmentCompat {
 
-    private InteractionMainActivityFragmentsListener interactionListener;
+    private InteractionActivityFragmentsListener interactionListener;
     private SwitchPreferenceCompat switchAppTheme;
 
     @Override
@@ -92,8 +92,8 @@ public class SettingsNavFragment extends PreferenceFragmentCompat {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof InteractionMainActivityFragmentsListener)
-            interactionListener = (InteractionMainActivityFragmentsListener) context;
+        if (context instanceof InteractionActivityFragmentsListener)
+            interactionListener = (InteractionActivityFragmentsListener) context;
 
     }
 
