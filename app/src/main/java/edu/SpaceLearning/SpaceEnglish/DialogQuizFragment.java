@@ -15,11 +15,14 @@ import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 import edu.SpaceLearning.SpaceEnglish.databinding.DialogQuizScoresBinding;
 
-
+/**
+ * DialogQuizFragment is a dialog fragment that displays quiz scores and options to start a new quiz or return home.
+ */
 public class DialogQuizFragment extends DialogFragment {
 
     private InteractionActivityFragmentsListener interactionListener;
 
+    // Argument keys for fragment arguments
     private static final String ARG_CATEGORY_TYPE = "category";
     private static final String ARG_MAIN_SCORE = "arg_main_score";
     private static final String ARG_POINTS_ADDED = "arg_points_added";
@@ -30,12 +33,8 @@ public class DialogQuizFragment extends DialogFragment {
     private DialogQuizScoresBinding binding;
     public static final String TAG = "quizDialog";
 
-
-    private String categoryType,msg;
-    private int pointsAdded,elementsAdded,userRightScore;
-
-
-
+    private String categoryType, msg;
+    private int pointsAdded, elementsAdded, userRightScore;
 
     public DialogQuizFragment() {
         // Required empty public constructor
@@ -47,8 +46,6 @@ public class DialogQuizFragment extends DialogFragment {
         if (context instanceof InteractionActivityFragmentsListener) {
             interactionListener = (InteractionActivityFragmentsListener) context;
         }
-
-
     }
 
     @Override
@@ -67,28 +64,35 @@ public class DialogQuizFragment extends DialogFragment {
             elementsAdded = bundle.getInt(ARG_ELEMENTS_ADDED);
             userRightScore = bundle.getInt(ARG_USER_RIGHT_SCORE);
             msg = bundle.getString(ARG_MSG);
-
         }
-
     }
 
-    public static DialogQuizFragment newInstance(String categoryType,int pointsAdded , int elementsAdded , int userRightScore , String msg) {
+    /**
+     * Creates a new instance of DialogQuizFragment with provided arguments.
+     *
+     * @param categoryType   The category type of the quiz.
+     * @param pointsAdded    Points added in the quiz.
+     * @param elementsAdded  Elements added during the quiz.
+     * @param userRightScore Number of questions answered correctly.
+     * @param msg            Message to display in the dialog.
+     * @return A new instance of DialogQuizFragment.
+     */
+    public static DialogQuizFragment newInstance(String categoryType, int pointsAdded, int elementsAdded, int userRightScore, String msg) {
         Bundle bundle = new Bundle();
         bundle.putString(ARG_CATEGORY_TYPE, categoryType);
         bundle.putInt(ARG_POINTS_ADDED, pointsAdded);
         bundle.putInt(ARG_ELEMENTS_ADDED, elementsAdded);
         bundle.putInt(ARG_USER_RIGHT_SCORE, userRightScore);
-        bundle.putString(ARG_MSG , msg);
+        bundle.putString(ARG_MSG, msg);
 
         DialogQuizFragment dialog_fragment = new DialogQuizFragment();
         dialog_fragment.setArguments(bundle);
         return dialog_fragment;
     }
 
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.dialog_quiz_scores, container, false);
     }
@@ -98,30 +102,26 @@ public class DialogQuizFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         binding = DialogQuizScoresBinding.bind(view);
 
-
-
-        //______set Txt and Events----------------
-        binding.tvDialogCongrat.setText(msg);
+        // Set text and events for UI elements
+        binding.tvDialogCongrat.setText(msg); // Set congratulatory message
         if (MainActivity.textToSpeechManager != null) {
-            MainActivity.textToSpeechManager.speak(msg);
+            MainActivity.textToSpeechManager.speak(msg); // Speak congratulatory message
         }
 
-        binding.tvDialogResult.setText(userRightScore + "/" + Utils.maxQuestionsPerQuiz);
-        binding.tvPointsAdded.setText(String.valueOf(pointsAdded));
-        binding.tvElementsAdded.setText(String.valueOf(elementsAdded));
-        binding.tvDialogCategoryElementAdded.setText(categoryType + " Added :");
+        binding.tvDialogResult.setText(userRightScore + "/" + Utils.maxQuestionsPerQuiz); // Display quiz result
+        binding.tvPointsAdded.setText(String.valueOf(pointsAdded)); // Display points added
+        binding.tvElementsAdded.setText(String.valueOf(elementsAdded)); // Display elements added
+        binding.tvDialogCategoryElementAdded.setText(categoryType + " Added :"); // Display category type
 
+        // Button click listeners
         binding.btnNewQuiz.setOnClickListener(v -> {
-
-            interactionListener.onDialogNewQuiz();
-            dismiss();
+            interactionListener.onDialogNewQuiz(); // Notify listener to start a new quiz
+            dismiss(); // Dismiss the dialog
         });
+
         binding.btnSendHome.setOnClickListener(view1 -> {
-            interactionListener.onDialogSendHomeClick(categoryType);
-            dismiss();
+            interactionListener.onDialogSendHomeClick(categoryType); // Notify listener to send home with category type
+            dismiss(); // Dismiss the dialog
         });
     }
-
-
-
 }

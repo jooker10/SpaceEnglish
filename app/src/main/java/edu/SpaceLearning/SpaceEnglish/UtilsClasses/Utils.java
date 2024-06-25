@@ -6,34 +6,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.MyDatabase;
-import edu.SpaceLearning.SpaceEnglish.R;
 
+/**
+ * Utils class contains various utility methods and constants used throughout the application.
+ * It includes static fields for language settings, quiz names, lists for correct/incorrect answers,
+ * database table names mapping, maximum allowed numbers, user profile URI, user name,
+ * and methods to fill lists and mappings used in different parts of the application.
+ */
 public class Utils {
 
     //------ the main qst in native language----------
     public static String nativeLanguage = "French";
 
     public static boolean isThemeNight = false;
-    public static String fragmentNameTagSearch = "Table Fragment";
 
+    // Quiz names
     public static String QUIZ_COMPLETED_NAME = "Quiz completed";
     public static String QUIZ_COMPLETED_CORRECTLY_NAME = "Quiz completed successfully";
     public static String QUIZ_ELEMENT_ADDED_NAME = "Elements added";
     public static String QUIZ_QUIZ_ELEMENT_ADDED_VIDEO_NAME = "Elements added (Ads)";
     public static String QUIZ_POINT_ADDED_VIDEO_NAME = "Points added (Ads)";
 
-
-
+    // Lists for quiz responses
     public static ArrayList<String> phrasesCorrectAnswers = new ArrayList<>();
     public static ArrayList<String> phrasesIncorrectAnswers = new ArrayList<>();
-    public static ArrayList<String> tableListNames = new ArrayList<>();
-    public static ArrayList<Integer> colorsList = new ArrayList<>();
-    public static HashMap<String,String> tableHashNames = new HashMap<>();
 
+    // Lists and mappings for database tables and UI elements
+    public static ArrayList<String> tableListNames = new ArrayList<>();
+    public static ArrayList<String> headerTablePdfList = new ArrayList<>();
+    public static ArrayList<ItemButtonsRecycler> itemRecyclerQuizNavList = new ArrayList<>();
+    public static HashMap<String,String> tableHashNames = new HashMap<>();
 
     public static boolean switchSimpleToVideoAds = true;
     public static int maxQuestionsPerQuiz = 10;
 
+    // Maximum allowed numbers for different categories
     public static int allowedVerbsNumber = 100;
     public static int allowedPhrasalsNumber = 50;
     public static int allowedSentencesNumber = 50;
@@ -42,6 +49,7 @@ public class Utils {
     public static int allowedAdvsNumber = 50;
     public static int allowedIdiomsNumber = 50;
 
+    // Total numbers for different categories
     public static int totalVerbsNumber;
     public static int totalPhrasalsNumber;
     public static int totalSentencesNumber;
@@ -49,46 +57,60 @@ public class Utils {
     public static int totalAdjsNumber;
     public static int totalAdvsNumber;
     public static int totalIdiomsNumber;
+
+    // User profile information
     public static Uri uriProfile;
     public static String userName = "User 1";
     public static boolean isFirstTimeActivity = false;
 
-
+    /**
+     * Clears and fills the phrasesCorrectAnswers and phrasesIncorrectAnswers lists with default responses.
+     */
     public static void FillListsCorrectIncorrectAnswerResponses(){
-        Utils.phrasesCorrectAnswers.add("Fantastic! You've got it right!");
-        Utils.phrasesCorrectAnswers.add("Correctamundo! You're on fire!");
-        Utils.phrasesCorrectAnswers.add("Bingo! Nailed it!");
-        Utils.phrasesCorrectAnswers.add("Well done! You're a quiz whiz!");
-        Utils.phrasesCorrectAnswers.add("You're absolutely correct! Keep it up!");
-        Utils.phrasesCorrectAnswers.add("You're on a roll! That's the right answer!");
-        Utils.phrasesCorrectAnswers.add("Gold star! You've chosen the correct option!");
-        Utils.phrasesCorrectAnswers.add("Bravo! You're proving your expertise!");
-        Utils.phrasesCorrectAnswers.add("Excellent choice! You're acing this quiz!");
-        Utils.phrasesCorrectAnswers.add("That's the ticket! You're cruising through these questions!");
-        Utils.phrasesIncorrectAnswers.add("Oops! Not quite, but don't give up!");
-        Utils.phrasesIncorrectAnswers.add("Almost there, but not quite. Try again!");
-        Utils.phrasesIncorrectAnswers.add("Oh no! That's not the right answer.");
-        Utils.phrasesIncorrectAnswers.add("Close, but not exactly. Give it another shot!");
-        Utils.phrasesIncorrectAnswers.add("Not quite this time. Keep trying!");
-        Utils.phrasesIncorrectAnswers.add("Darn! That's not the correct answer.");
-        Utils.phrasesIncorrectAnswers.add("Oopsie daisy! Keep guessing, you'll get it!");
-        Utils.phrasesIncorrectAnswers.add("Don't worry, you'll get it next time! Try again!");
-        Utils.phrasesIncorrectAnswers.add("That's not it, but you're learning with every try!");
-        Utils.phrasesIncorrectAnswers.add("Keep going! Mistakes are part of the learning process.");
+        phrasesCorrectAnswers.clear();
+        phrasesCorrectAnswers.add("Fantastic! You've got it right!");
+        phrasesCorrectAnswers.add("Correctamundo! You're on fire!");
+        phrasesCorrectAnswers.add("Bingo! Nailed it!");
+        phrasesCorrectAnswers.add("Well done! You're a quiz whiz!");
+        phrasesCorrectAnswers.add("You're absolutely correct! Keep it up!");
+        phrasesCorrectAnswers.add("You're on a roll! That's the right answer!");
+        phrasesCorrectAnswers.add("Gold star! You've chosen the correct option!");
+        phrasesCorrectAnswers.add("Bravo! You're proving your expertise!");
+        phrasesCorrectAnswers.add("Excellent choice! You're acing this quiz!");
+        phrasesCorrectAnswers.add("That's the ticket! You're cruising through these questions!");
 
+        phrasesIncorrectAnswers.clear();
+        phrasesIncorrectAnswers.add("Oops! Not quite, but don't give up!");
+        phrasesIncorrectAnswers.add("Almost there, but not quite. Try again!");
+        phrasesIncorrectAnswers.add("Oh no! That's not the right answer.");
+        phrasesIncorrectAnswers.add("Close, but not exactly. Give it another shot!");
+        phrasesIncorrectAnswers.add("Not quite this time. Keep trying!");
+        phrasesIncorrectAnswers.add("Darn! That's not the correct answer.");
+        phrasesIncorrectAnswers.add("Oopsie daisy! Keep guessing, you'll get it!");
+        phrasesIncorrectAnswers.add("Don't worry, you'll get it next time! Try again!");
+        phrasesIncorrectAnswers.add("That's not it, but you're learning with every try!");
+        phrasesIncorrectAnswers.add("Keep going! Mistakes are part of the learning process.");
     }
 
+    /**
+     * Clears and fills the tableHashNames mapping with category names and their corresponding database table names.
+     */
     public static void FillHashMapTableName() {
+        tableHashNames.clear();
         tableHashNames.put(Constants.VERB_NAME, MyDatabase.TABLE_VERBS);
-        tableHashNames.put(Constants.SENTENCE_NAME,MyDatabase.TABLE_SENTENSES);
-        tableHashNames.put(Constants.PHRASAL_NAME,MyDatabase.TABLE_PHRASAL);
-        tableHashNames.put(Constants.NOUN_NAME,MyDatabase.TABLE_NOUNS);
-        tableHashNames.put(Constants.ADJ_NAME,MyDatabase.TABLE_ADJECTIVES);
-        tableHashNames.put(Constants.ADV_NAME,MyDatabase.TABLE_ADVERBS);
-        tableHashNames.put(Constants.IDIOM_NAME,MyDatabase.TABLE_IDIOMS);
+        tableHashNames.put(Constants.SENTENCE_NAME, MyDatabase.TABLE_SENTENCES);
+        tableHashNames.put(Constants.PHRASAL_NAME, MyDatabase.TABLE_PHRASALS);
+        tableHashNames.put(Constants.NOUN_NAME, MyDatabase.TABLE_NOUNS);
+        tableHashNames.put(Constants.ADJ_NAME, MyDatabase.TABLE_ADJECTIVES);
+        tableHashNames.put(Constants.ADV_NAME, MyDatabase.TABLE_ADVERBS);
+        tableHashNames.put(Constants.IDIOM_NAME, MyDatabase.TABLE_IDIOMS);
     }
-    public static void FillListCategoriesNames() {
 
+    /**
+     * Clears and fills the tableListNames list with category names used in the application.
+     */
+    public static void FillListCategoriesNames() {
+        tableListNames.clear();
         tableListNames.add(Constants.ALL_NAME);
         tableListNames.add(Constants.VERB_NAME);
         tableListNames.add(Constants.SENTENCE_NAME);
@@ -97,17 +119,30 @@ public class Utils {
         tableListNames.add(Constants.ADJ_NAME);
         tableListNames.add(Constants.ADV_NAME);
         tableListNames.add(Constants.IDIOM_NAME);
-
-
     }
 
-    public static void FillListColors() {
-       // colorsList.add(R.color.custom_secondary);
-        colorsList.add(R.color.gray_600);
-        colorsList.add(R.color.pastel_purple);
-        colorsList.add(R.color.soft_orange);
-        colorsList.add(R.color.mint_green);
-        colorsList.add(R.color.light_blue);
+    /**
+     * Clears and fills the headerTablePdfList list with column header names for PDF tables.
+     */
+    public static void FillListHeaderTablePdf() {
+        headerTablePdfList.clear();
+        headerTablePdfList.add("ID");
+        headerTablePdfList.add("ENGLISH");
+        headerTablePdfList.add("FRENCH");
+    }
 
+    /**
+     * Clears and fills the itemRecyclerQuizNavList list with navigation items for quizzes.
+     * Uses predefined quiz categories and their requirements.
+     */
+    public static void FillItemRecyclerQuizNavList() {
+        itemRecyclerQuizNavList.clear();
+        itemRecyclerQuizNavList.add(new ItemButtonsRecycler(Constants.categoryNameArray[0], "opened"));
+        itemRecyclerQuizNavList.add(new ItemButtonsRecycler(Constants.categoryNameArray[1], "opened"));
+        itemRecyclerQuizNavList.add(new ItemButtonsRecycler(Constants.categoryNameArray[2], "Phrasal verbs required 80 points"));
+        itemRecyclerQuizNavList.add(new ItemButtonsRecycler(Constants.categoryNameArray[3], "Nouns required 150 points"));
+        itemRecyclerQuizNavList.add(new ItemButtonsRecycler(Constants.categoryNameArray[4], "Adjectives required 250 points"));
+        itemRecyclerQuizNavList.add(new ItemButtonsRecycler(Constants.categoryNameArray[5], "Adverbs required 400 points"));
+        itemRecyclerQuizNavList.add(new ItemButtonsRecycler(Constants.categoryNameArray[6], "Idioms required 600 points"));
     }
 }

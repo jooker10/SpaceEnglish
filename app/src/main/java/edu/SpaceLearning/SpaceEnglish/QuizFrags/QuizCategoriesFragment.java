@@ -1,3 +1,10 @@
+/*
+ * File: QuizCategoriesFragment.java
+ * Author: [Your Name]
+ * Date: [Date]
+ * Purpose: Fragment for displaying and managing quiz questions within specified categories.
+ */
+
 package edu.SpaceLearning.SpaceEnglish.QuizFrags;
 
 import android.content.Context;
@@ -97,7 +104,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = QuizCategoriesFragmentBinding.bind(view);
-        soundManager = new SoundManager(requireActivity());
+        soundManager = new SoundManager();
         rbDefaultColorTxt = binding.QuizCategoryOption1.getTextColors();
 
         binding.tvQuizChooseTheRightAnswerLabel.setText(chooseTvQuizRightAnswerRequiredLanguage(Utils.nativeLanguage)); // Choose the right native Language
@@ -169,7 +176,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
     private void checkEmptyAnswerCounter() {
 
-        adsClickListener.onShowSimpleAdsQuiz();
+        adsClickListener.onShowInterstitialAd();
         userWrongScore++;
         binding.tvQuizUserWrongAnswerCounter.setText(String.valueOf(userWrongScore));
 
@@ -207,30 +214,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         }
     }
 
-   /* private void SetRandomQuestions1() {
-        for (int i = 0; i < currentElementsList.size(); i++) {
-            List<Integer> randomList = new ArrayList<>();
-            Random random = new Random();
 
-            while (randomList.size() != 2) {
-                int j = random.nextInt(currentElementsList.size());
-                if (!randomList.contains(j) && j != i) {
-                    randomList.add(j);
-                }
-            }
-
-            randomList.add(i);
-            Collections.shuffle(randomList);
-
-            String mainNativeElement = choosingTheRightMainElementLang(Utils.nativeLanguage, i); // here change the Element language
-            String rbOption1 = currentElementsList.get(randomList.get(0)).getCategoryEng();
-            String rbOption2 = currentElementsList.get(randomList.get(1)).getCategoryEng();
-            String rbOption3 = currentElementsList.get(randomList.get(2)).getCategoryEng();
-            String rightAnswer = currentElementsList.get(i).getCategoryEng();
-
-            questionsList.add(new Question(mainNativeElement, rbOption1, rbOption2, rbOption3, rightAnswer));
-        }
-    }*/
 
     private void setRandomIndexesIncludingTheRightAnswerIndexThenGenerateRequiredQuestionList() {
          Set<Integer> randomSet = new HashSet<>();
@@ -363,6 +347,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         if (currentQstIndex < Utils.maxQuestionsPerQuiz) {
 
             isAnswered = false;
+            binding.fabShareQstFriend.setActivated(false);
             resetUIForNextQuestion(); // Reset UI Color & Timer & clean Check RadioButtons for the next question
             currentQuestion = questionsList.get(currentQstIndex);
             updateUIWithQuestion(currentQuestion);
@@ -375,6 +360,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
         } else {
             isAnswered = true;
+            binding.fabShareQstFriend.setActivated(true);
             if (countDownTimerHelper != null) {
                 countDownTimerHelper.stop();
             }
@@ -406,6 +392,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         int checkedRadioID = binding.quizRadioGroup.getCheckedRadioButtonId();
         if (checkedRadioID != -1) {
             isAnswered = true;
+            binding.fabShareQstFriend.setActivated(true);
+
             if(countDownTimerHelper != null) {countDownTimerHelper.stop();}  // Pause the timer when checking the answer
             binding.btnConfirmNextCategory.setText(R.string.next_quiz_text);
             RadioButton radioSelected = requireView().findViewById(checkedRadioID);
@@ -469,6 +457,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
     private void handleNoAnswerSelected() {
         isAnswered = false;
+        binding.fabShareQstFriend.setActivated(false);
+
         String text = getString(R.string.no_answer_selected_text);
         if (MainActivity.textToSpeechManager != null) {
             MainActivity.textToSpeechManager.speak(text);
@@ -479,8 +469,8 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     private void finishQuiz() {
         //  here you can finish the quiz with dialog and set scores...etc
         if(Utils.switchSimpleToVideoAds) {
-            adsClickListener.onShowSimpleAdsQuiz();} else {
-            adsClickListener.onShowVideoAdsQuiz();}
+            adsClickListener.onShowInterstitialAd();} else {
+            adsClickListener.onShowRewardedAd();}
         Utils.switchSimpleToVideoAds = !Utils.switchSimpleToVideoAds;
 
         if (countDownTimerHelper != null)
@@ -590,16 +580,6 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         });
     }
 
-    /*private int getCurrentElementsNewSize(int maxElementsCategory,int currentElementsCategory,int elementsAdded ){
-        if((currentElementsCategory + elementsAdded) <= maxElementsCategory) {
-            currentElementsCategory  += elementsAdded;
-        } else{
-            currentElementsCategory = maxElementsCategory;
-        }
-        return currentElementsCategory;
-
-
-    }*/
 
     private void shareQst(String qstToShare) {
         // Create an Intent with ACTION_SEND

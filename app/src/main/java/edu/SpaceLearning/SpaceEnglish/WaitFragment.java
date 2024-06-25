@@ -1,11 +1,9 @@
 package edu.SpaceLearning.SpaceEnglish;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +11,21 @@ import android.widget.TextView;
 
 public class WaitFragment extends Fragment {
 
-    private static final String ARG_PERMISSION_SCORE = "permission";
+    private static final String ARG_PERMISSION_SCORE = "permission_score";
 
     private int permissionScore;
-    //private AdsManager adsManager;
 
     public WaitFragment() {
         // Required empty public constructor
     }
 
-
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param permissionScore Required permission score to open a table
+     * @return A new instance of fragment WaitFragment.
+     */
     public static WaitFragment newInstance(int permissionScore) {
         WaitFragment fragment = new WaitFragment();
         Bundle args = new Bundle();
@@ -50,8 +53,11 @@ public class WaitFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Initialize and set the text for the TextView
         TextView tvWaitRequiredToOpen = view.findViewById(R.id.tvScoreOpen);
         tvWaitRequiredToOpen.setText("Required "+ permissionScore + " points To Open this Table");
 
     }
 }
+
+

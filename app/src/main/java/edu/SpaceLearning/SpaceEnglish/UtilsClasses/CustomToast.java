@@ -9,8 +9,17 @@ import android.widget.Toast;
 
 import edu.SpaceLearning.SpaceEnglish.R;
 
+/**
+ * CustomToast class for displaying custom Toast messages.
+ */
 public class CustomToast {
 
+    /**
+     * Show a custom Toast message with the provided text.
+     *
+     * @param context The context from which the Toast is shown.
+     * @param message The message text to be displayed in the Toast.
+     */
     public static void showToast(Context context, String message) {
         // Create a LayoutInflater to inflate your custom layout
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -23,8 +32,8 @@ public class CustomToast {
         // Create and show the Toast
         Toast customToast = new Toast(context);
         customToast.setDuration(Toast.LENGTH_SHORT);
-        customToast.setGravity(Gravity.BOTTOM, 0, 200);
-        customToast.setView(customToastView);
-        customToast.show();
+        customToast.setGravity(Gravity.BOTTOM, 0, 200); // Set the position of the Toast
+        customToast.setView(customToastView); // Set the custom view to the Toast
+        customToast.show(); // Show the Toast
     }
 }

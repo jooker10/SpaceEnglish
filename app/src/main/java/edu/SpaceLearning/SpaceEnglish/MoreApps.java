@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
+/**
+ * Fragment for displaying more apps and linking to their respective URLs.
+ */
 public class MoreApps extends Fragment {
 
     public MoreApps() {
@@ -30,13 +32,20 @@ public class MoreApps extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Find buttons in the layout
         Button btnApp2 = view.findViewById(R.id.btnMoreAppsTheSecond);
         Button btnApp3 = view.findViewById(R.id.btnMoreAppsTheThird);
 
+        // Set click listeners for each button
         btnApp2.setOnClickListener(v -> toOurApp(getString(R.string.url_app2)));
         btnApp3.setOnClickListener(v -> toOurApp(getString(R.string.url_app3)));
     }
 
+    /**
+     * Opens the specified app URL using an Intent.
+     *
+     * @param urlApp The URL of the app to open.
+     */
     private void toOurApp(String urlApp){
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlApp));
         startActivity(intent);

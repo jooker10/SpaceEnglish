@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Space English</string>
     <string name="ADS_APP_ID">ca-app-pub-8315645297205950~6429518882</string>
-    <string name="ADS_APP_ID_TEST">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="ADMOB_ADS_APP_ID_TEST">ca-app-pub-3940256099942544~3347511713</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="qstVerbIntro">Quelle est la traduction du verbe : </string>

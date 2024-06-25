@@ -11,6 +11,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/btnDownLoadListPDF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Download the table (PDF)" />
+
         <TextView
             android:id="@+id/headTitleForTableCategory"
             android:layout_width="match_parent"

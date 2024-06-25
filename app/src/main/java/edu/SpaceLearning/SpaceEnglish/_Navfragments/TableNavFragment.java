@@ -1,5 +1,15 @@
+/*
+ * File: TableNavFragment.java
+ * Author: [Your Name]
+ * Date: [Date]
+ * Purpose: Fragment for managing table categories with tabs and pager in the SpaceEnglish app.
+ *          This fragment dynamically adds table category fragments based on user permissions
+ *          and sets up tabs with a pager adapter.
+ */
+
 package edu.SpaceLearning.SpaceEnglish._Navfragments;
 
+// Android imports
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,49 +34,82 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores;
 import edu.SpaceLearning.SpaceEnglish.WaitFragment;
 import edu.SpaceLearning.SpaceEnglish.databinding.TableContainerFragmentBinding;
 
-
+/**
+ * Fragment for managing table categories with tabs and pager.
+ * Dynamically adds table category fragments based on user permissions
+ * and sets up tabs with a pager adapter.
+ */
 public class TableNavFragment extends Fragment {
 
+    // View binding for this fragment
     private TableContainerFragmentBinding binding;
-    private final ArrayList<Fragment> pagerListFragments = new ArrayList<>();;
 
+    // List to hold pager fragments for table categories
+    private final ArrayList<Fragment> pagerListFragments = new ArrayList<>();
+
+    /**
+     * Required empty public constructor
+     */
     public TableNavFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Called to create the view hierarchy associated with the fragment.
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.table_container_fragment, container, false);
     }
 
+    /**
+     * Called immediately after onCreateView() has returned, but before any saved state has been restored in to the view.
+     * @param view The view returned by onCreateView().
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = TableContainerFragmentBinding.bind(view);
 
+        // Add allowed pager category fragments to the list
+        addAllowedPagerCategoryFragments();
 
-        addAllowedPagerCategoryFragments(); // fill the required pagerFragments in TableFragment.
-
-        setUpTabsTableWithPager2(); // combine Tabs with pager2 in TableFragment.
-
+        // Set up tabs with pager for table categories
+        setUpTabsTableWithPager2();
     }
 
+    /**
+     * Adds allowed pager category fragments to the pager list based on user permissions.
+     */
     private void addAllowedPagerCategoryFragments() {
+        // Always add these default fragments
         pagerListFragments.add(TableCategoryPagerFragment.getInstance(Constants.VERB_NAME));
         pagerListFragments.add(TableCategoryPagerFragment.getInstance(Constants.SENTENCE_NAME));
 
-        for(int i = 0 ; i < Constants.permissionCategoryScoreArray.length ; i++) {
-            addAllowedFragment(pagerListFragments, TableCategoryPagerFragment.getInstance(Constants.categoryNameArray[i + 2])
-                    , Scores.totalScore,Constants.permissionCategoryScoreArray[i]);
+        // Add other fragments based on permission scores
+        for (int i = 0; i < Constants.permissionCategoryScoreArray.length; i++) {
+            addAllowedFragment(pagerListFragments, TableCategoryPagerFragment.getInstance(Constants.categoryNameArray[i + 2]),
+                    Scores.totalScore, Constants.permissionCategoryScoreArray[i]);
         }
-
     }
-    private void setUpTabsTableWithPager2(){
+
+    /**
+     * Sets up tabs with a pager adapter for table categories.
+     */
+    private void setUpTabsTableWithPager2() {
+        // Create and set the pager adapter for the table categories
         TablePagerAdapter tablePagerAdapter = new TablePagerAdapter(requireActivity(), pagerListFragments);
         binding.tableNavPager2.setAdapter(tablePagerAdapter);
-        new TabLayoutMediator(binding.tableNavTabLayout, binding.tableNavPager2, (tab, position) -> {
 
+        // Attach tabs with the pager using TabLayoutMediator
+        new TabLayoutMediator(binding.tableNavTabLayout, binding.tableNavPager2, (tab, position) -> {
+            // Customize tabs based on position
             switch (position) {
                 case 0:
                     tab.setText(Constants.VERB_NAME);
@@ -75,14 +118,19 @@ public class TableNavFragment extends Fragment {
                     tab.setText(Constants.SENTENCE_NAME);
                     break;
                 default:
-                    enabledTabs(tab,Scores.totalScore,Constants.permissionCategoryScoreArray[position - 2],Constants.categoryNameArray[position]);
+                    enabledTabs(tab, Scores.totalScore, Constants.permissionCategoryScoreArray[position - 2], Constants.categoryNameArray[position]);
                     break;
             }
-
-
         }).attach();
     }
 
+    /**
+     * Customize tabs based on permission scores.
+     * @param tab The tab to customize.
+     * @param globalMainScore The user's total score.
+     * @param requiredScore The required score for accessing the tab.
+     * @param categoryType The type of category for the tab.
+     */
     void enabledTabs(TabLayout.Tab tab, int globalMainScore, int requiredScore, String categoryType) {
         if (globalMainScore <= requiredScore) {
             // Inflate the custom tab layout
@@ -103,15 +151,19 @@ public class TableNavFragment extends Fragment {
         }
     }
 
-
-    void addAllowedFragment(ArrayList<Fragment> fragments, Fragment fragment , int globalMainScore, int permissionScore){
-
-        if(globalMainScore >= permissionScore) {
+    /**
+     * Adds a fragment to the list if the user has sufficient permission score,
+     * otherwise adds a waiting fragment.
+     * @param fragments The list of fragments to add to.
+     * @param fragment The fragment to add.
+     * @param globalMainScore The user's total score.
+     * @param permissionScore The required score for accessing the fragment.
+     */
+    void addAllowedFragment(ArrayList<Fragment> fragments, Fragment fragment, int globalMainScore, int permissionScore) {
+        if (globalMainScore >= permissionScore) {
             fragments.add(fragment);
-        }
-        else {
+        } else {
             fragments.add(WaitFragment.newInstance(permissionScore));
         }
-
     }
 }

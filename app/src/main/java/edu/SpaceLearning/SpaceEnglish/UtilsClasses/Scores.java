@@ -1,7 +1,12 @@
 package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
 
+/**
+ * Scores class to hold various score and counter variables related to the application.
+ * These variables represent total scores, points added through videos, elements added, and quiz completion counters.
+ */
 public class Scores {
 
+    // Total scores and counters
     public static int totalScore;
     public static int totalPointsAddedVideo;
     public static int totalElementsAdded;
@@ -9,9 +14,7 @@ public class Scores {
     public static int totalQuizCompleted;
     public static int totalQuizCompletedCorrectly;
 
-    public static int[] totalListScore = {totalScore,totalPointsAddedVideo,totalElementsAdded,totalQuizCompleted,totalQuizCompletedCorrectly};
-
-    // scores for home
+    // Scores for individual categories
     public static int verbScore;
     public static int sentenceScore;
     public static int phrasalScore;
@@ -20,11 +23,7 @@ public class Scores {
     public static int advScore;
     public static int idiomScore;
 
-    public static int[] mainScores = {verbScore, sentenceScore, phrasalScore, nounScore, adjScore, advScore, idiomScore};
-
-
-    public static int[] categoryListScore = {verbScore,sentenceScore,phrasalScore,nounScore,adjScore,advScore,idiomScore};
-
+    // Points added through videos for each category
     public static int verbPointsAddedVideo;
     public static int sentencePointsAddedVideo;
     public static int phrasalPointsAddedVideo;
@@ -33,10 +32,7 @@ public class Scores {
     public static int advPointsAddedVideo;
     public static int idiomPointsAddedVideo;
 
-    public static int[] categoryListPointsAddedVideo = {verbPointsAddedVideo,sentencePointsAddedVideo,phrasalPointsAddedVideo,nounPointsAddedVideo,adjPointsAddedVideo,advPointsAddedVideo,idiomPointsAddedVideo};
-
-
-    // elements added
+    // Counters for elements added in each category
     public static int verbAdded;
     public static int sentenceAdded;
     public static int phrasalAdded;
@@ -45,9 +41,7 @@ public class Scores {
     public static int advAdded;
     public static int idiomAdded;
 
-    public static int[] categoryListAdded = {verbAdded,sentenceAdded,phrasalAdded,nounAdded,adjAdded,advAdded,idiomAdded};
-
-    // elements added video
+    // Counters for elements added via video in each category
     public static int verbAddedVideo;
     public static int sentenceAddedVideo;
     public static int phrasalAddedVideo;
@@ -56,9 +50,7 @@ public class Scores {
     public static int advAddedVideo;
     public static int idiomAddedVideo;
 
-    public static int[] categoryListAddedVideo = {verbAddedVideo,sentenceAddedVideo,phrasalAddedVideo,nounAddedVideo,adjAddedVideo,advAddedVideo,idiomAddedVideo};
-
-    // quizCounter
+    // Quiz completion counters for each category
     public static int verbQuizCompleted;
     public static int sentenceQuizCompleted;
     public static int phrasalQuizCompleted;
@@ -67,9 +59,7 @@ public class Scores {
     public static int advQuizCompleted;
     public static int idiomQuizCompleted;
 
-    public static int[] categoryListQuizCompleted = {verbQuizCompleted,sentenceQuizCompleted,phrasalQuizCompleted,nounQuizCompleted,adjQuizCompleted,advQuizCompleted,idiomQuizCompleted};
-
-    // quiz Counter Completed
+    // Quiz completion counters for each category correctly
     public static int verbQuizCompletedCorrectly;
     public static int sentenceQuizCompletedCorrectly;
     public static int phrasalQuizCompletedCorrectly;
@@ -77,7 +67,5 @@ public class Scores {
     public static int adjQuizCompletedCorrectly;
     public static int advQuizCompletedCorrectly;
     public static int idiomQuizCompletedCorrectly;
-
-    public static int[] categoryListQuizCompletedCorrectly = {verbQuizCompletedCorrectly,sentenceQuizCompletedCorrectly,phrasalQuizCompletedCorrectly,nounQuizCompletedCorrectly,adjQuizCompletedCorrectly,advQuizCompletedCorrectly,idiomQuizCompletedCorrectly};
 
 }

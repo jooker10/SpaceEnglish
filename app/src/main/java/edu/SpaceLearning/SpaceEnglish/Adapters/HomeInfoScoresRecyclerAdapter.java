@@ -1,5 +1,14 @@
+/*
+ * File: HomeInfoScoresRecyclerAdapter.java
+ * Author: [Your Name]
+ * Date: [Date]
+ * Purpose: RecyclerView adapter for displaying home information scores in SpaceEnglish app.
+ *          This adapter binds data to ViewHolder and applies animations.
+ */
+
 package edu.SpaceLearning.SpaceEnglish.Adapters;
 
+// Android imports
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,93 +19,99 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.InfoScore;
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
 
+/**
+ * RecyclerView adapter for displaying home information scores.
+ */
 public class HomeInfoScoresRecyclerAdapter extends RecyclerView.Adapter<HomeInfoScoresRecyclerAdapter.InfoScoreRecyclerHolder> {
-    private final ArrayList<InfoScore> items;
-    private final Random random = new Random();
-    private final int randomInt = random.nextInt(Utils.colorsList.size());
 
+    private final ArrayList<InfoScore> items; // List of InfoScore items to display
+
+    /**
+     * Constructor to initialize the adapter with a list of InfoScore items.
+     * @param items List of InfoScore items to display
+     */
     public HomeInfoScoresRecyclerAdapter(ArrayList<InfoScore> items) {
         this.items = items;
     }
 
+    /**
+     * Called when RecyclerView needs a new ViewHolder of the given type to represent an item.
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new InfoScoreRecyclerHolder that holds a View of the given view type.
+     */
     @NonNull
     @Override
     public InfoScoreRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item_recycler_info_scores,parent,false);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item_recycler_info_scores, parent, false);
         return new InfoScoreRecyclerHolder(view);
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull InfoScoreRecyclerHolder holder, int position) {
-
         InfoScore infoScore = items.get(position);
-        holder.bind(infoScore,position);
-        holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.recycler_home_info_scores));
+        holder.bind(infoScore, position);
 
+        // Apply animation to the item view
+        holder.itemView.setAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.recycler_home_info_scores));
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     * @return The total number of items in the adapter.
+     */
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    /**
+     * ViewHolder class for holding views of each item in the RecyclerView.
+     */
+    class InfoScoreRecyclerHolder extends RecyclerView.ViewHolder {
 
+        private final TextView tvTitleLabel; // TextView for displaying title label
+        private final TextView tvScore; // TextView for displaying score
+        private final View divider; // View for displaying divider line
 
-       class InfoScoreRecyclerHolder extends RecyclerView.ViewHolder {
-         private final TextView tvTitleLabel;
-         private final TextView tvScore;
-         private final View divider;
-
+        /**
+         * Constructor to initialize ViewHolder with item view.
+         * @param itemView The item view for the ViewHolder.
+         */
         public InfoScoreRecyclerHolder(@NonNull View itemView) {
             super(itemView);
             tvTitleLabel = itemView.findViewById(R.id.tvRecyclerHomeTitleLabel);
             tvScore = itemView.findViewById(R.id.tvRecyclerHomeScoreCounter);
             divider = itemView.findViewById(R.id.dividerRecyclerColor);
-
         }
 
-        void bind(InfoScore item , int position) {
-
+        /**
+         * Bind method to bind data to views in the ViewHolder.
+         * @param item The InfoScore item to bind.
+         * @param position The position of the item in the RecyclerView.
+         */
+        void bind(InfoScore item, int position) {
             tvTitleLabel.setText(item.getTitleLabel());
             tvScore.setText(item.getScoreCounter());
-            if(position == 0) {
+
+            // Customize appearance based on position
+            if (position == 0) {
                 divider.setBackgroundColor(divider.getContext().getColor(R.color.custom_secondary));
                 tvTitleLabel.setTextColor(tvTitleLabel.getContext().getColor(R.color.custom_secondary));
                 tvScore.setTextColor(tvScore.getContext().getColor(R.color.custom_secondary));
+            } else {
+                divider.setBackgroundColor(divider.getContext().getColor(R.color.gray_400));
             }
-            else {
-                divider.setBackgroundColor(Utils.colorsList.get(randomInt));
-            }
-           /* switch (position) {
-                case 0 :
-                    divider.setBackgroundColor(divider.getContext().getColor(R.color.custom_secondary));
-                    tvTitleLabel.setTextColor(tvTitleLabel.getContext().getColor(R.color.custom_secondary));
-                    tvScore.setTextColor(tvScore.getContext().getColor(R.color.custom_secondary));
-                    break;
-                case 1 :
-                    divider.setBackgroundColor(divider.getContext().getColor(R.color.mint_green));
-                    break;
-                case 2 :
-                    divider.setBackgroundColor(divider.getContext().getColor(R.color.light_blue));
-                    break;
-                case 3 :
-                    divider.setBackgroundColor(divider.getContext().getColor(R.color.lemon_yellow));
-                    break;
-                case 4 :
-                    divider.setBackgroundColor(divider.getContext().getColor( R.color.lime_green));
-                    break;
-                case 5 :
-                    divider.setBackgroundColor(divider.getContext().getColor(R.color.turquoise));
-                    break;
-            }*/
         }
-
     }
 }
