@@ -138,7 +138,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
 
         String questionToShareTxt = theQst + " :\n" +mainElementQst + "\n" + "A." + option1 +
                 "\n" + "B." + option2 + "\n" + "C." + option3 + "\n"+"\n" + "For additional questions or tests, please visit our app :"
-                +"\n" + getString(R.string.url_app1);
+                +"\n" + getString(R.string.main_app_url);
         binding.fabShareQstFriend.setOnClickListener(v -> shareQst(questionToShareTxt));
 
     }
@@ -254,11 +254,11 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     private String chooseTvQuizRightAnswerRequiredLanguage(String nativeLanguage) {
         switch (nativeLanguage) {
             case Constants.LANGUAGE_NATIVE_ARABIC:
-                return getResources().getString(R.string.TheQstInArabic);
+                return getResources().getString(R.string.quiz_main_question_label_arabic);
             case Constants.LANGUAGE_NATIVE_SPANISH:
-                return getResources().getString(R.string.TheQstInSpanish);
+                return getResources().getString(R.string.quiz_main_question_label_spanish);
             default:
-                return getResources().getString(R.string.TheQstInFrench);
+                return getResources().getString(R.string.quiz_main_question_label_french);
         }
 
     }
@@ -373,7 +373,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
     private void resetUIForNextQuestion() {
         /*isAnswered = false;*/
         binding.progressBarTimer.setProgress(0);
-        binding.btnConfirmNextCategory.setText(R.string.confirm_quiz_text);   // changed R.string.confirm_text
+        binding.btnConfirmNextCategory.setText(R.string.quiz_button_text_confirm);   // changed R.string.confirm_text
         binding.QuizCategoryOption1.setTextColor(rbDefaultColorTxt);
         binding.QuizCategoryOption2.setTextColor(rbDefaultColorTxt);
         binding.QuizCategoryOption3.setTextColor(rbDefaultColorTxt);
@@ -395,7 +395,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
             binding.fabShareQstFriend.setActivated(true);
 
             if(countDownTimerHelper != null) {countDownTimerHelper.stop();}  // Pause the timer when checking the answer
-            binding.btnConfirmNextCategory.setText(R.string.next_quiz_text);
+            binding.btnConfirmNextCategory.setText(R.string.quiz_button_text_next);
             RadioButton radioSelected = requireView().findViewById(checkedRadioID);
             String userAnswer = radioSelected.getText().toString();
 
@@ -408,7 +408,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
             setAnsweredRequiredRadioButtonsColorText(currentQuestion.getRightAnswer()); //  right answer (green color) , wrong answers (red color).
 
             if (currentQstIndex == Utils.maxQuestionsPerQuiz) {
-                binding.btnConfirmNextCategory.setText(R.string.finish_quiz_text);
+                binding.btnConfirmNextCategory.setText(R.string.quiz_button_text_finish);
                 MainActivity.textToSpeechManager.speak("Final Question!");
 
             }
@@ -459,7 +459,7 @@ public class QuizCategoriesFragment extends Fragment implements CountDownTimerHe
         isAnswered = false;
         binding.fabShareQstFriend.setActivated(false);
 
-        String text = getString(R.string.no_answer_selected_text);
+        String text = getString(R.string.quiz_toast_text_no_answer_selected);
         if (MainActivity.textToSpeechManager != null) {
             MainActivity.textToSpeechManager.speak(text);
         }

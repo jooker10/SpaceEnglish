@@ -52,7 +52,7 @@ public class FirstActivity extends AppCompatActivity {
         radioLightMode = findViewById(R.id.firstRadioLightMode);
 
         // Set up autocomplete for language selection
-        String[] nativeLanguages = getResources().getStringArray(R.array.languages);
+        String[] nativeLanguages = getResources().getStringArray(R.array.settings_options_languages);
         ArrayAdapter<String> autoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nativeLanguages);
         autoTvLanguage.setAdapter(autoAdapter);
 

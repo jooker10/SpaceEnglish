@@ -102,7 +102,7 @@ public class QuizNavFragment extends Fragment {
         });
 
         // Set adapter for AutoCompleteTextView
-        String[] maxQuestionsList = getResources().getStringArray(R.array.max_questions_per_quiz);
+        String[] maxQuestionsList = getResources().getStringArray(R.array.quiz_option_max_questions_per_quizzes);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, maxQuestionsList);
         binding.autoTvmaxQuestionsPerQuiz.setAdapter(adapter);
     }

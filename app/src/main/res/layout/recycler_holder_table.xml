@@ -142,7 +142,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="@string/txt_examples"
                     android:textColor="@color/txt_gray_800_100"
                     android:textStyle="bold|italic"
                     android:visibility="gone" />

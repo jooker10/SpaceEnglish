@@ -45,7 +45,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/name_app2"
+                            android:text="@string/app1_name"
                             android:textColor="@color/txt_gray_800_100"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -63,7 +63,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:text="@string/moreapp_readmore"
+                            android:text="@string/text_button_read_more"
                             android:textColor="@color/custom_secondary" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -92,7 +92,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/name_app3"
+                            android:text="@string/app2_name"
                             android:textColor="@color/txt_gray_800_100"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -100,7 +100,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/description_app3"
+                            android:text="@string/app2_description"
                             android:textColor="@color/gray_500"
                             android:textSize="14dp" />
 
@@ -110,7 +110,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:text="@string/moreapp_readmore"
+                            android:text="@string/text_button_read_more"
                             android:textColor="@color/custom_secondary" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

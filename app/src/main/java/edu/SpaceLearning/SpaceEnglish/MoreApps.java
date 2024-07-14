@@ -37,8 +37,8 @@ public class MoreApps extends Fragment {
         Button btnApp3 = view.findViewById(R.id.btnMoreAppsTheThird);
 
         // Set click listeners for each button
-        btnApp2.setOnClickListener(v -> toOurApp(getString(R.string.url_app2)));
-        btnApp3.setOnClickListener(v -> toOurApp(getString(R.string.url_app3)));
+        btnApp2.setOnClickListener(v -> toOurApp(getString(R.string.app1_url)));
+        btnApp3.setOnClickListener(v -> toOurApp(getString(R.string.app2_url)));
     }
 
     /**

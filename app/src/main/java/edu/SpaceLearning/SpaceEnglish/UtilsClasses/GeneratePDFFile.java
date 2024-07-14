@@ -60,6 +60,7 @@ public class GeneratePDFFile {
             // Add headers to the table
             for (String columnName : columnsNamesList) {
                 table.addCell(columnName);
+                table.setFontColor(new DeviceRgb(0, 0, 255));
             }
 
             // Add data rows to the table

@@ -25,8 +25,7 @@ import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsList
 import edu.SpaceLearning.SpaceEnglish.R;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category;
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.GeneratePDFFile;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.GeneratePdf;
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
 
 /**
@@ -105,8 +104,8 @@ public class TableCategoryPagerFragment extends Fragment {
                 File pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                 String fileName = categoryType + " table.pdf";
                 File pdfFile = new File(pdfPath, fileName);
-                GeneratePDFFile generateFilePDF = new GeneratePDFFile();
-                generateFilePDF.generate(categoryType + " table", pdfFile, elements);
+                GeneratePdf generateFilePDF = new GeneratePdf();
+                generateFilePDF.generateTheFile(categoryType + " table", pdfFile, elements);
                 interactionListener.openPdfWithIntent(requireActivity(), pdfFile);
             }
         });

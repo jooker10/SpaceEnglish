@@ -1,44 +1,38 @@
 <resources>
+    <!-- the name of the app -->
     <string name="app_name">Space English</string>
-    <string name="ADS_APP_ID">ca-app-pub-8315645297205950~6429518882</string>
-    <string name="ADMOB_ADS_APP_ID_TEST">ca-app-pub-3940256099942544~3347511713</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="qstVerbIntro">Quelle est la traduction du verbe : </string>
-    <string name="qstSentenceIntro">Quelle est la traduction du phrase : </string>
-    <string name="TheQstInFrench"> Choisissez la bonne réponse </string>
-    <string name="TheQstInArabic"> اختر الإجابة الصحيحة</string>
-    <string name="TheQstInSpanish"> Elige la respuesta correcta </string>
+    <!-- the link of the app in google play -->
+    <string name="main_app_url">https://play.google.com/store/apps/details?id=edu.SpaceLearning.SpaceEnglish</string>
 
-    <string name="name_app3">Fill-In Challenge</string>
-    <string name="name_app2">Espace Français</string>
-    <string name="url_app1">https://play.google.com/store/apps/details?id=edu.SpaceLearning.SpaceEnglish</string>
-    <string name="url_app2">https://play.google.com/store/apps/details?id=edu.EspaceApprentissage.EspaceFrancais</string>
-    <string name="url_app3">https://play.google.com/store/apps/details?id=edu.SpaceLearning.Fill_In_Challenge</string>
-    <string name="moreapp_readmore">Read More</string>
-    <string name="description_app1">Elevate your language skills with our mobile app, offering a comprehensive English learning experience. Test yourself in diverse categories such as verbs, sentences, adverbs, phrasal verbs, and idioms, while using three base languages: French, Spanish, and Arabic. Collect points to unlock multiple categories and expand your linguistic proficiency.</string>
-    <string name="description_app3">Immerse yourself in the world of language with our interactive English Quiz App! Fill in the blanks across diverse sentence categories :  colors,Shapes , Insects, animals, jobs, fruits ... . Unlock new challenges as you gain points, making your learning journey dynamic and rewarding. Elevate your language skills in a fun and engaging way!</string>
-    <string name="description_app2"></string>
-    <string name="txt_examples">cccc</string>
-    <string name="share_qst_with_friends">Test your friends with this question!</string>
-    <string name="confirm_quiz_text">Confirm</string>
-    <string name="next_quiz_text">Next</string>
-    <string name="finish_quiz_text">Finish</string>
-    <string name="no_answer_selected_text">Please Answer the Question first</string>
+    <!-- Admob ID : the first your id and the second for testing ads -->
+    <string name="admob_app_id">ca-app-pub-8315645297205950~6429518882</string>
+    <string name="admob_app_id_test">ca-app-pub-3940256099942544~3347511713</string>
+
+    <!-- Quiz : the main question label in native language -->
+    <string name="quiz_main_question_label_french"> Choisissez la bonne réponse </string>
+    <string name="quiz_main_question_label_spanish"> Elige la respuesta correcta </string>
+    <string name="quiz_main_question_label_arabic"> اختر الإجابة الصحيحة</string>
+
+    <!-- your other apps names -->
+    <string name="app1_name">Espace Français</string>
+    <string name="app2_name">Fill-In Challenge</string>
+    <!-- Description of each app -->
+    <string name="app1_description">Elevate your language skills with our mobile app, offering a comprehensive English learning experience. Test yourself in diverse categories such as verbs, sentences, adverbs, phrasal verbs, and idioms, while using three base languages: French, Spanish, and Arabic. Collect points to unlock multiple categories and expand your linguistic proficiency.</string>
+    <string name="app2_description">Immerse yourself in the world of language with our interactive English Quiz App! Fill in the blanks across diverse sentence categories :  colors,Shapes , Insects, animals, jobs, fruits ... . Unlock new challenges as you gain points, making your learning journey dynamic and rewarding. Elevate your language skills in a fun and engaging way!</string>
+    <!-- the links of each apps -->
+    <string name="app1_url">https://play.google.com/store/apps/details?id=edu.EspaceApprentissage.EspaceFrancais</string>
+    <string name="app2_url">https://play.google.com/store/apps/details?id=edu.SpaceLearning.Fill_In_Challenge</string>
+
+    <string name="text_button_read_more">Read More</string>
+
+    <string name="text_share_question_with_friends">Test your friends with this question!</string>
+    <string name="quiz_button_text_confirm">Confirm</string>
+    <string name="quiz_button_text_next">Next</string>
+    <string name="quiz_button_text_finish">Finish</string>
+
+    <string name="quiz_toast_text_no_answer_selected">Please Answer the Question first</string>
 
 
-    <string-array name="languages">
-        <item>French</item>
-        <item>Spanish</item>
-        <item>Arabic</item>
-    </string-array>
 
-    <string-array name="max_questions_per_quiz">
-        <item>10</item>
-        <item>15</item>
-        <item>20</item>
-        <item>25</item>
-        <item>30</item>
-    </string-array>
 
 </resources>
