@@ -58,10 +58,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/relativeHomeHead"
         android:layout_centerInParent="true"
-        android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
+        android:backgroundTint="@color/custom_secondary"
         android:elevation="16dp"
         android:text="Learn first"
-        android:textColor="@drawable/selector_btn_txt_enabled_state"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
     <Button
@@ -70,130 +70,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btnHomeGoToLearn"
         android:layout_centerInParent="true"
-        android:elevation="16dp"
+        android:backgroundTint="@color/custom_secondary"
+        android:elevation="4dp"
         android:text="test your self"
-        android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-        android:textColor="@drawable/selector_btn_txt_enabled_state"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
-    <!--<HorizontalScrollView
-        android:id="@+id/HscrollHomeChipGroup"
-        android:layout_below="@id/btnHomeGoToQuiz"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-      <RadioGroup
-        android:id="@+id/radioGroupHome"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp">
-        <RadioButton
-            android:id="@+id/chipHomeTotalScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:paddingHorizontal="4dp"
-            android:background="@drawable/selector_radio_checkable"
-            android:textColor="@drawable/selector_radio_color_text_checkable"
-            android:button="@android:color/transparent"
-            android:checked="true"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Total Score"/>
-        <RadioButton
-            android:id="@+id/chipHomeVerbs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:paddingHorizontal="4dp"
-            android:background="@drawable/selector_radio_checkable"
-            android:textColor="@drawable/selector_radio_color_text_checkable"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Verbs Score"/>
-        <RadioButton
-            android:id="@+id/chipHomeSentences"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:paddingHorizontal="4dp"
-            android:background="@drawable/selector_radio_checkable"
-            android:textColor="@drawable/selector_radio_color_text_checkable"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Sentences Score"/>
-        <RadioButton
-            android:id="@+id/chipHomePhrasal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:paddingHorizontal="4dp"
-            android:background="@drawable/selector_radio_checkable"
-            android:textColor="@drawable/selector_radio_color_text_checkable"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Phrasal Verbs Scores"/>
-        <RadioButton
-            android:id="@+id/chipHomeNoun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:paddingHorizontal="4dp"
-            android:background="@drawable/selector_radio_checkable"
-            android:textColor="@drawable/selector_radio_color_text_checkable"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Nouns Scores"/>
-        <RadioButton
-            android:id="@+id/chipHomeAdj"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:paddingHorizontal="4dp"
-            android:background="@drawable/selector_radio_checkable"
-            android:textColor="@drawable/selector_radio_color_text_checkable"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Adjectives Scores"/>
-        <RadioButton
-            android:id="@+id/chipHomeAdv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:paddingHorizontal="4dp"
-            android:background="@drawable/selector_radio_checkable"
-            android:textColor="@drawable/selector_radio_color_text_checkable"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Adverbs Scores"/>
-        <RadioButton
-            android:id="@+id/chipHomeIdioms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:paddingHorizontal="4dp"
-            android:background="@drawable/selector_radio_checkable"
-            android:textColor="@drawable/selector_radio_color_text_checkable"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Idioms Scores"/>
-    </RadioGroup>
-    </HorizontalScrollView>-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/info_tab_layout"
         android:layout_width="match_parent"

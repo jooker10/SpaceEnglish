@@ -85,17 +85,19 @@ public class MainActivity extends AppCompatActivity implements InteractionActivi
     private MenuItem searchItem;
 
     // Data management
-    private DbAccess dbAccess;
-    private SharedPrefsManager sharedPrefsManager;
-    private SharedPreferences sharedPreferences;
-
-    // Managers and utilities
     private AdsManager adsManager;
-    private RecyclerViewAdapter tableRecyclerAdapter;
-    private MyBottomSheet myBottomSheet;
     private SoundManager soundManager;
     private RatingManager ratingManager;
     public static TextToSpeechManager textToSpeechManager;
+    private DbAccess dbAccess;
+    private SharedPrefsManager sharedPrefsManager;
+
+
+    // utilities
+    private RecyclerViewAdapter tableRecyclerAdapter;
+    private MyBottomSheet myBottomSheet;
+    private SharedPreferences sharedPreferences;
+
 
     // Flags and state variables
     private boolean showRatingSheet = true;
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements InteractionActivi
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.customToolbar);
+        setSupportActionBar(binding.customToolbar); // Set custom ToolBar.
 
         // Initialize utility methods and managers
         initUtils();

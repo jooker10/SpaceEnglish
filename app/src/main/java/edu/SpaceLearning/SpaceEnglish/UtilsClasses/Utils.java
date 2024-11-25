@@ -128,7 +128,7 @@ public class Utils {
         headerTablePdfList.clear();
         headerTablePdfList.add("ID");
         headerTablePdfList.add("ENGLISH");
-        headerTablePdfList.add("FRENCH");
+        headerTablePdfList.add("Native language");
     }
 
     /**

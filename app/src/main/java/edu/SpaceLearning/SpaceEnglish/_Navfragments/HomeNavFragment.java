@@ -56,7 +56,7 @@ public class HomeNavFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize UI components and set up interactions
-        setHomeSharedPrefs(); // Set up shared preferences related to home
+        setHomeSharedPrefs(); // Set up shared preferences related to HomeNavFragment
         initUIHome();         // Initialize UI elements like buttons, imageProfile, and title
         setUpTabsWithPager2InfoScores(); // Set up tabs with ViewPager2 for info scores
     }

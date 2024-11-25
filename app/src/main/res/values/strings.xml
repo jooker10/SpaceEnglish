@@ -6,7 +6,7 @@
 
     <!-- Admob ID : the first your id and the second for testing ads -->
     <string name="admob_app_id">ca-app-pub-8315645297205950~6429518882</string>
-    <string name="admob_app_id_test">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_test_app_id">ca-app-pub-3940256099942544~3347511713</string>
 
     <!-- Quiz : the main question label in native language -->
     <string name="quiz_main_question_label_french"> Choisissez la bonne réponse </string>

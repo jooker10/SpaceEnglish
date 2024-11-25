@@ -22,8 +22,11 @@ import edu.SpaceLearning.SpaceEnglish._Main.MainActivity;
 public class AdsManager {
 
     // Test IDs for Interstitial and Rewarded ads
-    private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/8691691433"; // Test ID
-    private static final String REWARDED_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"; // Test ID
+    private static final String TEST_INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/8691691433"; // Test ID
+    private static final String TEST_REWARDED_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"; // Test ID
+    // Realtime IDs for Interstitial and Rewarded ads
+    private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-8315645297205950/3611783850"; // Real ID
+    private static final String REWARDED_AD_UNIT_ID = "ca-app-pub-8315645297205950/1447234066"; // Real ID
 
     private final static String TAG = "Ads";
     private InterstitialAd mInterstitialAd;
