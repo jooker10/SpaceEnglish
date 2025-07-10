@@ -36,7 +36,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btnVerbs"
+
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/amaranth"
         android:text="Please choose the category you prefer  :"
@@ -48,163 +48,13 @@
         android:layout_marginBottom="70dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewQuizNav"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:visibility="visible" />
-    </ScrollView>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="70dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:visibility="gone">
-
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewQuizNav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btnVerbs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-                android:text="Verbs"
-                android:textColor="@drawable/selector_btn_txt_enabled_state" />
-
-            <Button
-                android:id="@+id/btnSentences"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btnVerbs"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-                android:text="Sentences/Phrases"
-                android:textColor="@drawable/selector_btn_txt_enabled_state" />
-
-            <Button
-                android:id="@+id/btnPhrasals"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btnSentences"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-                android:enabled="false"
-                android:text="Phrasal verbs"
-                android:textColor="@drawable/selector_btn_txt_enabled_state" />
-
-            <TextView
-                android:id="@+id/tvPhrasalRequiredLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Phrasal verbs required 80 points"
-                android:textColor="#FF0000"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/btnNouns"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btnPhrasals"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-                android:enabled="false"
-                android:text="Nouns"
-                android:textColor="@drawable/selector_btn_txt_enabled_state" />
-
-            <TextView
-                android:id="@+id/tvNounRequiredLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Nouns required 150 points"
-                android:textColor="#FF0000"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/btnAdjs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btnNouns"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-                android:enabled="false"
-                android:text="Adjectives"
-                android:textColor="@drawable/selector_btn_txt_enabled_state" />
-
-            <TextView
-                android:id="@+id/tvAdjRequiredLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Adjectives required 250 points"
-                android:textColor="#FF0000"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/btnAdvs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btnAdjs"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-                android:enabled="false"
-                android:text="Adverbs"
-                android:textColor="@drawable/selector_btn_txt_enabled_state" />
-
-            <TextView
-                android:id="@+id/tvAdvRequiredLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Adverbs required 400 points"
-                android:textColor="#FF0000"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/btnIdioms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btnAdvs"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
-                android:enabled="false"
-                android:text="Idioms"
-                android:textColor="@drawable/selector_btn_txt_enabled_state" />
-
-            <TextView
-                android:id="@+id/tvIdiomRequiredLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Idioms required 600 points"
-                android:textColor="#FF0000"
-                android:textSize="10sp" />
-
-        </LinearLayout>
-
+            android:layout_margin="8dp"
+            android:visibility="visible" />
     </ScrollView>
 
 

@@ -1,40 +1,38 @@
-package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses
 
-import android.content.Context;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Build;
-import android.util.Log;
+import android.content.Context
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.SoundPool
+import android.os.Build
+import android.util.Log
 
 /**
  * SoundManager class manages the playing of sound effects using SoundPool.
  * It initializes a SoundPool instance with specific audio attributes and plays sound effects.
  */
-public class SoundManager {
-    private static final String TAG = "SoundManager";
-    private static final int MAX_STREAMS = 5;
-    private final SoundPool soundPool;
+class SoundManager {
+    private val soundPool: SoundPool
 
     /**
      * Constructor initializes the SoundPool with specified audio attributes.
      * Uses AudioAttributes to configure sound playback settings.
      */
-    public SoundManager() {
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build();
+    init {
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_GAME)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
 
         // Build SoundPool instance with defined maximum streams and audio attributes
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            soundPool = new SoundPool.Builder()
-                    .setMaxStreams(MAX_STREAMS)
-                    .setAudioAttributes(audioAttributes)
-                    .build();
+        soundPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            SoundPool.Builder()
+                .setMaxStreams(MAX_STREAMS)
+                .setAudioAttributes(audioAttributes)
+                .build()
         } else {
             // For API levels lower than Lollipop, use deprecated constructor
-            soundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+            SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0)
         }
     }
 
@@ -44,22 +42,22 @@ public class SoundManager {
      * @param context         The context to load the sound from.
      * @param soundResourceId The resource ID of the sound effect to play.
      */
-    public void playSound(Context context, int soundResourceId) {
+    fun playSound(context: Context?, soundResourceId: Int) {
         try {
             // Load the sound into SoundPool and get the sound ID
-            int soundId = soundPool.load(context, soundResourceId, 1);
+            val soundId = soundPool.load(context, soundResourceId, 1)
 
             // Set a listener to know when the sound has finished loading
-            soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+            soundPool.setOnLoadCompleteListener { soundPool: SoundPool, sampleId: Int, status: Int ->
                 if (status == 0) { // 0 means success
                     // Play the sound with full volume, looping disabled, and normal playback rate
-                    soundPool.play(soundId, 1.0f, 1.0f, 1, 0, 1.0f);
+                    soundPool.play(soundId, 1.0f, 1.0f, 1, 0, 1.0f)
                 } else {
-                    Log.e(TAG, "Error loading sound");
+                    Log.e(TAG, "Error loading sound")
                 }
-            });
-        } catch (Exception e) {
-            Log.e(TAG, "Error playing sound: " + e.getMessage());
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error playing sound: " + e.message)
         }
     }
 
@@ -67,7 +65,12 @@ public class SoundManager {
      * Releases the resources used by the SoundPool.
      * Should be called when the SoundManager is no longer needed.
      */
-    public void release() {
-        soundPool.release();
+    fun release() {
+        soundPool.release()
+    }
+
+    companion object {
+        private const val TAG = "SoundManager"
+        private const val MAX_STREAMS = 5
     }
 }

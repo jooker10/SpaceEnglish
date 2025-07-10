@@ -21,513 +21,543 @@
  * Date: [Date of creation or last modification]
  * Version: [App version number]
  */
+package edu.SpaceLearning.SpaceEnglish._Main
 
-package edu.SpaceLearning.SpaceEnglish._Main;
+import android.Manifest
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
+import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess.Companion.getInstance
+import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment
+import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment.Companion.newInstance
+import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.MyBottomSheet
+import edu.SpaceLearning.SpaceEnglish.R
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.AdsManager
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.CustomToast.showToast
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.RatingManager
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SharedPrefsManager
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillHashMapTableName
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillItemRecyclerQuizNavList
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillListCategoriesNames
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillListHeaderTablePdf
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillListsCorrectIncorrectAnswerResponses
+import edu.SpaceLearning.SpaceEnglish._Navfragments.HomeNavFragment
+import edu.SpaceLearning.SpaceEnglish._Navfragments.QuizNavFragment
+import edu.SpaceLearning.SpaceEnglish._Navfragments.SettingsNavFragment
+import edu.SpaceLearning.SpaceEnglish._Navfragments.TableNavFragment
+import edu.SpaceLearning.SpaceEnglish.databinding.ActivityMainBinding
+import java.io.File
+import java.util.Objects
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.github.dhaval2404.imagepicker.ImagePicker;
-
-import java.io.File;
-import java.util.Objects;
-
-import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter;
-import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener;
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener;
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess;
-import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment;
-import edu.SpaceLearning.SpaceEnglish.MyBottomSheet;
-import edu.SpaceLearning.SpaceEnglish.QuizFrags.QuizCategoriesFragment;
-import edu.SpaceLearning.SpaceEnglish.R;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.AdsManager;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.CustomToast;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.RatingManager;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SharedPrefsManager;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
-import edu.SpaceLearning.SpaceEnglish.databinding.ActivityMainBinding;
-import edu.SpaceLearning.SpaceEnglish._Navfragments.HomeNavFragment;
-import edu.SpaceLearning.SpaceEnglish._Navfragments.QuizNavFragment;
-import edu.SpaceLearning.SpaceEnglish._Navfragments.SettingsNavFragment;
-import edu.SpaceLearning.SpaceEnglish._Navfragments.TableNavFragment;
-
-public class MainActivity extends AppCompatActivity implements InteractionActivityFragmentsListener, AdsClickListener {
-
-    private static final int PERMISSION_REQUEST_CODE = 200;
-
+class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, AdsClickListener {
     // Views and UI related variables
-    private ActivityMainBinding binding;
-    private MenuItem searchItem;
+    private lateinit var binding: ActivityMainBinding
 
     // Data management
-    private AdsManager adsManager;
-    private SoundManager soundManager;
-    private RatingManager ratingManager;
-    public static TextToSpeechManager textToSpeechManager;
-    private DbAccess dbAccess;
-    private SharedPrefsManager sharedPrefsManager;
+    private lateinit var adsManager: AdsManager
+    private lateinit var soundManager: SoundManager
+    private lateinit var ratingManager: RatingManager
+    private lateinit var dbAccess: DbAccess
+    private lateinit var sharedPrefsManager: SharedPrefsManager
 
 
     // utilities
-    private RecyclerViewAdapter tableRecyclerAdapter;
-    private MyBottomSheet myBottomSheet;
-    private SharedPreferences sharedPreferences;
+    private lateinit var tableRecyclerAdapter: RecyclerViewAdapter
+    private lateinit var myBottomSheet: MyBottomSheet
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     // Flags and state variables
-    private boolean showRatingSheet = true;
-    private boolean isTableFragmentActive = false;
+    private var showRatingSheet = true
+    private var isTableFragmentActive = false
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(binding.customToolbar); // Set custom ToolBar.
+        setSupportActionBar(binding.customToolbar) // Set custom ToolBar
 
         // Initialize utility methods and managers
-        initUtils();
-        initDatabaseAccess();
-        initSharedPreferences();
-        initTextToSpeech();
-        initSoundManager();
-        initRatingManager();
-        initAds();
+        initUtils()
+        initDatabaseAccess()
+        initSharedPreferences()
+        initTextToSpeech()
+        initSoundManager()
+        initRatingMyAppManager()
+        initAdmobManager()
 
-        // Set up bottom navigation and initial fragment
-        binding.mainNavFab.setOnClickListener(v -> ShowMainBottomSheet());
-        setBottomMainNavWithMenu();
+        binding.mainNavFab.setOnClickListener { v: View? -> ShowMainBottomSheet() } // Main Fab Listener
+
+        setBottomMainNavWithMenu() // Set up bottom navigation and initial fragment
     }
 
-    private void initTextToSpeech() {
-        // Initialize TextToSpeechManager
-        textToSpeechManager = new TextToSpeechManager(this, status -> {
-            // Handle initialization status if needed
-        });
+    private fun initUtils() {
+        // Initialize static utility methods in Utils class
+        FillItemRecyclerQuizNavList()
+        FillListHeaderTablePdf()
+        FillHashMapTableName()
+        FillListCategoriesNames()
+        FillListsCorrectIncorrectAnswerResponses()
     }
 
-    private void initSoundManager() {
-        // Initialize SoundManager
-        soundManager = new SoundManager();
-    }
-
-    private void initRatingManager() {
-        // Initialize RatingManager
-        ratingManager = new RatingManager(this);
-        ratingManager.requestReviewInfo();
-    }
-
-    private void initAds() {
-        // Initialize AdsManager
-        adsManager = new AdsManager(this);
-    }
-
-    private void initDatabaseAccess() {
+    private fun initDatabaseAccess() {
         // Initialize DbAccess on a separate thread
-        Thread thread = new Thread(() -> {
-            dbAccess = DbAccess.getInstance(getBaseContext());
-            dbAccess.open_to_read();
-            dbAccess.getDBListCategorySize();
-            dbAccess.close();
-        });
-        thread.start();
+        val dataBaseThread = Thread {
+            dbAccess = getInstance(baseContext)
+            // dbAccess.open_to_read();
+            dbAccess.dBListCategorySize
+        }
+        dataBaseThread.start()
         try {
-            thread.join();
-        } catch (InterruptedException e) {
-            Log.e("MainActivity", thread.getName() + " : Failed to join thread");
+            dataBaseThread.join()
+        } catch (e: InterruptedException) {
+            Log.e("MainActivity", dataBaseThread.name + " : Failed to join thread")
         }
     }
 
-    private void initSharedPreferences() {
+    private fun initSharedPreferences() {
         // Initialize SharedPreferences and SharedPrefsManager
-        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_FILE_NAME, MODE_PRIVATE);
-        sharedPrefsManager = new SharedPrefsManager(sharedPreferences);
-        sharedPrefsManager.getSharedPreferencesData();
+        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_FILE_NAME, MODE_PRIVATE)
+        sharedPrefsManager = SharedPrefsManager(sharedPreferences)
+        sharedPrefsManager.sharedPreferencesData
     }
 
-    private void initUtils() {
-        // Initialize static utility methods in Utils class
-        Utils.FillItemRecyclerQuizNavList();
-        Utils.FillListHeaderTablePdf();
-        Utils.FillHashMapTableName();
-        Utils.FillListCategoriesNames();
-        Utils.FillListsCorrectIncorrectAnswerResponses();
+    private fun initTextToSpeech() {
+        // Initialize TextToSpeechManager
+        textToSpeechManager = TextToSpeechManager(
+            this
+        ) { status: Int -> }
     }
 
-    private void setBottomMainNavWithMenu() {
+    private fun initSoundManager() {
+        // Initialize SoundManager
+        soundManager = SoundManager()
+    }
+
+    private fun initRatingMyAppManager() {
+        // Initialize RatingManager
+        ratingManager = RatingManager(this)
+        ratingManager.requestReviewInfo()
+    }
+
+    private fun initAdmobManager() {
+        // Initialize AdsManager
+        adsManager = AdsManager(this)
+    }
+
+    private fun setBottomMainNavWithMenu() {
         // Set icons and initial fragment for bottom navigation
-        binding.bottomNav.getMenu().findItem(R.id.item_nav_home).setIcon(R.drawable.selector_home_nav_change_icon);
-        binding.bottomNav.getMenu().findItem(R.id.item_nav_tables).setIcon(R.drawable.selector_table_nav_change_icon);
-        binding.bottomNav.getMenu().findItem(R.id.item_nav_quiz).setIcon(R.drawable.selector_quiz_nav_change_icon);
-        binding.bottomNav.getMenu().findItem(R.id.item_nav_settings).setIcon(R.drawable.selector_settings_nav_change_icon);
+        binding.bottomNav.menu.findItem(R.id.item_nav_home)
+            .setIcon(R.drawable.selector_home_nav_change_icon)
+        binding.bottomNav.menu.findItem(R.id.item_nav_tables)
+            .setIcon(R.drawable.selector_table_nav_change_icon)
+        binding.bottomNav.menu.findItem(R.id.item_nav_quiz)
+            .setIcon(R.drawable.selector_quiz_nav_change_icon)
+        binding.bottomNav.menu.findItem(R.id.item_nav_settings)
+            .setIcon(R.drawable.selector_settings_nav_change_icon)
 
         // Set initial fragment
-        setNavFragment(new HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT);
+        setNavFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
 
         // Handle bottom navigation item selection
-        binding.bottomNav.setOnItemSelectedListener(item -> {
-            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
-            Fragment selectedFragment = null;
-            String fragmentTAG = null;
+        binding.bottomNav.setOnItemSelectedListener { item: MenuItem ->
+            Objects.requireNonNull(
+                supportActionBar
+            )?.setDisplayHomeAsUpEnabled(false)
+            var selectedFragment: Fragment? = null
+            var fragmentTAG: String? = null
 
-            switch (item.getItemId()) {
-                case R.id.item_nav_home:
-                    fragmentTAG = Constants.TAG_HOME_NAV_FRAGMENT;
-                    selectedFragment = new HomeNavFragment();
-                    break;
-                case R.id.item_nav_tables:
-                    fragmentTAG = Constants.TAG_TABLES_NAV_FRAGMENT;
-                    selectedFragment = new TableNavFragment();
-                    break;
-                case R.id.item_nav_quiz:
-                    fragmentTAG = Constants.TAG_QUIZ_NAV_FRAGMENT;
-                    selectedFragment = new QuizNavFragment();
-                    break;
-                case R.id.item_nav_settings:
-                    fragmentTAG = Constants.TAG_SETTINGS_NAV_FRAGMENT;
-                    selectedFragment = new SettingsNavFragment();
-                    break;
+            when (item.itemId) {
+                R.id.item_nav_home -> {
+                    fragmentTAG =
+                        Constants.TAG_HOME_NAV_FRAGMENT
+                    selectedFragment = HomeNavFragment()
+                }
+
+                R.id.item_nav_tables -> {
+                    fragmentTAG =
+                        Constants.TAG_TABLES_NAV_FRAGMENT
+                    selectedFragment = TableNavFragment()
+                }
+
+                R.id.item_nav_quiz -> {
+                    fragmentTAG =
+                        Constants.TAG_QUIZ_NAV_FRAGMENT
+                    selectedFragment = QuizNavFragment()
+                }
+
+                R.id.item_nav_settings -> {
+                    fragmentTAG =
+                        Constants.TAG_SETTINGS_NAV_FRAGMENT
+                    selectedFragment = SettingsNavFragment()
+                }
             }
 
             if (selectedFragment != null) {
-                setNavFragment(selectedFragment, fragmentTAG);
+                setNavFragment(selectedFragment, fragmentTAG!!)
             }
-
-            return true;
-        });
+            true
+        }
 
         // Handle bottom navigation item reselection
-        binding.bottomNav.setOnItemReselectedListener(item -> CustomToast.showToast(this, "Already selected"));
-    }
-
-    private void ShowMainBottomSheet() {
-        // Show bottom sheet dialog
-        if (myBottomSheet == null || !myBottomSheet.isVisible()) {
-            myBottomSheet = new MyBottomSheet();
-            myBottomSheet.show(getSupportFragmentManager(), MyBottomSheet.SHEET_TAG);
+        binding.bottomNav.setOnItemReselectedListener { item: MenuItem? ->
+            showToast(
+                this,
+                "Already selected"
+            )
         }
     }
 
-    private void setNavFragment(Fragment fragment, String fragmentTAG) {
+    private fun ShowMainBottomSheet() {
+        // Show bottom sheet dialog
+        if (!myBottomSheet.isVisible) {
+            myBottomSheet = MyBottomSheet()
+            myBottomSheet.show(supportFragmentManager, MyBottomSheet.SHEET_TAG)
+        }
+    }
+
+    private fun setNavFragment(fragment: Fragment, fragmentTAG: String) {
         // Set fragment in fragment container with custom animations
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right,
-                R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right);
-        ft.replace(R.id.main_frag_container, fragment, fragmentTAG);
-        ft.commit();
+        val fm = supportFragmentManager
+        val ft = fm.beginTransaction()
+        ft.setCustomAnimations(
+            R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right,
+            R.anim.fragment_enter_to_right, R.anim.fragment_exit_to_right
+        )
+        ft.replace(R.id.main_frag_container, fragment, fragmentTAG)
+        ft.commit()
 
         // Update isTableFragmentActive based on the fragment TAG
-        isTableFragmentActive = fragmentTAG.equals(Constants.TAG_TABLES_NAV_FRAGMENT);
+        isTableFragmentActive = fragmentTAG == Constants.TAG_TABLES_NAV_FRAGMENT
     }
 
     // Interface methods implementations
-
-    @Override
-    public void onHomeGetStarted(int index) {
+    override fun onHomeGetStarted(index: Int) {
         // Handle navigation to TableNavFragment or QuizNavFragment from HomeNavFragment
         if (index == Constants.TABLE_NAV_INDEX) {
-            setNavFragment(new TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT);
-            binding.bottomNav.getMenu().getItem(Constants.TABLE_NAV_INDEX).setChecked(true);
+            setNavFragment(TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT)
+            binding.bottomNav.menu.getItem(Constants.TABLE_NAV_INDEX).setChecked(true)
         } else {
-            setNavFragment(new QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT);
-            binding.bottomNav.getMenu().getItem(Constants.QUIZ_NAV_INDEX).setChecked(true);
+            setNavFragment(QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT)
+            binding.bottomNav.menu.getItem(Constants.QUIZ_NAV_INDEX).setChecked(true)
         }
     }
 
-    @Override
-    public void onPickImageProfile() {
+    /*override fun onPickImageProfile() {
+        TODO("Not yet implemented")
+    }*/
+
+    /*override fun onPickImageProfile() {
         // Handle picking image for profile
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             // Permission not granted, request it
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    ImagePicker.REQUEST_CODE);
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                ImagePicker.REQUEST_CODE
+            )
         } else {
             // Permission granted, start image picking
-            startImagePicker();
+            startImagePicker()
         }
-    }
+    }*/
 
-    private void startImagePicker() {
+   /* private fun startImagePicker() {
         // Start image picker library
         ImagePicker.with(this)
-                .galleryOnly()
-                .crop()
-                .compress(1024)
-                .maxResultSize(1080, 1080)
-                .start(ImagePicker.REQUEST_CODE);
+            .galleryOnly()
+            .crop()
+            .compress(1024)
+            .maxResultSize(1080, 1080)
+            .start(ImagePicker.REQUEST_CODE)
     }
-
-    @Override
-    public void onShowInterstitialAd() {
+*/
+    override fun onShowInterstitialAd() {
         // Handle showing interstitial ad
-        adsManager.showInterstitialAd();
-        adsManager.reLoadInterstitialAd();
+        adsManager.showInterstitialAd()
+        adsManager.reLoadInterstitialAd()
     }
 
-    @Override
-    public void onShowRewardedAd() {
+    override fun onShowRewardedAd() {
         // Handle showing rewarded ad
-        adsManager.showRewardedAd();
-        adsManager.reloadRewardedAd();
+        adsManager.showRewardedAd()
+        adsManager.reloadRewardedAd()
     }
 
-    @Override
-    public void onSendScoresToDialog(String categoryType, int pointsAdded, int elementsAdded, int userRightAnswerScore, String msg) {
+    override fun onSendScoresToDialog(
+        categoryType: String,
+        pointsAdded: Int,
+        elementsAdded: Int,
+        userRightAnswerScore: Int,
+        msg: String
+    ) {
         // Handle sending scores to DialogQuizFragment
-        DialogQuizFragment dialog5 = DialogQuizFragment.newInstance(categoryType, pointsAdded, elementsAdded, userRightAnswerScore, msg);
-        dialog5.show(getSupportFragmentManager(), DialogQuizFragment.TAG);
+        val dialog5 =
+            newInstance(categoryType, pointsAdded, elementsAdded, userRightAnswerScore, msg)
+        dialog5.show(supportFragmentManager, DialogQuizFragment.TAG)
     }
 
-    @Override
-    public void onChangeTheme(boolean isDarkMode) {
+   /* override fun onChangeTheme(isDarkMode: Boolean) {
         // Handle changing app theme
-        Utils.isThemeNight = isDarkMode;
-        AppCompatDelegate.setDefaultNightMode(isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-        binding.bottomNav.getMenu().getItem(Constants.HOME_NAV_INDEX).setChecked(true);
-    }
+        Utils.isThemeNight = isDarkMode
+        AppCompatDelegate.setDefaultNightMode(if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+        binding.bottomNav.menu[Constants.HOME_NAV_INDEX].setChecked(true)
+    }*/
 
-    @Override
-    public void onDialogSendHomeClick(String categoryType) {
+    override fun onDialogSendHomeClick(categoryType: String) {
         // Handle sending home from dialog
-        setNavFragment(new HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT);
-        binding.bottomNav.getMenu().getItem(Constants.HOME_NAV_INDEX).setChecked(true);
+        setNavFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
+        binding.bottomNav.menu.getItem(Constants.HOME_NAV_INDEX).setChecked(true)
     }
 
-    @Override
-    public void onDialogNewQuiz() {
+    override fun onDialogNewQuiz() {
         // Handle starting new quiz from dialog
-        setNavFragment(new QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT);
-        binding.bottomNav.getMenu().getItem(Constants.QUIZ_NAV_INDEX).setChecked(true);
+        setNavFragment(QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT)
+        binding.bottomNav.menu.getItem(Constants.QUIZ_NAV_INDEX).setChecked(true)
     }
 
-    @Override
-    public void onSetRequiredCategoryFragmentQuiz(Fragment fragment) {
+    /*override fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment?) {
+        TODO("Not yet implemented")
+    }*/
+
+    /*override fun openPdfWithIntent(context: Context, pdfFile: File?) {
+        TODO("Not yet implemented")
+    }
+*/
+  /*  override fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment) {
         // Handle setting required category fragment for quiz
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        setNavFragment(fragment, Constants.TAG_QUIZ_CATEGORY_FRAGMENT);
-    }
+        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
+        setNavFragment(fragment, Constants.TAG_QUIZ_CATEGORY_FRAGMENT)
+    }*/
 
-    @Override
-    public void openPdfWithIntent(Context context, File pdfFile) {
+     fun openPdfWithIntent(context: Context?, pdfFile: File) {
         // Handle opening PDF file with Intent
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             // Permission not granted, request it
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                PERMISSION_REQUEST_CODE
+            )
         } else {
             // Permission granted, proceed to open PDF
-            openPdfFile(pdfFile);
+            openPdfFile(pdfFile)
         }
     }
 
-    @Override
-    public void onFilterTableRecycler(RecyclerViewAdapter tableAdapter) {
+   /* override fun onFilterTableRecycler(tableAdapter: RecyclerViewAdapter) {
         // Handle filtering table RecyclerView
-        this.tableRecyclerAdapter = tableAdapter;
+        if (tableAdapter != null) {
+            this.tableRecyclerAdapter = tableAdapter
+        }
     }
-
-    @Override
-    public void onShowVideoAds(String categoryType) {
+*/
+    override fun onShowVideoAds(categoryType: String) {
         // Handle showing video ads and navigating to TableNavFragment
-        dbAccess.getDBListCategorySize();
-        setNavFragment(new TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT);
-        binding.bottomNav.getMenu().getItem(Constants.TABLE_NAV_INDEX).setChecked(true);
+        dbAccess.dBListCategorySize
+        setNavFragment(TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT)
+        binding.bottomNav.menu.getItem(Constants.TABLE_NAV_INDEX).setChecked(true)
     }
 
     // Menu and Permissions Handling
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        menuInflater.inflate(R.menu.menu_main, menu)
 
         // Get the SearchView from the menu item
-        searchItem = menu.findItem(R.id.mainmenu_search);
+        val searchItem = menu.findItem(R.id.mainmenu_search)
 
         // Show or hide SearchView based on fragment visibility
         if (isTableFragmentActive) {
-            searchItem.setVisible(true);
+            searchItem.setVisible(true)
         } else {
-            searchItem.setVisible(false);
+            searchItem.setVisible(false)
         }
 
         // Initialize SearchView
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        val searchView = checkNotNull(searchItem.actionView as SearchView?)
 
-        // Set up search event listeners
-        assert searchView != null;
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 // Handle search query submission if needed
-                return false; // Return true to consume the event
+                return false // Return true to consume the event
             }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
+            override fun onQueryTextChange(newText: String): Boolean {
                 // Handle search query text changes
-                if (tableRecyclerAdapter != null) {
-                    tableRecyclerAdapter.getFilter().filter(newText);
-                }
-                return true; // Return true to consume the event
+                tableRecyclerAdapter.filter.filter(newText)
+                return true // Return true to consume the event
             }
-        });
+        })
 
-        return true; // Return true to indicate menu creation is handled
+        return true // Return true to indicate menu creation is handled
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here
-        int id = item.getItemId();
+        val id = item.itemId
         if (id == R.id.menu_main_contact_us) {
             // Handle contact us action
-            contactUsEmail();
+            contactUsEmail()
         } else if (id == R.id.menu_main_rating_app) {
             // Handle rating app action
-            ratingManager.showReviewFlow();
+            ratingManager.showReviewFlow()
         } else if (id == android.R.id.home) {
             // Handle Up button action
-            setNavFragment(new QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT);
-            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+            setNavFragment(QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT)
+            Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(false)
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    private void contactUsEmail() {
+    private fun contactUsEmail() {
         // Handle sending email for contact us
-        String ourEmail = "oulhajfuturapps@gmail.com";
-        String subject = "Enter the subject";
-        String msg = "Enter your question please!";
+        val ourEmail = "oulhajfuturapps@gmail.com"
+        val subject = "Enter the subject"
+        val msg = "Enter your question please!"
 
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:" + ourEmail));
-        intent.putExtra(Intent.EXTRA_TEXT, msg);
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.setData(Uri.parse("mailto:$ourEmail"))
+        intent.putExtra(Intent.EXTRA_TEXT, msg)
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
         } else {
-            CustomToast.showToast(this, "No email app installed");
+            showToast(this, "No email app installed")
         }
     }
 
-    @Override
-    protected void onStop() {
+    override fun onStop() {
         // Save preferences and cleanup
-        super.onStop();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        sharedPrefsManager.putSharedPreferencesScores(editor);
-        sharedPrefsManager.putSharedPrefTheme(editor);
+        super.onStop()
+        val editor = sharedPreferences.edit()
+        sharedPrefsManager.putSharedPreferencesScores(editor)
+        sharedPrefsManager.putSharedPrefTheme(editor)
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         // Handle permission request results
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == ImagePicker.REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startImagePicker();
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        /*if (requestCode == ImagePicker.REQUEST_CODE) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startImagePicker()
             }
-        }
+        }*/
         if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, proceed to open PDF
-                Toast.makeText(this, "Granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Granted", Toast.LENGTH_SHORT).show()
             } else {
                 // Permission denied, handle accordingly
             }
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // Handle activity result, particularly for image picker
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ImagePicker.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Utils.uriProfile = data.getData();
-            setNavFragment(new HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT);
-        }
+        super.onActivityResult(requestCode, resultCode, data)
+       /* if (requestCode == ImagePicker.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Utils.uriProfile = data.data
+            setNavFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
+        }*/
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    override fun onDestroy() {
+        super.onDestroy()
         // Cleanup on activity destroy
         if (soundManager != null) {
-            soundManager.release();
+            soundManager.release()
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    override fun onBackPressed() {
         // Handle back button press
         if (!showRatingSheet) {
             // Show confirmation dialog to exit app
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-            alertDialog.setTitle("Exit App");
-            alertDialog.setMessage("Do you want to exit the app?");
-            alertDialog.setPositiveButton("Yes", (dialog, which) -> {
-                super.onBackPressed();
-            });
-            alertDialog.setNegativeButton("No", (dialog, which) -> {
-                dialog.dismiss();
-            });
-            alertDialog.show();
+            val alertDialog = AlertDialog.Builder(this@MainActivity)
+            alertDialog.setTitle("Exit App")
+            alertDialog.setMessage("Do you want to exit the app?")
+            alertDialog.setPositiveButton(
+                "Yes"
+            ) { dialog: DialogInterface?, which: Int ->
+                super.onBackPressed()
+            }
+            alertDialog.setNegativeButton(
+                "No"
+            ) { dialog: DialogInterface, which: Int ->
+                dialog.dismiss()
+            }
+            alertDialog.show()
         } else {
             // Show rating flow
-            ratingManager.showReviewFlow();
-            showRatingSheet = false;
+            ratingManager.showReviewFlow()
+            showRatingSheet = false
         }
     }
 
-    private void openPdfFile(File pdfFile) {
+    private fun openPdfFile(pdfFile: File) {
         // Open PDF file with Intent
         if (pdfFile.exists()) {
-            Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", pdfFile);
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            val uri = FileProvider.getUriForFile(
+                this,
+                "$packageName.provider", pdfFile
+            )
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(uri, "application/pdf")
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-            PackageManager pm = getPackageManager();
+            val pm = packageManager
             if (intent.resolveActivity(pm) != null) {
-                startActivity(intent);
+                startActivity(intent)
             } else {
-                Toast.makeText(this, "Downloaded, please check the following path: " + pdfFile.getPath(), Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                    this,
+                    "Downloaded, please check the following path: " + pdfFile.path,
+                    Toast.LENGTH_LONG
+                ).show()
             }
         } else {
             // Handle file not found
+            Toast.makeText(this, "File not found", Toast.LENGTH_LONG).show()
         }
+    }
+
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 200
+
+        var textToSpeechManager: TextToSpeechManager? = null
     }
 }

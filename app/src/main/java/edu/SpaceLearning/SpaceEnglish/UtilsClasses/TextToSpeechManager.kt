@@ -1,17 +1,17 @@
-package edu.SpaceLearning.SpaceEnglish.UtilsClasses;
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses
 
-import android.content.Context;
-import android.speech.tts.TextToSpeech;
-import java.util.Locale;
+import android.content.Context
+import android.speech.tts.TextToSpeech
+import android.speech.tts.TextToSpeech.OnInitListener
+import java.util.Locale
 
 /**
  * TextToSpeechManager class manages text-to-speech functionality using TextToSpeech engine.
  * It initializes TextToSpeech with an English language setting, and provides methods to speak,
  * stop, and shutdown the text-to-speech engine.
  */
-public class TextToSpeechManager {
-
-    private final TextToSpeech textToSpeech;
+class TextToSpeechManager(context: Context?, listener: OnInitListener?) {
+    private val textToSpeech = TextToSpeech(context, listener)
 
     /**
      * Constructor initializes the TextToSpeech engine with English locale.
@@ -19,9 +19,8 @@ public class TextToSpeechManager {
      * @param context  The context to initialize TextToSpeech.
      * @param listener OnInitListener to handle initialization events.
      */
-    public TextToSpeechManager(Context context, TextToSpeech.OnInitListener listener) {
-        textToSpeech = new TextToSpeech(context, listener);
-        textToSpeech.setLanguage(Locale.ENGLISH);
+    init {
+        textToSpeech.setLanguage(Locale.ENGLISH)
     }
 
     /**
@@ -29,18 +28,18 @@ public class TextToSpeechManager {
      *
      * @param text The text to be spoken.
      */
-    public void speak(String text) {
+    fun speak(text: String?) {
         if (textToSpeech != null) {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
         }
     }
 
     /**
      * Stops the current speech playback.
      */
-    public void stop() {
+    fun stop() {
         if (textToSpeech != null) {
-            textToSpeech.stop();
+            textToSpeech.stop()
         }
     }
 
@@ -48,9 +47,9 @@ public class TextToSpeechManager {
      * Shuts down the TextToSpeech engine and releases associated resources.
      * This should be called when TextToSpeech functionality is no longer needed.
      */
-    public void shutdown() {
+    fun shutdown() {
         if (textToSpeech != null) {
-            textToSpeech.shutdown();
+            textToSpeech.shutdown()
         }
     }
 }

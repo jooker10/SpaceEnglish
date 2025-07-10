@@ -1,44 +1,36 @@
-package edu.SpaceLearning.SpaceEnglish;
+package edu.SpaceLearning.SpaceEnglish
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.Fragment
 
 /**
  * Fragment for displaying more apps and linking to their respective URLs.
  */
-public class MoreApps extends Fragment {
-
-    public MoreApps() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+class MoreApps : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.more_apps, container, false);
+        return inflater.inflate(R.layout.more_apps, container, false)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Find buttons in the layout
-        Button btnApp2 = view.findViewById(R.id.btnMoreAppsTheSecond);
-        Button btnApp3 = view.findViewById(R.id.btnMoreAppsTheThird);
+        val btnApp2 = view.findViewById<Button>(R.id.btnMoreAppsTheSecond)
+        val btnApp3 = view.findViewById<Button>(R.id.btnMoreAppsTheThird)
 
         // Set click listeners for each button
-        btnApp2.setOnClickListener(v -> toOurApp(getString(R.string.app1_url)));
-        btnApp3.setOnClickListener(v -> toOurApp(getString(R.string.app2_url)));
+        btnApp2.setOnClickListener { v: View? -> toOurApp(getString(R.string.app1_url)) }
+        btnApp3.setOnClickListener { v: View? -> toOurApp(getString(R.string.app2_url)) }
     }
 
     /**
@@ -46,9 +38,8 @@ public class MoreApps extends Fragment {
      *
      * @param urlApp The URL of the app to open.
      */
-    private void toOurApp(String urlApp){
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlApp));
-        startActivity(intent);
+    private fun toOurApp(urlApp: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlApp))
+        startActivity(intent)
     }
-
 }

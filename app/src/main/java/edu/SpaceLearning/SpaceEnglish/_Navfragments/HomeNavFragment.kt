@@ -8,108 +8,103 @@
  *          image profile management, and integration with ViewPager2 for displaying
  *          information scores categorized by tabs.
  */
-package edu.SpaceLearning.SpaceEnglish._Navfragments;
+package edu.SpaceLearning.SpaceEnglish._Navfragments
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import edu.SpaceLearning.SpaceEnglish.Adapters.InfoScorePager2Adapter
+import edu.SpaceLearning.SpaceEnglish.HomeInfoScoresPager2Fragment.Companion.newInstance
+import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
+import edu.SpaceLearning.SpaceEnglish.databinding.HomeNavFragmentBinding
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
+class HomeNavFragment : Fragment() {
+    private lateinit var binding: HomeNavFragmentBinding
+    private  var interactionListener: InteractionActivityFragmentsListener? = null
+    private  val fragmentsForPager2InfoScores = ArrayList<Fragment>()
 
-import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.util.ArrayList;
-
-import edu.SpaceLearning.SpaceEnglish.Adapters.InfoScorePager2Adapter;
-import edu.SpaceLearning.SpaceEnglish.HomeInfoScoresPager2Fragment;
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants;
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils;
-import edu.SpaceLearning.SpaceEnglish.databinding.HomeNavFragmentBinding;
-
-public class HomeNavFragment extends Fragment {
-
-    private HomeNavFragmentBinding binding;
-    private InteractionActivityFragmentsListener interactionListener;
-    private final ArrayList<Fragment> fragmentsForPager2InfoScores = new ArrayList<>();
-
-    public HomeNavFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment using ViewBinding
-        binding = HomeNavFragmentBinding.inflate(getLayoutInflater(), container, false);
-        return binding.getRoot();
+        binding = HomeNavFragmentBinding.inflate(
+            layoutInflater, container, false
+        )
+        return binding.root
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Initialize UI components and set up interactions
-        setHomeSharedPrefs(); // Set up shared preferences related to HomeNavFragment
-        initUIHome();         // Initialize UI elements like buttons, imageProfile, and title
-        setUpTabsWithPager2InfoScores(); // Set up tabs with ViewPager2 for info scores
+        initHomeSharedPrefs() // Set up shared preferences related to HomeNavFragment
+        initUIHome() // Initialize UI elements like buttons, imageProfile, and title
+        setUpTabsWithPager2InfoScores() // Set up tabs with ViewPager2 for info scores
     }
 
-    private void initUIHome() {
-        // Set up image profile click listener and display user name
-        setImageHomeProfile();
-        binding.btnHomeGoToLearn.setOnClickListener(v -> interactionListener.onHomeGetStarted(Constants.TABLE_NAV_INDEX));
-        binding.btnHomeGoToQuiz.setOnClickListener(v -> interactionListener.onHomeGetStarted(Constants.QUIZ_NAV_INDEX));
-        binding.tvHomeUserName.setText("Hi, " + Utils.userName);
-    }
-
-    private void setHomeSharedPrefs() {
-        // Retrieve user name from shared preferences
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        Utils.userName = sharedPreferences.getString(Constants.KEY_PREF_USER_NAME, "User 01");
-    }
-
-    private void setImageHomeProfile() {
+    private fun initUIHome() {
         // Set click listener for image profile and display image if available
-        binding.imgHomeProfile.setOnClickListener(v -> interactionListener.onPickImageProfile());
+
+      //  binding.imgHomeProfile.setOnClickListener { v: View? -> interactionListener!!.onPickImageProfile() }
         if (Utils.uriProfile != null && !Utils.uriProfile.toString().isEmpty()) {
-            binding.imgHomeProfile.setImageURI(Utils.uriProfile);
+            binding.imgHomeProfile.setImageURI(Utils.uriProfile)
         }
+
+        binding.btnHomeGoToLearn.setOnClickListener { v: View? ->
+            interactionListener!!.onHomeGetStarted(
+                Constants.TABLE_NAV_INDEX
+            )
+        }
+        binding.btnHomeGoToQuiz.setOnClickListener { v: View? ->
+            interactionListener!!.onHomeGetStarted(
+                Constants.QUIZ_NAV_INDEX
+            )
+        }
+        binding.tvHomeUserName.text = "Hi, ${Utils.userName}"
     }
 
-    private void setUpTabsWithPager2InfoScores() {
+    private fun initHomeSharedPrefs() {
+        // Retrieve user name from shared preferences
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        Utils.userName = sharedPreferences.getString(Constants.KEY_PREF_USER_NAME, "User 01")!!
+    }
+
+    private fun setUpTabsWithPager2InfoScores() {
         // Initialize fragments for ViewPager2 and set up adapter with TabLayoutMediator
-        for (String categoryName : Utils.tableListNames) {
-            fragmentsForPager2InfoScores.add(HomeInfoScoresPager2Fragment.newInstance(categoryName));
+        for (categoryName in Utils.tableListNames) {
+            fragmentsForPager2InfoScores.add(newInstance(categoryName))
         }
-        InfoScorePager2Adapter infoScorePager2Adapter = new InfoScorePager2Adapter(requireActivity(), fragmentsForPager2InfoScores);
-        binding.infoScoresPager2.setAdapter(infoScorePager2Adapter);
-        new TabLayoutMediator(binding.infoTabLayout, binding.infoScoresPager2, (tab, position) -> {
+        val infoScorePager2Adapter =
+            InfoScorePager2Adapter(requireActivity(), fragmentsForPager2InfoScores)
+        binding.infoScoresPager2.adapter = infoScorePager2Adapter
+        TabLayoutMediator(
+            binding.infoTabLayout, binding.infoScoresPager2
+        ) { tab: TabLayout.Tab, position: Int ->
             // Set tab text based on category names
-            tab.setText(Utils.tableListNames.get(position));
-        }).attach();
+            tab.text = Utils.tableListNames[position]
+        }.attach()
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         // Ensure the context implements InteractionActivityFragmentsListener
-        if (context instanceof InteractionActivityFragmentsListener) {
-            interactionListener = (InteractionActivityFragmentsListener) context;
+        if (context is InteractionActivityFragmentsListener) {
+            interactionListener = context
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
+    override fun onDetach() {
+        super.onDetach()
         // Release the interaction listener to avoid memory leaks
-        interactionListener = null;
+        interactionListener = null
     }
-
 }

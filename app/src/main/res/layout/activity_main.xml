@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/customToolbar"
-            app:title="@string/app_name"
-            app:titleTextColor="@color/txt_gray_800_100"
-            app:titleTextAppearance="@style/ToolbarTitleText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/ToolbarTitleText"
+            app:titleTextColor="@color/txt_gray_800_100" />
 
         <FrameLayout
             android:id="@+id/main_frag_container"
@@ -30,14 +31,14 @@
         android:id="@+id/main_bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hideOnScroll="true"
-        app:layout_scrollFlags="scroll|enterAlways"
         android:layout_gravity="bottom"
-        app:fabCradleMargin="0dp"
-        app:fabAnimationMode="slide"
         android:backgroundTint="@color/bottom_nav_bg_color"
+        app:fabAnimationMode="slide"
+        app:fabCradleMargin="0dp"
         app:fabCradleRoundedCornerRadius="0dp"
-        app:fabCradleVerticalOffset="0dp">
+        app:fabCradleVerticalOffset="0dp"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways">
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -59,10 +60,9 @@
         android:id="@+id/mainNavFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_24"
-        app:layout_anchor="@id/main_bottomAppBar"
         android:elevation="4dp"
-        />
+        android:src="@drawable/ic_add_24"
+        app:layout_anchor="@id/main_bottomAppBar" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
