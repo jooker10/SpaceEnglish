@@ -29,7 +29,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -38,12 +37,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter
+import com.github.dhaval2404.imagepicker.ImagePicker
+import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess.Companion.getInstance
 import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment
@@ -59,6 +62,7 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.RatingManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SharedPrefsManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillHashMapTableName
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillItemRecyclerQuizNavList
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillListCategoriesNames
@@ -75,7 +79,6 @@ import java.util.Objects
 class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, AdsClickListener {
     // Views and UI related variables
     private lateinit var binding: ActivityMainBinding
-
     // Data management
     private lateinit var adsManager: AdsManager
     private lateinit var soundManager: SoundManager
@@ -85,8 +88,8 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
 
 
     // utilities
-    private lateinit var tableRecyclerAdapter: RecyclerViewAdapter
-    private lateinit var myBottomSheet: MyBottomSheet
+    private var tableRecyclerAdapter: RecyclerTableAdapter? = null
+    private var myBottomSheet: MyBottomSheet? = null
     private lateinit var sharedPreferences: SharedPreferences
 
 
@@ -96,10 +99,10 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            setSupportActionBar(binding.customToolbar) // Set custom ToolBar
 
-        setSupportActionBar(binding.customToolbar) // Set custom ToolBar
 
         // Initialize utility methods and managers
         initUtils()
@@ -110,7 +113,7 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         initRatingMyAppManager()
         initAdmobManager()
 
-        binding.mainNavFab.setOnClickListener { v: View? -> ShowMainBottomSheet() } // Main Fab Listener
+        binding.mainNavFab.setOnClickListener { v: View? -> showMainBottomSheet() } // Main Fab Listener
 
         setBottomMainNavWithMenu() // Set up bottom navigation and initial fragment
     }
@@ -128,8 +131,10 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         // Initialize DbAccess on a separate thread
         val dataBaseThread = Thread {
             dbAccess = getInstance(baseContext)
-            // dbAccess.open_to_read();
+                // dbAccess.open_to_read();
             dbAccess.dBListCategorySize
+
+
         }
         dataBaseThread.start()
         try {
@@ -142,8 +147,9 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
     private fun initSharedPreferences() {
         // Initialize SharedPreferences and SharedPrefsManager
         sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_FILE_NAME, MODE_PRIVATE)
-        sharedPrefsManager = SharedPrefsManager(sharedPreferences)
-        sharedPrefsManager.sharedPreferencesData
+        sharedPrefsManager = SharedPrefsManager(sharedPreferences).also {
+           it.sharedPreferencesData
+        }
     }
 
     private fun initTextToSpeech() {
@@ -160,8 +166,9 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
 
     private fun initRatingMyAppManager() {
         // Initialize RatingManager
-        ratingManager = RatingManager(this)
-        ratingManager.requestReviewInfo()
+        ratingManager = RatingManager(this).also {
+            it.requestReviewInfo()
+        }
     }
 
     private fun initAdmobManager() {
@@ -169,74 +176,53 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         adsManager = AdsManager(this)
     }
 
-    private fun setBottomMainNavWithMenu() {
-        // Set icons and initial fragment for bottom navigation
-        binding.bottomNav.menu.findItem(R.id.item_nav_home)
-            .setIcon(R.drawable.selector_home_nav_change_icon)
-        binding.bottomNav.menu.findItem(R.id.item_nav_tables)
-            .setIcon(R.drawable.selector_table_nav_change_icon)
-        binding.bottomNav.menu.findItem(R.id.item_nav_quiz)
-            .setIcon(R.drawable.selector_quiz_nav_change_icon)
-        binding.bottomNav.menu.findItem(R.id.item_nav_settings)
-            .setIcon(R.drawable.selector_settings_nav_change_icon)
 
-        // Set initial fragment
-        setNavFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
+   private fun setBottomMainNavWithMenu() {
+       // Set icons for bottom navigation items
+       val iconMap = mapOf(
+           R.id.item_nav_home to R.drawable.selector_home_nav_change_icon,
+           R.id.item_nav_tables to R.drawable.selector_table_nav_change_icon,
+           R.id.item_nav_quiz to R.drawable.selector_quiz_nav_change_icon,
+           R.id.item_nav_settings to R.drawable.selector_settings_nav_change_icon
+       )
 
-        // Handle bottom navigation item selection
-        binding.bottomNav.setOnItemSelectedListener { item: MenuItem ->
-            Objects.requireNonNull(
-                supportActionBar
-            )?.setDisplayHomeAsUpEnabled(false)
-            var selectedFragment: Fragment? = null
-            var fragmentTAG: String? = null
+       iconMap.forEach { (menuId, iconRes) ->
+           binding.bottomNav.menu.findItem(menuId).setIcon(iconRes)
+       }
 
-            when (item.itemId) {
-                R.id.item_nav_home -> {
-                    fragmentTAG =
-                        Constants.TAG_HOME_NAV_FRAGMENT
-                    selectedFragment = HomeNavFragment()
-                }
+       // Set initial fragment
+       setNavFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
 
-                R.id.item_nav_tables -> {
-                    fragmentTAG =
-                        Constants.TAG_TABLES_NAV_FRAGMENT
-                    selectedFragment = TableNavFragment()
-                }
+       // Handle bottom navigation item selection
+       binding.bottomNav.setOnItemSelectedListener { item ->
+           supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-                R.id.item_nav_quiz -> {
-                    fragmentTAG =
-                        Constants.TAG_QUIZ_NAV_FRAGMENT
-                    selectedFragment = QuizNavFragment()
-                }
+           val (fragment, tag) = when (item.itemId) {
+               R.id.item_nav_home -> HomeNavFragment() to Constants.TAG_HOME_NAV_FRAGMENT
+               R.id.item_nav_tables -> TableNavFragment() to Constants.TAG_TABLES_NAV_FRAGMENT
+               R.id.item_nav_quiz -> QuizNavFragment() to Constants.TAG_QUIZ_NAV_FRAGMENT
+               R.id.item_nav_settings -> SettingsNavFragment() to Constants.TAG_SETTINGS_NAV_FRAGMENT
+               else -> null to null
+           }
 
-                R.id.item_nav_settings -> {
-                    fragmentTAG =
-                        Constants.TAG_SETTINGS_NAV_FRAGMENT
-                    selectedFragment = SettingsNavFragment()
-                }
-            }
+           fragment?.let {
+               setNavFragment(it, tag!!)
+           }
 
-            if (selectedFragment != null) {
-                setNavFragment(selectedFragment, fragmentTAG!!)
-            }
-            true
-        }
+           true
+       }
 
-        // Handle bottom navigation item reselection
-        binding.bottomNav.setOnItemReselectedListener { item: MenuItem? ->
-            showToast(
-                this,
-                "Already selected"
-            )
-        }
-    }
+       // Handle reselection
+       binding.bottomNav.setOnItemReselectedListener {
+           showToast(this, "Already selected")
+       }
+   }
 
-    private fun ShowMainBottomSheet() {
-        // Show bottom sheet dialog
-        if (!myBottomSheet.isVisible) {
+
+    private fun showMainBottomSheet() {
+        if (myBottomSheet == null || myBottomSheet?.isVisible == false) {
             myBottomSheet = MyBottomSheet()
-            myBottomSheet.show(supportFragmentManager, MyBottomSheet.SHEET_TAG)
+            myBottomSheet?.show(supportFragmentManager, MyBottomSheet.SHEET_TAG)
         }
     }
 
@@ -257,21 +243,17 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
 
     // Interface methods implementations
     override fun onHomeGetStarted(index: Int) {
-        // Handle navigation to TableNavFragment or QuizNavFragment from HomeNavFragment
-        if (index == Constants.TABLE_NAV_INDEX) {
-            setNavFragment(TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT)
-            binding.bottomNav.menu.getItem(Constants.TABLE_NAV_INDEX).setChecked(true)
-        } else {
-            setNavFragment(QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT)
-            binding.bottomNav.menu.getItem(Constants.QUIZ_NAV_INDEX).setChecked(true)
+        val (fragment, tag) = when (index) {
+            Constants.TABLE_NAV_INDEX -> TableNavFragment() to Constants.TAG_TABLES_NAV_FRAGMENT
+            else -> QuizNavFragment() to Constants.TAG_QUIZ_NAV_FRAGMENT
         }
+
+        setNavFragment(fragment, tag)
+        binding.bottomNav.menu[index].isChecked = true
     }
 
-    /*override fun onPickImageProfile() {
-        TODO("Not yet implemented")
-    }*/
 
-    /*override fun onPickImageProfile() {
+   /* override fun onPickImageProfile() {
         // Handle picking image for profile
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED
@@ -286,8 +268,8 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
             // Permission granted, start image picking
             startImagePicker()
         }
-    }*/
-
+    }
+*/
    /* private fun startImagePicker() {
         // Start image picker library
         ImagePicker.with(this)
@@ -296,8 +278,14 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
             .compress(1024)
             .maxResultSize(1080, 1080)
             .start(ImagePicker.REQUEST_CODE)
-    }
-*/
+    }*/
+   override fun onPickImageProfile(){
+       ImagePicker.with(this)
+           .crop()                         // تفعيل القص
+           .compress(1024)                 // حجم الصورة النهائي بالكيلوبايت
+           .maxResultSize(1080, 1080)      // الحجم الأقصى
+           .start()
+   }
     override fun onShowInterstitialAd() {
         // Handle showing interstitial ad
         adsManager.showInterstitialAd()
@@ -318,73 +306,65 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         msg: String
     ) {
         // Handle sending scores to DialogQuizFragment
-        val dialog5 =
-            newInstance(categoryType, pointsAdded, elementsAdded, userRightAnswerScore, msg)
-        dialog5.show(supportFragmentManager, DialogQuizFragment.TAG)
+        newInstance(categoryType, pointsAdded, elementsAdded, userRightAnswerScore, msg)
+            .show(supportFragmentManager, DialogQuizFragment.TAG)
     }
 
-   /* override fun onChangeTheme(isDarkMode: Boolean) {
+    override fun onChangeTheme(isDarkMode: Boolean) {
         // Handle changing app theme
         Utils.isThemeNight = isDarkMode
         AppCompatDelegate.setDefaultNightMode(if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-        binding.bottomNav.menu[Constants.HOME_NAV_INDEX].setChecked(true)
-    }*/
+        binding.bottomNav.menu[Constants.HOME_NAV_INDEX].isChecked = true
+    }
 
     override fun onDialogSendHomeClick(categoryType: String) {
         // Handle sending home from dialog
         setNavFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
-        binding.bottomNav.menu.getItem(Constants.HOME_NAV_INDEX).setChecked(true)
+        binding.bottomNav.menu[Constants.HOME_NAV_INDEX].isChecked = true
     }
 
     override fun onDialogNewQuiz() {
         // Handle starting new quiz from dialog
         setNavFragment(QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT)
-        binding.bottomNav.menu.getItem(Constants.QUIZ_NAV_INDEX).setChecked(true)
+        binding.bottomNav.menu[Constants.QUIZ_NAV_INDEX].isChecked = true
     }
 
     /*override fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment?) {
-        TODO("Not yet implemented")
+
     }*/
 
-    /*override fun openPdfWithIntent(context: Context, pdfFile: File?) {
-        TODO("Not yet implemented")
-    }
-*/
-  /*  override fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment) {
+
+    override fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment) {
         // Handle setting required category fragment for quiz
         Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
         setNavFragment(fragment, Constants.TAG_QUIZ_CATEGORY_FRAGMENT)
-    }*/
-
-     fun openPdfWithIntent(context: Context?, pdfFile: File) {
-        // Handle opening PDF file with Intent
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Permission not granted, request it
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                PERMISSION_REQUEST_CODE
-            )
-        } else {
-            // Permission granted, proceed to open PDF
-            openPdfFile(pdfFile)
-        }
     }
 
-   /* override fun onFilterTableRecycler(tableAdapter: RecyclerViewAdapter) {
+
+     override fun openPdfWithIntent(context: Context, pdfFile: File?) {
+         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+             != PackageManager.PERMISSION_GRANTED
+         ) {
+             ActivityCompat.requestPermissions(
+                 this,
+                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                 PERMISSION_REQUEST_CODE
+             )
+         } else {
+             openPdfFile(pdfFile)
+         }
+     }
+
+
+     override fun onFilterTable(tableRecyclerAdapter: RecyclerTableAdapter) {
         // Handle filtering table RecyclerView
-        if (tableAdapter != null) {
-            this.tableRecyclerAdapter = tableAdapter
-        }
+         this@MainActivity.tableRecyclerAdapter = tableRecyclerAdapter
     }
-*/
     override fun onShowVideoAds(categoryType: String) {
         // Handle showing video ads and navigating to TableNavFragment
         dbAccess.dBListCategorySize
         setNavFragment(TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT)
-        binding.bottomNav.menu.getItem(Constants.TABLE_NAV_INDEX).setChecked(true)
+       binding.bottomNav.menu[Constants.TABLE_NAV_INDEX].isChecked = true
     }
 
     // Menu and Permissions Handling
@@ -397,9 +377,9 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
 
         // Show or hide SearchView based on fragment visibility
         if (isTableFragmentActive) {
-            searchItem.setVisible(true)
+            searchItem.isVisible = true
         } else {
-            searchItem.setVisible(false)
+            searchItem.isVisible = false
         }
 
         // Initialize SearchView
@@ -413,7 +393,7 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
 
             override fun onQueryTextChange(newText: String): Boolean {
                 // Handle search query text changes
-                tableRecyclerAdapter.filter.filter(newText)
+                tableRecyclerAdapter?.filter?.filter(newText)
                 return true // Return true to consume the event
             }
         })
@@ -445,7 +425,7 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         val msg = "Enter your question please!"
 
         val intent = Intent(Intent.ACTION_SENDTO)
-        intent.setData(Uri.parse("mailto:$ourEmail"))
+        intent.setData("mailto:$ourEmail".toUri())
         intent.putExtra(Intent.EXTRA_TEXT, msg)
         intent.putExtra(Intent.EXTRA_SUBJECT, subject)
         if (intent.resolveActivity(packageManager) != null) {
@@ -470,13 +450,9 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
     ) {
         // Handle permission request results
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        /*if (requestCode == ImagePicker.REQUEST_CODE) {
-            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startImagePicker()
-            }
-        }*/
+
         if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, proceed to open PDF
                 Toast.makeText(this, "Granted", Toast.LENGTH_SHORT).show()
             } else {
@@ -488,18 +464,16 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // Handle activity result, particularly for image picker
         super.onActivityResult(requestCode, resultCode, data)
-       /* if (requestCode == ImagePicker.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+        if (requestCode == ImagePicker.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             Utils.uriProfile = data.data
             setNavFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
-        }*/
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         // Cleanup on activity destroy
-        if (soundManager != null) {
-            soundManager.release()
-        }
+        soundManager.release()
     }
 
     override fun onBackPressed() {
@@ -527,33 +501,59 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         }
     }
 
-    private fun openPdfFile(pdfFile: File) {
-        // Open PDF file with Intent
-        if (pdfFile.exists()) {
+
+
+    private fun openPdfFile(pdfFile: File?) {
+        if (pdfFile == null || !pdfFile.exists()) {
+            runOnUiThread {
+                Toast.makeText(this, "File not found", Toast.LENGTH_LONG).show()
+            }
+            return
+        }
+
+        runOnUiThread {
+            Toast.makeText(
+                this,
+                "PDF saved. Check file at:\n${pdfFile.path}",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        try {
             val uri = FileProvider.getUriForFile(
                 this,
                 "$packageName.provider", pdfFile
             )
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.setDataAndType(uri, "application/pdf")
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-            val pm = packageManager
-            if (intent.resolveActivity(pm) != null) {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/pdf")
+                flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+
+            if (intent.resolveActivity(packageManager) != null) {
                 startActivity(intent)
             } else {
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "No app found to open PDF.\nYou can open it manually from:\n${pdfFile.path}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
+        } catch (e: Exception) {
+            runOnUiThread {
                 Toast.makeText(
                     this,
-                    "Downloaded, please check the following path: " + pdfFile.path,
+                    "Error opening PDF. File saved at:\n${pdfFile.path}",
                     Toast.LENGTH_LONG
                 ).show()
             }
-        } else {
-            // Handle file not found
-            Toast.makeText(this, "File not found", Toast.LENGTH_LONG).show()
+            e.printStackTrace()
         }
     }
+
 
     companion object {
         private const val PERMISSION_REQUEST_CODE = 200

@@ -22,7 +22,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter.CategoryRecyclerHolder
+import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter.CategoryRecyclerHolder
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category
@@ -30,21 +30,23 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 import java.util.Locale
+import androidx.core.view.isGone
 
 // Android imports
 
 // Project-specific imports
+
 /**
  * RecyclerView Adapter for displaying categories with filtering and animation effects.
  */
-class RecyclerViewAdapter(// Original list of elements
+class RecyclerTableAdapter(// Original list of elements
     private var originalElements: List<Category>,
     context: Context,
     categoryType: String,
     textToSpeechManager: TextToSpeechManager?,
     adsClickListener: AdsClickListener
 ) :
-    RecyclerView.Adapter<CategoryRecyclerHolder>(), Filterable {
+    RecyclerView.Adapter<CategoryRecyclerHolder>() , Filterable {
     private val filteredElements: MutableList<Category> // Filtered list of elements
     private val context: Context // Context reference
     private val activity: Activity // Activity reference
@@ -96,17 +98,15 @@ class RecyclerViewAdapter(// Original list of elements
      * Returns a filter that can be used to constrain data with a filtering pattern.
      * @return A filter used to constrain data.
      */
-   /* override fun getFilter(): Filter {
-        return myFilter
-    }*/
+
 
     /**
      * Custom filter implementation for filtering category data.
      */
-    /*private val myFilter: Filter = object : Filter() {
+    private val myFilter: Filter = object : Filter() {
         override fun performFiltering(constraint: CharSequence): FilterResults {
             val filteredResults: MutableList<Category> = ArrayList()
-            if (constraint == null || constraint.length == 0) {
+            if (constraint.isEmpty()) {
                 filteredResults.addAll(originalElements) // No filter, add all original elements
             } else {
                 val filterText =
@@ -129,10 +129,11 @@ class RecyclerViewAdapter(// Original list of elements
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
             filteredElements.clear()
-            filteredElements.addAll(results.values as List<*>)
+            @Suppress("UNCHECKED_CAST")
+            filteredElements.addAll(results.values as List<Category>)
             notifyDataSetChanged()
         }
-    }*/
+    }
 
     /**
      * Constructor to initialize the RecyclerView adapter.
@@ -225,7 +226,7 @@ class RecyclerViewAdapter(// Original list of elements
             // Show/hide expanded examples on button click
             if (categoryType != Constants.SENTENCE_NAME && categoryType != Constants.IDIOM_NAME) {
                 btnExampleExpanded.setOnClickListener { view: View? ->
-                    if (tvExpandedExamples.visibility == View.GONE) {
+                    if (tvExpandedExamples.isGone) {
                         tvExpandedExamples.visibility =
                             View.VISIBLE // Show expanded examples
                     } else {
@@ -282,6 +283,7 @@ class RecyclerViewAdapter(// Original list of elements
     }
 
     override fun getFilter(): Filter {
-        TODO("Not yet implemented")
+        return myFilter
     }
+
 }

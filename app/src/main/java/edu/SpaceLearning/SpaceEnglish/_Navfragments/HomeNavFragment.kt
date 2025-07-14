@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.material.tabs.TabLayout
@@ -58,14 +59,18 @@ class HomeNavFragment : Fragment() {
         if (Utils.uriProfile != null && !Utils.uriProfile.toString().isEmpty()) {
             binding.imgHomeProfile.setImageURI(Utils.uriProfile)
         }
+        binding.imgHomeProfile.setOnClickListener {
+            interactionListener?.onPickImageProfile()
+            Toast.makeText(requireContext(), "Image Profile", Toast.LENGTH_SHORT).show()
+        }
 
         binding.btnHomeGoToLearn.setOnClickListener { v: View? ->
-            interactionListener!!.onHomeGetStarted(
+            interactionListener?.onHomeGetStarted(
                 Constants.TABLE_NAV_INDEX
             )
         }
         binding.btnHomeGoToQuiz.setOnClickListener { v: View? ->
-            interactionListener!!.onHomeGetStarted(
+            interactionListener?.onHomeGetStarted(
                 Constants.QUIZ_NAV_INDEX
             )
         }

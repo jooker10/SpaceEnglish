@@ -24,7 +24,7 @@ class GeneratePDFFile {
      * @param pdfFile          Output PDF file
      * @param contentTableList List of Category objects containing data for the table
      */
-    fun generate(tableTitle: String?, pdfFile: File?, contentTableList: ArrayList<Category>) {
+    /*fun generate(tableTitle: String?, pdfFile: File?, contentTableList: ArrayList<Category>) {
         // Define column headers for the table
 
         columnsNamesList.add("ID")
@@ -72,7 +72,58 @@ class GeneratePDFFile {
         } catch (e: IOException) {
             Log.e("GeneratePDFFile", "Error generating PDF file", e)
         }
+    }*/
+    fun generate(
+        tableTitle: String?,
+        pdfFile: File?,
+        contentTableList: ArrayList<Category>,
+        onComplete: (success: Boolean, file: File?) -> Unit
+    ) {
+        columnsNamesList.clear()
+        columnsNamesList.add("ID")
+        columnsNamesList.add("English")
+        columnsNamesList.add(Utils.nativeLanguage)
+
+        try {
+            val outputStream = FileOutputStream(pdfFile)
+            val writer = PdfWriter(outputStream)
+            val pdfDocument = PdfDocument(writer)
+            val pageSize = PageSize.A4
+            pdfDocument.defaultPageSize = pageSize
+            val document = Document(pdfDocument)
+
+            val titleParagraph = Paragraph(tableTitle)
+                .setFontSize(24f)
+                .setFontColor(DeviceRgb(255, 0, 0))
+                .setTextAlignment(TextAlignment.CENTER)
+            document.add(titleParagraph)
+
+            val columnWidth = pageSize.width / columnsNamesList.size
+            val columnWidths = floatArrayOf(columnWidth, columnWidth, columnWidth)
+            val table = Table(columnWidths)
+
+            for (columnName in columnsNamesList) {
+                table.addCell(columnName)
+            }
+
+            for (row in contentTableList) {
+                table.addCell(row.categoryID.toString())
+                table.addCell(row.categoryEng)
+                table.addCell(nativeLanguage(row))
+            }
+
+            document.add(table)
+            document.close()
+
+            // ✅ Notify caller PDF is ready
+            onComplete(true, pdfFile)
+
+        } catch (e: IOException) {
+            Log.e("GeneratePDFFile", "Error generating PDF file", e)
+            onComplete(false, pdfFile)
+        }
     }
+
 
     /**
      * Returns the appropriate native language field from the Category object based on Utils.nativeLanguage.

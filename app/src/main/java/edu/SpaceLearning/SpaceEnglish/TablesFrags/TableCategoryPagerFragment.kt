@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter
+import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess.Companion.getInstance
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
@@ -31,10 +32,10 @@ class TableCategoryPagerFragment
  * Required empty public constructor for Fragment.
  */
     : Fragment() {
-    private lateinit var interactionListener: InteractionActivityFragmentsListener
+    private  var interactionListener: InteractionActivityFragmentsListener? = null
     private var categoryType: String = ""
     private lateinit var tvTableTitleType: TextView
-    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
+    private lateinit var recyclerViewAdapter: RecyclerTableAdapter
     private lateinit var elements: ArrayList<Category>
     private lateinit var tableRecyclerView: RecyclerView
 
@@ -73,15 +74,31 @@ class TableCategoryPagerFragment
      //   interactionListener!!.onFilterTableRecycler(recyclerViewAdapter)
 
         // Handle PDF download button click
-        btnTableSaveAsPDF.setOnClickListener(View.OnClickListener { // Generate PDF file with table data and open it with appropriate intent
+      /*  btnTableSaveAsPDF.setOnClickListener { // Generate PDF file with table data and open it with appropriate intent
             val pdfPath =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val fileName = "$categoryType table.pdf"
             val pdfFile = File(pdfPath, fileName)
             val generateFilePDF = GeneratePDFFile()
-            generateFilePDF.generate("$categoryType table", pdfFile, elements!!)
-           // interactionListener!!.openPdfWithIntent(requireActivity(), pdfFile)
-        })
+            generateFilePDF.generate("$categoryType table", pdfFile, elements)
+            interactionListener?.openPdfWithIntent(requireActivity(), pdfFile)
+        }*/
+        btnTableSaveAsPDF.setOnClickListener {
+            val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val fileName = "$categoryType table.pdf"
+            val pdfFile = File(pdfPath, fileName)
+            val generateFilePDF = GeneratePDFFile()
+
+            generateFilePDF.generate("$categoryType table", pdfFile, elements) { success, file ->
+                if (success && file != null && file.exists()) {
+                    // ✅ Only open PDF if it was actually saved
+                    interactionListener?.openPdfWithIntent(requireActivity(), file)
+                } else {
+                    Toast.makeText(requireContext(), "Failed to generate PDF", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
     }
 
     /**
@@ -90,14 +107,14 @@ class TableCategoryPagerFragment
      */
     private fun initRecyclerViewForTableFragment() {
         val adsClickListener = requireActivity() as AdsClickListener
-        recyclerViewAdapter = RecyclerViewAdapter(
-            elements!!, requireActivity(),
-            categoryType!!, MainActivity.textToSpeechManager, adsClickListener
+        recyclerViewAdapter = RecyclerTableAdapter(
+            elements, requireActivity(),
+            categoryType, MainActivity.textToSpeechManager, adsClickListener
         )
 
-        tableRecyclerView!!.layoutManager = LinearLayoutManager(requireActivity())
-        tableRecyclerView!!.setHasFixedSize(true)
-        tableRecyclerView!!.adapter = recyclerViewAdapter
+        tableRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        tableRecyclerView.setHasFixedSize(true)
+        tableRecyclerView.adapter = recyclerViewAdapter
     }
 
     /**
@@ -107,7 +124,7 @@ class TableCategoryPagerFragment
     private fun initDataBaseRequiredElementsList() {
         val dbAccess = getInstance(requireActivity())
         dbAccess.openToRead()
-        elements = dbAccess.getRequiredElementsList(categoryType!!, tvTableTitleType!!)
+        elements = dbAccess.getRequiredElementsList(categoryType, tvTableTitleType)
         dbAccess.close()
     }
 
@@ -123,7 +140,7 @@ class TableCategoryPagerFragment
     override fun onDetach() {
         super.onDetach()
         // Clean up interactionListener to avoid memory leaks
-       // interactionListener = null
+           interactionListener = null
     }
 
     companion object {

@@ -8,7 +8,7 @@ package edu.SpaceLearning.SpaceEnglish.Listeners
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerViewAdapter
+import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter
 import java.io.File
 
 /**
@@ -24,13 +24,13 @@ interface InteractionActivityFragmentsListener {
     /**
      * Called when selecting an image for profile in HomeFragment.
      */
-   // fun onPickImageProfile()
+    fun onPickImageProfile()
 
     /**
      * Called to filter the table in TableFragment using the provided RecyclerViewAdapter.
      * @param tableRecyclerAdapter The RecyclerViewAdapter used for filtering.
      */
-   // fun onFilterTableRecycler(tableRecyclerAdapter: RecyclerViewAdapter)
+    fun onFilterTable(tableRecyclerAdapter: RecyclerTableAdapter)
 
     /**
      * Called to send scores to a dialog with specific details.
@@ -52,7 +52,7 @@ interface InteractionActivityFragmentsListener {
      * Called when the theme is changed in SettingsFragment.
      * @param isDarkMode True if dark mode is enabled, false otherwise.
      */
-  //  fun onChangeTheme(isDarkMode: Boolean)
+    fun onChangeTheme(isDarkMode: Boolean)
 
     /**
      * Called when clicking the "Send Home" button in DialogFragment.
@@ -69,12 +69,12 @@ interface InteractionActivityFragmentsListener {
      * Called to set the required category fragment in QuizNavFragment.
      * @param android.R.attr.fragment The fragment to set as a required category.
      */
-   // fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment)
+    fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment)
 
     /**
      * Called to open a PDF file with an intent.
      * @param context The context from which to open the PDF.
      * @param pdfFile The PDF file to open.
      */
-   // fun openPdfWithIntent(context: Context, pdfFile: File?)
+    fun openPdfWithIntent(context: Context, pdfFile: File?)
 }
