@@ -31,6 +31,7 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 import java.util.Locale
 import androidx.core.view.isGone
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.CategoryFilter
 
 // Android imports
 
@@ -47,6 +48,7 @@ class RecyclerTableAdapter(// Original list of elements
     adsClickListener: AdsClickListener
 ) :
     RecyclerView.Adapter<CategoryRecyclerHolder>() , Filterable {
+        private var categoryFilter : CategoryFilter? = null
     private val filteredElements: MutableList<Category> // Filtered list of elements
     private val context: Context // Context reference
     private val activity: Activity // Activity reference
@@ -100,40 +102,6 @@ class RecyclerTableAdapter(// Original list of elements
      */
 
 
-    /**
-     * Custom filter implementation for filtering category data.
-     */
-    private val myFilter: Filter = object : Filter() {
-        override fun performFiltering(constraint: CharSequence): FilterResults {
-            val filteredResults: MutableList<Category> = ArrayList()
-            if (constraint.isEmpty()) {
-                filteredResults.addAll(originalElements) // No filter, add all original elements
-            } else {
-                val filterText =
-                    constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
-                for (category in originalElements) {
-                    // Filter by native language text or English category name
-                    if (filterTxtLanguageNative(category).lowercase(Locale.getDefault())
-                            .contains(filterText) || category.categoryEng.lowercase(
-                            Locale.getDefault()
-                        ).contains(filterText)
-                    ) {
-                        filteredResults.add(category)
-                    }
-                }
-            }
-            val results = FilterResults()
-            results.values = filteredResults
-            return results
-        }
-
-        override fun publishResults(constraint: CharSequence, results: FilterResults) {
-            filteredElements.clear()
-            @Suppress("UNCHECKED_CAST")
-            filteredElements.addAll(results.values as List<Category>)
-            notifyDataSetChanged()
-        }
-    }
 
     /**
      * Constructor to initialize the RecyclerView adapter.
@@ -282,8 +250,18 @@ class RecyclerTableAdapter(// Original list of elements
         }
     }
 
-    override fun getFilter(): Filter {
+   /* override fun getFilter(): Filter {
         return myFilter
     }
-
+*/
+   override fun getFilter(): Filter {
+       if (categoryFilter == null) {
+           categoryFilter = CategoryFilter(originalElements) { filtered ->
+               filteredElements.clear()
+               filteredElements.addAll(filtered)
+               notifyDataSetChanged()
+           }
+       }
+       return categoryFilter!!
+   }
 }

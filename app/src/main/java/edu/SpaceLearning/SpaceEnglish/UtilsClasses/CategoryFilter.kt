@@ -1,0 +1,40 @@
+package edu.SpaceLearning.SpaceEnglish.UtilsClasses
+
+import android.widget.Filter
+import java.util.*
+
+/**
+ * Custom Filter class to filter a list of Category objects based on native or English text.
+ */
+class CategoryFilter(
+    private val originalList: List<Category>,
+    private val onFilterResult: (List<Category>) -> Unit
+) : Filter() {
+
+    override fun performFiltering(constraint: CharSequence?): FilterResults {
+        val filteredList = if (constraint.isNullOrEmpty()) {
+            originalList
+        } else {
+            val query = constraint.toString().lowercase(Locale.getDefault()).trim()
+            originalList.filter {
+                it.categoryEng.lowercase(Locale.getDefault()).contains(query)
+                        || getNativeText(it).lowercase(Locale.getDefault()).contains(query)
+            }
+        }
+
+        return FilterResults().apply { values = filteredList }
+    }
+
+    override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+        val resultList = results?.values as? List<Category> ?: emptyList()
+        onFilterResult(resultList)
+    }
+
+    private fun getNativeText(category: Category): String {
+        return when (Utils.nativeLanguage) {
+            Constants.LANGUAGE_NATIVE_ARABIC -> category.categoryAr
+            Constants.LANGUAGE_NATIVE_SPANISH -> category.categorySp
+            else -> category.categoryFr
+        }
+    }
+}

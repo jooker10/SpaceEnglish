@@ -126,7 +126,7 @@ C.$option3
 
 For additional questions or tests, please visit our app :
 ${getString(R.string.main_app_url)}""")
-        binding!!.fabShareQstFriend.setOnClickListener { v: View? ->
+        binding.fabShareQstFriend.setOnClickListener { v: View? ->
             shareQst(
                 questionToShareTxt
             )
@@ -156,7 +156,7 @@ ${getString(R.string.main_app_url)}""")
             ArrayList(dbAccess.getAllElementsCategoryList(categoryType, false))
         dbAccess.close()
         allRequiredTypeListFromDB.shuffle()
-        currentCategorySubList = allRequiredTypeListFromDB.subList(0, Utils.maxQuestionsPerQuiz)
+        currentCategorySubList = allRequiredTypeListFromDB.subList(0,Utils.maxQuestionsPerQuiz)
     }
 
     private fun initCountDownTimerAndStartIt() {
@@ -592,9 +592,8 @@ ${getString(R.string.main_app_url)}""")
             if (b) {
                 val text = radioOption.text.toString()
                 // Check if the TextToSpeech instance is initialized before using it.
-                if (MainActivity.textToSpeechManager != null) {
                     MainActivity.textToSpeechManager?.speak(text)
-                }
+
             }
         }
     }
@@ -621,7 +620,7 @@ ${getString(R.string.main_app_url)}""")
     }
 
     companion object {
-        fun getInstance(categoryType: String?): QuizCategoriesFragment {
+        fun getInstance(categoryType: String): QuizCategoriesFragment {
             val bundle = Bundle()
             bundle.putString(Constants.TAG_CATEGORY_TYPE, categoryType)
             val fragment = QuizCategoriesFragment()

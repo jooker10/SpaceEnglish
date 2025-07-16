@@ -18,12 +18,16 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerQuizNavAdapter
 import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.RecyclerItemQuizListener
+import edu.SpaceLearning.SpaceEnglish.QuizFrags.QuizCategoriesFragment
 import edu.SpaceLearning.SpaceEnglish.R
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 import edu.SpaceLearning.SpaceEnglish.databinding.FragmentNavQuizBinding
 
@@ -43,9 +47,6 @@ class QuizNavFragment  // Default constructor
     // Listener for interaction events with the parent activity
     private var interactionListener: InteractionActivityFragmentsListener? = null
 
-    // Lists to store UI components dynamically
-    private val buttons = ArrayList<Button>()
-    private val textViews = ArrayList<TextView>()
 
     /**
      * Called to create the view hierarchy associated with the fragment.
@@ -74,7 +75,6 @@ class QuizNavFragment  // Default constructor
         binding = FragmentNavQuizBinding.bind(view)
 
         // Initialize UI components and set up RecyclerView
-        //addUIToListAndInitialize();
         initAutoTextViewMaxQuestionPerQuiz()
         setUpRecyclerView()
     }
@@ -86,73 +86,20 @@ class QuizNavFragment  // Default constructor
     private fun initAutoTextViewMaxQuestionPerQuiz() {
         // Set initial value from Utils.maxQuestionsPerQuiz
         binding.autoTvmaxQuestionsPerQuiz.setText(Utils.maxQuestionsPerQuiz.toString())
-
         // Update Utils.maxQuestionsPerQuiz on item selection
         binding.autoTvmaxQuestionsPerQuiz.onItemClickListener =
             OnItemClickListener { parent: AdapterView<*>?, view1: View?, position: Int, id: Long ->
                 val selectedValue = binding.autoTvmaxQuestionsPerQuiz.text.toString()
                 Utils.maxQuestionsPerQuiz = selectedValue.toInt()
             }
-
         // Set adapter for AutoCompleteTextView
         val maxQuestionsList =
             resources.getStringArray(R.array.quiz_option_max_questions_per_quizzes)
         val adapter =
             ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, maxQuestionsList)
         binding.autoTvmaxQuestionsPerQuiz.setAdapter(adapter)
-    }
 
-    /**
-     * Adds UI buttons and text views to lists and initializes them.
-     * Enables/disables buttons based on user scores and handles button click events.
-     */
-    /*private void addUIToListAndInitialize() {
-        // Add buttons and text views to respective lists
-        buttons.add(binding.btnVerbs);
-        buttons.add(binding.btnSentences);
-        buttons.add(binding.btnPhrasals);
-        buttons.add(binding.btnNouns);
-        buttons.add(binding.btnAdjs);
-        buttons.add(binding.btnAdvs);
-        buttons.add(binding.btnIdioms);
 
-        textViews.add(binding.tvPhrasalRequiredLabel);
-        textViews.add(binding.tvNounRequiredLabel);
-        textViews.add(binding.tvAdjRequiredLabel);
-        textViews.add(binding.tvAdvRequiredLabel);
-        textViews.add(binding.tvIdiomRequiredLabel);
-
-        // Enable/disable buttons and set click listeners
-        for (int i = 0; i < Constants.permissionCategoryScoreArray.length; i++) {
-            enableButton(buttons.get(i + 2), textViews.get(i), Scores.totalScore, Constants.permissionCategoryScoreArray[i]);
-        }
-
-        for (int i = 0; i < buttons.size(); i++) {
-            final int index = i;
-            buttons.get(i).setOnClickListener(view ->
-                    interactionListener.onSetRequiredCategoryFragmentQuiz(QuizCategoriesFragment.getInstance(Constants.categoryNameArray[index])));
-        }
-    }*/
-    /**
-     * Enables or disables a button based on the global main score compared to permission score.
-     * @param button The Button to enable/disable.
-     * @param tvRequiredLabel The TextView indicating requirements.
-     * @param globalMainScore The overall score of the user.
-     * @param permissionScore The required score to enable the button.
-     */
-    private fun enableButton(
-        button: Button,
-        tvRequiredLabel: TextView,
-        globalMainScore: Int,
-        permissionScore: Int
-    ) {
-        if (globalMainScore >= permissionScore) {
-            button.isEnabled = true
-            tvRequiredLabel.visibility = View.GONE
-        } else {
-            button.isEnabled = false
-            tvRequiredLabel.visibility = View.VISIBLE
-        }
     }
 
     /**
@@ -161,22 +108,14 @@ class QuizNavFragment  // Default constructor
     private fun setUpRecyclerView() {
         val adapter = RecyclerQuizNavAdapter(Utils.itemRecyclerQuizNavList, object : RecyclerItemQuizListener {
             override fun onQuizItemClicked(position: Int) {
-                /*interactionListener?.onSetRequiredCategoryFragmentQuiz(
+                interactionListener?.onSetRequiredCategoryFragmentQuiz(
                     QuizCategoriesFragment.getInstance(
                         Constants.categoryNameArray[position]
-                ))*/
+                ))
             }
 
         })
-        /*val adapter = RecyclerQuizNavAdapter(
-            Utils.itemRecyclerQuizNavList
-        ) { position: Int ->
-            interactionListener!!.onSetRequiredCategoryFragmentQuiz(
-                QuizCategoriesFragment.getInstance(
-                    Constants.categoryNameArray[position]
-                )
-            )
-        } */
+
         binding.recyclerViewQuizNav.adapter = adapter
         binding.recyclerViewQuizNav.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerViewQuizNav.setHasFixedSize(true)

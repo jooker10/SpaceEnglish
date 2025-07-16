@@ -35,7 +35,7 @@ class TableCategoryPagerFragment
     private  var interactionListener: InteractionActivityFragmentsListener? = null
     private var categoryType: String = ""
     private lateinit var tvTableTitleType: TextView
-    private lateinit var recyclerViewAdapter: RecyclerTableAdapter
+    private lateinit var recyclerTableAdapter: RecyclerTableAdapter
     private lateinit var elements: ArrayList<Category>
     private lateinit var tableRecyclerView: RecyclerView
 
@@ -71,18 +71,9 @@ class TableCategoryPagerFragment
         initRecyclerViewForTableFragment()
 
         // Notify the hosting activity about the RecyclerView for potential interactions
-     //   interactionListener!!.onFilterTableRecycler(recyclerViewAdapter)
+        interactionListener?.onFilterTable(recyclerTableAdapter)
 
         // Handle PDF download button click
-      /*  btnTableSaveAsPDF.setOnClickListener { // Generate PDF file with table data and open it with appropriate intent
-            val pdfPath =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val fileName = "$categoryType table.pdf"
-            val pdfFile = File(pdfPath, fileName)
-            val generateFilePDF = GeneratePDFFile()
-            generateFilePDF.generate("$categoryType table", pdfFile, elements)
-            interactionListener?.openPdfWithIntent(requireActivity(), pdfFile)
-        }*/
         btnTableSaveAsPDF.setOnClickListener {
             val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val fileName = "$categoryType table.pdf"
@@ -107,14 +98,14 @@ class TableCategoryPagerFragment
      */
     private fun initRecyclerViewForTableFragment() {
         val adsClickListener = requireActivity() as AdsClickListener
-        recyclerViewAdapter = RecyclerTableAdapter(
+        recyclerTableAdapter = RecyclerTableAdapter(
             elements, requireActivity(),
             categoryType, MainActivity.textToSpeechManager, adsClickListener
         )
 
         tableRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
         tableRecyclerView.setHasFixedSize(true)
-        tableRecyclerView.adapter = recyclerViewAdapter
+        tableRecyclerView.adapter = recyclerTableAdapter
     }
 
     /**

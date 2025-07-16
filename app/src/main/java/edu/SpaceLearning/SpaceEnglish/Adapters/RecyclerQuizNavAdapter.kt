@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerQuizNavAdapter.RecyclerQuizNavHolder
 import edu.SpaceLearning.SpaceEnglish.Listeners.RecyclerItemQuizListener
@@ -37,9 +38,6 @@ class RecyclerQuizNavAdapter(// List of items to display in the RecyclerView
      * @param items List of items to display in the RecyclerView.
      * @param recyclerItemQuizListener Listener for item click events.
      */
-    init {
-        this.recyclerItemQuizListener = recyclerItemQuizListener
-    }
 
     /**
      * Called when RecyclerView needs a new ViewHolder of the given type to represent an item.
@@ -48,8 +46,7 @@ class RecyclerQuizNavAdapter(// List of items to display in the RecyclerView
      * @return A new ViewHolder that holds a View of the given view type.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerQuizNavHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_item_quiz_nav, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item_quiz_nav, parent, false)
         return RecyclerQuizNavHolder(view)
     }
 
@@ -78,7 +75,7 @@ class RecyclerQuizNavAdapter(// List of items to display in the RecyclerView
     /**
      * ViewHolder class to hold references to views for each item in the RecyclerView.
      */
-    inner class RecyclerQuizNavHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+   inner  class RecyclerQuizNavHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val btnNav: Button =
             itemView.findViewById(R.id.btnRecyclerNavQuiz) // Button for quiz navigation
         private val tvRequiredPoints: TextView =
@@ -88,14 +85,7 @@ class RecyclerQuizNavAdapter(// List of items to display in the RecyclerView
          * Constructor to initialize views in the ViewHolder.
          * @param itemView The root view of the item layout.
          */
-        init {
-            // Set click listener for the button
-            btnNav.setOnClickListener { v: View? ->
-                recyclerItemQuizListener.onQuizItemClicked(
-                    adapterPosition
-                )
-            }
-        }
+
 
         /**
          * Binds data to the views in the ViewHolder.
@@ -106,7 +96,9 @@ class RecyclerQuizNavAdapter(// List of items to display in the RecyclerView
             btnNav.text = item.btnText // Set button text
             tvRequiredPoints.text = item.tvPointsRequired // Set required points text
             tvRequiredPoints.setTextColor(Color.RED) // Set text color
-
+            btnNav.setOnClickListener{
+                recyclerItemQuizListener.onQuizItemClicked(position)
+            }
             // Enable/disable button based on score permission
             if (position > 1) {
                 enableButton(

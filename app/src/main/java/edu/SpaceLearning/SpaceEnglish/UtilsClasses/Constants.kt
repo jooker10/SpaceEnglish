@@ -36,6 +36,7 @@ object Constants {
     const val TAG_QUIZ_CATEGORY_FRAGMENT: String = "quiz_category_fragment"
     const val TAG_SHEET_MAIN_FRAGMENT: String = "sheet_main_fragment"
     const val NO_CONNECTION_FRAGMENT: String = "no_connection_fragment"
+    const val TAG_MAX_NUMBERS_OF_QUESTIONS = "MAX_NUMBERS_OF_QUESTIONS"
 
     // Preference tags
     const val TAG_PREF_CHOOSING_LANG: String = "choosing_lang"
