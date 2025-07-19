@@ -15,8 +15,13 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SharedPrefsManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity
+import androidx.core.content.edit
+import androidx.credentials.GetCredentialRequest
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : AppCompatActivity() {
+    private lateinit var auth : FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var defaultSharedPrefs: SharedPreferences
     private lateinit var sharedPrefsManager: SharedPrefsManager
@@ -24,6 +29,8 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
 
         // Initialize Mobile Ads SDK in a background thread
         Thread {
@@ -54,21 +61,32 @@ class SplashActivity : AppCompatActivity() {
             defaultSharedPrefs.getBoolean(Constants.TAG_PREF_IS_FIRST_TIME_ACTIVITY, false)
 
         // Delay for 2 seconds before proceeding to next activity
-        Handler().postDelayed({
+       /* Handler().postDelayed({
             if (isInitialConfigurationCompleted) {
                 // If initial configuration is completed, load MainActivity
                 loadMainActivity()
             } else {
                 // If initial configuration is not completed, load FirstActivity
-                val editor = defaultSharedPrefs.edit()
-                editor.putBoolean(
-                    Constants.TAG_PREF_IS_FIRST_TIME_ACTIVITY,
-                    true
-                )
-                editor.apply()
+                defaultSharedPrefs.edit {
+                    putBoolean(
+                        Constants.TAG_PREF_IS_FIRST_TIME_ACTIVITY,
+                        true
+                    )
+                }
                 loadFirstActivity()
             }
-        }, 2000)
+        }, 2000)*/
+        Handler().postDelayed({
+            if(user != null) {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            else{
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        },2000)
+
     }
 
     private fun loadFirstActivity() {

@@ -32,7 +32,7 @@ object Utils {
 
     // Lists and mappings for database tables and UI elements
     @JvmField
-    var tableListNames: ArrayList<String> = ArrayList()
+    var tableCategoriesListNames: ArrayList<String> = ArrayList()
     var headerTablePdfList: ArrayList<String> = ArrayList()
     @JvmField
     var itemRecyclerQuizNavList: ArrayList<ItemButtonsRecycler> = ArrayList()
@@ -87,38 +87,47 @@ object Utils {
      * Clears and fills the phrasesCorrectAnswers and phrasesIncorrectAnswers lists with default responses.
      */
     @JvmStatic
-    fun FillListsCorrectIncorrectAnswerResponses() {
-        phrasesCorrectAnswers.clear()
-        phrasesCorrectAnswers.add("Fantastic! You've got it right!")
-        phrasesCorrectAnswers.add("Correctamundo! You're on fire!")
-        phrasesCorrectAnswers.add("Bingo! Nailed it!")
-        phrasesCorrectAnswers.add("Well done! You're a quiz whiz!")
-        phrasesCorrectAnswers.add("You're absolutely correct! Keep it up!")
-        phrasesCorrectAnswers.add("You're on a roll! That's the right answer!")
-        phrasesCorrectAnswers.add("Gold star! You've chosen the correct option!")
-        phrasesCorrectAnswers.add("Bravo! You're proving your expertise!")
-        phrasesCorrectAnswers.add("Excellent choice! You're acing this quiz!")
-        phrasesCorrectAnswers.add("That's the ticket! You're cruising through these questions!")
+    fun fillQuizListsCorrectIncorrectAnswerResponses() {
+        phrasesCorrectAnswers.also {
+            it.clear()
+            it.add("Fantastic! You've got it right!")
+            it.add("Correctamundo! You're on fire!")
+            it.add("Bingo! Nailed it!")
+            it.add("Well done! You're a quiz whiz!")
+            it.add("You're absolutely correct! Keep it up!")
+            it.add("You're on a roll! That's the right answer!")
+            it.add("Gold star! You've chosen the correct option!")
+            it.add("Bravo! You're proving your expertise!")
+            it.add("Excellent choice! You're acing this quiz!")
+            it.add("That's the ticket! You're cruising through these questions!")
+        }
 
-        phrasesIncorrectAnswers.clear()
-        phrasesIncorrectAnswers.add("Oops! Not quite, but don't give up!")
-        phrasesIncorrectAnswers.add("Almost there, but not quite. Try again!")
-        phrasesIncorrectAnswers.add("Oh no! That's not the right answer.")
-        phrasesIncorrectAnswers.add("Close, but not exactly. Give it another shot!")
-        phrasesIncorrectAnswers.add("Not quite this time. Keep trying!")
-        phrasesIncorrectAnswers.add("Darn! That's not the correct answer.")
-        phrasesIncorrectAnswers.add("Oopsie daisy! Keep guessing, you'll get it!")
-        phrasesIncorrectAnswers.add("Don't worry, you'll get it next time! Try again!")
-        phrasesIncorrectAnswers.add("That's not it, but you're learning with every try!")
-        phrasesIncorrectAnswers.add("Keep going! Mistakes are part of the learning process.")
+        phrasesIncorrectAnswers.also {
+            it.clear()
+            it.add("Oops! Not quite, but don't give up!")
+            it.add("Almost there, but not quite. Try again!")
+            it.add("Oh no! That's not the right answer.")
+            it.add("Close, but not exactly. Give it another shot!")
+            it.add("Not quite this time. Keep trying!")
+            it.add("Darn! That's not the correct answer.")
+            it.add("Oopsie daisy! Keep guessing, you'll get it!")
+            it.add("Don't worry, you'll get it next time! Try again!")
+            it.add("That's not it, but you're learning with every try!")
+            it.add("Keep going! Mistakes are part of the learning process.")
+        }
     }
 
     /**
      * Clears and fills the tableHashNames mapping with category names and their corresponding database table names.
      */
     @JvmStatic
-    fun FillHashMapTableName() {
-        tableHashNames.clear()
+    fun fillHashMapDbTableName() {
+
+        for (i in 0 until Constants.categoryNameArray.size)  {
+            tableHashNames[Constants.categoryNameArray[i]] = MyDatabase.dataBaseTablesNames[i]
+        }
+
+        /*tableHashNames.clear()
         tableHashNames[Constants.VERB_NAME] =
             MyDatabase.TABLE_VERBS
         tableHashNames[Constants.SENTENCE_NAME] =
@@ -132,34 +141,39 @@ object Utils {
         tableHashNames[Constants.ADV_NAME] =
             MyDatabase.TABLE_ADVERBS
         tableHashNames[Constants.IDIOM_NAME] =
-            MyDatabase.TABLE_IDIOMS
+            MyDatabase.TABLE_IDIOMS*/
     }
 
     /**
      * Clears and fills the tableListNames list with category names used in the application.
      */
     @JvmStatic
-    fun FillListCategoriesNames() {
-        tableListNames.clear()
-        tableListNames.add(Constants.ALL_NAME)
-        tableListNames.add(Constants.VERB_NAME)
-        tableListNames.add(Constants.SENTENCE_NAME)
-        tableListNames.add(Constants.PHRASAL_NAME)
-        tableListNames.add(Constants.NOUN_NAME)
-        tableListNames.add(Constants.ADJ_NAME)
-        tableListNames.add(Constants.ADV_NAME)
-        tableListNames.add(Constants.IDIOM_NAME)
+    fun fillListOfCategoriesNames() {
+        tableCategoriesListNames.also {
+            it.clear()
+            it.add(Constants.ALL_NAME)
+            it.add(Constants.VERB_NAME)
+            it.add(Constants.SENTENCE_NAME)
+            it.add(Constants.PHRASAL_NAME)
+            it.add(Constants.NOUN_NAME)
+            it.add(Constants.ADJ_NAME)
+            it.add(Constants.ADV_NAME)
+            it.add(Constants.IDIOM_NAME)
+        }
+
     }
 
     /**
      * Clears and fills the headerTablePdfList list with column header names for PDF tables.
      */
     @JvmStatic
-    fun FillListHeaderTablePdf() {
-        headerTablePdfList.clear()
-        headerTablePdfList.add("ID")
-        headerTablePdfList.add("ENGLISH")
-        headerTablePdfList.add("Native language")
+    fun headerTablePdfNames() {
+        headerTablePdfList.also {
+            it.clear()
+            it.add("ID")
+            it.add("ENGLISH")
+            it.add("Native language")
+        }
     }
 
     /**
@@ -167,7 +181,7 @@ object Utils {
      * Uses predefined quiz categories and their requirements.
      */
     @JvmStatic
-    fun FillItemRecyclerQuizNavList() {
+    fun fillItemRecyclerQuizNavList() {
         itemRecyclerQuizNavList.clear()
         itemRecyclerQuizNavList.add(
             ItemButtonsRecycler(

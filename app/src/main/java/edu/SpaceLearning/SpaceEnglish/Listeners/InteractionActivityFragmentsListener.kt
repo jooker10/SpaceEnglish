@@ -22,11 +22,6 @@ interface InteractionActivityFragmentsListener {
     fun onHomeGetStarted(index: Int)
 
     /**
-     * Called when selecting an image for profile in HomeFragment.
-     */
-    fun onPickImageProfile()
-
-    /**
      * Called to filter the table in TableFragment using the provided RecyclerViewAdapter.
      * @param tableRecyclerAdapter The RecyclerViewAdapter used for filtering.
      */
@@ -40,13 +35,7 @@ interface InteractionActivityFragmentsListener {
      * @param userRightAnswerScore The user's score for right answers.
      * @param msg The message to display.
      */
-    fun onSendScoresToDialog(
-        categoryType: String,
-        pointsAdded: Int,
-        elementsAdded: Int,
-        userRightAnswerScore: Int,
-        msg: String
-    )
+    fun onSendScoresToDialog(categoryType: String, pointsAdded: Int, elementsAdded: Int, userRightAnswerScore: Int, msg: String)
 
     /**
      * Called when the theme is changed in SettingsFragment.

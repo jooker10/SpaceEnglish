@@ -45,7 +45,8 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess.Companion.getInstance
@@ -53,6 +54,7 @@ import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment
 import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment.Companion.newInstance
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.LoginActivity
 import edu.SpaceLearning.SpaceEnglish.MyBottomSheet
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.AdsManager
@@ -63,11 +65,6 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SharedPrefsManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillHashMapTableName
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillItemRecyclerQuizNavList
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillListCategoriesNames
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillListHeaderTablePdf
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils.FillListsCorrectIncorrectAnswerResponses
 import edu.SpaceLearning.SpaceEnglish._Navfragments.HomeNavFragment
 import edu.SpaceLearning.SpaceEnglish._Navfragments.QuizNavFragment
 import edu.SpaceLearning.SpaceEnglish._Navfragments.SettingsNavFragment
@@ -80,12 +77,11 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
     // Views and UI related variables
     private lateinit var binding: ActivityMainBinding
     // Data management
-    private lateinit var adsManager: AdsManager
-    private lateinit var soundManager: SoundManager
-    private lateinit var ratingManager: RatingManager
+    private var adsManager: AdsManager? = null
+    private  var soundManager: SoundManager? = null
+    private  var ratingManager: RatingManager? = null
     private lateinit var dbAccess: DbAccess
     private lateinit var sharedPrefsManager: SharedPrefsManager
-
 
     // utilities
     private var tableRecyclerAdapter: RecyclerTableAdapter? = null
@@ -97,6 +93,12 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
     private var showRatingSheet = true
     private var isTableFragmentActive = false
 
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 200
+
+        var textToSpeechManager: TextToSpeechManager? = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             binding = ActivityMainBinding.inflate(layoutInflater)
@@ -104,8 +106,9 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
             setSupportActionBar(binding.customToolbar) // Set custom ToolBar
 
 
+
         // Initialize utility methods and managers
-        initUtils()
+        initAllUtils()
         initDatabaseAccess()
         initSharedPreferences()
         initTextToSpeech()
@@ -114,18 +117,22 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         initAdmobManager()
 
         binding.mainNavFab.setOnClickListener { v: View? -> showMainBottomSheet() } // Main Fab Listener
+        binding.btnSignOutGoogle.setOnClickListener { fireBaseGoogleSignOut() } // FireBase auth google sign-out
 
         setBottomMainNavWithMenu() // Set up bottom navigation and initial fragment
     }
 
-    private fun initUtils() {
+    private fun initAllUtils() {
         // Initialize static utility methods in Utils class
-        FillItemRecyclerQuizNavList()
-        FillListHeaderTablePdf()
-        FillHashMapTableName()
-        FillListCategoriesNames()
-        FillListsCorrectIncorrectAnswerResponses()
+
+        Utils.fillListOfCategoriesNames()
+        Utils.headerTablePdfNames()
+        Utils.fillQuizListsCorrectIncorrectAnswerResponses()
+        Utils.fillItemRecyclerQuizNavList()
+        Utils.fillHashMapDbTableName()
     }
+
+
 
     private fun initDatabaseAccess() {
         // Initialize DbAccess on a separate thread
@@ -133,7 +140,6 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
             dbAccess = getInstance(baseContext)
                 // dbAccess.open_to_read();
             dbAccess.dBListCategorySize
-
 
         }
         dataBaseThread.start()
@@ -174,6 +180,13 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
     private fun initAdmobManager() {
         // Initialize AdsManager
         adsManager = AdsManager(this)
+    }
+
+    private fun fireBaseGoogleSignOut() {
+        Firebase.auth.signOut()
+        val intent = Intent(this, LoginActivity :: class.java)
+        startActivity(intent)
+        finish()
     }
 
 
@@ -252,59 +265,19 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         binding.bottomNav.menu[index].isChecked = true
     }
 
-
-   /* override fun onPickImageProfile() {
-        // Handle picking image for profile
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Permission not granted, request it
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                ImagePicker.REQUEST_CODE
-            )
-        } else {
-            // Permission granted, start image picking
-            startImagePicker()
-        }
-    }
-*/
-   /* private fun startImagePicker() {
-        // Start image picker library
-        ImagePicker.with(this)
-            .galleryOnly()
-            .crop()
-            .compress(1024)
-            .maxResultSize(1080, 1080)
-            .start(ImagePicker.REQUEST_CODE)
-    }*/
-   override fun onPickImageProfile(){
-       ImagePicker.with(this)
-           .crop()                         // تفعيل القص
-           .compress(1024)                 // حجم الصورة النهائي بالكيلوبايت
-           .maxResultSize(1080, 1080)      // الحجم الأقصى
-           .start()
-   }
     override fun onShowInterstitialAd() {
         // Handle showing interstitial ad
-        adsManager.showInterstitialAd()
-        adsManager.reLoadInterstitialAd()
+        adsManager?.showInterstitialAd()
+        adsManager?.reLoadInterstitialAd()
     }
 
     override fun onShowRewardedAd() {
         // Handle showing rewarded ad
-        adsManager.showRewardedAd()
-        adsManager.reloadRewardedAd()
+        adsManager?.showRewardedAd()
+        adsManager?.reloadRewardedAd()
     }
 
-    override fun onSendScoresToDialog(
-        categoryType: String,
-        pointsAdded: Int,
-        elementsAdded: Int,
-        userRightAnswerScore: Int,
-        msg: String
-    ) {
+    override fun onSendScoresToDialog(categoryType: String, pointsAdded: Int, elementsAdded: Int, userRightAnswerScore: Int, msg: String) {
         // Handle sending scores to DialogQuizFragment
         newInstance(categoryType, pointsAdded, elementsAdded, userRightAnswerScore, msg)
             .show(supportFragmentManager, DialogQuizFragment.TAG)
@@ -329,17 +302,11 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         binding.bottomNav.menu[Constants.QUIZ_NAV_INDEX].isChecked = true
     }
 
-    /*override fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment?) {
-
-    }*/
-
-
     override fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment) {
         // Handle setting required category fragment for quiz
         Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
         setNavFragment(fragment, Constants.TAG_QUIZ_CATEGORY_FRAGMENT)
     }
-
 
      override fun openPdfWithIntent(context: Context, pdfFile: File?) {
          if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -355,12 +322,12 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
          }
      }
 
-
      override fun onFilterTable(tableRecyclerAdapter: RecyclerTableAdapter) {
         // Handle filtering table RecyclerView
          this@MainActivity.tableRecyclerAdapter = tableRecyclerAdapter
     }
-    override fun onShowVideoAds(categoryType: String) {
+
+     override fun onShowVideoAds(categoryType: String) {
         // Handle showing video ads and navigating to TableNavFragment
         dbAccess.dBListCategorySize
         setNavFragment(TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT)
@@ -409,7 +376,7 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
             contactUsEmail()
         } else if (id == R.id.menu_main_rating_app) {
             // Handle rating app action
-            ratingManager.showReviewFlow()
+            ratingManager?.showReviewFlow()
         } else if (id == android.R.id.home) {
             // Handle Up button action
             setNavFragment(QuizNavFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT)
@@ -434,74 +401,6 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
             showToast(this, "No email app installed")
         }
     }
-
-    override fun onStop() {
-        // Save preferences and cleanup
-        super.onStop()
-        val editor = sharedPreferences.edit()
-        sharedPrefsManager.putSharedPreferencesScores(editor)
-        sharedPrefsManager.putSharedPrefTheme(editor)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        // Handle permission request results
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed to open PDF
-                Toast.makeText(this, "Granted", Toast.LENGTH_SHORT).show()
-            } else {
-                // Permission denied, handle accordingly
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        // Handle activity result, particularly for image picker
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ImagePicker.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Utils.uriProfile = data.data
-            setNavFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Cleanup on activity destroy
-        soundManager.release()
-    }
-
-    override fun onBackPressed() {
-        // Handle back button press
-        if (!showRatingSheet) {
-            // Show confirmation dialog to exit app
-            val alertDialog = AlertDialog.Builder(this@MainActivity)
-            alertDialog.setTitle("Exit App")
-            alertDialog.setMessage("Do you want to exit the app?")
-            alertDialog.setPositiveButton(
-                "Yes"
-            ) { dialog: DialogInterface?, which: Int ->
-                super.onBackPressed()
-            }
-            alertDialog.setNegativeButton(
-                "No"
-            ) { dialog: DialogInterface, which: Int ->
-                dialog.dismiss()
-            }
-            alertDialog.show()
-        } else {
-            // Show rating flow
-            ratingManager.showReviewFlow()
-            showRatingSheet = false
-        }
-    }
-
-
 
     private fun openPdfFile(pdfFile: File?) {
         if (pdfFile == null || !pdfFile.exists()) {
@@ -554,10 +453,60 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        // Handle permission request results
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-    companion object {
-        private const val PERMISSION_REQUEST_CODE = 200
-
-        var textToSpeechManager: TextToSpeechManager? = null
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed to open PDF
+                Toast.makeText(this, "Granted", Toast.LENGTH_SHORT).show()
+            } else {
+                // Permission denied, handle accordingly
+            }
+        }
     }
+
+    override fun onStop() {
+        // Save preferences and cleanup
+        super.onStop()
+        val editor = sharedPreferences.edit()
+        sharedPrefsManager.putSharedPreferencesScores(editor)
+        sharedPrefsManager.putSharedPrefTheme(editor)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Cleanup on activity destroy
+        soundManager?.release()
+    }
+
+    override fun onBackPressed() {
+        // Handle back button press
+        if (!showRatingSheet) {
+            // Show confirmation dialog to exit app
+            val alertDialog = AlertDialog.Builder(this@MainActivity)
+            alertDialog.setTitle("Exit App")
+            alertDialog.setMessage("Do you want to exit the app?")
+            alertDialog.setPositiveButton(
+                "Yes"
+            ) { dialog: DialogInterface?, which: Int ->
+                super.onBackPressed()
+            }
+            alertDialog.setNegativeButton(
+                "No"
+            ) { dialog: DialogInterface, which: Int ->
+                dialog.dismiss()
+            }
+            alertDialog.show()
+        } else {
+            // Show rating flow
+            ratingManager?.showReviewFlow()
+            showRatingSheet = false
+        }
+    }
+
+
+
+
 }

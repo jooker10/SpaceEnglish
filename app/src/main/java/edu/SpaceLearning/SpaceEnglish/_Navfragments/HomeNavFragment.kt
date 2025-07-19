@@ -11,18 +11,20 @@
 package edu.SpaceLearning.SpaceEnglish._Navfragments
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import edu.SpaceLearning.SpaceEnglish.Adapters.InfoScorePager2Adapter
-import edu.SpaceLearning.SpaceEnglish.HomeInfoScoresPager2Fragment.Companion.newInstance
+import edu.SpaceLearning.SpaceEnglish.HomeInfoScoresPager2Fragment
 import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 import edu.SpaceLearning.SpaceEnglish.databinding.HomeNavFragmentBinding
@@ -46,57 +48,47 @@ class HomeNavFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val user = FirebaseAuth.getInstance().currentUser
+        val userName = user?.displayName ?: "User 001"
+        val photoProfileUri = user?.photoUrl
+
         // Initialize UI components and set up interactions
-        initHomeSharedPrefs() // Set up shared preferences related to HomeNavFragment
-        initUIHome() // Initialize UI elements like buttons, imageProfile, and title
+        initUIHomePage(userName,photoProfileUri) // Initialize UI elements like buttons, imageProfile, and user name
         setUpTabsWithPager2InfoScores() // Set up tabs with ViewPager2 for info scores
     }
 
-    private fun initUIHome() {
-        // Set click listener for image profile and display image if available
-
-      //  binding.imgHomeProfile.setOnClickListener { v: View? -> interactionListener!!.onPickImageProfile() }
-        if (Utils.uriProfile != null && !Utils.uriProfile.toString().isEmpty()) {
-            binding.imgHomeProfile.setImageURI(Utils.uriProfile)
-        }
-        binding.imgHomeProfile.setOnClickListener {
-            interactionListener?.onPickImageProfile()
-            Toast.makeText(requireContext(), "Image Profile", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.btnHomeGoToLearn.setOnClickListener { v: View? ->
-            interactionListener?.onHomeGetStarted(
-                Constants.TABLE_NAV_INDEX
-            )
-        }
-        binding.btnHomeGoToQuiz.setOnClickListener { v: View? ->
-            interactionListener?.onHomeGetStarted(
-                Constants.QUIZ_NAV_INDEX
-            )
-        }
+    private fun initUIHomePage(userName : String , photoProfileUri : Uri?) {
+        setImageProfile(photoProfileUri)
+        setUserName(userName)
+        binding.btnHomeGoToLearn.setOnClickListener { v: View? -> interactionListener?.onHomeGetStarted(Constants.TABLE_NAV_INDEX) }
+        binding.btnHomeGoToQuiz.setOnClickListener { v: View? -> interactionListener?.onHomeGetStarted(Constants.QUIZ_NAV_INDEX) }
         binding.tvHomeUserName.text = "Hi, ${Utils.userName}"
-    }
-
-    private fun initHomeSharedPrefs() {
-        // Retrieve user name from shared preferences
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity())
-        Utils.userName = sharedPreferences.getString(Constants.KEY_PREF_USER_NAME, "User 01")!!
     }
 
     private fun setUpTabsWithPager2InfoScores() {
         // Initialize fragments for ViewPager2 and set up adapter with TabLayoutMediator
-        for (categoryName in Utils.tableListNames) {
-            fragmentsForPager2InfoScores.add(newInstance(categoryName))
+        for (categoryName in Utils.tableCategoriesListNames) {
+            fragmentsForPager2InfoScores.add(HomeInfoScoresPager2Fragment.newInstance(categoryName))
         }
-        val infoScorePager2Adapter =
-            InfoScorePager2Adapter(requireActivity(), fragmentsForPager2InfoScores)
+        val infoScorePager2Adapter = InfoScorePager2Adapter(requireActivity(), fragmentsForPager2InfoScores)
         binding.infoScoresPager2.adapter = infoScorePager2Adapter
-        TabLayoutMediator(
-            binding.infoTabLayout, binding.infoScoresPager2
-        ) { tab: TabLayout.Tab, position: Int ->
-            // Set tab text based on category names
-            tab.text = Utils.tableListNames[position]
+        TabLayoutMediator(binding.infoTabLayout, binding.infoScoresPager2)
+        {
+            tab: TabLayout.Tab, position: Int -> tab.text = Utils.tableCategoriesListNames[position]   // Set tab text based on category names
         }.attach()
+    }
+
+    private fun setImageProfile(photoUri : Uri?) {
+        Glide.with(requireContext())
+            .load(photoUri)
+            .circleCrop()
+            .placeholder(R.drawable.ic_person_24) // optional placeholder image
+            .error(R.drawable.ic_person_24)       // optional error image
+            .into(binding.imgHomeProfile)          // your ImageView reference
+    }
+
+    private fun setUserName(name : String) {
+        binding.tvHomeUserName.text = name
     }
 
     override fun onAttach(context: Context) {
