@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
     private lateinit var binding: ActivityMainBinding
     // Data management
     private var adsManager: AdsManager? = null
-    private  var soundManager: SoundManager? = null
+      var soundManager: SoundManager? = null
     private  var ratingManager: RatingManager? = null
     private lateinit var dbManager: DbManager
     private lateinit var sharedPrefsManager: SharedPrefsManager
@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
         private const val PERMISSION_REQUEST_CODE = 200
 
         var textToSpeechManager: TextToSpeechManager? = null
+        //var soundManager : SoundManager? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

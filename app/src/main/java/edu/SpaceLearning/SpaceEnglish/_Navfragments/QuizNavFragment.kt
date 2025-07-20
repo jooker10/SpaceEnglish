@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerQuizNavAdapter
 import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.RecyclerItemQuizListener
-import edu.SpaceLearning.SpaceEnglish.QuizFrags.QuizCategoriesInnerFragment
+import edu.SpaceLearning.SpaceEnglish.QuizFiles.QuizCategoriesSubFragment
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
@@ -100,9 +100,10 @@ class QuizNavFragment  : Fragment() {
         val adapter = RecyclerQuizNavAdapter(Utils.itemRecyclerQuizNavList, object : RecyclerItemQuizListener {
             override fun onQuizItemClicked(position: Int) {
                 interactionListener?.onSetRequiredCategoryFragmentQuiz(
-                    QuizCategoriesInnerFragment.getInstance(
+                    QuizCategoriesSubFragment.getInstance(
                         Constants.categoryNamesList[position]
-                ))
+                    )
+                )
             }
 
         })
