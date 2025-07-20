@@ -48,8 +48,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess.Companion.getInstance
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbManager
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbManager.Companion.getInstance
 import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment
 import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment.Companion.newInstance
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
     private var adsManager: AdsManager? = null
     private  var soundManager: SoundManager? = null
     private  var ratingManager: RatingManager? = null
-    private lateinit var dbAccess: DbAccess
+    private lateinit var dbManager: DbManager
     private lateinit var sharedPrefsManager: SharedPrefsManager
 
     // utilities
@@ -135,11 +135,11 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
 
 
     private fun initDatabaseAccess() {
-        // Initialize DbAccess on a separate thread
+        // Initialize DbManager on a separate thread
         val dataBaseThread = Thread {
-            dbAccess = getInstance(baseContext)
-                // dbAccess.open_to_read();
-            dbAccess.dBListCategorySize
+            dbManager = getInstance(baseContext)
+                // dbManager.open_to_read();
+            dbManager.dBListCategorySize
 
         }
         dataBaseThread.start()
@@ -329,7 +329,7 @@ class MainActivity : AppCompatActivity(), InteractionActivityFragmentsListener, 
 
      override fun onShowVideoAds(categoryType: String) {
         // Handle showing video ads and navigating to TableNavFragment
-        dbAccess.dBListCategorySize
+        dbManager.dBListCategorySize
         setNavFragment(TableNavFragment(), Constants.TAG_TABLES_NAV_FRAGMENT)
        binding.bottomNav.menu[Constants.TABLE_NAV_INDEX].isChecked = true
     }

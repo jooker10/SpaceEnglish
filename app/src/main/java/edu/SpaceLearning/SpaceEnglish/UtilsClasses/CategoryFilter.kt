@@ -17,7 +17,7 @@ class CategoryFilter(
         } else {
             val query = constraint.toString().lowercase(Locale.getDefault()).trim()
             originalList.filter {
-                it.categoryEng.lowercase(Locale.getDefault()).contains(query)
+                it.engCategory.lowercase(Locale.getDefault()).contains(query)
                         || getNativeText(it).lowercase(Locale.getDefault()).contains(query)
             }
         }
@@ -32,9 +32,9 @@ class CategoryFilter(
 
     private fun getNativeText(category: Category): String {
         return when (Utils.nativeLanguage) {
-            Constants.LANGUAGE_NATIVE_ARABIC -> category.categoryAr
-            Constants.LANGUAGE_NATIVE_SPANISH -> category.categorySp
-            else -> category.categoryFr
+            Constants.LANGUAGE_NATIVE_ARABIC -> category.arCategory
+            Constants.LANGUAGE_NATIVE_SPANISH -> category.spCategory
+            else -> category.FrCategory
         }
     }
 }

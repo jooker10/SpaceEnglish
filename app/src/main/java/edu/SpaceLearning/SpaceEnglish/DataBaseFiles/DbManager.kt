@@ -1,5 +1,5 @@
 /**
- * DbAccess.java
+ * DbManager.java
  * This class manages database access for retrieving category elements for the Space English learning app.
  * It provides methods to open and close database connections, retrieve category lists, and calculate category sizes.
  * Created on: [Date]
@@ -16,7 +16,7 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 
-class DbAccess private constructor(context: Context) {
+class DbManager private constructor(context: Context) {
     private lateinit var sqLiteDB: SQLiteDatabase
     private val openHelper: SQLiteOpenHelper = MyDatabase(context)
 
@@ -37,49 +37,45 @@ class DbAccess private constructor(context: Context) {
 
     // Retrieves a list of all elements for a given category type
     // Optionally includes example sentences for categories that support it
-    fun getAllElementsCategoryList(
-        categoryType: String?,
-        isWithExample: Boolean
-    ): ArrayList<Category> {
+    fun getRequiredCategoryDataOf(categoryType: String, withExample: Boolean): ArrayList<Category> {
         val elementList = ArrayList<Category>()
 
         // Query to fetch all rows from the specified category table
-        val cursor =
-            sqLiteDB.rawQuery("SELECT * FROM " + Utils.tableHashNames[categoryType], null)
+        val cursor = sqLiteDB.rawQuery("SELECT * FROM " + Utils.tableHashNames[categoryType], null)
 
         // Iterate through the cursor to extract category elements
         if (cursor.moveToFirst()) {
             do {
                 // Extracting column values from the cursor
-                val element_id = cursor.getInt(0)
-                val element_eng = cursor.getString(1)
-                val element_fr = cursor.getString(2)
-                val element_sp = cursor.getString(3)
-                val element_ar = cursor.getString(4)
+                val id = cursor.getInt(0)
+                val eng = cursor.getString(1)
+                val fr = cursor.getString(2)
+                val sp = cursor.getString(3)
+                val ar = cursor.getString(4)
 
                 // Optionally, retrieve example sentences if requested
-                var element_examples: String? = null
-                if (isWithExample) {
-                    element_examples = cursor.getString(5)
+                var example: String? = null
+                if (withExample) {
+                    example = cursor.getString(5)
                 }
 
                 // Creating Category object based on retrieved data
-                val category = if (element_examples != null) {
+                val category = if (example != null) {
                     Category(
-                        element_id,
-                        element_eng,
-                        element_fr,
-                        element_sp,
-                        element_ar,
-                        element_examples
+                        id,
+                        eng,
+                        fr,
+                        sp,
+                        ar,
+                        example
                     )
                 } else {
                     Category(
-                        element_id,
-                        element_eng,
-                        element_fr,
-                        element_sp,
-                        element_ar
+                        id,
+                        eng,
+                        fr,
+                        sp,
+                        ar
                     )
                 }
 
@@ -102,49 +98,49 @@ class DbAccess private constructor(context: Context) {
             // Retrieve all category lists and store them
             val allVerbsList =
                 ArrayList(
-                    getAllElementsCategoryList(
+                    getRequiredCategoryDataOf(
                         Constants.VERB_NAME,
                         true
                     )
                 )
             val allSentencesList =
                 ArrayList(
-                    getAllElementsCategoryList(
+                    getRequiredCategoryDataOf(
                         Constants.SENTENCE_NAME,
                         false
                     )
                 )
             val allPhrasalsList =
                 ArrayList(
-                    getAllElementsCategoryList(
+                    getRequiredCategoryDataOf(
                         Constants.PHRASAL_NAME,
                         true
                     )
                 )
             val allNounsList =
                 ArrayList(
-                    getAllElementsCategoryList(
+                    getRequiredCategoryDataOf(
                         Constants.NOUN_NAME,
                         true
                     )
                 )
             val allAdjsList =
                 ArrayList(
-                    getAllElementsCategoryList(
+                    getRequiredCategoryDataOf(
                         Constants.ADJ_NAME,
                         true
                     )
                 )
             val allAdvsList =
                 ArrayList(
-                    getAllElementsCategoryList(
+                    getRequiredCategoryDataOf(
                         Constants.ADV_NAME,
                         true
                     )
                 )
             val allIdiomsList =
                 ArrayList(
-                    getAllElementsCategoryList(
+                    getRequiredCategoryDataOf(
                         Constants.IDIOM_NAME,
                         false
                     )
@@ -166,7 +162,7 @@ class DbAccess private constructor(context: Context) {
 
     // Retrieves a subset of elements for a specific category type based on allowed number
     // Updates the TextView to display category title and current/total count of elements
-    fun getRequiredElementsList(
+    fun getRequiredCategoryList(
         categoryType: String,
         tvHeadTitleCategory: TextView
     ): ArrayList<Category> {
@@ -178,7 +174,7 @@ class DbAccess private constructor(context: Context) {
         when (categoryType) {
             Constants.VERB_NAME -> {
                 elements = ArrayList(
-                    getAllElementsCategoryList(Constants.VERB_NAME, true).subList(
+                    getRequiredCategoryDataOf(Constants.VERB_NAME, true).subList(
                         0,
                         Utils.allowedVerbsNumber
                     )
@@ -189,7 +185,7 @@ class DbAccess private constructor(context: Context) {
 
             Constants.SENTENCE_NAME -> {
                 elements = ArrayList(
-                    getAllElementsCategoryList(Constants.SENTENCE_NAME, false).subList(
+                    getRequiredCategoryDataOf(Constants.SENTENCE_NAME, false).subList(
                         0,
                         Utils.allowedSentencesNumber
                     )
@@ -201,7 +197,7 @@ class DbAccess private constructor(context: Context) {
 
             Constants.PHRASAL_NAME -> {
                 elements = ArrayList(
-                    getAllElementsCategoryList(Constants.PHRASAL_NAME, true).subList(
+                    getRequiredCategoryDataOf(Constants.PHRASAL_NAME, true).subList(
                         0,
                         Utils.allowedPhrasalsNumber
                     )
@@ -212,7 +208,7 @@ class DbAccess private constructor(context: Context) {
 
             Constants.NOUN_NAME -> {
                 elements = ArrayList(
-                    getAllElementsCategoryList(Constants.NOUN_NAME, true).subList(
+                    getRequiredCategoryDataOf(Constants.NOUN_NAME, true).subList(
                         0,
                         Utils.allowedNounsNumber
                     )
@@ -223,7 +219,7 @@ class DbAccess private constructor(context: Context) {
 
             Constants.ADJ_NAME -> {
                 elements = ArrayList(
-                    getAllElementsCategoryList(Constants.ADJ_NAME, true).subList(
+                    getRequiredCategoryDataOf(Constants.ADJ_NAME, true).subList(
                         0,
                         Utils.allowedAdjsNumber
                     )
@@ -234,7 +230,7 @@ class DbAccess private constructor(context: Context) {
 
             Constants.ADV_NAME -> {
                 elements = ArrayList(
-                    getAllElementsCategoryList(Constants.ADV_NAME, true).subList(
+                    getRequiredCategoryDataOf(Constants.ADV_NAME, true).subList(
                         0,
                         Utils.allowedAdvsNumber
                     )
@@ -245,7 +241,7 @@ class DbAccess private constructor(context: Context) {
 
             Constants.IDIOM_NAME -> {
                 elements = ArrayList(
-                    getAllElementsCategoryList(Constants.IDIOM_NAME, false).subList(
+                    getRequiredCategoryDataOf(Constants.IDIOM_NAME, false).subList(
                         0,
                         Utils.allowedIdiomsNumber
                     )
@@ -261,13 +257,13 @@ class DbAccess private constructor(context: Context) {
     }
 
     companion object {
-        private var instance: DbAccess? = null
+        private var instance: DbManager? = null
 
         // Singleton instance retrieval method
         @JvmStatic
-        fun getInstance(context: Context): DbAccess {
+        fun getInstance(context: Context): DbManager {
             if (instance == null) {
-                instance = DbAccess(context.applicationContext)
+                instance = DbManager(context.applicationContext)
             }
             return instance!!
         }

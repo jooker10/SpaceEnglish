@@ -95,7 +95,7 @@ object Constants {
     const val IDIOM_NAME: String = "Idioms"
 
     @JvmField
-    val categoryNameArray: Array<String> =
+    val categoryNamesList: Array<String> =
         arrayOf(VERB_NAME, SENTENCE_NAME, PHRASAL_NAME, NOUN_NAME, ADJ_NAME, ADV_NAME, IDIOM_NAME)
 
     //--------------------------------------Preferences-----------------------------------

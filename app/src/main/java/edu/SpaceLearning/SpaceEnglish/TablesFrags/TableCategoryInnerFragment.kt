@@ -13,13 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbAccess.Companion.getInstance
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbManager
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.GeneratePDFFile
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.GeneratePdfFile
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity
 import java.io.File
 
@@ -27,17 +27,17 @@ import java.io.File
  * Fragment to display a category-specific table using RecyclerView,
  * generate PDF files, and interact with the hosting activity.
  */
-class TableCategoryPagerFragment
+class TableCategoryInnerFragment
 /**
  * Required empty public constructor for Fragment.
  */
     : Fragment() {
     private  var interactionListener: InteractionActivityFragmentsListener? = null
     private var categoryType: String = ""
-    private lateinit var tvTableTitleType: TextView
+    private lateinit var tvTableTitle: TextView
     private lateinit var recyclerTableAdapter: RecyclerTableAdapter
-    private lateinit var elements: ArrayList<Category>
-    private lateinit var tableRecyclerView: RecyclerView
+    private lateinit var mCategoryList: ArrayList<Category>
+    private lateinit var recyclerViewTable: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,63 +60,68 @@ class TableCategoryPagerFragment
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize views and set up RecyclerView
-        tvTableTitleType = view.findViewById(R.id.headTitleForTableCategory)
-        tableRecyclerView = view.findViewById(R.id.recyclerTableCategory)
+        tvTableTitle = view.findViewById(R.id.headTitleForTableCategory)
+        recyclerViewTable = view.findViewById(R.id.recyclerTableCategory)
         val btnTableSaveAsPDF = view.findViewById<Button>(R.id.btnDownLoadListPDF)
 
         // Initialize data required from database
-        initDataBaseRequiredElementsList()
+        initDbRequiredCategoryTypeList()
 
         // Initialize RecyclerView to display table elements
-        initRecyclerViewForTableFragment()
+        initRecyclerViewTableFragment()
 
         // Notify the hosting activity about the RecyclerView for potential interactions
         interactionListener?.onFilterTable(recyclerTableAdapter)
 
         // Handle PDF download button click
-        btnTableSaveAsPDF.setOnClickListener {
-            val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val fileName = "$categoryType table.pdf"
-            val pdfFile = File(pdfPath, fileName)
-            val generateFilePDF = GeneratePDFFile()
+        btnTableSaveAsPDF.setOnClickListener { downloadPdfFile() }
 
-            generateFilePDF.generate("$categoryType table", pdfFile, elements) { success, file ->
-                if (success && file != null && file.exists()) {
-                    // ✅ Only open PDF if it was actually saved
-                    interactionListener?.openPdfWithIntent(requireActivity(), file)
-                } else {
-                    Toast.makeText(requireContext(), "Failed to generate PDF", Toast.LENGTH_LONG).show()
-                }
+    }
+
+    private fun downloadPdfFile() {
+        val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val fileName = "$categoryType table.pdf"
+        val pdfFile = File(pdfPath, fileName)
+        val generatePdfFile = GeneratePdfFile()
+
+        generatePdfFile.generate("$categoryType table", pdfFile, mCategoryList) { success, file ->
+            if (success && file != null && file.exists()) {
+                // ✅ Only open PDF if it was actually saved
+                interactionListener?.openPdfWithIntent(requireActivity(), file)
+            } else {
+                Toast.makeText(requireContext(), "Failed to generate PDF", Toast.LENGTH_LONG).show()
             }
         }
-
     }
 
     /**
      * Initializes RecyclerView to display the table elements.
      * Sets up RecyclerViewAdapter with necessary parameters.
      */
-    private fun initRecyclerViewForTableFragment() {
+    private fun initRecyclerViewTableFragment() {
         val adsClickListener = requireActivity() as AdsClickListener
         recyclerTableAdapter = RecyclerTableAdapter(
-            elements, requireActivity(),
+            mCategoryList, requireActivity(),
             categoryType, MainActivity.textToSpeechManager, adsClickListener
         )
+        recyclerViewTable.also {
+            it.layoutManager = LinearLayoutManager(requireActivity())
+            it.setHasFixedSize(true)
+            it.adapter = recyclerTableAdapter
+        }
 
-        tableRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        tableRecyclerView.setHasFixedSize(true)
-        tableRecyclerView.adapter = recyclerTableAdapter
     }
 
     /**
      * Retrieves required elements from database based on category type.
      * Populates 'elements' ArrayList with fetched data.
      */
-    private fun initDataBaseRequiredElementsList() {
-        val dbAccess = getInstance(requireActivity())
-        dbAccess.openToRead()
-        elements = dbAccess.getRequiredElementsList(categoryType, tvTableTitleType)
-        dbAccess.close()
+    private fun initDbRequiredCategoryTypeList() {
+        DbManager.getInstance(requireActivity()).apply {
+            this.openToRead()
+            mCategoryList = this.getRequiredCategoryList(categoryType, tvTableTitle)
+            this.close()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -141,10 +146,10 @@ class TableCategoryPagerFragment
          * @param categoryType The type of category to display (e.g., "Verbs").
          * @return A new instance of TableCategoryPagerFragment.
          */
-        fun getInstance(categoryType: String?): TableCategoryPagerFragment {
+        fun getInstance(categoryType: String?): TableCategoryInnerFragment {
             val bundle = Bundle()
             bundle.putString(Constants.TAG_CATEGORY_TYPE, categoryType)
-            val fragment = TableCategoryPagerFragment()
+            val fragment = TableCategoryInnerFragment()
             fragment.arguments = bundle
             return fragment
         }

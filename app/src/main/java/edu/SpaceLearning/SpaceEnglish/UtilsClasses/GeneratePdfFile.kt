@@ -13,7 +13,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-class GeneratePDFFile {
+class GeneratePdfFile {
     // List of column names for the table
     private val columnsNamesList = ArrayList<String>()
 
@@ -70,7 +70,7 @@ class GeneratePDFFile {
             document.add(table)
             document.close()
         } catch (e: IOException) {
-            Log.e("GeneratePDFFile", "Error generating PDF file", e)
+            Log.e("GeneratePdfFile", "Error generating PDF file", e)
         }
     }*/
     fun generate(
@@ -107,8 +107,8 @@ class GeneratePDFFile {
             }
 
             for (row in contentTableList) {
-                table.addCell(row.categoryID.toString())
-                table.addCell(row.categoryEng)
+                table.addCell(row.idCategory.toString())
+                table.addCell(row.engCategory)
                 table.addCell(nativeLanguage(row))
             }
 
@@ -119,7 +119,7 @@ class GeneratePDFFile {
             onComplete(true, pdfFile)
 
         } catch (e: IOException) {
-            Log.e("GeneratePDFFile", "Error generating PDF file", e)
+            Log.e("GeneratePdfFile", "Error generating PDF file", e)
             onComplete(false, pdfFile)
         }
     }
@@ -133,9 +133,9 @@ class GeneratePDFFile {
      */
     private fun nativeLanguage(category: Category): String {
         return when (Utils.nativeLanguage) {
-            Constants.LANGUAGE_NATIVE_SPANISH -> category.categorySp // Spanish language field
-            Constants.LANGUAGE_NATIVE_ARABIC -> category.categoryAr // Arabic language field
-            else -> category.categoryFr // Default to French language field
+            Constants.LANGUAGE_NATIVE_SPANISH -> category.spCategory // Spanish language field
+            Constants.LANGUAGE_NATIVE_ARABIC -> category.arCategory // Arabic language field
+            else -> category.FrCategory // Default to French language field
         }
     }
 }

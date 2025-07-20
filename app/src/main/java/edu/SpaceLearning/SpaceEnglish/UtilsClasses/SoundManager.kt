@@ -25,15 +25,10 @@ class SoundManager {
             .build()
 
         // Build SoundPool instance with defined maximum streams and audio attributes
-        soundPool = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            SoundPool.Builder()
+        soundPool = SoundPool.Builder()
                 .setMaxStreams(MAX_STREAMS)
                 .setAudioAttributes(audioAttributes)
                 .build()
-        } else {
-            // For API levels lower than Lollipop, use deprecated constructor
-            SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0)
-        }
     }
 
     /**

@@ -12,10 +12,10 @@ class Category {
     /**
      * Sets the unique identifier of the category.
      *
-     * @param categoryID The category ID to set.
+     * @param idCategory The category ID to set.
      */
     @JvmField
-    var categoryID: Int // Unique identifier for the category
+    var idCategory: Int // Unique identifier for the category
     /**
      * Retrieves the category name in English.
      *
@@ -24,10 +24,10 @@ class Category {
     /**
      * Sets the category name in English.
      *
-     * @param categoryEng The category name in English to set.
+     * @param engCategory The category name in English to set.
      */
     @JvmField
-    var categoryEng: String // Category name in English
+    var engCategory: String // Category name in English
     /**
      * Retrieves the category name in French.
      *
@@ -36,10 +36,10 @@ class Category {
     /**
      * Sets the category name in French.
      *
-     * @param categoryFr The category name in French to set.
+     * @param FrCategory The category name in French to set.
      */
     @JvmField
-    var categoryFr: String // Category name in French
+    var FrCategory: String // Category name in French
     /**
      * Retrieves the category name in Spanish.
      *
@@ -48,10 +48,10 @@ class Category {
     /**
      * Sets the category name in Spanish.
      *
-     * @param categorySp The category name in Spanish to set.
+     * @param spCategory The category name in Spanish to set.
      */
     @JvmField
-    var categorySp: String // Category name in Spanish
+    var spCategory: String // Category name in Spanish
     /**
      * Retrieves the category name in Arabic.
      *
@@ -60,10 +60,10 @@ class Category {
     /**
      * Sets the category name in Arabic.
      *
-     * @param categoryAr The category name in Arabic to set.
+     * @param arCategory The category name in Arabic to set.
      */
     @JvmField
-    var categoryAr: String // Category name in Arabic
+    var arCategory: String // Category name in Arabic
     /**
      * Retrieves examples related to the category.
      *
@@ -72,10 +72,10 @@ class Category {
     /**
      * Sets examples related to the category.
      *
-     * @param categoryExamples Examples related to the category to set.
+     * @param exampleCategory Examples related to the category to set.
      */
     @JvmField
-    var categoryExamples: String? = null // Optional examples related to the category
+    var exampleCategory: String? = null // Optional examples related to the category
 
     /**
      * Constructor for creating a Category object without examples.
@@ -93,36 +93,36 @@ class Category {
         categorySp: String,
         categoryAr: String
     ) {
-        this.categoryID = categoryID
-        this.categoryEng = categoryEng
-        this.categoryFr = categoryFr
-        this.categorySp = categorySp
-        this.categoryAr = categoryAr
+        this.idCategory = categoryID
+        this.engCategory = categoryEng
+        this.FrCategory = categoryFr
+        this.spCategory = categorySp
+        this.arCategory = categoryAr
     }
 
     /**
      * Constructor for creating a Category object with examples.
      *
      * @param categoryID       The unique identifier for the category.
-     * @param categoryEng      The category name in English.
-     * @param categoryFr       The category name in French.
-     * @param categorySp       The category name in Spanish.
-     * @param categoryAr       The category name in Arabic.
-     * @param categoryExamples Examples related to the category.
+     * @param engCategory      The category name in English.
+     * @param frCategory       The category name in French.
+     * @param spCategory       The category name in Spanish.
+     * @param arCategory       The category name in Arabic.
+     * @param exampleCategory Examples related to the category.
      */
     constructor(
-        categoryID: Int,
-        categoryEng: String,
-        categoryFr: String,
-        categorySp: String,
-        categoryAr: String,
-        categoryExamples: String?
+        idCategory: Int,
+        engCategory: String,
+        frCategory: String,
+        spCategory: String,
+        arCategory: String,
+        exampleCategory: String?
     ) {
-        this.categoryID = categoryID
-        this.categoryEng = categoryEng
-        this.categoryFr = categoryFr
-        this.categorySp = categorySp
-        this.categoryAr = categoryAr
-        this.categoryExamples = categoryExamples
+        this.idCategory = idCategory
+        this.engCategory = engCategory
+        this.FrCategory = frCategory
+        this.spCategory = spCategory
+        this.arCategory = arCategory
+        this.exampleCategory = exampleCategory
     }
 }

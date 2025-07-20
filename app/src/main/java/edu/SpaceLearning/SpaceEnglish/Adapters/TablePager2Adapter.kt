@@ -16,7 +16,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 /**
  * Adapter for ViewPager2 to display fragments in a table layout.
  */
-class TablePagerAdapter// Initialize list of fragments
+class TablePager2Adapter// Initialize list of fragments
 /**
  * Constructor to initialize the TablePagerAdapter.
  * @param fragmentActivity The FragmentActivity associated with the adapter.

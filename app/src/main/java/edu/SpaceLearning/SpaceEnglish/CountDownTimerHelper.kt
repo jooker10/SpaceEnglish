@@ -21,7 +21,7 @@ class CountDownTimerHelper(millisInFuture: Long, countDownInterval: Long) {
             override fun onTick(millisUntilFinished: Long) {
                 // Notify listener about tick event
                 if (listener != null) {
-                    listener!!.onTick((millisUntilFinished / 1000).toInt())
+                    listener?.onTick((millisUntilFinished / 1000).toInt())
                 }
             }
 

@@ -16,18 +16,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerQuizNavAdapter
 import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.RecyclerItemQuizListener
-import edu.SpaceLearning.SpaceEnglish.QuizFrags.QuizCategoriesFragment
+import edu.SpaceLearning.SpaceEnglish.QuizFrags.QuizCategoriesInnerFragment
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 import edu.SpaceLearning.SpaceEnglish.databinding.FragmentNavQuizBinding
 
@@ -39,8 +35,7 @@ import edu.SpaceLearning.SpaceEnglish.databinding.FragmentNavQuizBinding
  * configuring quiz parameters, and enabling/disabling quiz category buttons
  * based on user scores.
  */
-class QuizNavFragment  // Default constructor
-    : Fragment() {
+class QuizNavFragment  : Fragment() {
     // Binding variable for FragmentNavQuizBinding
     private lateinit var binding: FragmentNavQuizBinding
 
@@ -55,10 +50,7 @@ class QuizNavFragment  // Default constructor
      * @param savedInstanceState This fragment is being re-constructed from a previous saved state.
      * @return Return the View for the fragment's UI.
      */
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_nav_quiz, container, false)
     }
@@ -75,7 +67,7 @@ class QuizNavFragment  // Default constructor
         binding = FragmentNavQuizBinding.bind(view)
 
         // Initialize UI components and set up RecyclerView
-        initAutoTextViewMaxQuestionPerQuiz()
+        setUpTvMaxQuestionPerQuiz()
         setUpRecyclerView()
     }
 
@@ -83,13 +75,13 @@ class QuizNavFragment  // Default constructor
      * Initializes the AutoCompleteTextView for selecting maximum questions per quiz.
      * Configures the adapter and handles item selection events.
      */
-    private fun initAutoTextViewMaxQuestionPerQuiz() {
+    private fun setUpTvMaxQuestionPerQuiz() {
         // Set initial value from Utils.maxQuestionsPerQuiz
-        binding.autoTvmaxQuestionsPerQuiz.setText(Utils.maxQuestionsPerQuiz.toString())
+        binding.tvMaxQuestionsPerQuiz.setText(Utils.maxQuestionsPerQuiz.toString())
         // Update Utils.maxQuestionsPerQuiz on item selection
-        binding.autoTvmaxQuestionsPerQuiz.onItemClickListener =
+        binding.tvMaxQuestionsPerQuiz.onItemClickListener =
             OnItemClickListener { parent: AdapterView<*>?, view1: View?, position: Int, id: Long ->
-                val selectedValue = binding.autoTvmaxQuestionsPerQuiz.text.toString()
+                val selectedValue = binding.tvMaxQuestionsPerQuiz.text.toString()
                 Utils.maxQuestionsPerQuiz = selectedValue.toInt()
             }
         // Set adapter for AutoCompleteTextView
@@ -97,8 +89,7 @@ class QuizNavFragment  // Default constructor
             resources.getStringArray(R.array.quiz_option_max_questions_per_quizzes)
         val adapter =
             ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, maxQuestionsList)
-        binding.autoTvmaxQuestionsPerQuiz.setAdapter(adapter)
-
+        binding.tvMaxQuestionsPerQuiz.setAdapter(adapter)
 
     }
 
@@ -109,16 +100,18 @@ class QuizNavFragment  // Default constructor
         val adapter = RecyclerQuizNavAdapter(Utils.itemRecyclerQuizNavList, object : RecyclerItemQuizListener {
             override fun onQuizItemClicked(position: Int) {
                 interactionListener?.onSetRequiredCategoryFragmentQuiz(
-                    QuizCategoriesFragment.getInstance(
-                        Constants.categoryNameArray[position]
+                    QuizCategoriesInnerFragment.getInstance(
+                        Constants.categoryNamesList[position]
                 ))
             }
 
         })
+        binding.recyclerViewQuizNav.also {
+            it.adapter = adapter
+            it.layoutManager = LinearLayoutManager(requireActivity())
+            it.setHasFixedSize(true)
+        }
 
-        binding.recyclerViewQuizNav.adapter = adapter
-        binding.recyclerViewQuizNav.layoutManager = LinearLayoutManager(requireActivity())
-        binding.recyclerViewQuizNav.setHasFixedSize(true)
     }
 
     /**

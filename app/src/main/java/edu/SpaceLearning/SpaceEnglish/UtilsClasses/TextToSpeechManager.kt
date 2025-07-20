@@ -20,27 +20,26 @@ class TextToSpeechManager(context: Context?, listener: OnInitListener?) {
      * @param listener OnInitListener to handle initialization events.
      */
     init {
-        textToSpeech.setLanguage(Locale.ENGLISH)
+        textToSpeech.language = Locale.ENGLISH
     }
-
+    fun setLanguage(language : Locale) {
+        textToSpeech.language = language
     /**
      * Speaks the provided text using TextToSpeech engine.
      *
      * @param text The text to be spoken.
      */
+
+    }
     fun speak(text: String?) {
-        if (textToSpeech != null) {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
-        }
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 
     /**
      * Stops the current speech playback.
      */
     fun stop() {
-        if (textToSpeech != null) {
-            textToSpeech.stop()
-        }
+        textToSpeech.stop()
     }
 
     /**
@@ -48,8 +47,6 @@ class TextToSpeechManager(context: Context?, listener: OnInitListener?) {
      * This should be called when TextToSpeech functionality is no longer needed.
      */
     fun shutdown() {
-        if (textToSpeech != null) {
-            textToSpeech.shutdown()
-        }
+        textToSpeech.shutdown()
     }
 }

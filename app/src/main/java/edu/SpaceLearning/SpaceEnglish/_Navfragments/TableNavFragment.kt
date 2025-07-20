@@ -16,9 +16,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import edu.SpaceLearning.SpaceEnglish.Adapters.TablePagerAdapter
+import edu.SpaceLearning.SpaceEnglish.Adapters.TablePager2Adapter
 import edu.SpaceLearning.SpaceEnglish.R
-import edu.SpaceLearning.SpaceEnglish.TablesFrags.TableCategoryPagerFragment
+import edu.SpaceLearning.SpaceEnglish.TablesFrags.TableCategoryInnerFragment
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores
 import edu.SpaceLearning.SpaceEnglish.WaitFragment.Companion.newInstance
@@ -41,7 +41,7 @@ class TableNavFragment
     private lateinit var binding: TableContainerFragmentBinding
 
     // List to hold pager fragments for table categories
-    private val pagerListFragments = ArrayList<Fragment>()
+    private val pager2FragmentsList = ArrayList<Fragment>()
 
     /**
      * Called to create the view hierarchy associated with the fragment.
@@ -69,7 +69,7 @@ class TableNavFragment
         binding = TableContainerFragmentBinding.bind(view)
 
         // Add allowed pager category fragments to the list
-        addAllowedPagerCategoryFragments()
+        setAllowedPagerCategoryFragments()
 
         // Set up tabs with pager for table categories
         setUpTabsTableWithPager2()
@@ -78,16 +78,16 @@ class TableNavFragment
     /**
      * Adds allowed pager category fragments to the pager list based on user permissions.
      */
-    private fun addAllowedPagerCategoryFragments() {
+    private fun setAllowedPagerCategoryFragments() {
         // Always add these default fragments
-        pagerListFragments.add(TableCategoryPagerFragment.getInstance(Constants.VERB_NAME))
-        pagerListFragments.add(TableCategoryPagerFragment.getInstance(Constants.SENTENCE_NAME))
+        pager2FragmentsList.add(TableCategoryInnerFragment.getInstance(Constants.VERB_NAME))
+        pager2FragmentsList.add(TableCategoryInnerFragment.getInstance(Constants.SENTENCE_NAME))
 
         // Add other fragments based on permission scores
         for (i in Constants.permissionCategoryScoreArray.indices) {
             addAllowedFragment(
-                pagerListFragments,
-                TableCategoryPagerFragment.getInstance(Constants.categoryNameArray[i + 2]),
+                pager2FragmentsList,
+                TableCategoryInnerFragment.getInstance(Constants.categoryNamesList[i + 2]),
                 Scores.totalScore,
                 Constants.permissionCategoryScoreArray[i]
             )
@@ -99,13 +99,13 @@ class TableNavFragment
      */
     private fun setUpTabsTableWithPager2() {
         // Create and set the pager adapter for the table categories
-        val tablePagerAdapter = TablePagerAdapter(requireActivity(), pagerListFragments)
-        binding.tableNavPager2.adapter = tablePagerAdapter
+        val tablePager2Adapter = TablePager2Adapter(requireActivity(), pager2FragmentsList)
+        binding.tableNavPager2.adapter = tablePager2Adapter
 
         // Attach tabs with the pager using TabLayoutMediator
-        TabLayoutMediator(
-            binding.tableNavTabLayout, binding.tableNavPager2
-        ) { tab: TabLayout.Tab, position: Int ->
+        TabLayoutMediator(binding.tableNavTabLayout, binding.tableNavPager2)
+        {
+            tab: TabLayout.Tab, position: Int ->
             // Customize tabs based on position
             when (position) {
                 0 -> tab.text = Constants.VERB_NAME
@@ -114,7 +114,7 @@ class TableNavFragment
                     tab,
                     Scores.totalScore,
                     Constants.permissionCategoryScoreArray[position - 2],
-                    Constants.categoryNameArray[position]
+                    Constants.categoryNamesList[position]
                 )
             }
         }.attach()

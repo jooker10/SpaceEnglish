@@ -123,8 +123,8 @@ object Utils {
     @JvmStatic
     fun fillHashMapDbTableName() {
 
-        for (i in 0 until Constants.categoryNameArray.size)  {
-            tableHashNames[Constants.categoryNameArray[i]] = MyDatabase.dataBaseTablesNames[i]
+        for (i in 0 until Constants.categoryNamesList.size)  {
+            tableHashNames[Constants.categoryNamesList[i]] = MyDatabase.dataBaseTablesNames[i]
         }
 
         /*tableHashNames.clear()
@@ -185,37 +185,37 @@ object Utils {
         itemRecyclerQuizNavList.clear()
         itemRecyclerQuizNavList.add(
             ItemButtonsRecycler(
-                Constants.categoryNameArray[0], "opened"
+                Constants.categoryNamesList[0], "opened"
             )
         )
         itemRecyclerQuizNavList.add(
             ItemButtonsRecycler(
-                Constants.categoryNameArray[1], "opened"
+                Constants.categoryNamesList[1], "opened"
             )
         )
         itemRecyclerQuizNavList.add(
             ItemButtonsRecycler(
-                Constants.categoryNameArray[2], "Phrasal verbs required 80 points"
+                Constants.categoryNamesList[2], "Phrasal verbs required 80 points"
             )
         )
         itemRecyclerQuizNavList.add(
             ItemButtonsRecycler(
-                Constants.categoryNameArray[3], "Nouns required 150 points"
+                Constants.categoryNamesList[3], "Nouns required 150 points"
             )
         )
         itemRecyclerQuizNavList.add(
             ItemButtonsRecycler(
-                Constants.categoryNameArray[4], "Adjectives required 250 points"
+                Constants.categoryNamesList[4], "Adjectives required 250 points"
             )
         )
         itemRecyclerQuizNavList.add(
             ItemButtonsRecycler(
-                Constants.categoryNameArray[5], "Adverbs required 400 points"
+                Constants.categoryNamesList[5], "Adverbs required 400 points"
             )
         )
         itemRecyclerQuizNavList.add(
             ItemButtonsRecycler(
-                Constants.categoryNameArray[6], "Idioms required 600 points"
+                Constants.categoryNamesList[6], "Idioms required 600 points"
             )
         )
     }

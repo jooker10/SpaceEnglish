@@ -65,7 +65,7 @@ class GeneratePdf {
                 document.close()
             }
         } catch (e: IOException) {
-            Log.e("GeneratePDFFile", "Error generating PDF file", e)
+            Log.e("GeneratePdfFile", "Error generating PDF file", e)
         }
     }
 

@@ -40,17 +40,18 @@ class SettingsNavFragment : PreferenceFragmentCompat() {
         switchAppTheme = findPreference(Constants.KEY_SETTINGS_SWITCH_THEME) ?: return
         val btnPrivacy = findPreference<Preference>(Constants.KEY_SETTINGS_BTN_PRIVACY)
         val btnContactEmail = findPreference<Preference>(Constants.KEY_SETTINGS_BTN_CONTACTUS)
-        val languagePreference = findPreference<ListPreference>(Constants.KEY_SETTINGS_SWITCH_LANGUAGE)
+        val languageList = findPreference<ListPreference>(Constants.KEY_SETTINGS_SWITCH_LANGUAGE)
 
         // Language preference change listener
-        languagePreference?.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { _, newValue ->
-                val newLang = newValue.toString()
-                Utils.nativeLanguage = when (newLang) {
+        languageList?.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { x, newValue ->
+               // val newLang = newValue.toString()
+               /* Utils.nativeLanguage = when (newLang) {
                     Constants.LANGUAGE_NATIVE_ARABIC -> Constants.LANGUAGE_NATIVE_ARABIC
                     Constants.LANGUAGE_NATIVE_SPANISH -> Constants.LANGUAGE_NATIVE_SPANISH
                     else -> Constants.LANGUAGE_NATIVE_FRENCH
-                }
+                }*/
+                Utils.nativeLanguage = newValue.toString()
                 // Optional: refresh the UI
                 requireActivity().recreate()
                 true

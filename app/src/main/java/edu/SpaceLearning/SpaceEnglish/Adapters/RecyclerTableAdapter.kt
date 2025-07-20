@@ -169,9 +169,9 @@ class RecyclerTableAdapter(// Original list of elements
          */
         fun bind(category: Category) {
             this.category = category
-            holderVerbId.text = (category.categoryID + 1).toString() // Set category ID
+            holderVerbId.text = (category.idCategory + 1).toString() // Set category ID
             holderVerbEnglish.text =
-                capitalizeFirstLetter(category.categoryEng) // Set English category name
+                capitalizeFirstLetter(category.engCategory) // Set English category name
             holderVerbNativeLang.text =
                 capitalizeFirstLetter(
                     ChoosingNativeLang(
@@ -180,12 +180,12 @@ class RecyclerTableAdapter(// Original list of elements
                     )
                 ) // Set native language category name
 
-            tvExpandedExamples.text = category.categoryExamples // Set examples text
+            tvExpandedExamples.text = category.exampleCategory // Set examples text
             imgSongs.setOnClickListener { v: View ->
                 v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                 }
-                val txt = category.categoryEng
+                val txt = category.engCategory
                 textToSpeechManager?.speak(txt)
             }
 
@@ -222,17 +222,17 @@ class RecyclerTableAdapter(// Original list of elements
         when (Utils.nativeLanguage) {
             Constants.LANGUAGE_NATIVE_SPANISH -> {
                 tvLangFlag.text = "Sp"
-                return element.categorySp
+                return element.spCategory
             }
 
             Constants.LANGUAGE_NATIVE_ARABIC -> {
                 tvLangFlag.text = "Ar"
-                return element.categoryAr
+                return element.arCategory
             }
 
             else -> {
                 tvLangFlag.text = "Fr"
-                return element.categoryFr
+                return element.FrCategory
             }
         }
     }
@@ -244,9 +244,9 @@ class RecyclerTableAdapter(// Original list of elements
      */
     private fun filterTxtLanguageNative(category: Category): String {
         return when (Utils.nativeLanguage) {
-            Constants.LANGUAGE_NATIVE_SPANISH -> category.categorySp
-            Constants.LANGUAGE_NATIVE_ARABIC -> category.categoryAr
-            else -> category.categoryFr
+            Constants.LANGUAGE_NATIVE_SPANISH -> category.spCategory
+            Constants.LANGUAGE_NATIVE_ARABIC -> category.arCategory
+            else -> category.FrCategory
         }
     }
 
