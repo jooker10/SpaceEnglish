@@ -334,6 +334,7 @@ ${getString(R.string.main_app_url)}""")
         // Check if the TextToSpeech instance is initialized before using it.
         if (MainActivity.textToSpeechManager != null) {
             MainActivity.textToSpeechManager?.speak(text)
+            MainActivity.textToSpeechManager?.speak(text)
         }
     }
 */
