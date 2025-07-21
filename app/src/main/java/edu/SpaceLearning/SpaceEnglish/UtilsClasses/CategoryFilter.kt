@@ -34,7 +34,7 @@ class CategoryFilter(
         return when (Utils.nativeLanguage) {
             Constants.LANGUAGE_NATIVE_ARABIC -> category.arCategory
             Constants.LANGUAGE_NATIVE_SPANISH -> category.spCategory
-            else -> category.FrCategory
+            else -> category.frCategory
         }
     }
 }

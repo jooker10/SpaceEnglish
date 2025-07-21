@@ -232,7 +232,7 @@ class RecyclerTableAdapter(// Original list of elements
 
             else -> {
                 tvLangFlag.text = "Fr"
-                return element.FrCategory
+                return element.frCategory
             }
         }
     }
@@ -246,7 +246,7 @@ class RecyclerTableAdapter(// Original list of elements
         return when (Utils.nativeLanguage) {
             Constants.LANGUAGE_NATIVE_SPANISH -> category.spCategory
             Constants.LANGUAGE_NATIVE_ARABIC -> category.arCategory
-            else -> category.FrCategory
+            else -> category.frCategory
         }
     }
 
