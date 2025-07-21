@@ -97,7 +97,7 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
             currentQuestion = questionsList[currentQstIndex]
             currentQstIndex++
 
-            uiControllerListener.updateUIWithQuestion(currentQuestion,currentQstIndex)
+            uiControllerListener.updateUIWithQuestion(currentQuestion,currentQstIndex) //...
 
         }
         else {
