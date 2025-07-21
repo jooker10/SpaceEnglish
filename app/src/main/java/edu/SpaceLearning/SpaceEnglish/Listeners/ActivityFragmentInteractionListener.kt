@@ -1,8 +1,8 @@
 /*
- * File: InteractionActivityFragmentsListener.java
+ * File: ActivityFragmentInteractionListener.java
  * Author: [Your Name]
  * Date: [Date]
- * Purpose: Listener interface for interaction events between activities and fragments.
+ * Purpose: TimerListener interface for interaction events between activities and fragments.
  */
 package edu.SpaceLearning.SpaceEnglish.Listeners
 
@@ -14,18 +14,18 @@ import java.io.File
 /**
  * Interface definition for a listener to handle interaction events between activities and fragments.
  */
-interface InteractionActivityFragmentsListener {
+interface ActivityFragmentInteractionListener {
     /**
      * Called when the "Get Started" button is clicked in HomeFragment.
      * @param index The index of the item clicked.
      */
-    fun onHomeGetStarted(index: Int)
+    fun onHomeStartClicked(index: Int)
 
     /**
      * Called to filter the table in TableFragment using the provided RecyclerViewAdapter.
      * @param tableRecyclerAdapter The RecyclerViewAdapter used for filtering.
      */
-    fun onFilterTable(tableRecyclerAdapter: RecyclerTableAdapter)
+    fun onTableFilterRequested(tableRecyclerAdapter: RecyclerTableAdapter)
 
     /**
      * Called to send scores to a dialog with specific details.
@@ -35,35 +35,35 @@ interface InteractionActivityFragmentsListener {
      * @param userRightAnswerScore The user's score for right answers.
      * @param msg The message to display.
      */
-    fun onSendScoresToDialog(categoryType: String, pointsAdded: Int, elementsAdded: Int, userRightAnswerScore: Int, msg: String)
+    fun onScoresSubmittedToDialog(categoryType: String, pointsAdded: Int, elementsAdded: Int, userRightAnswerScore: Int, msg: String)
 
     /**
      * Called when the theme is changed in SettingsFragment.
      * @param isDarkMode True if dark mode is enabled, false otherwise.
      */
-    fun onChangeTheme(isDarkMode: Boolean)
+    fun onThemeToggled(isDarkMode: Boolean)
 
     /**
      * Called when clicking the "Send Home" button in DialogFragment.
      * @param categoryType The category type associated with the action.
      */
-    fun onDialogSendHomeClick(categoryType: String)
+    fun onDialogReturnHomeClicked(categoryType: String)
 
     /**
      * Called when clicking the "New Quiz" button in DialogFragment.
      */
-    fun onDialogNewQuiz()
+    fun onStartNewQuizClicked()
 
     /**
-     * Called to set the required category fragment in QuizNavFragment.
+     * Called to set the required category fragment in QuizNavigationFragment.
      * @param android.R.attr.fragment The fragment to set as a required category.
      */
-    fun onSetRequiredCategoryFragmentQuiz(fragment: Fragment)
+    fun onSetQuizCategoryFragment(fragment: Fragment)
 
     /**
      * Called to open a PDF file with an intent.
      * @param context The context from which to open the PDF.
      * @param pdfFile The PDF file to open.
      */
-    fun openPdfWithIntent(context: Context, pdfFile: File?)
+    fun onPdfOpenRequested(context: Context, pdfFile: File?)
 }

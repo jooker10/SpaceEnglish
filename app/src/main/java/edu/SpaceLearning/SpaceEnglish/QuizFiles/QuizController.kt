@@ -1,11 +1,9 @@
 package edu.SpaceLearning.SpaceEnglish.QuizFiles
 
 import android.app.Activity
-import android.content.res.ColorStateList
 import edu.SpaceLearning.SpaceEnglish.CountDownTimerHelper
 import edu.SpaceLearning.SpaceEnglish.CountDownTimerHelper.OnCountdownListener
-import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.Listeners.ActivityFragmentInteractionListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.UiControllerListener
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category
@@ -20,21 +18,22 @@ import java.util.Locale
 import java.util.Random
 import kotlin.math.min
 
-class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiControllerListener, val categoryType : String, val currentSpecificCategorySubList: List<Category>)  {
-    private val questionsList: MutableList<Question> = ArrayList()
+class QuizController(val requiredActivity : Activity, val uiControllerListener
+                : UiControllerListener, val categoryType : String, val selectedCategoryList: List<Category>)  {
+    private val quizQuestions: MutableList<Question> = ArrayList()
 
     private var quizCallback: QuizCallback? = null
     private var quizTimer: QuizTimer? = null
 
-    private var interactionListener: InteractionActivityFragmentsListener? = null
+    private var interactionListener: ActivityFragmentInteractionListener? = null
     //private var adsClickListener: AdsClickListener? = null
     private var soundManager: SoundManager? = null
     private lateinit var currentQuestion: Question
-    private var currentQstIndex = 0
-    var maxCounterTimer = 15
+    private var currentQuestionIndex = 0
+    var maxTimerSeconds = 15
     private val maxAllowedAddedPoints = 10
-    private var userRightScore = 0
-    private var userWrongScore = 0
+    private var correctAnswersCount = 0
+    private var wrongAnswersCount = 0
 
     init {
         soundManager = SoundManager()
@@ -44,14 +43,14 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
     }
 
     companion object {
-         var isAnswered = false
+         var hasUserAnswered = false
     }
 
-     fun generateRequiredQuestionsList() : MutableList<Question> {
+     fun createQuizQuestions() : MutableList<Question> {
         val randomIndexesSet: MutableSet<Int> = HashSet()
         val random = Random()
 
-        for (i in currentSpecificCategorySubList.indices) {
+        for (i in selectedCategoryList.indices) {
             randomIndexesSet.clear() // Clear the set for each new iteration
 
             while (randomIndexesSet.size < 2) {   // Generate 2 random indices different from i
@@ -66,37 +65,37 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
             Collections.shuffle(randomIndexesList)
             // Now randomList contains 3 unique indices: i and two others
             // You can use these indices to select questions from currentElementsList
-            val mainElementQuestion = setNativeMainElement(Utils.nativeLanguage, i) // here change the Element language
-            val rbOption1 = currentSpecificCategorySubList[randomIndexesList[0]].engCategory
-            val rbOption2 = currentSpecificCategorySubList[randomIndexesList[1]].engCategory
-            val rbOption3 = currentSpecificCategorySubList[randomIndexesList[2]].engCategory
+            val mainElementQuestion = getTranslatedCategoryName(Utils.nativeLanguage, i) // here change the Element language
+            val rbOption1 = selectedCategoryList[randomIndexesList[0]].englishName
+            val rbOption2 = selectedCategoryList[randomIndexesList[1]].englishName
+            val rbOption3 = selectedCategoryList[randomIndexesList[2]].englishName
             val optionsList = listOf(rbOption1,rbOption2,rbOption3)
-            val rightAnswer = currentSpecificCategorySubList[i].engCategory
+            val rightAnswer = selectedCategoryList[i].englishName
 
-            questionsList.add(Question(mainElementQuestion,optionsList , rightAnswer)
+            quizQuestions.add(Question(mainElementQuestion,optionsList , rightAnswer)
             )
         }
-         return questionsList
+         return quizQuestions
     }
 
-     fun moveToNextQuestion() {
+     fun goToNextQuestion() {
          MainActivity.textToSpeechManager?.stop()
-        if (currentQstIndex < Utils.maxQuestionsPerQuiz)
+        if (currentQuestionIndex < Utils.maxQuestionsPerQuiz)
         {
             startTimer()
 
-            isAnswered = false
+            hasUserAnswered = false
 
             uiControllerListener.resetUIForNextQuestion()
 
-            currentQuestion = questionsList[currentQstIndex]
-            currentQstIndex++
+            currentQuestion = quizQuestions[currentQuestionIndex]
+            currentQuestionIndex++
 
-            uiControllerListener.updateUIWithQuestion(currentQuestion,currentQstIndex) //...
+            uiControllerListener.updateUIWithQuestion(currentQuestion,currentQuestionIndex) //...
 
         }
         else {
-            isAnswered = true
+            hasUserAnswered = true
            stopTimer()
             finishQuiz()
         }
@@ -104,29 +103,29 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
 
     fun checkAnswer() {
 
-        val checkedRadioID = uiControllerListener.getCheckedOptionUiID()
+        val checkedRadioID = uiControllerListener.getCheckedOptionId()
         if (checkedRadioID != -1) {
-            isAnswered = true
+            hasUserAnswered = true
             stopTimer()
 
            uiControllerListener.updateNextButtonText("Next")
-            val radioSelected = uiControllerListener.getCheckedOptionUi(checkedRadioID)
+            val radioSelected = uiControllerListener.getCheckedOptionRadioButton(checkedRadioID)
             val userAnswer = radioSelected.text.toString()
 
-            if (userAnswer == currentQuestion.rightAnswer) {
+            if (userAnswer == currentQuestion.correctAnswer) {
                 handleCorrectAnswer()
             } else {
                 handleIncorrectAnswer()
             }
 
-            uiControllerListener.changeRightWrongAnswerColors(currentQuestion.rightAnswer) //  right answer (green color) , wrong answers (red color).
+            uiControllerListener.changeRightWrongAnswerColors(currentQuestion.correctAnswer) //  right answer (green color) , wrong answers (red color).
 
-            if (currentQstIndex == Utils.maxQuestionsPerQuiz) {
+            if (currentQuestionIndex == Utils.maxQuestionsPerQuiz) {
                 uiControllerListener.updateNextButtonText("Finish")
                 MainActivity.textToSpeechManager?.speak("Final Question!")
             }
         } else {
-            handleNoAnswerSelected()
+            handleNoSelection()
         }
     }
 
@@ -139,10 +138,10 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
         }*/
        // Utils.switchSimpleToVideoAds = !Utils.switchSimpleToVideoAds
 
-        finishQuizUpdateAll(userRightScore)
+        applyFinalScoreResults(correctAnswersCount)
     }
 
-     fun finishQuizUpdateAll(userScore: Int) {
+     fun applyFinalScoreResults(userScore: Int) {
         var pointsAdded = 0
         var elementsAdded = 0
         var msg = ""
@@ -166,11 +165,11 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
             msg = "Needs improvement"
         }
 
-        finishQuizUpdateScoresCategory(categoryType, pointsAdded, elementsAdded)
-        interactionListener?.onSendScoresToDialog(categoryType, pointsAdded, elementsAdded, userRightScore, msg)
+        updateCategoryScore(categoryType, pointsAdded, elementsAdded)
+        interactionListener?.onScoresSubmittedToDialog(categoryType, pointsAdded, elementsAdded, correctAnswersCount, msg)
     }
 
-     fun finishQuizUpdateScoresCategory(categoryType: String, pointsAdded: Int, elementsAdded: Int) {
+     fun updateCategoryScore(categoryType: String, pointsAdded: Int, elementsAdded: Int) {
         when (categoryType) {
             Constants.VERB_NAME -> {
                 Scores.verbScore += pointsAdded
@@ -239,40 +238,40 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
         }
     }
 
-    private fun setNativeMainElement(nativeLanguage: String, currentIndex: Int): String {
-        return when (nativeLanguage) {
-            Constants.LANGUAGE_NATIVE_ARABIC -> currentSpecificCategorySubList[currentIndex].arCategory
+    private fun getTranslatedCategoryName(translatedCategoryName: String, currentIndex: Int): String {
+        return when (translatedCategoryName) {
+            Constants.LANGUAGE_NATIVE_ARABIC -> selectedCategoryList[currentIndex].arabicName
 
-            Constants.LANGUAGE_NATIVE_SPANISH -> currentSpecificCategorySubList[currentIndex].spCategory
+            Constants.LANGUAGE_NATIVE_SPANISH -> selectedCategoryList[currentIndex].spanishName
 
-            else -> currentSpecificCategorySubList[currentIndex].frCategory
+            else -> selectedCategoryList[currentIndex].frenchName
         }
     }
 
     private fun handleCorrectAnswer() {
         soundManager?.playSound(requiredActivity, R.raw.coins_sound1)
-        userRightScore++
-        uiControllerListener.updateUiRightScore(userRightScore)
+        correctAnswersCount++
+        uiControllerListener.updateCorrectAnswerScore(correctAnswersCount)
 
         val random = Random()
         val randomIndex = random.nextInt(Utils.phrasesCorrectAnswers.size)
         val text = Utils.phrasesCorrectAnswers[randomIndex]
-        speakEnglish(text)
+        speakText(text)
     }
 
 
     private fun handleIncorrectAnswer() {
-        userWrongScore++
+        wrongAnswersCount++
         soundManager?.playSound(requiredActivity, R.raw.error_sound1)
         val randomIndex = Random().nextInt(Utils.phrasesIncorrectAnswers.size)
         val text = Utils.phrasesIncorrectAnswers[randomIndex]
-        speakEnglish(text)
+        speakText(text)
 
-        uiControllerListener.updateUiWrongScore(userWrongScore)
+        uiControllerListener.updateWrongAnswerScore(wrongAnswersCount)
     }
 
-    private fun handleNoAnswerSelected() {
-        isAnswered = false
+    private fun handleNoSelection() {
+        hasUserAnswered = false
        // binding.fabShareQstFriend.isClickable= false
 
         //val text = getString(R.string.quiz_toast_text_no_answer_selected)
@@ -281,30 +280,30 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
         }
     }
 
-    private fun checkEmptyAnswerCounter() {
+    private fun handleTimeoutAnswer() {
         stopTimer()
       // adsClickListener?.onShowInterstitialAd()
-       userWrongScore++
+       wrongAnswersCount++
        //binding.tvQuizUserWrongAnswerCounter.text = userWrongScore.toString()
-        uiControllerListener.updateUiWrongScore(userWrongScore)
+        uiControllerListener.updateWrongAnswerScore(wrongAnswersCount)
 
-        isAnswered = true
+        hasUserAnswered = true
        //binding.btnConfirmNextCategory.text = "Next"
         uiControllerListener.updateNextButtonText("Next")
 
        val text = "You don't choose any answer , please make sure to choose an answer next time "
-       speakEnglish(text)
+       speakText(text)
 
-       uiControllerListener.updateOptionsUiAfterAnswers(currentQuestion.rightAnswer)
+       uiControllerListener.updateOptionsUiAfterAnswers(currentQuestion.correctAnswer)
 
        // the counter is reached the final Question then change the btn to finish
-       if (currentQstIndex == Utils.maxQuestionsPerQuiz) {
+       if (currentQuestionIndex == Utils.maxQuestionsPerQuiz) {
             uiControllerListener.updateNextButtonText("Finish")
        }
    }
 
 
-    private fun speakEnglish(text: String) {
+    private fun speakText(text: String) {
         if (MainActivity.textToSpeechManager != null) {
             MainActivity.textToSpeechManager?.setLanguage(Locale.ENGLISH)
             MainActivity.textToSpeechManager?.speak(text)
@@ -312,14 +311,14 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
     }
 
     fun startTimer() {
-        quizTimer = QuizTimer(listener = object : QuizManager.Listener {
+        quizTimer = QuizTimer(listener = object : QuizController.TimerListener {
             override fun onTick(secondsRemaining: Int) {
                 quizCallback?.onTimerTick(secondsRemaining)
             }
 
             override fun onFinish() {
                 quizCallback?.onTimerFinished()
-                checkEmptyAnswerCounter()
+                handleTimeoutAnswer()
                 //moveToNextQuestion()
             }
         })
@@ -330,7 +329,7 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
         quizTimer?.stop()
     }
 
-    fun setCallback(callback: QuizCallback) {
+    fun setQuizCallback(callback: QuizCallback) {
         this.quizCallback = callback
     }
 
@@ -344,7 +343,7 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
     private inner class QuizTimer(
           totalTimeInMillis: Long = 15000, // 30 ثانية
         intervalInMillis: Long = 1000,   // كل ثانية
-        private val listener: Listener
+        private val listener: TimerListener
     ) {
 
         private val timerHelper: CountDownTimerHelper =
@@ -373,7 +372,7 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
 
     }
 
-    interface Listener {
+    interface TimerListener {
         fun onTick(secondsRemaining: Int)
         fun onFinish()
     }

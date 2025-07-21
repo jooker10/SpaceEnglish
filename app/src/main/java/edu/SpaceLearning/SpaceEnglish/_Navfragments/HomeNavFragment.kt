@@ -23,7 +23,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import edu.SpaceLearning.SpaceEnglish.Adapters.InfoScorePager2Adapter
 import edu.SpaceLearning.SpaceEnglish.HomeInfoScoresPager2Fragment
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.Listeners.ActivityFragmentInteractionListener
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
@@ -31,7 +31,7 @@ import edu.SpaceLearning.SpaceEnglish.databinding.HomeNavFragmentBinding
 
 class HomeNavFragment : Fragment() {
     private lateinit var binding: HomeNavFragmentBinding
-    private  var interactionListener: InteractionActivityFragmentsListener? = null
+    private  var activityFragmentListener: ActivityFragmentInteractionListener? = null
     private  val fragmentsForPager2InfoScores = ArrayList<Fragment>()
 
     override fun onCreateView(
@@ -53,19 +53,19 @@ class HomeNavFragment : Fragment() {
         val photoProfileUri = user?.photoUrl
 
         // Initialize UI components and set up interactions
-        initUIHomePage(userName,photoProfileUri) // Initialize UI elements like buttons, imageProfile, and user name
-        setUpTabsWithPager2InfoScores() // Set up tabs with ViewPager2 for info scores
+        initializeHomeUI(userName,photoProfileUri) // Initialize UI elements like buttons, imageProfile, and user name
+        setupTabsWithPager2() // Set up tabs with ViewPager2 for info scores
     }
 
-    private fun initUIHomePage(userName : String , photoProfileUri : Uri?) {
+    private fun initializeHomeUI(userName : String, photoProfileUri : Uri?) {
         setImageProfile(photoProfileUri)
         setUserName(userName)
-        binding.btnHomeGoToLearn.setOnClickListener { v: View? -> interactionListener?.onHomeGetStarted(Constants.TABLE_NAV_INDEX) }
-        binding.btnHomeGoToQuiz.setOnClickListener { v: View? -> interactionListener?.onHomeGetStarted(Constants.QUIZ_NAV_INDEX) }
+        binding.btnHomeGoToLearn.setOnClickListener { v: View? -> activityFragmentListener?.onHomeStartClicked(Constants.TABLE_NAV_INDEX) }
+        binding.btnHomeGoToQuiz.setOnClickListener { v: View? -> activityFragmentListener?.onHomeStartClicked(Constants.QUIZ_NAV_INDEX) }
         binding.tvHomeUserName.text = "Hi, ${Utils.userName}"
     }
 
-    private fun setUpTabsWithPager2InfoScores() {
+    private fun setupTabsWithPager2() {
         // Initialize fragments for ViewPager2 and set up adapter with TabLayoutMediator
         for (categoryName in Utils.tableCategoriesListNames) {
             fragmentsForPager2InfoScores.add(HomeInfoScoresPager2Fragment.newInstance(categoryName))
@@ -93,15 +93,15 @@ class HomeNavFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        // Ensure the context implements InteractionActivityFragmentsListener
-        if (context is InteractionActivityFragmentsListener) {
-            interactionListener = context
+        // Ensure the context implements ActivityFragmentInteractionListener
+        if (context is ActivityFragmentInteractionListener) {
+            activityFragmentListener = context
         }
     }
 
     override fun onDetach() {
         super.onDetach()
         // Release the interaction listener to avoid memory leaks
-        interactionListener = null
+        activityFragmentListener = null
     }
 }

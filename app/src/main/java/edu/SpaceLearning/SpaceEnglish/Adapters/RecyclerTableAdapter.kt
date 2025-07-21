@@ -54,7 +54,7 @@ class RecyclerTableAdapter(// Original list of elements
     private val activity: Activity // Activity reference
     private val categoryType: String // Category type identifier
     private val textToSpeechManager: TextToSpeechManager? // Text to speech manager
-    private val adsClickListener: AdsClickListener // Listener for ad clicks
+    private val adsClickListener: AdsClickListener // TimerListener for ad clicks
     private var isAdsShowed = false // Flag to track if ads have been shown
 
     /**
@@ -109,7 +109,7 @@ class RecyclerTableAdapter(// Original list of elements
      * @param context Context of the application/activity.
      * @param categoryType Type of category being displayed.
      * @param textToSpeechManager Text to speech manager instance.
-     * @param adsClickListener Listener for ad clicks.
+     * @param adsClickListener TimerListener for ad clicks.
      */
     init {
         this.originalElements = originalElements
@@ -169,9 +169,9 @@ class RecyclerTableAdapter(// Original list of elements
          */
         fun bind(category: Category) {
             this.category = category
-            holderVerbId.text = (category.idCategory + 1).toString() // Set category ID
+            holderVerbId.text = (category.id + 1).toString() // Set category ID
             holderVerbEnglish.text =
-                capitalizeFirstLetter(category.engCategory) // Set English category name
+                capitalizeFirstLetter(category.englishName) // Set English category name
             holderVerbNativeLang.text =
                 capitalizeFirstLetter(
                     ChoosingNativeLang(
@@ -180,12 +180,12 @@ class RecyclerTableAdapter(// Original list of elements
                     )
                 ) // Set native language category name
 
-            tvExpandedExamples.text = category.exampleCategory // Set examples text
+            tvExpandedExamples.text = category.exampleSentence // Set examples text
             imgSongs.setOnClickListener { v: View ->
                 v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                 }
-                val txt = category.engCategory
+                val txt = category.englishName
                 textToSpeechManager?.speak(txt)
             }
 
@@ -222,17 +222,17 @@ class RecyclerTableAdapter(// Original list of elements
         when (Utils.nativeLanguage) {
             Constants.LANGUAGE_NATIVE_SPANISH -> {
                 tvLangFlag.text = "Sp"
-                return element.spCategory
+                return element.spanishName
             }
 
             Constants.LANGUAGE_NATIVE_ARABIC -> {
                 tvLangFlag.text = "Ar"
-                return element.arCategory
+                return element.arabicName
             }
 
             else -> {
                 tvLangFlag.text = "Fr"
-                return element.frCategory
+                return element.frenchName
             }
         }
     }
@@ -244,9 +244,9 @@ class RecyclerTableAdapter(// Original list of elements
      */
     private fun filterTxtLanguageNative(category: Category): String {
         return when (Utils.nativeLanguage) {
-            Constants.LANGUAGE_NATIVE_SPANISH -> category.spCategory
-            Constants.LANGUAGE_NATIVE_ARABIC -> category.arCategory
-            else -> category.frCategory
+            Constants.LANGUAGE_NATIVE_SPANISH -> category.spanishName
+            Constants.LANGUAGE_NATIVE_ARABIC -> category.arabicName
+            else -> category.frenchName
         }
     }
 

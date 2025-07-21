@@ -1,5 +1,5 @@
 /*
- * File: TableNavFragment.java
+ * File: TableNavigationFragment.java
  * Author: [Your Name]
  * Date: [Date]
  * Purpose: Fragment for managing table categories with tabs and pager in the SpaceEnglish app.
@@ -18,7 +18,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import edu.SpaceLearning.SpaceEnglish.Adapters.TablePager2Adapter
 import edu.SpaceLearning.SpaceEnglish.R
-import edu.SpaceLearning.SpaceEnglish.TablesFrags.TableCategoryInnerFragment
+import edu.SpaceLearning.SpaceEnglish.TablesFrags.CategoryTableFragment
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores
 import edu.SpaceLearning.SpaceEnglish.WaitFragment.Companion.newInstance
@@ -32,7 +32,7 @@ import java.util.Locale
  * Dynamically adds table category fragments based on user permissions
  * and sets up tabs with a pager adapter.
  */
-class TableNavFragment
+class TableNavigationFragment
 /**
  * Required empty public constructor
  */
@@ -80,14 +80,14 @@ class TableNavFragment
      */
     private fun setAllowedPagerCategoryFragments() {
         // Always add these default fragments
-        pager2FragmentsList.add(TableCategoryInnerFragment.getInstance(Constants.VERB_NAME))
-        pager2FragmentsList.add(TableCategoryInnerFragment.getInstance(Constants.SENTENCE_NAME))
+        pager2FragmentsList.add(CategoryTableFragment.newInstance(Constants.VERB_NAME))
+        pager2FragmentsList.add(CategoryTableFragment.newInstance(Constants.SENTENCE_NAME))
 
         // Add other fragments based on permission scores
         for (i in Constants.permissionCategoryScoreArray.indices) {
             addAllowedFragment(
                 pager2FragmentsList,
-                TableCategoryInnerFragment.getInstance(Constants.categoryNamesList[i + 2]),
+                CategoryTableFragment.newInstance(Constants.categoryNamesList[i + 2]),
                 Scores.totalScore,
                 Constants.permissionCategoryScoreArray[i]
             )

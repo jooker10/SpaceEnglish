@@ -15,7 +15,7 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores
  * Fragment to display video buttons for different categories.
  */
 class SheetVideoFragment : Fragment() {
-    private var adsClickListener: AdsClickListener? = null // Listener for handling ad clicks
+    private var adsClickListener: AdsClickListener? = null // TimerListener for handling ad clicks
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

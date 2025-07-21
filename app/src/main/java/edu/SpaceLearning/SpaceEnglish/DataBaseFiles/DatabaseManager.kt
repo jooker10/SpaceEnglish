@@ -1,11 +1,4 @@
-/**
- * DbManager.java
- * This class manages database access for retrieving category elements for the Space English learning app.
- * It provides methods to open and close database connections, retrieve category lists, and calculate category sizes.
- * Created on: [Date]
- * Author: [Your Name]
- * Version: 1.0
- */
+
 package edu.SpaceLearning.SpaceEnglish.DataBaseFiles
 
 import android.content.Context
@@ -16,67 +9,54 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 
-class DbManager private constructor(context: Context) {
-    private lateinit var sqLiteDB: SQLiteDatabase
-    private val openHelper: SQLiteOpenHelper = MyDatabase(context)
+class DatabaseManager private constructor(context: Context) {
+    private lateinit var readableDb: SQLiteDatabase
+    private val dbHelper: SQLiteOpenHelper = AppDatabase(context)
 
     // Opens database connection for reading
-    fun openToRead() {
-        this.sqLiteDB = openHelper.readableDatabase
+    fun openReadConnection() {
+        this.readableDb = dbHelper.readableDatabase
     }
 
     // Opens database connection for writing
-    fun openToWrite() {
-        this.sqLiteDB = openHelper.writableDatabase
+    fun openWriteConnection() {
+        this.readableDb = dbHelper.writableDatabase
     }
 
     // Closes database connection
-    fun close() {
-            sqLiteDB.close()
+    fun closeConnection() {
+            readableDb.close()
     }
 
     // Retrieves a list of all elements for a given category type
     // Optionally includes example sentences for categories that support it
-    fun getRequiredCategoryDataOf(categoryType: String, withExample: Boolean): ArrayList<Category> {
+    fun fetchCategoryData(categoryType: String, withExample: Boolean): ArrayList<Category> {
         val elementList = ArrayList<Category>()
 
         // Query to fetch all rows from the specified category table
-        val cursor = sqLiteDB.rawQuery("SELECT * FROM " + Utils.tableHashNames[categoryType], null)
+        val cursor = readableDb.rawQuery("SELECT * FROM " + Utils.categoryTableMap[categoryType], null)
 
         // Iterate through the cursor to extract category elements
         if (cursor.moveToFirst()) {
             do {
                 // Extracting column values from the cursor
                 val id = cursor.getInt(0)
-                val eng = cursor.getString(1)
-                val fr = cursor.getString(2)
-                val sp = cursor.getString(3)
-                val ar = cursor.getString(4)
+                val englishName = cursor.getString(1)
+                val frenchName = cursor.getString(2)
+                val spanishName = cursor.getString(3)
+                val arabicName = cursor.getString(4)
 
                 // Optionally, retrieve example sentences if requested
-                var example: String? = null
+                var exampleSentence: String? = null
                 if (withExample) {
-                    example = cursor.getString(5)
+                    exampleSentence = cursor.getString(5)
                 }
 
                 // Creating Category object based on retrieved data
-                val category = if (example != null) {
-                    Category(
-                        id,
-                        eng,
-                        fr,
-                        sp,
-                        ar,
-                        example
-                    )
+                val category = if (exampleSentence != null) {
+                    Category(id, englishName, frenchName, spanishName, arabicName, exampleSentence)
                 } else {
-                    Category(
-                        id,
-                        eng,
-                        fr,
-                        sp,
-                        ar
-                    )
+                    Category(id, englishName, frenchName, spanishName, arabicName)
                 }
 
                 // Adding the created Category object to the list
@@ -90,63 +70,63 @@ class DbManager private constructor(context: Context) {
         return elementList
     }
 
-    val dBListCategorySize: Unit
+    val updateCategorySizes: Unit
         // Retrieves and calculates the size of each category list from the database
         get() {
-            openToRead() // Open database connection
+            openReadConnection() // Open database connection
 
             // Retrieve all category lists and store them
             val allVerbsList =
                 ArrayList(
-                    getRequiredCategoryDataOf(
+                    fetchCategoryData(
                         Constants.VERB_NAME,
                         true
                     )
                 )
             val allSentencesList =
                 ArrayList(
-                    getRequiredCategoryDataOf(
+                    fetchCategoryData(
                         Constants.SENTENCE_NAME,
                         false
                     )
                 )
             val allPhrasalsList =
                 ArrayList(
-                    getRequiredCategoryDataOf(
+                    fetchCategoryData(
                         Constants.PHRASAL_NAME,
                         true
                     )
                 )
             val allNounsList =
                 ArrayList(
-                    getRequiredCategoryDataOf(
+                    fetchCategoryData(
                         Constants.NOUN_NAME,
                         true
                     )
                 )
             val allAdjsList =
                 ArrayList(
-                    getRequiredCategoryDataOf(
+                    fetchCategoryData(
                         Constants.ADJ_NAME,
                         true
                     )
                 )
             val allAdvsList =
                 ArrayList(
-                    getRequiredCategoryDataOf(
+                    fetchCategoryData(
                         Constants.ADV_NAME,
                         true
                     )
                 )
             val allIdiomsList =
                 ArrayList(
-                    getRequiredCategoryDataOf(
+                    fetchCategoryData(
                         Constants.IDIOM_NAME,
                         false
                     )
                 )
 
-            close() // Close database connection
+            closeConnection() // Close database connection
 
             // Initialize the total count for each category
             Utils.totalVerbsNumber = allVerbsList.size
@@ -162,11 +142,11 @@ class DbManager private constructor(context: Context) {
 
     // Retrieves a subset of elements for a specific category type based on allowed number
     // Updates the TextView to display category title and current/total count of elements
-    fun getRequiredCategoryList(
+    fun getLimitedCategoryList(
         categoryType: String,
         tvHeadTitleCategory: TextView
     ): ArrayList<Category> {
-        openToRead() // Open database connection
+        openReadConnection() // Open database connection
 
         var elements = ArrayList<Category>()
 
@@ -174,7 +154,7 @@ class DbManager private constructor(context: Context) {
         when (categoryType) {
             Constants.VERB_NAME -> {
                 elements = ArrayList(
-                    getRequiredCategoryDataOf(Constants.VERB_NAME, true).subList(
+                    fetchCategoryData(Constants.VERB_NAME, true).subList(
                         0,
                         Utils.allowedVerbsNumber
                     )
@@ -185,7 +165,7 @@ class DbManager private constructor(context: Context) {
 
             Constants.SENTENCE_NAME -> {
                 elements = ArrayList(
-                    getRequiredCategoryDataOf(Constants.SENTENCE_NAME, false).subList(
+                    fetchCategoryData(Constants.SENTENCE_NAME, false).subList(
                         0,
                         Utils.allowedSentencesNumber
                     )
@@ -197,7 +177,7 @@ class DbManager private constructor(context: Context) {
 
             Constants.PHRASAL_NAME -> {
                 elements = ArrayList(
-                    getRequiredCategoryDataOf(Constants.PHRASAL_NAME, true).subList(
+                    fetchCategoryData(Constants.PHRASAL_NAME, true).subList(
                         0,
                         Utils.allowedPhrasalsNumber
                     )
@@ -208,7 +188,7 @@ class DbManager private constructor(context: Context) {
 
             Constants.NOUN_NAME -> {
                 elements = ArrayList(
-                    getRequiredCategoryDataOf(Constants.NOUN_NAME, true).subList(
+                    fetchCategoryData(Constants.NOUN_NAME, true).subList(
                         0,
                         Utils.allowedNounsNumber
                     )
@@ -219,7 +199,7 @@ class DbManager private constructor(context: Context) {
 
             Constants.ADJ_NAME -> {
                 elements = ArrayList(
-                    getRequiredCategoryDataOf(Constants.ADJ_NAME, true).subList(
+                    fetchCategoryData(Constants.ADJ_NAME, true).subList(
                         0,
                         Utils.allowedAdjsNumber
                     )
@@ -230,7 +210,7 @@ class DbManager private constructor(context: Context) {
 
             Constants.ADV_NAME -> {
                 elements = ArrayList(
-                    getRequiredCategoryDataOf(Constants.ADV_NAME, true).subList(
+                    fetchCategoryData(Constants.ADV_NAME, true).subList(
                         0,
                         Utils.allowedAdvsNumber
                     )
@@ -241,7 +221,7 @@ class DbManager private constructor(context: Context) {
 
             Constants.IDIOM_NAME -> {
                 elements = ArrayList(
-                    getRequiredCategoryDataOf(Constants.IDIOM_NAME, false).subList(
+                    fetchCategoryData(Constants.IDIOM_NAME, false).subList(
                         0,
                         Utils.allowedIdiomsNumber
                     )
@@ -251,19 +231,19 @@ class DbManager private constructor(context: Context) {
             }
         }
 
-        close() // Close database connection
+        closeConnection() // Close database connection
 
         return elements
     }
 
     companion object {
-        private var instance: DbManager? = null
+        private var instance: DatabaseManager? = null
 
         // Singleton instance retrieval method
         @JvmStatic
-        fun getInstance(context: Context): DbManager {
+        fun getInstance(context: Context): DatabaseManager {
             if (instance == null) {
-                instance = DbManager(context.applicationContext)
+                instance = DatabaseManager(context.applicationContext)
             }
             return instance!!
         }

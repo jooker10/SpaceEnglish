@@ -29,14 +29,14 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Scores
  * RecyclerView Adapter for quiz navigation items.
  */
 class RecyclerQuizNavAdapter(// List of items to display in the RecyclerView
-    private val items: ArrayList<ItemButtonsRecycler>, // Listener for item click events
+    private val items: ArrayList<ItemButtonsRecycler>, // TimerListener for item click events
     private var recyclerItemQuizListener: RecyclerItemQuizListener
 ) :
     RecyclerView.Adapter<RecyclerQuizNavHolder>() {
     /**
      * Constructor to initialize the adapter with a list of items and a listener for item click events.
      * @param items List of items to display in the RecyclerView.
-     * @param recyclerItemQuizListener Listener for item click events.
+     * @param recyclerItemQuizListener TimerListener for item click events.
      */
 
     /**

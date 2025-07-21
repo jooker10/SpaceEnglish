@@ -221,7 +221,7 @@
             android:textColor="@drawable/selector_btn_txt_enabled_state" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/fabShareQstFriend"
+            android:id="@+id/SharingQuestion"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

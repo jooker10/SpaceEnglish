@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.Listeners.ActivityFragmentInteractionListener
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
 import edu.SpaceLearning.SpaceEnglish._Main.MainActivity
 import edu.SpaceLearning.SpaceEnglish.databinding.DialogQuizScoresBinding
@@ -15,7 +15,7 @@ import edu.SpaceLearning.SpaceEnglish.databinding.DialogQuizScoresBinding
  * DialogQuizFragment is a dialog fragment that displays quiz scores and options to start a new quiz or return home.
  */
 class DialogQuizFragment : DialogFragment() {
-    private var interactionListener: InteractionActivityFragmentsListener? = null
+    private var interactionListener: ActivityFragmentInteractionListener? = null
 
     private lateinit var binding: DialogQuizScoresBinding
     private var categoryType: String = ""
@@ -26,7 +26,7 @@ class DialogQuizFragment : DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is InteractionActivityFragmentsListener) {
+        if (context is ActivityFragmentInteractionListener) {
             interactionListener = context
         }
     }
@@ -76,12 +76,12 @@ class DialogQuizFragment : DialogFragment() {
 
         // Button click listeners
         binding!!.btnNewQuiz.setOnClickListener { v: View? ->
-            interactionListener!!.onDialogNewQuiz() // Notify listener to start a new quiz
+            interactionListener!!.onStartNewQuizClicked() // Notify listener to start a new quiz
             dismiss() // Dismiss the dialog
         }
 
         binding!!.btnSendHome.setOnClickListener { view1: View? ->
-            interactionListener!!.onDialogSendHomeClick(categoryType) // Notify listener to send home with category type
+            interactionListener!!.onDialogReturnHomeClicked(categoryType) // Notify listener to send home with category type
             dismiss() // Dismiss the dialog
         }
     }

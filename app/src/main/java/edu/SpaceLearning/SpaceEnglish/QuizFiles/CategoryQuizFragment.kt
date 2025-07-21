@@ -1,5 +1,5 @@
 /*
- * File: QuizCategoriesSubFragment.java
+ * File: CategoryQuizFragment.java
  * Author: [Your Name]
  * Date: [Date]
  * Purpose: Fragment for displaying and managing quiz questions within specified categories.
@@ -20,9 +20,9 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DbManager.Companion.getInstance
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DatabaseManager.Companion.getInstance
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.Listeners.ActivityFragmentInteractionListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.UiControllerListener
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Category
@@ -34,27 +34,27 @@ import edu.SpaceLearning.SpaceEnglish._Main.MainActivity
 import edu.SpaceLearning.SpaceEnglish.databinding.FragmentQuizCategoriesInnerBinding
 
 
-class QuizCategoriesSubFragment : Fragment(), UiControllerListener {   /*OnCountdownListener*/
+class CategoryQuizFragment : Fragment(), UiControllerListener {
     private lateinit var binding: FragmentQuizCategoriesInnerBinding
-    private var interactionListener: InteractionActivityFragmentsListener? = null
+    private var interactionListener: ActivityFragmentInteractionListener? = null
     private var adsClickListener: AdsClickListener? = null
     private var soundManager: SoundManager? = null
 
-    private lateinit var quizManager: QuizManager
+    private lateinit var quizController: QuizController
    // private val maxAllowedAddedPoints = 10
 
     private var categoryType: String = ""
 
-    private var rbDefaultColorTxt: ColorStateList? = null
+    private var defaultTextColor: ColorStateList? = null
 
-    private var questionsList: MutableList<Question> = ArrayList()
-    private lateinit var currentSpecificCategorySubList: List<Category>
+    private var quizQuestions: MutableList<Question> = ArrayList()
+    private lateinit var selectedCategoryList: List<Category>
 
     companion object {
-        fun getInstance(categoryType: String): QuizCategoriesSubFragment {
+        fun newInstance(categoryType: String): CategoryQuizFragment {
             val bundle = Bundle()
             bundle.putString(Constants.TAG_CATEGORY_TYPE, categoryType)
-            val fragment = QuizCategoriesSubFragment()
+            val fragment = CategoryQuizFragment()
             fragment.arguments = bundle
             return fragment
         }
@@ -84,21 +84,21 @@ class QuizCategoriesSubFragment : Fragment(), UiControllerListener {   /*OnCount
         binding = FragmentQuizCategoriesInnerBinding.bind(view)
 
         soundManager = SoundManager()
-        rbDefaultColorTxt = binding.QuizCategoryOption1.textColors
+        defaultTextColor = binding.QuizCategoryOption1.textColors
 
-        binding.tvQuestionLabel.text = setAppNativeLanguage(Utils.nativeLanguage) // Choose the app native Language
+        binding.tvQuestionLabel.text = getLocalizedQuestionLabel(Utils.nativeLanguage) // Choose the app native Language
 
-        currentSpecificCategorySubList = getRequiredCategoryData()   // get the required List of a specific category (ex: Verbs...) - the number of elements: Utils.maxQuestionsPerQuiz
+        selectedCategoryList = loadCategoryQuestions()   // get the required List of a specific category (ex: Verbs...) - the number of elements: Utils.maxQuestionsPerQuiz
 
-        setLayoutMarginsOfSomeCategory()
+        adjustOptionsLayoutForCategory()
 
-        quizManager = QuizManager(requireActivity(), this, categoryType, currentSpecificCategorySubList)
-        questionsList = quizManager.generateRequiredQuestionsList()
+        quizController = QuizController(requireActivity(), this, categoryType, selectedCategoryList)
+        quizQuestions = quizController.createQuizQuestions()
 
-        quizManager.setCallback(object : QuizManager.QuizCallback {
+        quizController.setQuizCallback(object : QuizController.QuizCallback {
             override fun onTimerTick(secondsRemaining: Int) {
                 binding.tvCounterDownTimer.text = "$secondsRemaining"
-                binding.progressBarTimer.progress = ((quizManager.maxCounterTimer - secondsRemaining) * 100)/quizManager.maxCounterTimer
+                binding.progressBarTimer.progress = ((quizController.maxTimerSeconds - secondsRemaining) * 100)/quizController.maxTimerSeconds
                 if (secondsRemaining <= 5) {
                     soundManager?.playSound(requireActivity(), R.raw.start_sound1)
                 }
@@ -109,14 +109,14 @@ class QuizCategoriesSubFragment : Fragment(), UiControllerListener {   /*OnCount
             }
         })
 
-        quizManager.moveToNextQuestion()
+        quizController.goToNextQuestion()
 
         binding.btnConfirmNextCategory.setOnClickListener {
 
-            if (!QuizManager.isAnswered) {
-                quizManager.checkAnswer()
+            if (!QuizController.hasUserAnswered) {
+                quizController.checkAnswer()
             } else {
-                quizManager.moveToNextQuestion()
+                quizController.goToNextQuestion()
             }
         }
 
@@ -125,7 +125,7 @@ class QuizCategoriesSubFragment : Fragment(), UiControllerListener {   /*OnCount
         txtRadioOptionToSpeech(binding.QuizCategoryOption2)
         txtRadioOptionToSpeech(binding.QuizCategoryOption3)*/
 
-        val theQst = setAppNativeLanguage(Utils.nativeLanguage)
+        val theQst = getLocalizedQuestionLabel(Utils.nativeLanguage)
         val mainElementQst = binding.tvQuizMainElementQuestion.text.toString()
         val option1 = binding.QuizCategoryOption1.text.toString()
         val option2 = binding.QuizCategoryOption2.text.toString()
@@ -139,14 +139,14 @@ C.$option3
 
 For additional questions or tests, please visit our app :
 ${getString(R.string.main_app_url)}""")
-        binding.fabShareQstFriend.setOnClickListener { v: View? ->
-            shareQst(
+        binding.SharingQuestion.setOnClickListener { v: View? ->
+            shareQuestion(
                 questionToShareTxt
             )
         }
     }
 
-    private fun setLayoutMarginsOfSomeCategory() {
+    private fun adjustOptionsLayoutForCategory() {
         val margins = intArrayOf(0, 12, 0, 4)
         if (categoryType == Constants.IDIOM_NAME || categoryType == Constants.SENTENCE_NAME) {
             //maxCounterTimer = 20
@@ -162,16 +162,16 @@ ${getString(R.string.main_app_url)}""")
         }
     }
 
-    private fun getRequiredCategoryData(): List<Category> {
+    private fun loadCategoryQuestions(): List<Category> {
         val dbManager = getInstance(requireActivity())
-        dbManager.openToRead()
-        val getRequiredCategoryDbList = ArrayList(dbManager.getRequiredCategoryDataOf(categoryType, false))
-        dbManager.close()
+        dbManager.openReadConnection()
+        val getRequiredCategoryDbList = ArrayList(dbManager.fetchCategoryData(categoryType, false))
+        dbManager.closeConnection()
         getRequiredCategoryDbList.shuffle()
         return getRequiredCategoryDbList.subList(0, Utils.maxQuestionsPerQuiz)
     }
 
-    private fun setAppNativeLanguage(nativeLanguage: String): String {
+    private fun getLocalizedQuestionLabel(nativeLanguage: String): String {
         return when (nativeLanguage) {
             Constants.LANGUAGE_NATIVE_ARABIC -> resources.getString(
                 R.string.quiz_main_question_label_arabic
@@ -185,19 +185,19 @@ ${getString(R.string.main_app_url)}""")
         }
     }
 
-    private fun setNativeMainElement(nativeLanguage: String, currentIndex: Int): String {
+    private fun getTranslatedCategoryItem(nativeLanguage: String, currentIndex: Int): String {
         return when (nativeLanguage) {
-            Constants.LANGUAGE_NATIVE_ARABIC -> currentSpecificCategorySubList[currentIndex].arCategory
+            Constants.LANGUAGE_NATIVE_ARABIC -> selectedCategoryList[currentIndex].arabicName
 
-            Constants.LANGUAGE_NATIVE_SPANISH -> currentSpecificCategorySubList[currentIndex].spCategory
+            Constants.LANGUAGE_NATIVE_SPANISH -> selectedCategoryList[currentIndex].spanishName
 
-            else -> currentSpecificCategorySubList[currentIndex].frCategory
+            else -> selectedCategoryList[currentIndex].frenchName
         }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is InteractionActivityFragmentsListener) {
+        if (context is ActivityFragmentInteractionListener) {
             interactionListener = context
         }
         if (context is AdsClickListener) {
@@ -217,7 +217,7 @@ ${getString(R.string.main_app_url)}""")
 
     }
 
-    private fun txtRadioOptionToSpeech(radioOption: RadioButton) {
+    private fun enableOptionSpeech(radioOption: RadioButton) {
         radioOption.setOnCheckedChangeListener { compoundButton: CompoundButton?, b: Boolean ->
             if (b) {
                 val text = radioOption.text.toString()
@@ -229,7 +229,7 @@ ${getString(R.string.main_app_url)}""")
     }
 
 
-    private fun shareQst(qstToShare: String) {
+    private fun shareQuestion(qstToShare: String) {
         // Create an Intent with ACTION_SEND
         val shareIntent = Intent(Intent.ACTION_SEND)
 
@@ -253,38 +253,38 @@ ${getString(R.string.main_app_url)}""")
         binding.also {
             it.progressBarTimer.progress = 0
             it.btnConfirmNextCategory.setText(R.string.quiz_button_text_confirm) // changed R.string.confirm_text
-            it.QuizCategoryOption1.setTextColor(rbDefaultColorTxt)
-            it.QuizCategoryOption2.setTextColor(rbDefaultColorTxt)
-            it.QuizCategoryOption3.setTextColor(rbDefaultColorTxt)
+            it.QuizCategoryOption1.setTextColor(defaultTextColor)
+            it.QuizCategoryOption2.setTextColor(defaultTextColor)
+            it.QuizCategoryOption3.setTextColor(defaultTextColor)
             it.quizRadioGroup.clearCheck()
         }
 
     }
 
     override fun updateUIWithQuestion(question: Question,currentQstIndex : Int) {
-        binding.tvQuizMainElementQuestion.text = question.theMainElement
-        binding.QuizCategoryOption1.text = question.optionsList[0]
-        binding.QuizCategoryOption2.text = question.optionsList[1]
-        binding.QuizCategoryOption3.text = question.optionsList[2]
+        binding.tvQuizMainElementQuestion.text = question.prompt
+        binding.QuizCategoryOption1.text = question.options[0]
+        binding.QuizCategoryOption2.text = question.options[1]
+        binding.QuizCategoryOption3.text = question.options[2]
         binding.tvQuizCurrentIndex.text = "$currentQstIndex/${Utils.maxQuestionsPerQuiz}"
     }
 
-    override fun updateUiRightScore(userRightScore : Int) {
+    override fun updateCorrectAnswerScore(userCorrectScore : Int) {
 
         binding.tvQuizUserRightAnswerCounter.animation = AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_tv_right_wrong_score)
-        binding.tvQuizUserRightAnswerCounter.text = userRightScore.toString()
+        binding.tvQuizUserRightAnswerCounter.text = userCorrectScore.toString()
     }
-    override fun updateUiWrongScore(userWrongScore : Int) {
+    override fun updateWrongAnswerScore(userWrongScore : Int) {
         binding.tvQuizUserWrongAnswerCounter.text = userWrongScore.toString()
         binding.tvQuizUserWrongAnswerCounter.animation =
             AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_tv_right_wrong_score)
     }
 
-    override fun getCheckedOptionUiID(): Int {
+    override fun getCheckedOptionId(): Int {
         return binding.quizRadioGroup.checkedRadioButtonId
     }
 
-    override fun getCheckedOptionUi(checkedRadioID : Int): RadioButton {
+    override fun getCheckedOptionRadioButton(checkedRadioID : Int): RadioButton {
         return requireView().findViewById(checkedRadioID)
 
     }

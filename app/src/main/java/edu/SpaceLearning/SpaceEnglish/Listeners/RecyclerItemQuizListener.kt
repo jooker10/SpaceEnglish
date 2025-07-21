@@ -2,7 +2,7 @@
  * File: RecyclerItemQuizListener.java
  * Author: [Your Name]
  * Date: [Date]
- * Purpose: Listener interface for handling click events on items in a RecyclerView in a quiz context.
+ * Purpose: TimerListener interface for handling click events on items in a RecyclerView in a quiz context.
  */
 package edu.SpaceLearning.SpaceEnglish.Listeners
 

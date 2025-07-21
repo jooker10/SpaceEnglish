@@ -1,5 +1,5 @@
 /*
- * File: QuizNavFragment.java
+ * File: QuizNavigationFragment.java
  * Author: [Your Name]
  * Date: [Date]
  * Purpose: Fragment representing quiz navigation in the SpaceEnglish app.
@@ -19,9 +19,9 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerQuizNavAdapter
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.Listeners.ActivityFragmentInteractionListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.RecyclerItemQuizListener
-import edu.SpaceLearning.SpaceEnglish.QuizFiles.QuizCategoriesSubFragment
+import edu.SpaceLearning.SpaceEnglish.QuizFiles.CategoryQuizFragment
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
@@ -35,12 +35,12 @@ import edu.SpaceLearning.SpaceEnglish.databinding.FragmentNavQuizBinding
  * configuring quiz parameters, and enabling/disabling quiz category buttons
  * based on user scores.
  */
-class QuizNavFragment  : Fragment() {
+class QuizNavigationFragment  : Fragment() {
     // Binding variable for FragmentNavQuizBinding
     private lateinit var binding: FragmentNavQuizBinding
 
-    // Listener for interaction events with the parent activity
-    private var interactionListener: InteractionActivityFragmentsListener? = null
+    // TimerListener for interaction events with the parent activity
+    private var activityFragmentInteractionListener: ActivityFragmentInteractionListener? = null
 
 
     /**
@@ -67,15 +67,15 @@ class QuizNavFragment  : Fragment() {
         binding = FragmentNavQuizBinding.bind(view)
 
         // Initialize UI components and set up RecyclerView
-        setUpTvMaxQuestionPerQuiz()
-        setUpRecyclerView()
+        setupMaxQuestionsDropdown()
+        setupQuizCategoriesRecyclerView()
     }
 
     /**
      * Initializes the AutoCompleteTextView for selecting maximum questions per quiz.
      * Configures the adapter and handles item selection events.
      */
-    private fun setUpTvMaxQuestionPerQuiz() {
+    private fun setupMaxQuestionsDropdown() {
         // Set initial value from Utils.maxQuestionsPerQuiz
         binding.tvMaxQuestionsPerQuiz.setText(Utils.maxQuestionsPerQuiz.toString())
         // Update Utils.maxQuestionsPerQuiz on item selection
@@ -96,11 +96,11 @@ class QuizNavFragment  : Fragment() {
     /**
      * Sets up RecyclerView with adapter and layout manager for displaying quiz categories.
      */
-    private fun setUpRecyclerView() {
+    private fun setupQuizCategoriesRecyclerView() {
         val adapter = RecyclerQuizNavAdapter(Utils.itemRecyclerQuizNavList, object : RecyclerItemQuizListener {
             override fun onQuizItemClicked(position: Int) {
-                interactionListener?.onSetRequiredCategoryFragmentQuiz(
-                    QuizCategoriesSubFragment.getInstance(
+                activityFragmentInteractionListener?.onSetQuizCategoryFragment(
+                    CategoryQuizFragment.newInstance(
                         Constants.categoryNamesList[position]
                     )
                 )
@@ -121,9 +121,9 @@ class QuizNavFragment  : Fragment() {
      */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        // Ensure the context implements InteractionActivityFragmentsListener
-        if (context is InteractionActivityFragmentsListener) {
-            interactionListener = context
+        // Ensure the context implements ActivityFragmentInteractionListener
+        if (context is ActivityFragmentInteractionListener) {
+            activityFragmentInteractionListener = context
         }
     }
 
@@ -133,6 +133,6 @@ class QuizNavFragment  : Fragment() {
     override fun onDetach() {
         super.onDetach()
         // Release the interaction listener to avoid memory leaks
-        interactionListener = null
+        activityFragmentInteractionListener = null
     }
 }

@@ -1,5 +1,5 @@
 /*
- * File: SettingsNavFragment.kt
+ * File: AppSettingsFragment.kt
  * Author: Anouar Oulhaj
  * Date: 2025-07-13
  * Purpose: Fragment for handling application settings in the SpaceEnglish app.
@@ -18,7 +18,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
+import edu.SpaceLearning.SpaceEnglish.Listeners.ActivityFragmentInteractionListener
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
@@ -28,22 +28,22 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
  * Provides options for theme switching, language selection,
  * privacy policy viewing, and contacting support via email.
  */
-class SettingsNavFragment : PreferenceFragmentCompat() {
+class AppSettingsFragment : PreferenceFragmentCompat() {
 
-    private var interactionListener: InteractionActivityFragmentsListener? = null
-    private lateinit var switchAppTheme: SwitchPreferenceCompat
+    private var settingsActionListener: ActivityFragmentInteractionListener? = null
+    private lateinit var themeSwitchPref: SwitchPreferenceCompat
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_fragment_preferences, rootKey)
 
         // Initialize preferences
-        switchAppTheme = findPreference(Constants.KEY_SETTINGS_SWITCH_THEME) ?: return
-        val btnPrivacy = findPreference<Preference>(Constants.KEY_SETTINGS_BTN_PRIVACY)
-        val btnContactEmail = findPreference<Preference>(Constants.KEY_SETTINGS_BTN_CONTACTUS)
-        val languageList = findPreference<ListPreference>(Constants.KEY_SETTINGS_SWITCH_LANGUAGE)
+        themeSwitchPref = findPreference(Constants.KEY_SETTINGS_SWITCH_THEME) ?: return
+        val privacyPolicyPref = findPreference<Preference>(Constants.KEY_SETTINGS_BTN_PRIVACY)
+        val contactSupportPref = findPreference<Preference>(Constants.KEY_SETTINGS_BTN_CONTACTUS)
+        val languagePref = findPreference<ListPreference>(Constants.KEY_SETTINGS_SWITCH_LANGUAGE)
 
         // Language preference change listener
-        languageList?.onPreferenceChangeListener =
+        languagePref?.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { x, newValue ->
                // val newLang = newValue.toString()
                /* Utils.nativeLanguage = when (newLang) {
@@ -58,25 +58,25 @@ class SettingsNavFragment : PreferenceFragmentCompat() {
             }
 
         // Theme switch state and click listener
-        switchAppTheme.isChecked = Utils.isThemeNight
-        switchAppTheme.onPreferenceClickListener =
+        themeSwitchPref.isChecked = Utils.isThemeNight
+        themeSwitchPref.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                Utils.isThemeNight = switchAppTheme.isChecked
-                interactionListener?.onChangeTheme(Utils.isThemeNight)
+                Utils.isThemeNight = themeSwitchPref.isChecked
+                settingsActionListener?.onThemeToggled(Utils.isThemeNight)
                 true
             }
 
         // Privacy button listener
-        btnPrivacy?.onPreferenceClickListener =
+        privacyPolicyPref?.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                openPrivacyPolicy()
+                openPrivacyPolicyPage()
                 true
             }
 
         // Contact email listener
-        btnContactEmail?.onPreferenceClickListener =
+        contactSupportPref?.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                sendSupportEmail()
+                launchSupportEmailIntent()
                 true
             }
     }
@@ -84,7 +84,7 @@ class SettingsNavFragment : PreferenceFragmentCompat() {
     /**
      * Launches an email intent to contact support.
      */
-    private fun sendSupportEmail() {
+    private fun launchSupportEmailIntent() {
         val ourEmail = "oulhajfuturapps@gmail.com"
         val subject = "Enter the subject"
         val msg = "Enter your question please!"
@@ -105,7 +105,7 @@ class SettingsNavFragment : PreferenceFragmentCompat() {
     /**
      * Opens the privacy policy in the browser.
      */
-    private fun openPrivacyPolicy() {
+    private fun openPrivacyPolicyPage() {
         val privacyUrl = "https://www.app-privacy-policy.com/live.php?token=s7KzNS1bghXl15LaXFmk5ifAT7v9ji9r"
         val intent = Intent(Intent.ACTION_VIEW, privacyUrl.toUri())
         startActivity(intent)
@@ -113,13 +113,13 @@ class SettingsNavFragment : PreferenceFragmentCompat() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is InteractionActivityFragmentsListener) {
-            interactionListener = context
+        if (context is ActivityFragmentInteractionListener) {
+            settingsActionListener = context
         }
     }
 
     override fun onDetach() {
         super.onDetach()
-        interactionListener = null
+        settingsActionListener = null
     }
 }

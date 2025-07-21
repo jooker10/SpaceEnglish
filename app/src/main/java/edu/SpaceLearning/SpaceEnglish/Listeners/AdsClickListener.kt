@@ -2,7 +2,7 @@
  * File: AdsClickListener.java
  * Author: [Your Name]
  * Date: [Date]
- * Purpose: Listener interface for handling ad click events.
+ * Purpose: TimerListener interface for handling ad click events.
  */
 package edu.SpaceLearning.SpaceEnglish.Listeners
 

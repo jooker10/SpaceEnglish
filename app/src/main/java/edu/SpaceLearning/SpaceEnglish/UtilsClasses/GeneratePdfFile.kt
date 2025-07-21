@@ -107,8 +107,8 @@ class GeneratePdfFile {
             }
 
             for (row in contentTableList) {
-                table.addCell(row.idCategory.toString())
-                table.addCell(row.engCategory)
+                table.addCell(row.id.toString())
+                table.addCell(row.englishName)
                 table.addCell(nativeLanguage(row))
             }
 
@@ -133,9 +133,9 @@ class GeneratePdfFile {
      */
     private fun nativeLanguage(category: Category): String {
         return when (Utils.nativeLanguage) {
-            Constants.LANGUAGE_NATIVE_SPANISH -> category.spCategory // Spanish language field
-            Constants.LANGUAGE_NATIVE_ARABIC -> category.arCategory // Arabic language field
-            else -> category.frCategory // Default to French language field
+            Constants.LANGUAGE_NATIVE_SPANISH -> category.spanishName // Spanish language field
+            Constants.LANGUAGE_NATIVE_ARABIC -> category.arabicName // Arabic language field
+            else -> category.frenchName // Default to French language field
         }
     }
 }

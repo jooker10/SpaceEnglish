@@ -1,7 +1,7 @@
 package edu.SpaceLearning.SpaceEnglish.UtilsClasses
 
 import android.net.Uri
-import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.MyDatabase
+import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.AppDatabase
 
 /**
  * Utils class contains various utility methods and constants used throughout the application.
@@ -37,7 +37,7 @@ object Utils {
     @JvmField
     var itemRecyclerQuizNavList: ArrayList<ItemButtonsRecycler> = ArrayList()
     @JvmField
-    var tableHashNames: HashMap<String, String> = HashMap()
+    var categoryTableMap: HashMap<String, String> = HashMap()
 
     @JvmField
     var switchSimpleToVideoAds: Boolean = true
@@ -124,24 +124,24 @@ object Utils {
     fun fillHashMapDbTableName() {
 
         for (i in 0 until Constants.categoryNamesList.size)  {
-            tableHashNames[Constants.categoryNamesList[i]] = MyDatabase.dataBaseTablesNames[i]
+            categoryTableMap[Constants.categoryNamesList[i]] = AppDatabase.dataBaseTablesNames[i]
         }
 
         /*tableHashNames.clear()
         tableHashNames[Constants.VERB_NAME] =
-            MyDatabase.TABLE_VERBS
+            AppDatabase.TABLE_VERBS
         tableHashNames[Constants.SENTENCE_NAME] =
-            MyDatabase.TABLE_SENTENCES
+            AppDatabase.TABLE_SENTENCES
         tableHashNames[Constants.PHRASAL_NAME] =
-            MyDatabase.TABLE_PHRASALS
+            AppDatabase.TABLE_PHRASALS
         tableHashNames[Constants.NOUN_NAME] =
-            MyDatabase.TABLE_NOUNS
+            AppDatabase.TABLE_NOUNS
         tableHashNames[Constants.ADJ_NAME] =
-            MyDatabase.TABLE_ADJECTIVES
+            AppDatabase.TABLE_ADJECTIVES
         tableHashNames[Constants.ADV_NAME] =
-            MyDatabase.TABLE_ADVERBS
+            AppDatabase.TABLE_ADVERBS
         tableHashNames[Constants.IDIOM_NAME] =
-            MyDatabase.TABLE_IDIOMS*/
+            AppDatabase.TABLE_IDIOMS*/
     }
 
     /**
