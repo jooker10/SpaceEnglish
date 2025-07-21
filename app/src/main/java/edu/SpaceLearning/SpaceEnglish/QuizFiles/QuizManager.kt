@@ -4,10 +4,6 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import edu.SpaceLearning.SpaceEnglish.CountDownTimerHelper
 import edu.SpaceLearning.SpaceEnglish.CountDownTimerHelper.OnCountdownListener
-import edu.SpaceLearning.SpaceEnglish.ForCopies
-import edu.SpaceLearning.SpaceEnglish.ForCopies.Listener
-import edu.SpaceLearning.SpaceEnglish.ForCopies.QuizCallback
-import edu.SpaceLearning.SpaceEnglish.ForCopies.QuizTimer
 import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.InteractionActivityFragmentsListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.UiControllerListener
@@ -31,10 +27,9 @@ class QuizManager(val requiredActivity : Activity,val uiControllerListener : UiC
     private var quizTimer: QuizTimer? = null
 
     private var interactionListener: InteractionActivityFragmentsListener? = null
-    private var adsClickListener: AdsClickListener? = null
+    //private var adsClickListener: AdsClickListener? = null
     private var soundManager: SoundManager? = null
     private lateinit var currentQuestion: Question
-    private var rbDefaultColorTxt: ColorStateList? = null
     private var currentQstIndex = 0
     var maxCounterTimer = 15
     private val maxAllowedAddedPoints = 10
