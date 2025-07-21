@@ -135,7 +135,7 @@ class GeneratePdfFile {
         return when (Utils.nativeLanguage) {
             Constants.LANGUAGE_NATIVE_SPANISH -> category.spCategory // Spanish language field
             Constants.LANGUAGE_NATIVE_ARABIC -> category.arCategory // Arabic language field
-            else -> category.FrCategory // Default to French language field
+            else -> category.frCategory // Default to French language field
         }
     }
 }
