@@ -8,7 +8,7 @@ package edu.SpaceLearning.SpaceEnglish.Listeners
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter
+import edu.SpaceLearning.SpaceEnglish.Adapters.CategoryAdapter
 import java.io.File
 
 /**
@@ -25,7 +25,7 @@ interface ActivityFragmentInteractionListener {
      * Called to filter the table in TableFragment using the provided RecyclerViewAdapter.
      * @param tableRecyclerAdapter The RecyclerViewAdapter used for filtering.
      */
-    fun onTableFilterRequested(tableRecyclerAdapter: RecyclerTableAdapter)
+    fun onTableFilterRequested(tableRecyclerAdapter: CategoryAdapter)
 
     /**
      * Called to send scores to a dialog with specific details.

@@ -31,7 +31,7 @@ class CategoryFilter(
     }
 
     private fun getNativeText(category: Category): String {
-        return when (Utils.nativeLanguage) {
+        return when (QuizUtils.translationLanguage) {
             Constants.LANGUAGE_NATIVE_ARABIC -> category.arabicName
             Constants.LANGUAGE_NATIVE_SPANISH -> category.spanishName
             else -> category.frenchName

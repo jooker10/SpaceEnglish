@@ -13,9 +13,9 @@ class SharedPrefsManager(private val sharedPreferences: SharedPreferences) {
          * Retrieves shared preferences data related to scores, elements added, quiz completion, and other settings.
          */
         get() {
-            Utils.uriProfile = Uri.parse(
+            QuizUtils.profileUri = Uri.parse(
                 sharedPreferences.getString(
-                    Constants.TAG_PREF_STR_URI_PROFILE_IMG,
+                    Constants.PREF_PROFILE_IMAGE_URI,
                     ""
                 )
             )
@@ -25,224 +25,224 @@ class SharedPrefsManager(private val sharedPreferences: SharedPreferences) {
             )
 
             Scores.verbScore = sharedPreferences.getInt(
-                Constants.TAG_PREF_VERB_SCORE,
+                Constants.PREF_SCORE_VERBS,
                 0
             )
             Scores.sentenceScore = sharedPreferences.getInt(
-                Constants.TAG_PREF_SENTENCE_SCORE,
+                Constants.PREF_SCORE_SENTENCES,
                 0
             )
             Scores.phrasalScore = sharedPreferences.getInt(
-                Constants.TAG_PREF_PHRASAL_SCORE,
+                Constants.PREF_SCORE_PHRASAL,
                 0
             )
             Scores.nounScore = sharedPreferences.getInt(
-                Constants.TAG_PREF_NOUN_SCORE,
+                Constants.PREF_SCORE_NOUNS,
                 0
             )
             Scores.adjScore = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADJ_SCORE,
+                Constants.PREF_SCORE_ADJECTIVES,
                 0
             )
             Scores.advScore = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADV_SCORE,
+                Constants.PREF_SCORE_ADVERBS,
                 0
             )
             Scores.idiomScore = sharedPreferences.getInt(
-                Constants.TAG_PREF_IDIOM_SCORE,
+                Constants.PREF_SCORE_IDIOMS,
                 0
             )
 
             // Elements added
             Scores.verbAdded = sharedPreferences.getInt(
-                Constants.TAG_PREF_VERB_ADDED,
+                Constants.PREF_VERB_ADDED,
                 0
             )
             Scores.sentenceAdded = sharedPreferences.getInt(
-                Constants.TAG_PREF_SENTENCE_ADDED,
+                Constants.PREF_SENTENCE_ADDED,
                 0
             )
             Scores.phrasalAdded = sharedPreferences.getInt(
-                Constants.TAG_PREF_PHRASAL_ADDED,
+                Constants.PREF_PHRASAL_ADDED,
                 0
             )
             Scores.nounAdded = sharedPreferences.getInt(
-                Constants.TAG_PREF_NOUN_ADDED,
+                Constants.PREF_NOUN_ADDED,
                 0
             )
             Scores.adjAdded = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADJ_ADDED,
+                Constants.PREF_ADJECTIVE_ADDED,
                 0
             )
             Scores.advAdded = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADV_ADDED,
+                Constants.PREF_ADVERB_ADDED,
                 0
             )
             Scores.idiomAdded = sharedPreferences.getInt(
-                Constants.TAG_PREF_IDIOM_ADDED,
+                Constants.PREF_IDIOM_ADDED,
                 0
             )
 
             // Elements added via video
             Scores.verbAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_VERB_ADDED_VIDEO,
+                Constants.PREF_VERB_ADDED_VIDEO,
                 0
             )
             Scores.sentenceAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_SENTENCE_ADDED_VIDEO,
+                Constants.PREF_SENTENCE_ADDED_VIDEO,
                 0
             )
             Scores.phrasalAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_PHRASAL_ADDED_VIDEO,
+                Constants.PREF_PHRASAL_ADDED_VIDEO,
                 0
             )
             Scores.nounAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_NOUN_ADDED_VIDEO,
+                Constants.PREF_NOUN_ADDED_VIDEO,
                 0
             )
             Scores.adjAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADJ_ADDED_VIDEO,
+                Constants.PREF_ADJECTIVE_ADDED_VIDEO,
                 0
             )
             Scores.advAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADV_ADDED_VIDEO,
+                Constants.PREF_ADVERB_ADDED_VIDEO,
                 0
             )
             Scores.idiomAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_IDIOM_ADDED_VIDEO,
+                Constants.PREF_IDIOM_ADDED_VIDEO,
                 0
             )
 
             // Points added via video
             Scores.verbPointsAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_VERB_POINT_ADDED_VIDEO,
+                Constants.PREF_VERB_POINT_ADDED_VIDEO,
                 0
             )
             Scores.sentencePointsAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_SENTENCE_POINT_ADDED_VIDEO,
+                Constants.PREF_SENTENCE_POINT_ADDED_VIDEO,
                 0
             )
             Scores.phrasalPointsAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_PHRASAL_POINT_ADDED_VIDEO,
+                Constants.PREF_PHRASAL_POINT_ADDED_VIDEO,
                 0
             )
             Scores.nounPointsAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_NOUN_POINT_ADDED_VIDEO,
+                Constants.PREF_NOUN_POINT_ADDED_VIDEO,
                 0
             )
             Scores.adjPointsAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADJ_POINT_ADDED_VIDEO,
+                Constants.PREF_ADJECTIVE_POINT_ADDED_VIDEO,
                 0
             )
             Scores.advPointsAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADV_POINT_ADDED_VIDEO,
+                Constants.PREF_ADVERB_POINT_ADDED_VIDEO,
                 0
             )
             Scores.idiomPointsAddedVideo = sharedPreferences.getInt(
-                Constants.TAG_PREF_IDIOM_POINT_ADDED_VIDEO,
+                Constants.PREF_IDIOM_POINT_ADDED_VIDEO,
                 0
             )
 
             // Quiz completion counters
             Scores.verbQuizCompleted = sharedPreferences.getInt(
-                Constants.TAG_PREF_VERB_QUIZ_COMPLETED,
+                Constants.PREF_VERB_QUIZ_COMPLETED,
                 0
             )
             Scores.sentenceQuizCompleted = sharedPreferences.getInt(
-                Constants.TAG_PREF_SENTENCE_QUIZ_COMPLETED,
+                Constants.PREF_SENTENCE_QUIZ_COMPLETED,
                 0
             )
             Scores.phrasalQuizCompleted = sharedPreferences.getInt(
-                Constants.TAG_PREF_PHRASAL_QUIZ_COMPLETED,
+                Constants.PREF_PHRASAL_QUIZ_COMPLETED,
                 0
             )
             Scores.nounQuizCompleted = sharedPreferences.getInt(
-                Constants.TAG_PREF_NOUN_QUIZ_COMPLETED,
+                Constants.PREF_NOUN_QUIZ_COMPLETED,
                 0
             )
             Scores.adjQuizCompleted = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADJ_QUIZ_COMPLETED,
+                Constants.PREF_ADJECTIVE_QUIZ_COMPLETED,
                 0
             )
             Scores.advQuizCompleted = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADV_QUIZ_COMPLETED,
+                Constants.PREF_ADVERB_QUIZ_COMPLETED,
                 0
             )
             Scores.idiomQuizCompleted = sharedPreferences.getInt(
-                Constants.TAG_PREF_IDIOM_QUIZ_COMPLETED,
+                Constants.PREF_IDIOM_QUIZ_COMPLETED,
                 0
             )
 
             // Quiz completion counters correctly
             Scores.verbQuizCompletedCorrectly = sharedPreferences.getInt(
-                Constants.TAG_PREF_VERB_QUIZ_COMPLETED_CORRECTLY,
+                Constants.PREF_VERB_QUIZ_COMPLETED_CORRECT,
                 0
             )
             Scores.sentenceQuizCompletedCorrectly = sharedPreferences.getInt(
-                Constants.TAG_PREF_SENTENCE_QUIZ_COMPLETED_CORRECTLY,
+                Constants.PREF_SENTENCE_QUIZ_COMPLETED_CORRECT,
                 0
             )
             Scores.phrasalQuizCompletedCorrectly = sharedPreferences.getInt(
-                Constants.TAG_PREF_PHRASAL_QUIZ_COMPLETED_CORRECTLY,
+                Constants.PREF_PHRASAL_QUIZ_COMPLETED_CORRECT,
                 0
             )
             Scores.nounQuizCompletedCorrectly = sharedPreferences.getInt(
-                Constants.TAG_PREF_NOUN_QUIZ_COMPLETED_CORRECTLY,
+                Constants.PREF_NOUN_QUIZ_COMPLETED_CORRECT,
                 0
             )
             Scores.adjQuizCompletedCorrectly = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADJ_QUIZ_COMPLETED_CORRECTLY,
+                Constants.PREF_ADJECTIVE_QUIZ_COMPLETED_CORRECT,
                 0
             )
             Scores.advQuizCompletedCorrectly = sharedPreferences.getInt(
-                Constants.TAG_PREF_ADV_QUIZ_COMPLETED_CORRECTLY,
+                Constants.PREF_ADVERB_QUIZ_COMPLETED_CORRECT,
                 0
             )
             Scores.idiomQuizCompletedCorrectly = sharedPreferences.getInt(
-                Constants.TAG_PREF_IDIOM_QUIZ_COMPLETED_CORRECTLY,
+                Constants.PREF_IDIOM_QUIZ_COMPLETED_CORRECT,
                 0
             )
 
             // Allowed maximum numbers for each category
-            Utils.allowedVerbsNumber =
+            QuizUtils.maxVerbs =
                 sharedPreferences.getInt(
-                    Constants.TAG_PREF_ALLOWED_VERBS_NUMBER,
+                    Constants.PREF_ALLOWED_VERBS_COUNT,
                     100
                 )
-            Utils.allowedSentencesNumber =
+            QuizUtils.maxSentences =
                 sharedPreferences.getInt(
-                    Constants.TAG_PREF_ALLOWED_SENTENCES_NUMBER,
+                    Constants.PREF_ALLOWED_SENTENCES_COUNT,
                     50
                 )
-            Utils.allowedPhrasalsNumber =
+            QuizUtils.maxPhrasal =
                 sharedPreferences.getInt(
-                    Constants.TAG_PREF_ALLOWED_PHRASALS_NUMBER,
+                    Constants.PREF_ALLOWED_PHRASAL_COUNT,
                     50
                 )
-            Utils.allowedNounsNumber =
+            QuizUtils.maxNouns =
                 sharedPreferences.getInt(
-                    Constants.TAG_PREF_ALLOWED_NOUNS_NUMBER,
+                    Constants.PREF_ALLOWED_NOUNS_COUNT,
                     50
                 )
-            Utils.allowedAdjsNumber =
+            QuizUtils.maxAdjectives =
                 sharedPreferences.getInt(
-                    Constants.TAG_PREF_ALLOWED_ADJS_NUMBER,
+                    Constants.PREF_ALLOWED_ADJECTIVES_COUNT,
                     50
                 )
-            Utils.allowedAdvsNumber =
+            QuizUtils.maxAdverbs =
                 sharedPreferences.getInt(
-                    Constants.TAG_PREF_ALLOWED_ADVS_NUMBER,
+                    Constants.PREF_ALLOWED_ADVERBS_COUNT,
                     50
                 )
-            Utils.allowedIdiomsNumber =
+            QuizUtils.maxIdioms =
                 sharedPreferences.getInt(
-                    Constants.TAG_PREF_ALLOWED_IDIOMS_NUMBER,
+                    Constants.PREF_ALLOWED_IDIOMS_COUNT,
                     50
                 )
 
-            Utils.nativeLanguage =
+            QuizUtils.translationLanguage =
                 sharedPreferences.getString(
-                    Constants.TAG_PREF_NATIVE_LANGUAGE,
+                    Constants.PREF_NATIVE_LANGUAGE_DEFAULT,
                     Constants.LANGUAGE_NATIVE_FRENCH
                 ).toString()
         }
@@ -252,14 +252,14 @@ class SharedPrefsManager(private val sharedPreferences: SharedPreferences) {
          * Retrieves shared preferences data related to theme settings.
          */
         get() {
-            Utils.isThemeNight =
+            QuizUtils.isDarkThemeEnabled =
                 sharedPreferences.getBoolean(
-                    Constants.TAG_PREF_IS_THEME_DARK_MODE,
+                    Constants.PREF_IS_THEME_DARK_MODE,
                     false
                 )
-            Utils.isFirstTimeActivity =
+            QuizUtils.isFirstTimeUser =
                 sharedPreferences.getBoolean(
-                    Constants.TAG_PREF_IS_FIRST_TIME_ACTIVITY,
+                    Constants.PREF_IS_FIRST_LAUNCH,
                     false
                 )
         }
@@ -271,10 +271,10 @@ class SharedPrefsManager(private val sharedPreferences: SharedPreferences) {
      */
     fun putSharedPrefTheme(editor: SharedPreferences.Editor) {
         editor.putBoolean(
-            Constants.TAG_PREF_IS_THEME_DARK_MODE,
-            Utils.isThemeNight
+            Constants.PREF_IS_THEME_DARK_MODE,
+            QuizUtils.isDarkThemeEnabled
         ) // Set the theme mode
-        editor.putBoolean(Constants.TAG_PREF_IS_FIRST_TIME_ACTIVITY, Utils.isFirstTimeActivity)
+        editor.putBoolean(Constants.PREF_IS_FIRST_LAUNCH, QuizUtils.isFirstTimeUser)
         editor.apply()
     }
 
@@ -285,98 +285,98 @@ class SharedPrefsManager(private val sharedPreferences: SharedPreferences) {
      */
     fun putSharedPreferencesScores(editor: SharedPreferences.Editor) {
         // Put category main scores in shared preferences
-        editor.putInt(Constants.TAG_PREF_VERB_SCORE, Scores.verbScore)
-        editor.putInt(Constants.TAG_PREF_SENTENCE_SCORE, Scores.sentenceScore)
-        editor.putInt(Constants.TAG_PREF_PHRASAL_SCORE, Scores.phrasalScore)
-        editor.putInt(Constants.TAG_PREF_NOUN_SCORE, Scores.nounScore)
-        editor.putInt(Constants.TAG_PREF_ADJ_SCORE, Scores.adjScore)
-        editor.putInt(Constants.TAG_PREF_ADV_SCORE, Scores.advScore)
-        editor.putInt(Constants.TAG_PREF_IDIOM_SCORE, Scores.idiomScore)
+        editor.putInt(Constants.PREF_SCORE_VERBS, Scores.verbScore)
+        editor.putInt(Constants.PREF_SCORE_SENTENCES, Scores.sentenceScore)
+        editor.putInt(Constants.PREF_SCORE_PHRASAL, Scores.phrasalScore)
+        editor.putInt(Constants.PREF_SCORE_NOUNS, Scores.nounScore)
+        editor.putInt(Constants.PREF_SCORE_ADJECTIVES, Scores.adjScore)
+        editor.putInt(Constants.PREF_SCORE_ADVERBS, Scores.advScore)
+        editor.putInt(Constants.PREF_SCORE_IDIOMS, Scores.idiomScore)
 
         // Elements added
-        editor.putInt(Constants.TAG_PREF_VERB_ADDED, Scores.verbAdded)
-        editor.putInt(Constants.TAG_PREF_SENTENCE_ADDED, Scores.sentenceAdded)
-        editor.putInt(Constants.TAG_PREF_PHRASAL_ADDED, Scores.phrasalAdded)
-        editor.putInt(Constants.TAG_PREF_NOUN_ADDED, Scores.nounAdded)
-        editor.putInt(Constants.TAG_PREF_ADJ_ADDED, Scores.adjAdded)
-        editor.putInt(Constants.TAG_PREF_ADV_ADDED, Scores.advAdded)
-        editor.putInt(Constants.TAG_PREF_IDIOM_ADDED, Scores.idiomAdded)
+        editor.putInt(Constants.PREF_VERB_ADDED, Scores.verbAdded)
+        editor.putInt(Constants.PREF_SENTENCE_ADDED, Scores.sentenceAdded)
+        editor.putInt(Constants.PREF_PHRASAL_ADDED, Scores.phrasalAdded)
+        editor.putInt(Constants.PREF_NOUN_ADDED, Scores.nounAdded)
+        editor.putInt(Constants.PREF_ADJECTIVE_ADDED, Scores.adjAdded)
+        editor.putInt(Constants.PREF_ADVERB_ADDED, Scores.advAdded)
+        editor.putInt(Constants.PREF_IDIOM_ADDED, Scores.idiomAdded)
 
         // Elements added via video
-        editor.putInt(Constants.TAG_PREF_VERB_ADDED_VIDEO, Scores.verbAddedVideo)
-        editor.putInt(Constants.TAG_PREF_SENTENCE_ADDED_VIDEO, Scores.sentenceAddedVideo)
-        editor.putInt(Constants.TAG_PREF_PHRASAL_ADDED_VIDEO, Scores.phrasalAddedVideo)
-        editor.putInt(Constants.TAG_PREF_NOUN_ADDED_VIDEO, Scores.nounAddedVideo)
-        editor.putInt(Constants.TAG_PREF_ADJ_ADDED_VIDEO, Scores.adjAddedVideo)
-        editor.putInt(Constants.TAG_PREF_ADV_ADDED_VIDEO, Scores.advAddedVideo)
-        editor.putInt(Constants.TAG_PREF_IDIOM_ADDED_VIDEO, Scores.idiomAddedVideo)
+        editor.putInt(Constants.PREF_VERB_ADDED_VIDEO, Scores.verbAddedVideo)
+        editor.putInt(Constants.PREF_SENTENCE_ADDED_VIDEO, Scores.sentenceAddedVideo)
+        editor.putInt(Constants.PREF_PHRASAL_ADDED_VIDEO, Scores.phrasalAddedVideo)
+        editor.putInt(Constants.PREF_NOUN_ADDED_VIDEO, Scores.nounAddedVideo)
+        editor.putInt(Constants.PREF_ADJECTIVE_ADDED_VIDEO, Scores.adjAddedVideo)
+        editor.putInt(Constants.PREF_ADVERB_ADDED_VIDEO, Scores.advAddedVideo)
+        editor.putInt(Constants.PREF_IDIOM_ADDED_VIDEO, Scores.idiomAddedVideo)
 
         // Number of quizzes completed
-        editor.putInt(Constants.TAG_PREF_VERB_QUIZ_COMPLETED, Scores.verbQuizCompleted)
-        editor.putInt(Constants.TAG_PREF_SENTENCE_QUIZ_COMPLETED, Scores.sentenceQuizCompleted)
-        editor.putInt(Constants.TAG_PREF_PHRASAL_QUIZ_COMPLETED, Scores.phrasalQuizCompleted)
-        editor.putInt(Constants.TAG_PREF_NOUN_QUIZ_COMPLETED, Scores.nounQuizCompleted)
-        editor.putInt(Constants.TAG_PREF_ADJ_QUIZ_COMPLETED, Scores.adjQuizCompleted)
-        editor.putInt(Constants.TAG_PREF_ADV_QUIZ_COMPLETED, Scores.advQuizCompleted)
-        editor.putInt(Constants.TAG_PREF_IDIOM_QUIZ_COMPLETED, Scores.idiomQuizCompleted)
+        editor.putInt(Constants.PREF_VERB_QUIZ_COMPLETED, Scores.verbQuizCompleted)
+        editor.putInt(Constants.PREF_SENTENCE_QUIZ_COMPLETED, Scores.sentenceQuizCompleted)
+        editor.putInt(Constants.PREF_PHRASAL_QUIZ_COMPLETED, Scores.phrasalQuizCompleted)
+        editor.putInt(Constants.PREF_NOUN_QUIZ_COMPLETED, Scores.nounQuizCompleted)
+        editor.putInt(Constants.PREF_ADJECTIVE_QUIZ_COMPLETED, Scores.adjQuizCompleted)
+        editor.putInt(Constants.PREF_ADVERB_QUIZ_COMPLETED, Scores.advQuizCompleted)
+        editor.putInt(Constants.PREF_IDIOM_QUIZ_COMPLETED, Scores.idiomQuizCompleted)
 
         // Number of quizzes completed correctly
         editor.putInt(
-            Constants.TAG_PREF_VERB_QUIZ_COMPLETED_CORRECTLY,
+            Constants.PREF_VERB_QUIZ_COMPLETED_CORRECT,
             Scores.verbQuizCompletedCorrectly
         )
         editor.putInt(
-            Constants.TAG_PREF_SENTENCE_QUIZ_COMPLETED_CORRECTLY,
+            Constants.PREF_SENTENCE_QUIZ_COMPLETED_CORRECT,
             Scores.sentenceQuizCompletedCorrectly
         )
         editor.putInt(
-            Constants.TAG_PREF_PHRASAL_QUIZ_COMPLETED_CORRECTLY,
+            Constants.PREF_PHRASAL_QUIZ_COMPLETED_CORRECT,
             Scores.phrasalQuizCompletedCorrectly
         )
         editor.putInt(
-            Constants.TAG_PREF_NOUN_QUIZ_COMPLETED_CORRECTLY,
+            Constants.PREF_NOUN_QUIZ_COMPLETED_CORRECT,
             Scores.nounQuizCompletedCorrectly
         )
         editor.putInt(
-            Constants.TAG_PREF_ADJ_QUIZ_COMPLETED_CORRECTLY,
+            Constants.PREF_ADJECTIVE_QUIZ_COMPLETED_CORRECT,
             Scores.adjQuizCompletedCorrectly
         )
         editor.putInt(
-            Constants.TAG_PREF_ADV_QUIZ_COMPLETED_CORRECTLY,
+            Constants.PREF_ADVERB_QUIZ_COMPLETED_CORRECT,
             Scores.advQuizCompletedCorrectly
         )
         editor.putInt(
-            Constants.TAG_PREF_IDIOM_QUIZ_COMPLETED_CORRECTLY,
+            Constants.PREF_IDIOM_QUIZ_COMPLETED_CORRECT,
             Scores.idiomQuizCompletedCorrectly
         )
 
         // Points added via video
-        editor.putInt(Constants.TAG_PREF_VERB_POINT_ADDED_VIDEO, Scores.verbPointsAddedVideo)
+        editor.putInt(Constants.PREF_VERB_POINT_ADDED_VIDEO, Scores.verbPointsAddedVideo)
         editor.putInt(
-            Constants.TAG_PREF_SENTENCE_POINT_ADDED_VIDEO,
+            Constants.PREF_SENTENCE_POINT_ADDED_VIDEO,
             Scores.sentencePointsAddedVideo
         )
-        editor.putInt(Constants.TAG_PREF_PHRASAL_POINT_ADDED_VIDEO, Scores.phrasalPointsAddedVideo)
-        editor.putInt(Constants.TAG_PREF_NOUN_POINT_ADDED_VIDEO, Scores.nounPointsAddedVideo)
-        editor.putInt(Constants.TAG_PREF_ADJ_POINT_ADDED_VIDEO, Scores.adjPointsAddedVideo)
-        editor.putInt(Constants.TAG_PREF_ADV_POINT_ADDED_VIDEO, Scores.advPointsAddedVideo)
-        editor.putInt(Constants.TAG_PREF_IDIOM_POINT_ADDED_VIDEO, Scores.idiomPointsAddedVideo)
+        editor.putInt(Constants.PREF_PHRASAL_POINT_ADDED_VIDEO, Scores.phrasalPointsAddedVideo)
+        editor.putInt(Constants.PREF_NOUN_POINT_ADDED_VIDEO, Scores.nounPointsAddedVideo)
+        editor.putInt(Constants.PREF_ADJECTIVE_POINT_ADDED_VIDEO, Scores.adjPointsAddedVideo)
+        editor.putInt(Constants.PREF_ADVERB_POINT_ADDED_VIDEO, Scores.advPointsAddedVideo)
+        editor.putInt(Constants.PREF_IDIOM_POINT_ADDED_VIDEO, Scores.idiomPointsAddedVideo)
 
         // Put allowed max numbers in shared preferences
-        editor.putInt(Constants.TAG_PREF_ALLOWED_VERBS_NUMBER, Utils.allowedVerbsNumber)
-        editor.putInt(Constants.TAG_PREF_ALLOWED_SENTENCES_NUMBER, Utils.allowedSentencesNumber)
-        editor.putInt(Constants.TAG_PREF_ALLOWED_PHRASALS_NUMBER, Utils.allowedPhrasalsNumber)
-        editor.putInt(Constants.TAG_PREF_ALLOWED_NOUNS_NUMBER, Utils.allowedNounsNumber)
-        editor.putInt(Constants.TAG_PREF_ALLOWED_ADJS_NUMBER, Utils.allowedAdjsNumber)
-        editor.putInt(Constants.TAG_PREF_ALLOWED_ADVS_NUMBER, Utils.allowedAdvsNumber)
-        editor.putInt(Constants.TAG_PREF_ALLOWED_IDIOMS_NUMBER, Utils.allowedIdiomsNumber)
+        editor.putInt(Constants.PREF_ALLOWED_VERBS_COUNT, QuizUtils.maxVerbs)
+        editor.putInt(Constants.PREF_ALLOWED_SENTENCES_COUNT, QuizUtils.maxSentences)
+        editor.putInt(Constants.PREF_ALLOWED_PHRASAL_COUNT, QuizUtils.maxPhrasal)
+        editor.putInt(Constants.PREF_ALLOWED_NOUNS_COUNT, QuizUtils.maxNouns)
+        editor.putInt(Constants.PREF_ALLOWED_ADJECTIVES_COUNT, QuizUtils.maxAdjectives)
+        editor.putInt(Constants.PREF_ALLOWED_ADVERBS_COUNT, QuizUtils.maxAdverbs)
+        editor.putInt(Constants.PREF_ALLOWED_IDIOMS_COUNT, QuizUtils.maxIdioms)
 
         editor.putString(
-            Constants.TAG_PREF_NATIVE_LANGUAGE,
-            Utils.nativeLanguage
+            Constants.PREF_NATIVE_LANGUAGE_DEFAULT,
+            QuizUtils.translationLanguage
         ) // Set preferences of current native language
 
-        editor.putString(Constants.TAG_PREF_STR_URI_PROFILE_IMG, Utils.uriProfile.toString())
+        editor.putString(Constants.PREF_PROFILE_IMAGE_URI, QuizUtils.profileUri.toString())
         editor.putInt(Constants.TAG_PREF_SCORES_TOTAL_SCORE, Scores.totalScore)
 
         editor.apply()

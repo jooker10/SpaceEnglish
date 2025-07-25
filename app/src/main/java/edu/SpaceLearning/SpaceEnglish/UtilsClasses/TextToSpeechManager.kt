@@ -24,14 +24,10 @@ class TextToSpeechManager(context: Context?, listener: OnInitListener?) {
     }
     fun setLanguage(language : Locale) {
         textToSpeech.language = language
-    /**
-     * Speaks the provided text using TextToSpeech engine.
-     *
-     * @param text The text to be spoken.
-     */
+
 
     }
-    fun speak(text: String?) {
+    fun speak(text: String? = "no text selected") {
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 

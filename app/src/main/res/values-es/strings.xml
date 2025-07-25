@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Spanish Translations -->
+
+    <string name="login_failed">Inicio de sesión fallido</string>
+    <string name="action_sign_in">Iniciar sesión o registrarse</string>
+    <string name="action_sign_in_short">Iniciar sesión</string>
+    <string name="welcome">¡Bienvenido!</string>
+    <string name="invalid_username">Nombre de usuario inválido</string>
+    <string name="invalid_password">La contraseña debe tener más de 5 caracteres</string>
+    <string name="text_share_question_with_friends">¡Desafía a tus amigos con esta pregunta!</string>
+    <string name="quiz_button_text_confirm">Confirmar</string>
+    <string name="quiz_button_text_next">Siguiente</string>
+    <string name="quiz_button_text_finish">Finalizar</string>
+    <string name="text_button_read_more">Leer más</string>
+    <string name="home_btn_make_this_day_productive">Hagamos que este día sea productivo</string>
+
+    <string name="home_btn_learn_first">Aprende primero</string>
+    <string name="home_btn_test_your_self">Pon a prueba tus conocimientos</string>
+    <string name="home_user_default_name" translatable="false">Usuario 01</string>
+    <string name="home_msg_hi">Hola, </string>
+    <string name="settings_email_enter_the_subject">Ingresa el asunto</string>
+    <string name="settings_email_enter_your_question_please">Por favor ingresa tu pregunta</string>
+    <string name="settings_email_choose_email_app">Elige una aplicación de correo</string>
+    <string name="settings_email_no_email_app_installed">No hay una aplicación de correo instalada</string>
+
+    <string name="settings_label_send_us_an_email_for_more_info">Envíanos un correo para más información</string>
+    <string name="settings_label_tap_to_access_app_privacy">Toca para acceder a la privacidad de la app</string>
+    <string name="settings_label_disable_dark_theme_mode">Desactivar modo oscuro</string>
+    <string name="settings_label_enable_dark_theme_mode">Activar modo oscuro</string>
+    <string name="settings_label_terms_and_privacy_policy">Términos y política de privacidad</string>
+    <string name="setting_user_name_label">Nombre de usuario</string>
+    <string name="settings_label_general">General</string>
+    <string name="settings_label_native_language">Idioma nativo</string>
+    <string name="settings_label_theme">Tema</string>
+    <string name="settings_label_more">Más</string>
+    <string name="settings_label_contact_us">Contáctanos</string>
+
+    <string name="quiz_toast_text_no_answer_selected" >Por favor responde la pregunta primero</string>
+    <string name="bottom_nav_already_selected">Ya seleccionado</string>
+    <string name="main_email_enter_the_subject">Ingresa el asunto</string>
+    <string name="main_email_enter_your_question_please">Por favor ingresa tu pregunta</string>
+    <string name="main_email_no_email_app_installed">No hay una aplicación de correo instalada</string>
+    <string name="pdf_msg_file_not_found">Archivo no encontrado</string>
+    <string name="pdf_saved_check_file_at">PDF guardado. Verifica el archivo en:</string>
+    <string name="no_app_found_to_open_pdf">No se encontró aplicación para abrir el PDF</string>
+    <string name="pdf_you_can_open_it_manually_from">Puedes abrirlo manualmente desde:</string>
+    <string name="error_opening_pdf_file_saved_at">Error al abrir el PDF. Archivo guardado en:</string>
+    <string name="msg_exit_app">Salir de la app</string>
+    <string name="msg_do_you_want_to_exit_the_app">¿Deseas salir de la aplicación?</string>
+    <string name="msg_yes">Sí</string>
+    <string name="msg_no">No</string>
+    <string name="quiz_maximum_number_of_questions_per_quiz">Número máximo de preguntas por cuestionario</string>
+    <string name="quiz_please_choose_the_category_you_prefer">Por favor elige la categoría que prefieras:</string>
+    <string name="msg_share_with">Compartir con</string>
+    <string name="quiz_label_chose_the_correct_answer">Elige la respuesta correcta:</string>
+    <string name="label_db_table_of">Tabla de</string>
+    <string name="msg_failed_to_generate_pdf">No se pudo generar el PDF</string>
+    <string name="label_flag_sp">Es</string>
+    <string name="label_flag_ar">Ar</string>
+    <string name="label_flag_fr">Fr</string>
+    <string name="label_flag_en">En</string>
+    <string name="btn_name_examples">Ejemplos</string>
+    <string name="label_options">Opciones</string>
+    <string name="tab_label_rewarded_ads">Anuncios con recompensa</string>
+    <string name="tab_label_more_apps">Más aplicaciones</string>
+    <string name="msg_required_points_to_unlock_this_section">Puntos requeridos para desbloquear esta sección:</string>
+    <string name="add_10_points_5_verbs">Agregar 10 puntos + 5 verbos</string>
+    <string name="watch_an_add">Ver un anuncio</string>
+    <string name="add_10_points_5_sentences">Agregar 10 puntos + 5 frases</string>
+    <string name="add_10_points_5_phrasal_verbs">Agregar 10 puntos + 5 verbos frasales</string>
+    <string name="add_10_points_5_nouns">Agregar 10 puntos + 5 sustantivos</string>
+    <string name="add_10_points_5_adjectives">Agregar 10 puntos + 5 adjetivos</string>
+    <string name="add_10_points_5_adverbs">Agregar 10 puntos + 5 adverbios</string>
+    <string name="add_10_points_5_idioms">Agregar 10 puntos + 5 modismos</string>
+
+    <string name="menu_nav_label_home">Inicio</string>
+    <string name="menu_nav_label_tables">Tablas</string>
+    <string name="menu_nav_label_settings">Configuraciones</string>
+    <string name="menu_nav_label_q_a">P/R</string> <!-- Pregunta/Respuesta -->
+    <string name="menu_toolbar_search">Buscar</string>
+    <string name="menu_toolbar_about">Acerca de</string>
+    <string name="menu_toolbar_contact_us">Contáctanos</string>
+    <string name="menu_toolbar_rate">Calificar</string>
+    <string name="menu_toolbar_sign_out">Cerrar sesión</string>
+
+</resources>

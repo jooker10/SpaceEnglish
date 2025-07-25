@@ -47,15 +47,15 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import edu.SpaceLearning.SpaceEnglish.Adapters.RecyclerTableAdapter
+import edu.SpaceLearning.SpaceEnglish.Adapters.CategoryAdapter
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DatabaseManager
 import edu.SpaceLearning.SpaceEnglish.DataBaseFiles.DatabaseManager.Companion.getInstance
-import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment
-import edu.SpaceLearning.SpaceEnglish.DialogQuizFragment.Companion.newInstance
-import edu.SpaceLearning.SpaceEnglish.Listeners.AdsClickListener
+import edu.SpaceLearning.SpaceEnglish.QuizResultDialogFragment
+import edu.SpaceLearning.SpaceEnglish.QuizResultDialogFragment.Companion.newInstance
+import edu.SpaceLearning.SpaceEnglish.Listeners.AdEventListener
 import edu.SpaceLearning.SpaceEnglish.Listeners.ActivityFragmentInteractionListener
 import edu.SpaceLearning.SpaceEnglish.LoginActivity
-import edu.SpaceLearning.SpaceEnglish.MyBottomSheet
+import edu.SpaceLearning.SpaceEnglish.AddElementOptionsBottomSheet
 import edu.SpaceLearning.SpaceEnglish.R
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.AdsManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Constants
@@ -64,16 +64,15 @@ import edu.SpaceLearning.SpaceEnglish.UtilsClasses.RatingManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SharedPrefsManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.SoundManager
 import edu.SpaceLearning.SpaceEnglish.UtilsClasses.TextToSpeechManager
-import edu.SpaceLearning.SpaceEnglish.UtilsClasses.Utils
-import edu.SpaceLearning.SpaceEnglish._Navfragments.HomeNavFragment
-import edu.SpaceLearning.SpaceEnglish._Navfragments.QuizNavigationFragment
-import edu.SpaceLearning.SpaceEnglish._Navfragments.AppSettingsFragment
-import edu.SpaceLearning.SpaceEnglish._Navfragments.TableNavigationFragment
+import edu.SpaceLearning.SpaceEnglish.UtilsClasses.QuizUtils
+import edu.SpaceLearning.SpaceEnglish._Navigationfragments.HomeNavigationFragment
+import edu.SpaceLearning.SpaceEnglish._Navigationfragments.AppSettingsFragment
+import edu.SpaceLearning.SpaceEnglish._Navigationfragments.TableNavigationFragment
 import edu.SpaceLearning.SpaceEnglish.databinding.ActivityMainBinding
 import java.io.File
 import java.util.Objects
 
-class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, AdsClickListener {
+class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, AdEventListener {
     // Views and UI related variables
     private lateinit var binding: ActivityMainBinding
     // Data management
@@ -84,8 +83,8 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
     private lateinit var sharedPrefsManager: SharedPrefsManager
 
     // utilities
-    private var tableRecyclerAdapter: RecyclerTableAdapter? = null
-    private var myBottomSheet: MyBottomSheet? = null
+    private var tableRecyclerAdapter: CategoryAdapter? = null
+    private var addElementOptionsBottomSheet: AddElementOptionsBottomSheet? = null
     private lateinit var sharedPreferences: SharedPreferences
 
 
@@ -118,19 +117,19 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
         initializeAdManager()
 
         binding.mainNavFab.setOnClickListener { v: View? -> displayMainBottomSheet() } // Main Fab TimerListener
-        binding.btnSignOutGoogle.setOnClickListener { performGoogleSignOut() } // FireBase auth google sign-out
+       // binding.btnSignOutGoogle.setOnClickListener { performGoogleSignOut() } // FireBase auth google sign-out
 
         setupBottomNavigation() // Set up bottom navigation and initial fragment
     }
 
     private fun initializeUtilityData() {
-        // Initialize static utility methods in Utils class
+        // Initialize static utility methods in QuizUtils class
 
-        Utils.fillListOfCategoriesNames()
-        Utils.headerTablePdfNames()
-        Utils.fillQuizListsCorrectIncorrectAnswerResponses()
-        Utils.fillItemRecyclerQuizNavList()
-        Utils.fillHashMapDbTableName()
+        QuizUtils.populateCategoryNameList()
+        QuizUtils.populatePdfHeaders()
+        QuizUtils.fillAnswerFeedbackMessages()
+        QuizUtils.populateQuizNavigationItems()
+        QuizUtils.mapCategoryToDatabaseTable()
     }
 
 
@@ -153,7 +152,7 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
 
     private fun initializeSharedPreferences() {
         // Initialize SharedPreferences and SharedPrefsManager
-        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_FILE_NAME, MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_FILE, MODE_PRIVATE)
         sharedPrefsManager = SharedPrefsManager(sharedPreferences).also {
            it.sharedPreferencesData
         }
@@ -194,10 +193,10 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
    private fun setupBottomNavigation() {
        // Set icons for bottom navigation items
        val iconMap = mapOf(
-           R.id.item_nav_home to R.drawable.selector_home_nav_change_icon,
-           R.id.item_nav_tables to R.drawable.selector_table_nav_change_icon,
-           R.id.item_nav_quiz to R.drawable.selector_quiz_nav_change_icon,
-           R.id.item_nav_settings to R.drawable.selector_settings_nav_change_icon
+           R.id.menu_nav_home to R.drawable.selector_home_nav_change_icon,
+           R.id.menu_nav_tables to R.drawable.selector_table_nav_change_icon,
+           R.id.menu_nav_quiz to R.drawable.selector_quiz_nav_change_icon,
+           R.id.menu_nav_settings to R.drawable.selector_settings_nav_change_icon
        )
 
        iconMap.forEach { (menuId, iconRes) ->
@@ -205,17 +204,17 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
        }
 
        // Set initial fragment
-       navigateToFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
+       navigateToFragment(HomeNavigationFragment(), Constants.TAG_HOME)
 
        // Handle bottom navigation item selection
        binding.bottomNav.setOnItemSelectedListener { item ->
            supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
            val (fragment, tag) = when (item.itemId) {
-               R.id.item_nav_home -> HomeNavFragment() to Constants.TAG_HOME_NAV_FRAGMENT
-               R.id.item_nav_tables -> TableNavigationFragment() to Constants.TAG_TABLES_NAV_FRAGMENT
-               R.id.item_nav_quiz -> QuizNavigationFragment() to Constants.TAG_QUIZ_NAV_FRAGMENT
-               R.id.item_nav_settings -> AppSettingsFragment() to Constants.TAG_SETTINGS_NAV_FRAGMENT
+               R.id.menu_nav_home -> HomeNavigationFragment() to Constants.TAG_HOME
+               R.id.menu_nav_tables -> TableNavigationFragment() to Constants.TAG_TABLES
+               R.id.menu_nav_quiz -> QuizNavigationFragment() to Constants.TAG_QUIZ
+               R.id.menu_nav_settings -> AppSettingsFragment() to Constants.TAG_SETTINGS
                else -> null to null
            }
 
@@ -228,15 +227,15 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
 
        // Handle reselection
        binding.bottomNav.setOnItemReselectedListener {
-           showToast(this, "Already selected")
+           showToast(this, getString(R.string.bottom_nav_already_selected))
        }
    }
 
 
     private fun displayMainBottomSheet() {
-        if (myBottomSheet == null || myBottomSheet?.isVisible == false) {
-            myBottomSheet = MyBottomSheet()
-            myBottomSheet?.show(supportFragmentManager, MyBottomSheet.SHEET_TAG)
+        if (addElementOptionsBottomSheet == null || addElementOptionsBottomSheet?.isVisible == false) {
+            addElementOptionsBottomSheet = AddElementOptionsBottomSheet()
+            addElementOptionsBottomSheet?.show(supportFragmentManager, AddElementOptionsBottomSheet.SHEET_TAG)
         }
     }
 
@@ -252,61 +251,61 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
         ft.commit()
 
         // Update isTableFragmentActive based on the fragment TAG
-        isTableFragmentActive = fragmentTAG == Constants.TAG_TABLES_NAV_FRAGMENT
+        isTableFragmentActive = fragmentTAG == Constants.TAG_TABLES
     }
 
     // Interface methods implementations
     override fun onHomeStartClicked(index: Int) {
         val (fragment, tag) = when (index) {
-            Constants.TABLE_NAV_INDEX -> TableNavigationFragment() to Constants.TAG_TABLES_NAV_FRAGMENT
-            else -> QuizNavigationFragment() to Constants.TAG_QUIZ_NAV_FRAGMENT
+            Constants.NAV_INDEX_TABLE -> TableNavigationFragment() to Constants.TAG_TABLES
+            else -> QuizNavigationFragment() to Constants.TAG_QUIZ
         }
 
         navigateToFragment(fragment, tag)
         binding.bottomNav.menu[index].isChecked = true
     }
 
-    override fun onShowInterstitialAd() {
+    override fun showInterstitialAd() {
         // Handle showing interstitial ad
         adsManager?.showInterstitialAd()
         adsManager?.reLoadInterstitialAd()
     }
 
-    override fun onShowRewardedAd() {
+    override fun showRewardedAd() {
         // Handle showing rewarded ad
         adsManager?.showRewardedAd()
         adsManager?.reloadRewardedAd()
     }
 
     override fun onScoresSubmittedToDialog(categoryType: String, pointsAdded: Int, elementsAdded: Int, userRightAnswerScore: Int, msg: String) {
-        // Handle sending scores to DialogQuizFragment
+        // Handle sending scores to QuizResultDialogFragment
         newInstance(categoryType, pointsAdded, elementsAdded, userRightAnswerScore, msg)
-            .show(supportFragmentManager, DialogQuizFragment.TAG)
+            .show(supportFragmentManager, QuizResultDialogFragment.TAG)
     }
 
     override fun onThemeToggled(isDarkMode: Boolean) {
         // Handle changing app theme
-        Utils.isThemeNight = isDarkMode
+        QuizUtils.isDarkThemeEnabled = isDarkMode
         AppCompatDelegate.setDefaultNightMode(if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-        binding.bottomNav.menu[Constants.HOME_NAV_INDEX].isChecked = true
+        binding.bottomNav.menu[Constants.NAV_INDEX_HOME].isChecked = true
     }
 
     override fun onDialogReturnHomeClicked(categoryType: String) {
         // Handle sending home from dialog
-        navigateToFragment(HomeNavFragment(), Constants.TAG_HOME_NAV_FRAGMENT)
-        binding.bottomNav.menu[Constants.HOME_NAV_INDEX].isChecked = true
+        navigateToFragment(HomeNavigationFragment(), Constants.TAG_HOME)
+        binding.bottomNav.menu[Constants.NAV_INDEX_HOME].isChecked = true
     }
 
     override fun onStartNewQuizClicked() {
         // Handle starting new quiz from dialog
-        navigateToFragment(QuizNavigationFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT)
-        binding.bottomNav.menu[Constants.QUIZ_NAV_INDEX].isChecked = true
+        navigateToFragment(QuizNavigationFragment(), Constants.TAG_QUIZ)
+        binding.bottomNav.menu[Constants.NAV_INDEX_QUIZ].isChecked = true
     }
 
     override fun onSetQuizCategoryFragment(fragment: Fragment) {
         // Handle setting required category fragment for quiz
         Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
-        navigateToFragment(fragment, Constants.TAG_QUIZ_CATEGORY_FRAGMENT)
+        navigateToFragment(fragment, Constants.TAG_CATEGORY_QUIZ)
     }
 
      override fun onPdfOpenRequested(context: Context, pdfFile: File?) {
@@ -323,25 +322,25 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
          }
      }
 
-     override fun onTableFilterRequested(tableRecyclerAdapter: RecyclerTableAdapter) {
+     override fun onTableFilterRequested(tableRecyclerAdapter: CategoryAdapter) {
         // Handle filtering table RecyclerView
          this@MainActivity.tableRecyclerAdapter = tableRecyclerAdapter
     }
 
-     override fun onShowVideoAds(categoryType: String) {
+     override fun playAdForCategory(categoryType: String) {
         // Handle showing video ads and navigating to TableNavigationFragment
         databaseManager.updateCategorySizes
-        navigateToFragment(TableNavigationFragment(), Constants.TAG_TABLES_NAV_FRAGMENT)
-       binding.bottomNav.menu[Constants.TABLE_NAV_INDEX].isChecked = true
+        navigateToFragment(TableNavigationFragment(), Constants.TAG_TABLES)
+       binding.bottomNav.menu[Constants.NAV_INDEX_TABLE].isChecked = true
     }
 
     // Menu and Permissions Handling
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
 
         // Get the SearchView from the menu item
-        val searchItem = menu.findItem(R.id.mainmenu_search)
+        val searchItem = menu.findItem(R.id.menu_toolbar_search)
 
         // Show or hide SearchView based on fragment visibility
         if (isTableFragmentActive) {
@@ -372,15 +371,21 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here
         val id = item.itemId
-        if (id == R.id.menu_main_contact_us) {
+        if (id == R.id.menu_toolbar_contact_us) {
             // Handle contact us action
             sendContactEmail()
-        } else if (id == R.id.menu_main_rating_app) {
+        }
+        else if (id == R.id.menu_toolbar_rating_app) {
             // Handle rating app action
             ratingManager?.showReviewFlow()
-        } else if (id == android.R.id.home) {
+        }
+        else if(id == R.id.menu_toolbar_sign_out) {
+            performGoogleSignOut()
+
+        }
+        else if (id == android.R.id.home) {
             // Handle Up button action
-            navigateToFragment(QuizNavigationFragment(), Constants.TAG_QUIZ_NAV_FRAGMENT)
+            navigateToFragment(QuizNavigationFragment(), Constants.TAG_QUIZ)
             Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(false)
         }
         return super.onOptionsItemSelected(item)
@@ -389,8 +394,8 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
     private fun sendContactEmail() {
         // Handle sending email for contact us
         val ourEmail = "oulhajfuturapps@gmail.com"
-        val subject = "Enter the subject"
-        val msg = "Enter your question please!"
+        val subject = getString(R.string.main_email_enter_the_subject)
+        val msg = getString(R.string.main_email_enter_your_question_please)
 
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.setData("mailto:$ourEmail".toUri())
@@ -399,14 +404,14 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         } else {
-            showToast(this, "No email app installed")
+            showToast(this, getString(R.string.main_email_no_email_app_installed))
         }
     }
 
     private fun openPdfFile(pdfFile: File?) {
         if (pdfFile == null || !pdfFile.exists()) {
             runOnUiThread {
-                Toast.makeText(this, "File not found", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.pdf_msg_file_not_found), Toast.LENGTH_LONG).show()
             }
             return
         }
@@ -414,7 +419,7 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
         runOnUiThread {
             Toast.makeText(
                 this,
-                "PDF saved. Check file at:\n${pdfFile.path}",
+                getString(R.string.pdf_saved_check_file_at) + "\n" + pdfFile.path,
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -436,7 +441,7 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
                 runOnUiThread {
                     Toast.makeText(
                         this,
-                        "No app found to open PDF.\nYou can open it manually from:\n${pdfFile.path}",
+                        getString(R.string.no_app_found_to_open_pdf) + "\n" + getString(R.string.pdf_you_can_open_it_manually_from) + "\n" + pdfFile.path,
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -446,7 +451,7 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
             runOnUiThread {
                 Toast.makeText(
                     this,
-                    "Error opening PDF. File saved at:\n${pdfFile.path}",
+                    getString(R.string.error_opening_pdf_file_saved_at) + "\n" + pdfFile.path,
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -487,15 +492,15 @@ class MainActivity : AppCompatActivity(), ActivityFragmentInteractionListener, A
         if (!showRatingSheet) {
             // Show confirmation dialog to exit app
             val alertDialog = AlertDialog.Builder(this@MainActivity)
-            alertDialog.setTitle("Exit App")
-            alertDialog.setMessage("Do you want to exit the app?")
+            alertDialog.setTitle(getString(R.string.msg_exit_app))
+            alertDialog.setMessage(getString(R.string.msg_do_you_want_to_exit_the_app))
             alertDialog.setPositiveButton(
-                "Yes"
+                getString(R.string.msg_yes)
             ) { dialog: DialogInterface?, which: Int ->
                 super.onBackPressed()
             }
             alertDialog.setNegativeButton(
-                "No"
+                getString(R.string.msg_no)
             ) { dialog: DialogInterface, which: Int ->
                 dialog.dismiss()
             }

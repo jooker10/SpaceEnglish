@@ -25,7 +25,7 @@ class GeneratePdf {
         val columnsNamesList = ArrayList<String>()
         columnsNamesList.add("ID")
         columnsNamesList.add("English")
-        columnsNamesList.add(Utils.nativeLanguage) // Native language determined by Utils
+        columnsNamesList.add(QuizUtils.nativeLanguage) // Native language determined by QuizUtils
 
         try {
             FileOutputStream(pdfFile).use { outputStream ->
@@ -70,7 +70,7 @@ class GeneratePdf {
     }
 
     private fun nativeLanguage(category: Category): String {
-        return when (Utils.nativeLanguage) {
+        return when (QuizUtils.nativeLanguage) {
             Constants.LANGUAGE_NATIVE_SPANISH -> category.categorySp // Spanish language field
             Constants.LANGUAGE_NATIVE_ARABIC -> category.categoryAr // Arabic language field
             else -> category.categoryFr // Default to French language field

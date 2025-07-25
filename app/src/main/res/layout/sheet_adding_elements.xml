@@ -20,7 +20,7 @@
         android:layout_margin="4dp"
         android:layout_marginLeft="12dp"
         android:fontFamily="@font/akaya_telivigala"
-        android:text="Options"
+        android:text="@string/label_options"
         android:textColor="@color/custom_secondary"
         android:layout_gravity="center_horizontal"
         android:textSize="25sp" />
@@ -33,7 +33,7 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioVideo"
+            android:id="@+id/radioVideoButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -42,17 +42,17 @@
 
             android:checked="true"
             android:gravity="center"
-            android:text="Watching videos"
+            android:text="@string/tab_label_rewarded_ads"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/radioMoreApps"
+            android:id="@+id/radioMoreAppsButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="More Apps"
+            android:text="@string/tab_label_more_apps"
             android:gravity="center"
             android:button="@android:color/transparent"
             android:background="@drawable/selector_radio_checkable"

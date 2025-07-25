@@ -83,7 +83,6 @@
                         android:padding="8dp">
 
                         <ImageView
-                            android:id="@+id/imageView"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:gravity="center_horizontal"

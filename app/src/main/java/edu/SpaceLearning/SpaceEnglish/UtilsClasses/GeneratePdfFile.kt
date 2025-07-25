@@ -29,7 +29,7 @@ class GeneratePdfFile {
 
         columnsNamesList.add("ID")
         columnsNamesList.add("English")
-        columnsNamesList.add(Utils.nativeLanguage) // Native language determined by Utils
+        columnsNamesList.add(QuizUtils.nativeLanguage) // Native language determined by QuizUtils
 
         try {
             // Initialize PDF writer and document
@@ -82,7 +82,7 @@ class GeneratePdfFile {
         columnsNamesList.clear()
         columnsNamesList.add("ID")
         columnsNamesList.add("English")
-        columnsNamesList.add(Utils.nativeLanguage)
+        columnsNamesList.add(QuizUtils.translationLanguage)
 
         try {
             val outputStream = FileOutputStream(pdfFile)
@@ -109,7 +109,7 @@ class GeneratePdfFile {
             for (row in contentTableList) {
                 table.addCell(row.id.toString())
                 table.addCell(row.englishName)
-                table.addCell(nativeLanguage(row))
+                table.addCell(setTranslationLanguage(row))
             }
 
             document.add(table)
@@ -126,13 +126,13 @@ class GeneratePdfFile {
 
 
     /**
-     * Returns the appropriate native language field from the Category object based on Utils.nativeLanguage.
+     * Returns the appropriate native language field from the Category object based on QuizUtils.nativeLanguage.
      *
      * @param category Category object containing data
      * @return Native language field value (Spanish, Arabic, or French)
      */
-    private fun nativeLanguage(category: Category): String {
-        return when (Utils.nativeLanguage) {
+    private fun setTranslationLanguage(category: Category): String {
+        return when (QuizUtils.translationLanguage) {
             Constants.LANGUAGE_NATIVE_SPANISH -> category.spanishName // Spanish language field
             Constants.LANGUAGE_NATIVE_ARABIC -> category.arabicName // Arabic language field
             else -> category.frenchName // Default to French language field

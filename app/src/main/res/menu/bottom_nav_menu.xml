@@ -2,27 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item_nav_home"
+        android:id="@+id/menu_nav_home"
         android:icon="@drawable/ic_home_outline_24"
         android:checked="true"
-        android:title="Home" />
+        android:title="@string/menu_nav_label_home" />
     <item
-        android:id="@+id/item_nav_tables"
+        android:id="@+id/menu_nav_tables"
         android:icon="@drawable/ic_outline_table_24"
-        android:iconTint="@color/purple_500"
-        android:title="Tables" />
+        android:title="@string/menu_nav_label_tables" />
     <item
         android:title=""
         android:enabled="false"/>
     <item
-        android:id="@+id/item_nav_quiz"
+        android:id="@+id/menu_nav_quiz"
         android:icon="@drawable/ic_outline_question_answer_24"
-        android:title="Q/A" />
+        android:title="@string/menu_nav_label_q_a" />
     <item
-        android:id="@+id/item_nav_settings"
+        android:id="@+id/menu_nav_settings"
         android:checked="false"
         android:icon="@drawable/ic_outline_settings_24"
-        android:title="Settings"
+        android:title="@string/menu_nav_label_settings"
         />
 
 </menu>

@@ -15,7 +15,6 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:id="@+id/frameNativeAdsHolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -29,7 +28,7 @@
             android:padding="0dp">
 
             <ImageView
-                android:id="@+id/imgSongs"
+                android:id="@+id/imgSpeaker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -40,37 +39,36 @@
                 android:src="@drawable/ic_play_arrow_24" />
 
             <TextView
-                android:id="@+id/tvKhtissarEn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/holderVerbEnglish"
+                android:layout_alignBaseline="@id/tvEnglishName"
                 android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/holderVerbEnglish"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@id/tvEnglishName"
                 android:background="@color/custom_secondary"
                 android:padding="4dp"
-                android:text="En"
+                android:text="@string/label_flag_en"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvFlagNativeLang"
+                android:id="@+id/tvLangFlag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/holderVerbNativeLang"
+                android:layout_alignBaseline="@id/tvTranslatedName"
                 android:layout_marginStart="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/holderVerbNativeLang"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@id/tvTranslatedName"
                 android:background="@color/custom_secondary"
                 android:padding="4dp"
-                android:text="Fr"
+                tools:text="Fr"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/holderVerbId"
+                android:id="@+id/tvCategoryId"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="8dp"
@@ -82,15 +80,15 @@
                 android:textColor="@color/custom_secondary"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="100" />
+                tools:text="1" />
 
             <TextView
-                android:id="@+id/holderVerbNativeLang"
+                android:id="@+id/tvTranslatedName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/holderVerbEnglish"
+                android:layout_below="@id/tvEnglishName"
                 android:layout_marginEnd="16dp"
-                android:layout_toRightOf="@id/holderVerbId"
+                android:layout_toEndOf="@id/tvCategoryId"
                 android:background="@drawable/fr_eng_tv_bg"
                 android:fontFamily="@font/akaya_telivigala"
                 android:gravity="center_vertical"
@@ -102,43 +100,44 @@
                 tools:text="verbe" />
 
             <TextView
-                android:id="@+id/holderVerbEnglish"
+                android:id="@+id/tvEnglishName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/holderVerbId"
+                android:layout_below="@id/tvCategoryId"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:layout_toRightOf="@id/holderVerbId"
+                android:layout_toEndOf="@id/tvCategoryId"
                 android:background="@drawable/fr_eng_tv_bg"
                 android:fontFamily="@font/akaya_telivigala"
                 android:gravity="center_vertical"
                 android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:paddingTop="2dp"
                 android:textColor="@color/txt_color"
                 android:textSize="20sp"
                 tools:text="verb" />
 
             <LinearLayout
-                android:id="@+id/linearLayoutExpanded"
+                android:id="@+id/layoutExpandedSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/holderVerbNativeLang"
+                android:layout_below="@id/tvTranslatedName"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btnExampleExpanded"
+                    android:id="@+id/btnToggleExample"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/custom_secondary"
                     android:layout_marginStart="4dp"
-                    android:text="Examples"
+                    android:text="@string/btn_name_examples"
                     android:textAllCaps="false" />
 
                 <TextView
-                    android:id="@+id/tvExpandedExamples"
+                    android:id="@+id/tvExample"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"

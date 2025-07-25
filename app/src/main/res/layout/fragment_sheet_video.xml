@@ -33,7 +33,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 points + 5 verbs  "
+                android:text="@string/add_10_points_5_verbs"
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:text="Watch a video"
+                android:text="@string/watch_an_add"
                 android:layout_margin="8dp"
                 android:paddingHorizontal="4dp"
                 android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
@@ -64,7 +64,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 points + 5 sentences  "
+                android:text="@string/add_10_points_5_sentences"
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:text="Watch a video"
+                android:text= "@string/watch_an_add"
                 android:paddingHorizontal="4dp"
                 android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
                 android:textColor="@drawable/selector_btn_txt_enabled_state"
@@ -95,7 +95,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 points + 5 phrasal verbs  "
+                android:text="@string/add_10_points_5_phrasal_verbs"
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:text="Watch a video"
+                android:text="@string/watch_an_add"
                 android:paddingHorizontal="4dp"
                 android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
                 android:textColor="@drawable/selector_btn_txt_enabled_state"               android:textSize="12sp" />
@@ -125,7 +125,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 points + 5 nouns "
+                android:text="@string/add_10_points_5_nouns"
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:text="Watch a video"
+                android:text= "@string/watch_an_add"
                 android:paddingHorizontal="4dp"
                 android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
                 android:textColor="@drawable/selector_btn_txt_enabled_state"
@@ -156,7 +156,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 points + 5 adjectives  "
+                android:text="@string/add_10_points_5_adjectives"
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:text="Watch a video"
+                android:text= "@string/watch_an_add"
                 android:paddingHorizontal="4dp"
                 android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
                 android:textColor="@drawable/selector_btn_txt_enabled_state"              android:textSize="12sp" />
@@ -186,7 +186,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 points + 5 adverbs  "
+                android:text="@string/add_10_points_5_adverbs"
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
@@ -196,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:text="Watch a video"
+                android:text= "@string/watch_an_add"
                 android:paddingHorizontal="4dp"
                 android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
                 android:textColor="@drawable/selector_btn_txt_enabled_state"
@@ -217,17 +217,17 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="Add 10 points + 5 Idioms "
+                android:text="@string/add_10_points_5_idioms"
                 android:textColor="@color/txt_color"
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/btnVideoIdoms"
+                android:id="@+id/btnVideoIdioms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="8dp"
-                android:text="Watch a video"
+                android:text= "@string/watch_an_add"
                 android:paddingHorizontal="4dp"
                 android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
                 android:textColor="@drawable/selector_btn_txt_enabled_state"               android:textSize="12sp" />

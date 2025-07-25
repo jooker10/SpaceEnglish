@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Arabic Translations -->
+
+    <string name="login_failed">فشل تسجيل الدخول</string>
+    <string name="action_sign_in">تسجيل الدخول أو إنشاء حساب</string>
+    <string name="action_sign_in_short">تسجيل الدخول</string>
+    <string name="welcome">مرحباً!</string>
+    <string name="invalid_username">اسم المستخدم غير صالح</string>
+    <string name="invalid_password">كلمة المرور يجب أن تحتوي على أكثر من 5 أحرف</string>
+    <string name="text_share_question_with_friends">تحدَّ أصدقاءك بهذا السؤال!</string>
+    <string name="quiz_button_text_confirm">تأكيد</string>
+    <string name="quiz_button_text_next">التالي</string>
+    <string name="quiz_button_text_finish">إنهاء</string>
+    <string name="text_button_read_more">اقرأ المزيد</string>
+    <string name="home_btn_make_this_day_productive">لنَجعل هذا اليوم مُنتجًا</string>
+
+    <string name="home_btn_learn_first">ابدأ بالتعلُّم</string>
+    <string name="home_btn_test_your_self">اختبر نفسك</string>
+    <string name="home_user_default_name" translatable="false">المستخدم 01</string>
+    <string name="home_msg_hi">مرحباً، </string>
+    <string name="settings_email_enter_the_subject">أدخل الموضوع</string>
+    <string name="settings_email_enter_your_question_please">من فضلك أدخل سؤالك!</string>
+    <string name="settings_email_choose_email_app">اختر تطبيق البريد</string>
+    <string name="settings_email_no_email_app_installed">لا يوجد تطبيق بريد مثبت</string>
+
+    <string name="settings_label_send_us_an_email_for_more_info">أرسل لنا بريدًا لمزيد من المعلومات</string>
+    <string name="settings_label_tap_to_access_app_privacy">انقر للوصول إلى خصوصية التطبيق</string>
+    <string name="settings_label_disable_dark_theme_mode">تعطيل الوضع الداكن</string>
+    <string name="settings_label_enable_dark_theme_mode">تفعيل الوضع الداكن</string>
+    <string name="settings_label_terms_and_privacy_policy">الشروط وسياسة الخصوصية</string>
+    <string name="setting_user_name_label">اسم المستخدم</string>
+    <string name="settings_label_general">عام</string>
+    <string name="settings_label_native_language">اللغة الأم</string>
+    <string name="settings_label_theme">السمة</string>
+    <string name="settings_label_more">المزيد</string>
+    <string name="settings_label_contact_us">اتصل بنا</string>
+
+    <string name="quiz_toast_text_no_answer_selected" >يرجى الإجابة على السؤال أولاً</string>
+    <string name="bottom_nav_already_selected">تم التحديد مسبقاً</string>
+    <string name="main_email_enter_the_subject">أدخل الموضوع</string>
+    <string name="main_email_enter_your_question_please">من فضلك أدخل سؤالك!</string>
+    <string name="main_email_no_email_app_installed">لا يوجد تطبيق بريد مثبت</string>
+    <string name="pdf_msg_file_not_found">الملف غير موجود</string>
+    <string name="pdf_saved_check_file_at">تم حفظ ملف PDF. تحقق من الملف في:</string>
+    <string name="no_app_found_to_open_pdf">لا يوجد تطبيق لفتح ملف PDF</string>
+    <string name="pdf_you_can_open_it_manually_from">يمكنك فتحه يدوياً من:</string>
+    <string name="error_opening_pdf_file_saved_at">خطأ في فتح ملف PDF. تم حفظه في:</string>
+    <string name="msg_exit_app">الخروج من التطبيق</string>
+    <string name="msg_do_you_want_to_exit_the_app">هل تريد الخروج من التطبيق؟</string>
+    <string name="msg_yes">نعم</string>
+    <string name="msg_no">لا</string>
+    <string name="quiz_maximum_number_of_questions_per_quiz">أقصى عدد من الأسئلة لكل اختبار</string>
+    <string name="quiz_please_choose_the_category_you_prefer">يرجى اختيار الفئة التي تفضلها:</string>
+    <string name="msg_share_with">مشاركة مع</string>
+    <string name="quiz_label_chose_the_correct_answer">اختر الإجابة الصحيحة:</string>
+    <string name="label_db_table_of">جدول لـ</string>
+    <string name="msg_failed_to_generate_pdf">فشل في إنشاء ملف PDF</string>
+    <string name="label_flag_sp">إسب</string>
+    <string name="label_flag_ar">ع</string>
+    <string name="label_flag_fr">فر</string>
+    <string name="label_flag_en">إن</string>
+    <string name="btn_name_examples">أمثلة</string>
+    <string name="label_options">الخيارات</string>
+    <string name="tab_label_rewarded_ads">إعلانات بمكافأة</string>
+    <string name="tab_label_more_apps">تطبيقات أخرى</string>
+    <string name="msg_required_points_to_unlock_this_section">النقاط المطلوبة لفتح هذا القسم:</string>
+    <string name="add_10_points_5_verbs">أضف 10 نقاط + 5 أفعال</string>
+    <string name="watch_an_add">شاهد إعلاناً</string>
+    <string name="add_10_points_5_sentences">أضف 10 نقاط + 5 جمل</string>
+    <string name="add_10_points_5_phrasal_verbs">أضف 10 نقاط + 5 أفعال مركبة</string>
+    <string name="add_10_points_5_nouns">أضف 10 نقاط + 5 أسماء</string>
+    <string name="add_10_points_5_adjectives">أضف 10 نقاط + 5 صفات</string>
+    <string name="add_10_points_5_adverbs">أضف 10 نقاط + 5 ظروف</string>
+    <string name="add_10_points_5_idioms">أضف 10 نقاط + 5 تعابير اصطلاحية</string>
+
+    <string name="menu_nav_label_home">الرئيسية</string>
+    <string name="menu_nav_label_tables">الجداول</string>
+    <string name="menu_nav_label_settings">الإعدادات</string>
+    <string name="menu_nav_label_q_a">س/ج</string>
+    <string name="menu_toolbar_search">بحث</string>
+    <string name="menu_toolbar_about">حول</string>
+    <string name="menu_toolbar_contact_us">اتصل بنا</string>
+    <string name="menu_toolbar_rate">قيّمنا</string>
+    <string name="menu_toolbar_sign_out">تسجيل الخروج</string>
+
+</resources>

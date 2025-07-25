@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btnRecyclerNavQuiz"
+            android:id="@+id/btnCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@drawable/selector_btn_bg_enabled_state"
@@ -22,13 +22,13 @@
             android:textColor="@drawable/selector_btn_txt_enabled_state" />
 
         <TextView
-            android:id="@+id/tvRecyclerNavQuiz"
+            android:id="@+id/tvRequiredPoints"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnRecyclerNavQuiz"
+            android:layout_below="@id/btnCategory"
             android:gravity="center"
-            tools:text="Phrasal verbs required 80 points"
+            tools:text="Phrasal verbs required : 80 points"
             android:textColor="#FF0000"
-            android:textSize="10sp" />
+            android:textSize="11sp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

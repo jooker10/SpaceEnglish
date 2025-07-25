@@ -1,46 +1,104 @@
 <resources>
     <!-- the name of the app -->
-    <string name="app_name">Space English</string>
+    <string name="app_name" translatable="false">Space English</string>
     <!-- the link of the app in google play -->
-    <string name="main_app_url">https://play.google.com/store/apps/details?id=edu.SpaceLearning.SpaceEnglish</string>
+    <string name="main_app_url" translatable="false">https://play.google.com/store/apps/details?id=edu.SpaceLearning.SpaceEnglish</string>
 
     <!-- Admob ID : the first your id and the second for testing ads -->
-    <string name="admob_app_id">ca-app-pub-8315645297205950~6429518882</string>
-    <string name="admob_test_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-8315645297205950~6429518882</string>
 
     <!-- Quiz : the main question label in native language -->
-    <string name="quiz_main_question_label_french"> Choisissez la bonne réponse </string>
-    <string name="quiz_main_question_label_spanish"> Elige la respuesta correcta </string>
-    <string name="quiz_main_question_label_arabic"> اختر الإجابة الصحيحة</string>
+    <!--<string name="quiz_main_question_label_french" translatable="false"> Choisissez la bonne réponse </string>
+    <string name="quiz_main_question_label_spanish" translatable="false"> Elige la respuesta correcta </string>
+    <string name="quiz_main_question_label_arabic" translatable="false"> اختر الإجابة الصحيحة</string>-->
 
     <!-- your other apps names -->
-    <string name="app1_name">Espace Français</string>
-    <string name="app2_name">Fill-In Challenge</string>
-    <!-- Description of each app -->
-    <string name="app1_description">Elevate your language skills with our mobile app, offering a comprehensive English learning experience. Test yourself in diverse categories such as verbs, sentences, adverbs, phrasal verbs, and idioms, while using three base languages: French, Spanish, and Arabic. Collect points to unlock multiple categories and expand your linguistic proficiency.</string>
-    <string name="app2_description">Immerse yourself in the world of language with our interactive English Quiz App! Fill in the blanks across diverse sentence categories :  colors,Shapes , Insects, animals, jobs, fruits ... . Unlock new challenges as you gain points, making your learning journey dynamic and rewarding. Elevate your language skills in a fun and engaging way!</string>
+    <string name="app1_name" translatable="false">Espace Français</string>
+    <string name="app2_name" translatable="false">Fill-In Challenge</string>
     <!-- the links of each apps -->
-    <string name="app1_url">https://play.google.com/store/apps/details?id=edu.EspaceApprentissage.EspaceFrancais</string>
-    <string name="app2_url">https://play.google.com/store/apps/details?id=edu.SpaceLearning.Fill_In_Challenge</string>
+    <string name="app1_url" translatable="false">https://play.google.com/store/apps/details?id=edu.EspaceApprentissage.EspaceFrancais</string>
+    <string name="app2_url" translatable="false">https://play.google.com/store/apps/details?id=edu.SpaceLearning.Fill_In_Challenge</string>
 
-    <string name="text_button_read_more">Read More</string>
+    <string name="app2_description" translatable="false">Immerse yourself in the world of language with our interactive English Quiz App! Fill in the blanks across diverse sentence categories :  colors,Shapes , Insects, animals, jobs, fruits ... . Unlock new challenges as you gain points, making your learning journey dynamic and rewarding. Elevate your language skills in a fun and engaging way!</string>
 
-    <string name="text_share_question_with_friends">Test your friends with this question!</string>
+    <string name="default_web_client_id" translatable="false">\"622248966153-iv31bbvb7iikp1rfu4gfjv50tes8q03u.apps.googleusercontent.com\"</string>
+    <string name="error_animation_json" translatable="false">error_animation.json</string>
+    <string name="splash_loading3_json" translatable="false">splash_loading3.json</string>
+
+    <!-- Translations texts -->
+
+    <string name="text_share_question_with_friends">Challenge your friends with this question!</string>
     <string name="quiz_button_text_confirm">Confirm</string>
-    <string name="quiz_button_text_next">Next</string>
-    <string name="quiz_button_text_finish">Finish</string>
+    <string name="text_button_read_more">Read more</string>
+    <string name="home_btn_make_this_day_productive">Let\'s make this day productive</string>
 
-    <string name="quiz_toast_text_no_answer_selected">Please Answer the Question first</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="default_web_client_id">\"622248966153-iv31bbvb7iikp1rfu4gfjv50tes8q03u.apps.googleusercontent.com\"</string>
+    <string name="home_btn_learn_first">Learn first</string>
+    <string name="home_btn_test_your_self">Test yourself</string>
+    <string name="home_user_default_name" translatable="false">User 01</string>
+    <string name="home_msg_hi">Hi, </string>
+    <string name="settings_email_enter_the_subject">Enter the subject</string>
+    <string name="settings_email_enter_your_question_please">Please enter your question</string>
+    <string name="settings_email_choose_email_app">Choose an email app</string>
+    <string name="settings_email_no_email_app_installed">No email app installed</string>
+
+
+    <string name="settings_label_send_us_an_email_for_more_info">Send us an email for more info</string>
+    <string name="settings_label_tap_to_access_app_privacy">Tap to access app privacy</string>
+    <string name="settings_label_disable_dark_theme_mode">Disable dark theme mode</string>
+    <string name="settings_label_enable_dark_theme_mode">Enable dark theme mode</string>
+    <string name="settings_label_terms_and_privacy_policy">Terms and Privacy Policy</string>
+    <string name="setting_user_name_label">Username</string>
+    <string name="settings_label_general">General</string>
+    <string name="settings_label_native_language">Native language</string>
+    <string name="settings_label_theme">Theme</string>
+    <string name="settings_label_more">More</string>
+    <string name="settings_label_contact_us">Contact us</string>
+
+    <string name="bottom_nav_already_selected">Already selected</string>
+    <string name="main_email_enter_the_subject">Enter the subject</string>
+    <string name="main_email_enter_your_question_please">Please enter your question</string>
+    <string name="main_email_no_email_app_installed">No email app installed</string>
+    <string name="pdf_msg_file_not_found">File not found</string>
+    <string name="pdf_saved_check_file_at">PDF saved. Check the file at:</string>
+    <string name="no_app_found_to_open_pdf">No app found to open the PDF</string>
+    <string name="pdf_you_can_open_it_manually_from">You can open it manually from:</string>
+    <string name="error_opening_pdf_file_saved_at">Error opening PDF. File saved at:</string>
+    <string name="msg_exit_app">Exit App</string>
+    <string name="msg_do_you_want_to_exit_the_app">Do you want to exit the app?</string>
+    <string name="msg_yes">Yes</string>
+    <string name="msg_no">No</string>
+    <string name="quiz_maximum_number_of_questions_per_quiz">Maximum number of questions per quiz</string>
+    <string name="quiz_please_choose_the_category_you_prefer">Please choose the category you prefer:</string>
+    <string name="msg_share_with">Share with</string>
+    <string name="quiz_label_chose_the_correct_answer">Choose the correct answer:</string>
+    <string name="label_db_table_of">Table of</string>
+    <string name="msg_failed_to_generate_pdf">Failed to generate PDF</string>
+    <string name="label_flag_sp">Sp</string>
+    <string name="label_flag_ar">Ar</string>
+    <string name="label_flag_fr">Fr</string>
+    <string name="label_flag_en">En</string>
+    <string name="btn_name_examples">Examples</string>
+    <string name="label_options">Options</string>
+    <string name="tab_label_rewarded_ads">Rewarded Ads</string>
+    <string name="tab_label_more_apps">More Apps</string>
+    <string name="msg_required_points_to_unlock_this_section">Required points to unlock this section:</string>
+    <string name="add_10_points_5_verbs">Add 10 points + 5 verbs</string>
+    <string name="watch_an_add">Watch an ad</string>
+    <string name="add_10_points_5_sentences">Add 10 points + 5 sentences</string>
+    <string name="add_10_points_5_phrasal_verbs">Add 10 points + 5 phrasal verbs</string>
+    <string name="add_10_points_5_nouns">Add 10 points + 5 nouns</string>
+    <string name="add_10_points_5_adjectives">Add 10 points + 5 adjectives</string>
+    <string name="add_10_points_5_adverbs">Add 10 points + 5 adverbs</string>
+    <string name="add_10_points_5_idioms">Add 10 points + 5 idioms</string>
+
+    <string name="menu_nav_label_home">Home</string>
+    <string name="menu_nav_label_tables">Tables</string>
+    <string name="menu_nav_label_settings">Settings</string>
+    <string name="menu_nav_label_q_a">Q/A</string> <!-- Question/Answer -->
+    <string name="menu_toolbar_search">Search</string>
+    <string name="menu_toolbar_contact_us">Contact us</string>
+    <string name="menu_toolbar_rate">Rate</string>
+    <string name="menu_toolbar_sign_out">Sign out</string>
 
 
 </resources>
